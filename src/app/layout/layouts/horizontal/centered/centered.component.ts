@@ -55,6 +55,7 @@ export class CenteredLayoutComponent implements OnInit, OnDestroy
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((navigation: Navigation) => {
+                console.log('navigation :>> ', navigation);
                 this.navigation = navigation;
             });
 

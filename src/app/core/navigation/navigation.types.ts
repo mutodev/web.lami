@@ -7,3 +7,4 @@ export interface Navigation
     futuristic: FuseNavigationItem[];
     horizontal: FuseNavigationItem[];
 }
+

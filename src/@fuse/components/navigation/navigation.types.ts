@@ -5,6 +5,10 @@ export interface FuseNavigationItem
     id?: string;
     title?: string;
     subtitle?: string;
+    button?:{
+        icon?: string;
+        link?: string;
+    }
     type:
         | 'aside'
         | 'basic'

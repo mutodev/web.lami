@@ -1,6 +1,6 @@
 <!-- Item wrapper -->
 <div
-    class="fuse-vertical-navigation-item-wrapper"
+    class="fuse-vertical-navigation-item-wrapper group"
     [class.fuse-vertical-navigation-item-has-subtitle]="!!item.subtitle"
     [ngClass]="item.classes?.wrapper">
 
@@ -132,4 +132,21 @@
         </div>
     </ng-container>
 
+
+    <!-- Add Button -->
+    <ng-container *ngIf="item.button">
+        <div class="fuse-vertical-navigation-item-badge visible  md:invisible  group-hover:visible">
+            <div
+                class="fuse-vertical-navigation-item-badge-content">
+                <a  [routerLink]="item.button.link">
+                    <mat-icon
+                    class="fuse-vertical-navigation-item-icon flex-end"
+                    [ngClass]="item.classes?.icon"
+                    [svgIcon]="'add_circle_outline'"></mat-icon>
+                </a>
+               
+            </div>
+        </div>
+       
+    </ng-container>
 </ng-template>

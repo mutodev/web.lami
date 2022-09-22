@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, ReplaySubject, tap } from 'rxjs';
+import { Observable, of, ReplaySubject, tap } from 'rxjs';
 import { Navigation } from 'app/core/navigation/navigation.types';
+import { FuseNavigationItem } from '@fuse/components/navigation';
+import { compactNavigation } from './navigation-data';
+import { cloneDeep } from 'lodash-es';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +12,7 @@ import { Navigation } from 'app/core/navigation/navigation.types';
 export class NavigationService
 {
     private _navigation: ReplaySubject<Navigation> = new ReplaySubject<Navigation>(1);
-
+    private  _compactNavigation: FuseNavigationItem[] = compactNavigation;
     /**
      * Constructor
      */
@@ -38,7 +41,13 @@ export class NavigationService
      */
     get(): Observable<Navigation>
     {
-        return this._httpClient.get<Navigation>('api/common/navigation').pipe(
+
+        return of({
+                compact   : [],
+                default   : cloneDeep(this._compactNavigation),
+                futuristic: [],
+                horizontal: []
+            }).pipe(
             tap((navigation) => {
                 this._navigation.next(navigation);
             })

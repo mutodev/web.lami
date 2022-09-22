@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import { catchError, Observable, of, switchMap, throwError, delay } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 
@@ -72,6 +72,22 @@ export class AuthService
         {
             return throwError('User is already logged in.');
         }
+        
+
+        const response = {
+            accessToken: '',
+            user: {
+                id    : 'cfaad35d-07a3-4447-a6c3-d8c3d54fd5df',
+                name  : 'Brian Hughes',
+                email : 'hughes.brian@company.com',
+                avatar: 'assets/images/avatars/brian-hughes.jpg',
+                status: 'online'
+            }
+        }
+        this._authenticated = true;
+        this._userService.user = response.user;
+        this.accessToken = response.accessToken;
+        return of(response).pipe(delay(2000));
 
         return this._httpClient.post('api/auth/sign-in', credentials).pipe(
             switchMap((response: any) => {
