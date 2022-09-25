@@ -1,0 +1,41 @@
+<form [formGroup]="securityForm">
+
+    <!-- Section -->
+    <!-- <div class="w-full">
+            <div class="text-xl">Cambia tu contraseña</div>
+        </div> -->
+    <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+        <!-- Current password -->
+        <div class="sm:col-span-4">
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+                <mat-label>{{passwordLabel}}</mat-label>
+                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                <input [formControlName]="'password'" type="password" matInput>
+            </mat-form-field>
+        </div>
+        <!-- New password -->
+        <div class="sm:col-span-4">
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+                <mat-label>{{confirPasswordLabel}}</mat-label>
+                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                <input [formControlName]="'confirmPassword'" type="password" matInput>
+            </mat-form-field>
+            <div class="mt-1 text-md text-hint">Mínimo 8 caracteres. Debe incluir números, letras y caracteres
+                especiales.</div>
+        </div>
+    </div>
+
+
+    <ng-container *ngIf="showSaveButton">
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <button class="ml-4" mat-flat-button type="submit" [color]="'primary'">Guardar
+            </button>
+        </div>
+    </ng-container>
+
+
+</form>

@@ -1,0 +1,59 @@
+<!-- Form -->
+<form [formGroup]="accountForm">
+
+
+    <div class="grid sm:grid-cols-5 gap-6 w-full mt-8">
+        <!-- Name -->
+        <div class="sm:col-span-5">
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+                <mat-label>Nombres</mat-label>
+                <input [formControlName]="'name'" matInput>
+            </mat-form-field>
+        </div>
+        <!-- Last Name -->
+        <div class="sm:col-span-5">
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+                <mat-label>Apellidos</mat-label>
+                <input [formControlName]="'last_name'" matInput>
+            </mat-form-field>
+        </div>
+        <!-- Username -->
+        <div class="sm:col-span-5">
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix w-full">
+                <mat-label>Usuario</mat-label>
+                <input [formControlName]="'username'" matInput>
+            </mat-form-field>
+        </div>
+
+        <!-- Role -->
+        <div class="sm:col-span-5">
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+                <mat-label>Role</mat-label>
+                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'" matPrefix></mat-icon>
+                <mat-select  [formControlName]="'role'">
+                    <mat-option *ngFor="let role of roles" [value]="'role'">{{role}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <!-- Status -->
+        <div class="sm:col-span-5">
+            <div class="fuse-mat-no-subscript w-full mt-5">
+                <mat-slide-toggle [color]="'primary'" [formControlName]="'status'">Activo
+                </mat-slide-toggle>
+            </div>
+        </div>
+    </div>
+
+   
+    <!-- Actions -->
+    <ng-container *ngIf="showSaveButton">
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <button class="ml-4" mat-flat-button type="submit" [color]="'primary'">Guardar
+            </button>
+        </div>
+    </ng-container>
+</form>

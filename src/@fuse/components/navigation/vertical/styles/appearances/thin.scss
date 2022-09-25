@@ -53,7 +53,7 @@ fuse-vertical-navigation {
                     height: 64px;
                     min-height: 64px;
                     max-height: 64px;
-                    padding: 0 16px;
+                    padding: 0 10px;
 
                     .fuse-vertical-navigation-item-wrapper {
                         display: flex;
@@ -62,7 +62,7 @@ fuse-vertical-navigation {
 
                         .fuse-vertical-navigation-item {
                             justify-content: center;
-                            padding: 12px;
+                            padding: 0px;
                             border-radius: 4px;
 
                             .fuse-vertical-navigation-item-icon {

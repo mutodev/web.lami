@@ -1,15 +1,49 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, UntypedFormControl } from '@angular/forms';
+import { LamiService } from 'app/core/api/lami.service';
+import { Observable } from 'rxjs';
+import { User } from '../user.types';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styles         : [
+    /* language=SCSS */
+    `
+        .inventory-grid {
+            grid-template-columns: 48px auto 40px;
+
+            @screen sm {
+                grid-template-columns: 48px auto 112px 72px;
+            }
+
+            @screen md {
+                grid-template-columns: 224px auto 112px 224px 224px 112px;
+            }
+
+            @screen lg {
+                grid-template-columns:  224px auto 224px 224px 112px 96px;
+            }
+        }
+    `
+],
 })
 export class UserListComponent implements OnInit {
 
-  constructor() { }
+  searchInputControl: FormControl = new FormControl();
+  users$: Observable<User[]>;
+  isLoading: boolean = false;
+
+  constructor(public _lamiService: LamiService) { }
 
   ngOnInit(): void {
+     this.users$ = this._lamiService.users$;
+     console.log("🚀 ~ file: list.component.ts ~ line 22 ~ UserListComponent ~ ngOnInit ~  this.users$ ",  this.users$ )
+     
+  }
+
+  createUser():void{
+
   }
 
 }

@@ -112,6 +112,7 @@ export class AuthService
      */
     signInUsingToken(): Observable<any>
     {
+        // return of(true);
         // Sign in using the token
         return this._httpClient.post('api/auth/sign-in-with-token', {
             accessToken: this.accessToken
@@ -187,6 +188,8 @@ export class AuthService
      */
     check(): Observable<boolean>
     {
+        return of(true);
+        // return of(true);
         // Check if the user is logged in
         if ( this._authenticated )
         {

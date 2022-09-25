@@ -15,10 +15,10 @@ export const compactNavigation: FuseNavigationItem[] = [{
                 id   : 'client',
                 title: 'Clientes',
                 type : 'basic',
-                link : '/clientes',
+                link : 'contact/customer/all',
                 button: {
                     icon: 'add_circle_outline',
-                    link: 'cliente/new'
+                    link: 'contact/customer/new'
                 }
             }
         ]
@@ -102,22 +102,28 @@ export const compactNavigation: FuseNavigationItem[] = [{
                 title: 'Usuarios',
                 type : 'basic',
                 icon:'people',
-                link : '/usuarios'
+                button:{
+                    link:'settings/user/new'
+                },
+                link : 'settings/user/all'
             },
             {
                 id   : 'tiendas',
                 title: 'Tiendas',
                 type : 'basic',
                 icon:'store',
-                link : '/tiendas'
+                link : 'settings/store/all'
+                // button:{
+                //     link:'settings/store/new'
+                // },
             },
-            {
-                id   : 'setting',
-                title: 'Account',
-                type : 'basic',
-                icon: 'verified_user',
-                link : '/settings'
-            }
+            // {
+            //     id   : 'setting',
+            //     title: 'Account',
+            //     type : 'basic',
+            //     icon: 'verified_user',
+            //     link : '/settings/account'
+            // }
         ]
     }
 

@@ -1,1 +1,88 @@
-<p>detail works!</p>
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div
+        class="elative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b bg-card">
+        <!-- Loader -->
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">{{actionName}} Usuario</div>
+        <!-- Actions -->
+        <div class="flex sm:flex-row shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Add product button -->
+            <button class="" mat-flat-button type="button" [color]="'accent'" [routerLink]="[ '/settings/user/all']"
+                (click)="save()">
+                <span class="ml-2 mr-1">Cancelar</span>
+            </button>
+            <!-- Add product button -->
+            <button *ngIf="!id" class="ml-4" type="button" mat-flat-button [color]="'primary'" (click)="save()">
+                <span class="ml-2 mr-1">Guardar</span>
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10  max-w-3xl overflow-hidden">
+
+        <!-- Form -->
+
+        <mat-tab-group *ngIf="this.id; else alternative" class="sm:px-2" [animationDuration]="'0'">
+
+            <mat-tab label="Información Personal">
+                <ng-template matTabContent>
+                    <div class="w-full mt-8">
+                        <div class="w-full max-w-3xl">
+                            <app-user-information [showSaveButton]="true"></app-user-information>
+                        </div>
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Cambiar Contraseña">
+                <div class=" w-full mt-8">
+                    <!-- Current password -->
+                    <div class="w-full max-w-3xl">
+                        <app-user-security [passwordLabel]="'Nueva Contraseña'" [showSaveButton]="true">
+                        </app-user-security>
+                    </div>
+
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+
+
+        <form [formGroup]="accountForm">
+            <ng-template #alternative>
+                <!-- Section -->
+                <div class="w-full">
+                    <div class="text-xl">Información Personal</div>
+                </div>
+                <div class="w-full mt-8">
+                    <div class="w-full max-w-3xl">
+                        <app-user-information  #userInformation  [showSaveButton]="false"></app-user-information>
+                    </div>
+                </div>
+
+ <!-- Divider -->
+ <div class="my-10 border-t"></div>
+
+                <div class="w-full">
+                    <div class="text-xl">Seguridad</div>
+                </div>
+                <div class=" w-full mt-8">
+                    <!-- Current password -->
+                    <div class="w-full max-w-3xl">
+                        <app-user-security  #userSecurity [showSaveButton]="false" [passwordLabel]="'Nueva Contraseña'" >
+                        </app-user-security>
+                    </div>
+
+                </div>
+            </ng-template>
+        </form>
+
+
+    </div>
+
+</div>

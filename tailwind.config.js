@@ -10,7 +10,7 @@ const generatePalette = require(path.resolve(__dirname, ('src/@fuse/tailwind/uti
  * Tailwind-like color palettes automatically
  */
 const customPalettes = {
-    brand: generatePalette('#292e8a')
+    brand: generatePalette('#1f3873')
 };
 
 /**
@@ -96,7 +96,9 @@ const config = {
                 'spin-slow': 'spin 3s linear infinite'
             },
             colors                  : {
-                gray: colors.slate
+                gray: colors.slate,
+                "lami-blue": "#1f3873"
+                
             },
             flex                    : {
                 '0': '0 0 auto'
@@ -294,7 +296,8 @@ const config = {
         extend: {
             visibility: ["group-hover"],
           },
-    }
+    },
+    
    
 };
 
