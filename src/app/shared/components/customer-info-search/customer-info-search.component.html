@@ -1,0 +1,51 @@
+<!-- COLUMN 1 -->
+<ng-container [formGroup]="formGroup">
+    <div class="flex  items-start justify-between">
+        <div class="w-full">
+            <!-- Client -->
+            <div class="md:flex w-2/3 md:items-center">
+                <!-- COLUMN 1 -->
+                <div class="md:w-1/4">
+                    <div class="font-medium tracking-tight text-secondary">Cliente*</div>
+                </div>
+                <!-- COLUMN 2 -->
+                <div class="md:w-1/2">
+                    <mat-form-field class="w-full fuse-mat-dense c-mb-0  c-h-35 fuse-mat-emphasized">
+                        <search-mat-select #clientSearchSelect [customStyle]="{width: '100%'}" required
+                            [placeholder]="'Seleccionar cliente'" labelButton="Nuevo cliente" [dataSource]="clients"
+                            [filterColumns]="['first_name','last_name', 'identification']" selectedValue="_id"
+                            (selectionChange)="clientChange($event)" (onClickButton)="openClientDialog()"
+                            [selectedText]="setClientText" formControlName="customer">
+                        </search-mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- Identificacion -->
+            <div class="md:flex w-2/3 md:items-center">
+                <!-- COLUMN 1 -->
+                <div class="md:w-1/4">
+                    <div class="font-medium tracking-tight text-secondary">Identificación</div>
+                </div>
+                <!-- COLUMN 2 -->
+                <div class="md:w-1/2">
+                    <mat-form-field class="w-full fuse-mat-dense c-mb-0  c-h-35">
+                        <input placeholder="Identificación" [value]="client?.identification" disabled matInput>
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- Contacto -->
+            <div class="md:flex w-2/3 md:items-center">
+                <!-- COLUMN 1 -->
+                <div class="md:w-1/4">
+                    <div class="font-medium tracking-tight text-secondary">Télefono</div>
+                </div>
+                <!-- COLUMN 2 -->
+                <div class="md:w-1/2">
+                    <mat-form-field class="disabled w-full fuse-mat-dense c-mb-0  c-h-35 fuse-mat-emphasized">
+                        <input placeholder="Teléfono" [value]="client?.phone" disabled disabled matInput>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

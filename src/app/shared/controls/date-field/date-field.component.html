@@ -1,0 +1,17 @@
+<div [formGroup]="formGroup">
+    <div class="md:flex md:items-center">
+        <!-- COLUMN 1 -->
+        <div class="md:w-1/4">
+            <div class="font-medium tracking-tight text-secondary">{{title}}</div>
+        </div>
+        <!-- COLUMN 2 -->
+        <div class="md:w-2/4">
+            <mat-form-field class="w-full c-mb-0 fuse-mat-dense c-h-35">
+                <input (click)="picker2.open()" formControlName="date" matInput [matDatepicker]="picker2"
+                    [placeholder]="">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+</div>

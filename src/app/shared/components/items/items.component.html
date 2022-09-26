@@ -1,0 +1,127 @@
+<!-- ITEMS LIST-->
+<div [formGroup]="formGroup">
+    <div class="grid grid-row-2">
+        <!-- HEADER ITEMS-->
+        <div class="grid p-3 grid-cols-12 items-center gap-x-4 text-white  bg-accent-700">
+            <div class="col-span-3 font-medium text-md">Producto/Servicio</div>
+            <div class="col-span-2 font-medium text-md text-left">Precio</div>
+            <div class="col-span-1 font-medium text-md text-left">Desc%</div>
+            <div class="col-span-2 font-medium text-md text-left">Impuesto</div>
+            <div class="col-span-1 font-medium text-md text-left">Cantidad</div>
+            <div class="col-span-2 font-medium text-md text-right">Total</div>
+            <div class="col-span-1 font-medium text-md text-left"></div>
+        </div>
+        <!-- Body ITEMS-->
+        <div class="grid mt-1 p-3 grid-cols-12 gap-x-4 items-center" formArrayName="items">
+            <!-- Items Array -->
+            <ng-container *ngFor="let item of items.controls; let i=index">
+                <ng-container [formGroup]="item">
+                    <!-- Items -->
+                    <div class="col-span-3 text-lg font-medium">
+                        <mat-form-field floatLabel="never" appearance="legacy"
+                            class="w-full fuse-mat-dense border-none border-opacity-100">
+                            <select-multi-columns [dataSource]="products" [widthList]="'500px'"
+                                labelButton="Nuevo Producto" [placeholder]="'Seleccionar Producto ó Servicio'"
+                                [headers]="['Nombre', 'Referencia', 'Descripción']"
+                                [displayColumns]="['name', 'code', 'description']" [customStyle]="{width: '100%'}"
+                                selectedValue="_id" [selectedText]="setProductText" [formControlName]="'name'"
+                                (selectedChange)="selectedItem($event, item)" (onClickButton)="openProductDialog()">
+                            </select-multi-columns>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- price -->
+                    <div class="col-span-2 self-center text-lef border-nonet">
+
+                        <mat-form-field floatLabel="never" appearance="legacy"
+                            class="w-full fuse-mat-dense border-none border-opacity-100">
+                            <input formControlName="price" [placeholder]="'Precio'" class="border-none" matInput>
+                        </mat-form-field>
+                    </div>
+                    <!-- Desc -->
+                    <div class="col-span-1 self-center text-left">
+                        <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
+                            <input formControlName="discount" [placeholder]="'Desc%'" matInput>
+                        </mat-form-field>
+                    </div>
+                    <!-- iva -->
+                    <div class="col-span-2 self-center text-left">
+                        <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
+                            <search-mat-select #taxSelect [customStyle]="{width: '100%'}" [placeholder]="'Impuesto'"
+                                labelButton="Nuevo Impuesto" [dataSource]="taxes"
+                                [filterColumns]="['name','percentage']" selectedValue="_id" [selectedText]="setTaxtText"
+                                (onClickButton)="openTaxDialog()" [formControlName]="'tax'">
+                            </search-mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Cantidad -->
+                    <div class="col-span-1 self-center text-left">
+                        <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
+                            <input type="number" min="1" formControlName="quantity" class="text-center" matInput>
+                        </mat-form-field>
+                    </div>
+                    <!-- Total -->
+                    <div class="col-span-2 self-center text-right">
+                        <mat-form-field appearance="legacy" class="w-full fuse-mat-dense">
+                            <input readonly [value]="item.get('total').value | currency" formControlName="total"
+                                class="text-right" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-span-1 self-center text-right">
+                        <button *ngIf="![0].includes(i)" (click)="removeItemRowBtn(i)" mat-button>
+                            <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
+                            </mat-icon>
+                        </button>
+                    </div>
+                </ng-container>
+                <!-- Divider -->
+                <div class="col-span-12 my-1 border-b"></div>
+            </ng-container>
+            <!-- Item -->
+            <div class="col-span-12 text-lg font-medium mt-5">
+                <button (click)="addItemRowBtn()" class="" mat-stroked-button [color]="'primary'">
+                    <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                    <span class="ml-2 mr-1">Agregar item</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TOTALES-->
+<div class="grid grid-row-1">
+    <div class="grid grid-cols-3">
+        <div class="col-span-2 font-medium text-md">
+
+        </div>
+        <div class="font-medium text-md text-left">
+            <div class="grid gap-2 grid-cols-2 p-3">
+
+                <div class="self-center font-medium tracking-tight text-secondary text-right">
+                    SUBTOTAL
+                </div>
+                <div class="text-right text-lg">{{subTotal | currency}}</div>
+
+                <ng-container *ngFor="let tax of totalTaxes">
+                    <div class="self-center font-medium tracking-tight text-secondary text-right uppercase">
+                        {{tax.name}}
+                    </div>
+                    <div class="text-right text-lg text-right"> {{tax.value | currency}}</div>
+                </ng-container>
+
+                <ng-container *ngIf="discount > 0">
+                    <div class="self-center font-medium tracking-tight text-secondary text-right ">
+                        DESCUENTO</div>
+                    <div class="text-right text-lg text-right">- {{discount | currency}}</div>
+                </ng-container>
+                <!-- Divider -->
+                <div class="col-span-2 my-3 border-b"></div>
+
+                <!-- Total -->
+                <div class="self-center text-2xl font-medium tracking-tight text-secondary text-righ">
+                    TOTAL</div>
+                <div class="text-right text-2xl font-medium text-righ">{{total | currency}}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -33,7 +33,10 @@ export const compactNavigation: FuseNavigationItem[] = [{
                 id   : 'pedidos',
                 title: 'Pedidos',
                 type : 'basic',     
-                link : '/pedidos'
+                link : 'sales/purchase/all',
+                button:{
+                    link:'sales/purchase/new'
+                },
             },
             {
                 id   : 'plan-separe',

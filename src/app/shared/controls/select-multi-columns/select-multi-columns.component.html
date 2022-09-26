@@ -1,0 +1,52 @@
+<mat-select name="control" id="control" [formControl]="formControlSelect" [placeholder]="placeholder"
+    (blur)="onTouched()" [ngStyle]="customStyle" class="text-base font-normal" [ngClass]="customClass" [multiple]="multiple">
+    <mat-option>
+        <ngx-mat-select-search [formControl]="dataFilterSelect" placeholderLabel="Buscar..."
+            noEntriesFoundLabel="Sin resultado...">
+        </ngx-mat-select-search>
+    </mat-option>
+    <mat-select-trigger>
+        {{textValue}}
+        <span *ngIf="multiple && formControlSelect.value?.length > 1" class="additional-selection">
+            (+{{formControlSelect.value.length - 1}} {{formControlSelect.value?.length === 2 ? 'mas' : 'mas'}})
+          </span>
+    </mat-select-trigger>
+
+
+    <div [ngStyle]="{'padding-left': multiple ? '5px' : ''}" class="flex flex-col flex-auto w-full overflow-x-auto">
+        <!-- HEADER -->
+        <div class="flex flex-nowrap justify-between">
+            <div class="w-full p-3 text-white bg-accent-700" *ngFor="let hed of headers">
+                <div class="font-medium text-base tracking-tight text-secondary text-white ">{{hed}}</div>
+            </div>
+        </div>
+
+        <!-- BODY -->
+        <div class="flex flex-nowrap justify-between border-b cursor-pointer  hover:bg-gray-50"
+            *ngFor="let item of filteredData | async">
+            <mat-option class="w-full p-0" [value]="item[selectedValue]">
+                <div class="w-full p-3" *ngFor="let col of displayColumns">
+                    <div class="tracking-tight font-normal text-base">{{item[col]}}
+                    </div>
+                </div>
+            </mat-option>
+        </div>
+        <!-- SPACE -->
+        <div *ngIf="showButton" class="flex flex-nowrap justify-between">
+            <div class="w-full py-6 text-white">
+
+            </div>
+            <!-- ACTION -->
+            <div class="flex w-full flex-nowrap justify-between border-b items-center fixed bottom-0">
+                <div class="w-full p-3 bg-white">
+                    <div class="font-medium tracking-tight text-secondary">
+                        <button type="button" class="underline cursor-pointer text-primary text-base"
+                            (click)="clickButton()">{{labelButton}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</mat-select>
