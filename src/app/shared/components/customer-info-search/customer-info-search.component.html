@@ -3,13 +3,13 @@
     <div class="flex  items-start justify-between">
         <div class="w-full">
             <!-- Client -->
-            <div class="md:flex w-2/3 md:items-center">
+            <div>
                 <!-- COLUMN 1 -->
-                <div class="md:w-1/4">
+                <!-- <div class="md:w-1/4">
                     <div class="font-medium tracking-tight text-secondary">Cliente*</div>
-                </div>
+                </div> -->
                 <!-- COLUMN 2 -->
-                <div class="md:w-1/2">
+                <div>
                     <mat-form-field class="w-full fuse-mat-dense c-mb-0  c-h-35 fuse-mat-emphasized">
                         <search-mat-select #clientSearchSelect [customStyle]="{width: '100%'}" required
                             [placeholder]="'Seleccionar cliente'" labelButton="Nuevo cliente" [dataSource]="clients"
@@ -21,31 +21,21 @@
                 </div>
             </div>
             <!-- Identificacion -->
-            <div class="md:flex w-2/3 md:items-center">
-                <!-- COLUMN 1 -->
-                <div class="md:w-1/4">
-                    <div class="font-medium tracking-tight text-secondary">Identificación</div>
+            <div class="grid gap-y-2">
+                <div class="flex w-full gap-4">
+                    <div class="text-md font-medium leading-5 text-secondary basis-2/12" >Identificación</div>
+                    <div class="text-lg leading-5 text-secondary w-full" >{{client?.identification}}</div>
                 </div>
-                <!-- COLUMN 2 -->
-                <div class="md:w-1/2">
-                    <mat-form-field class="w-full fuse-mat-dense c-mb-0  c-h-35">
-                        <input placeholder="Identificación" [value]="client?.identification" disabled matInput>
-                    </mat-form-field>
+                <div  class="flex w-full gap-4">
+                    <div class="text-md font-medium leading-5 text-secondary basis-2/12" >Telefono</div>
+                    <div class="text-lg leading-5 text-secondary  w-full" >{{client?.phone}}</div>
                 </div>
-            </div>
-            <!-- Contacto -->
-            <div class="md:flex w-2/3 md:items-center">
-                <!-- COLUMN 1 -->
-                <div class="md:w-1/4">
-                    <div class="font-medium tracking-tight text-secondary">Télefono</div>
-                </div>
-                <!-- COLUMN 2 -->
-                <div class="md:w-1/2">
-                    <mat-form-field class="disabled w-full fuse-mat-dense c-mb-0  c-h-35 fuse-mat-emphasized">
-                        <input placeholder="Teléfono" [value]="client?.phone" disabled disabled matInput>
-                    </mat-form-field>
+                <div class="flex flex w-full gap-4">
+                    <div class="text-md font-medium leading-5 text-secondary  basis-2/12" >Correo</div>
+                    <div class="text-lg leading-5 text-secondary w-full" >{{client?.email}}</div>
                 </div>
             </div>
+            
         </div>
     </div>
 </ng-container>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, ReplaySubject, tap } from 'rxjs';
+import { map, Observable, of, ReplaySubject, tap } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 
 @Injectable({
@@ -30,11 +30,13 @@ export class UserService
     {
         // Store the value
         this._user.next(value);
+        localStorage.setItem('user', JSON.stringify(value))
     }
-
+z
     get user$(): Observable<User>
     {
-        return this._user.asObservable();
+        return of(JSON.parse(localStorage.getItem('user')))
+        // return this._user.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------

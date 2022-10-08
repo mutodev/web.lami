@@ -33,19 +33,17 @@
         </div>
         <!-- Actions -->
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <button type="button" class="mr-3" [disabled]="formGroup.disabled"[routerLink]="[ '/contact/customer/all' ]" mat-flat-button
+            <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/contact/customer/all' ]" mat-flat-button
                 [color]="'accent'">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x'"></mat-icon>
                 Cancelar
             </button>
-            <button type="button" [disabled]="formGroup.disabled" (click)="saveClient()" [color]="'primary'"
+            <button type="button" [disabled]="disabledForm" (click)="save()" [color]="'primary'"
                 mat-flat-button>
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:check'"></mat-icon>
-                <span *ngIf="!formGroup.disabled">
+                <span>
                     Guardar
                 </span>
-                <mat-progress-spinner *ngIf="formGroup.disabled" [diameter]="24" [mode]="'indeterminate'">
-                </mat-progress-spinner>
             </button>
 
         </div>
@@ -57,9 +55,10 @@
         <!-- CONTENT GOES HERE -->
         <div class="max-w-3xl">
             <div class="overflow-hidden">
-                <app-customer></app-customer>
+                <div class="border-b rounded-2xl bg-card p-10">
+                    <app-customer #customerComponent  ></app-customer>
+                </div>
             </div>
-
         </div>
     </div>
 

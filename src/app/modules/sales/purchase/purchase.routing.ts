@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UsersResolver } from 'app/core/resolvers/user.resolver';
+import { ClientsResolver } from 'app/modules/contact/customer/clients.resolver';
 import { PurchaseDetailComponent } from './detail/detail.component';
 import { PurchaseListComponent } from './list/list.component';
 
@@ -13,7 +14,11 @@ export const purchaseRoutes: Routes = [
             user: UsersResolver
         }
     },
-    { path: 'new', component: PurchaseDetailComponent },
+    { path: 'new', component: PurchaseDetailComponent,
+    resolve: {
+        customers: ClientsResolver,
+
+    } },
     { path: ':id', component: PurchaseDetailComponent },
     
 ];

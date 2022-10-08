@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError, delay } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class AuthService
@@ -74,32 +75,17 @@ export class AuthService
         }
         
 
-        const response = {
-            accessToken: '',
-            user: {
-                id    : 'cfaad35d-07a3-4447-a6c3-d8c3d54fd5df',
-                name  : 'Brian Hughes',
-                email : 'hughes.brian@company.com',
-                avatar: 'assets/images/avatars/brian-hughes.jpg',
-                status: 'online'
-            }
-        }
-        this._authenticated = true;
-        this._userService.user = response.user;
-        this.accessToken = response.accessToken;
-        return of(response).pipe(delay(2000));
-
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post(`${environment.endPoint}/auth/login`, credentials).pipe(
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
-                this.accessToken = response.accessToken;
+                this.accessToken = response.data.accessToken;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
                 // Store the user on the user service
-                this._userService.user = response.user;
+                this._userService.user = response.data.user;
 
                 // Return a new observable with the response
                 return of(response);
@@ -118,12 +104,11 @@ export class AuthService
             accessToken: this.accessToken
         }).pipe(
             catchError(() =>
-
                 // Return false
                 of(false)
             ),
             switchMap((response: any) => {
-
+              
                 // Replace the access token with the new one if it's available on
                 // the response object.
                 //
@@ -188,7 +173,7 @@ export class AuthService
      */
     check(): Observable<boolean>
     {
-        return of(true);
+    
         // return of(true);
         // Check if the user is logged in
         if ( this._authenticated )
@@ -207,8 +192,8 @@ export class AuthService
         {
             return of(false);
         }
-
+        return of(true);
         // If the access token exists and it didn't expire, sign in using it
-        return this.signInUsingToken();
+       //return this.signInUsingToken();
     }
 }

@@ -1,10 +1,17 @@
-export interface ClientModel {
-    id: string;
-    indentification_number: string;
-    name: string;
+
+export interface Customer {
+    type: string;
+    identificationType: string;
+    identification: string;
+    source: string;
+    email: string;
+    firstName: string;
+    companyName: string;
+    lastName: string;
+    address: string;
     phone: string;
-    active: boolean;
 }
+
 
 export interface ClientPagination {
     length: number;
@@ -13,4 +20,14 @@ export interface ClientPagination {
     lastPage: number;
     startIndex: number;
     endIndex: number;
+}
+ 
+
+export interface IdentificationType {
+    id:        string;
+    code:      string;
+    name:      string;
+    settingId: string;
+    createdAt: string;
+    updatedAt: string;
 }

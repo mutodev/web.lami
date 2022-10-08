@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ClientsResolver } from './clients.resolver';
 import { CustomerListComponent } from './list/list.component';
 import { CustomerDetailsComponent } from './details/details.component';
+import { IdentificationTypesResolver } from 'app/core/resolvers/types.resolver';
 
 
 export const routes: Route[] = [
@@ -10,17 +11,27 @@ export const routes: Route[] = [
         {
             path: 'all',
             component: CustomerListComponent,
-            // resolve: {
-            //     products: ClientsResolver,
-            // }
+            resolve: {
+                customers: ClientsResolver,
+                identficationtypes: IdentificationTypesResolver,
+
+            }
         },
         {
             path: 'edit/:id',
             component: CustomerDetailsComponent,
+            resolve: {
+                identficationtypes: IdentificationTypesResolver,
+
+            }
         },
         {
             path: 'new',
             component: CustomerDetailsComponent,
+            resolve: {
+                identficationtypes: IdentificationTypesResolver,
+
+            }
         }
 ]
 

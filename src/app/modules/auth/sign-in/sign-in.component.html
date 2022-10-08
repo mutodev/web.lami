@@ -28,16 +28,13 @@
 
                     <!-- Email field -->
                     <mat-form-field class="w-full">
-                        <mat-label>Correo</mat-label>
+                        <mat-label>Usuario</mat-label>
                         <input
-                            id="email"
+                            id="usuario"
                             matInput
-                            [formControlName]="'email'">
-                        <mat-error *ngIf="signInForm.get('email').hasError('required')">
-                            Correo es requerido
-                        </mat-error>
-                        <mat-error *ngIf="signInForm.get('email').hasError('email')">
-                            Por favor ingrese un correo válido
+                            [formControlName]="'username'">
+                        <mat-error *ngIf="signInForm.get('username').hasError('required')">
+                            Usuario es requerido
                         </mat-error>
                     </mat-form-field>
 
@@ -70,12 +67,12 @@
                     </mat-form-field>
 
                     <!-- Actions -->
-                    <div class="inline-flex items-end justify-between w-full mt-1.5">
+                    <!-- <div class="inline-flex items-end justify-between w-full mt-1.5">
                         <a
                             class="text-md font-medium text-primary-500 hover:underline"
                             [routerLink]="['/forgot-password']">¿Olvidaste tu contraseña?
                         </a>
-                    </div>
+                    </div> -->
 
                     <!-- Submit button -->
                     <button

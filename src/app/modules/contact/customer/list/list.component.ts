@@ -30,8 +30,8 @@ export class CustomerListComponent extends BaseList implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSource$ = of([])
-    //this.getDataSource();
+
+    this.getDataSource();
   }
 
 

@@ -1,13 +1,17 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { Customer } from 'app/modules/contact/customer/clients.types';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CustomerDialogComponent } from '../customer-dialog/customer-dialog.component';
 
 interface Client {
   identification: string;
   phone: string;
+  email:string;
 }
 
 @Component({
@@ -23,7 +27,7 @@ export class CustomerInfoSearchComponent implements OnInit {
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private _baseListService: BaseListService,
-    private _formBuilder: FormBuilder) { }
+    private _formBuilder: FormBuilder, public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -36,50 +40,32 @@ export class CustomerInfoSearchComponent implements OnInit {
       customer: ['', [Validators.required]]
     })
   }
-  setClientText(item: any) {
-    return `${item.first_name} ${item.last_name}`;
+  setClientText(customer: Customer) {
+    if (customer.identificationType == 'N'){
+      return customer.companyName
+    } else {
+      return `${customer.firstName} ${customer.lastName}`;
+    }
+    
   }
 
   openClientDialog() {
-    // this.clientSearchSelect.close();
-    // this._dialogService.open({
-    //   title: "Nuevo Cliente",
-    //   template: CustomerComponent,
-    //   widthContent: '700px',
-    //   actions: {
-    //     confirm: {
-    //       show: true,
-    //       label: "Guardar",
-    //       callback: async (ref) => {
-    //         const saveClient$ = this.eventService.getEvent('saveClient')
-    //         await saveClient$().toPromise()
-    //           .then((result: any) => {
-    //             if (result.success)
-    //               console.log(`result`, result)
-    //           })
-    //       }
-    //     },
-    //     cancel: {
-    //       show: true,
-    //       label: "Cancelar",
-    //       callback: () => {
-    //         // si quieres ejecutar algo adicional
-    //         // alert('adicional');
-    //       }
-    //     }
-    //   }
-    //});
+    const dialogRef = this.dialog.open(CustomerDialogComponent, {
+      width: '500px',
+      data: {},
+    });
   }
 
-  clientChange(client: any) {
+  clientChange(customer: Customer) {
     this.client = {
-      identification: client.identification,
-      phone: client.cell_phone
+      identification: customer.identification,
+      phone: customer.phone,
+      email: customer.email
     }
   }
 
   getClients() {
-    this._baseListService.customers$
+    this._baseListService.source$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((clients: any[]) => {
         this.clients = clients;
@@ -89,5 +75,7 @@ export class CustomerInfoSearchComponent implements OnInit {
   get customer() {
     return this.formGroup.get('customer');
   }
+
+
 
 }

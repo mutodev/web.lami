@@ -1,128 +1,77 @@
-<form [formGroup]="formGroup" novalidate class="flex flex-col">
-    <!-- Section -->
 
-    <div class="w-full">
-        <div class="text-xl">Datos Básicos</div>
-    </div>
-    <div class="grid mt-8">
-        <!-- Person Type -->
-        <mat-form-field name="type" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
-            <mat-label>Tipo de persona</mat-label>
-            <mat-select required formControlName="type">
-                <mat-option *ngFor="let personType of customerType; let i=index" [value]="personType">
-                    {{personType}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="formGroup.controls['type'].hasError('required') && formGroup.controls.type.touched">
-                Campo requerido</mat-error>
-        </mat-form-field>
-        <!-- Identification -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
-            <mat-label>Tipo de documento</mat-label>
-            <mat-select required formControlName="identification_type">
-                <mat-option *ngFor=" let identificationType of identificationTypes; let i=index"
-                    [value]="identificationType">
-                    {{identificationType}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formGroup.get('identification_type').hasError('required')" class="text-red">Campo
-                requerido</mat-error>
-        </mat-form-field>
-        <!-- Identification -->
-        <mat-form-field [ngClass]="formFieldHelpers"
-            class="flex-auto gt-xs:pl-3 fuse-mat-dense fuse-mat-emphasized-affix">
-            <mat-label>Identificación</mat-label>
-            <input formControlName="identification" required matInput>
-            <button type="button" mat-icon-button matSuffix>
-                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
-            </button>
-            <mat-error *ngIf="formGroup.get('identification').hasError('required')">Campo
-                requerido</mat-error>
-            <mat-error *ngIf="formGroup.get('identification').hasError('invalidAsync')">
-                El cliente ya existe.</mat-error>
-        </mat-form-field>
-        <!-- First_Name -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Nombres</mat-label>
-            <input formControlName="first_name" required matInput>
-            <mat-error *ngIf="formGroup.get('first_name').hasError('required')">Campo
-                requerido</mat-error>
-            <mat-error *ngIf="formGroup.get('first_name').errors?.wrongColor">blue requerido</mat-error>
-        </mat-form-field>
-        <!-- Identification -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Apellidos</mat-label>
-            <input formControlName="last_name" required matInput>
-
-            <mat-error *ngIf="formGroup.get('last_name').hasError('required') && formGroup.get('last_name').touched">
-                Campo
-                requerido</mat-error>
-        </mat-form-field>
-    </div>
-    <!-- Divider -->
-    <div class="my-10 border-t"></div>
-    <!-- ----------------------------------------------------------------------------------------------------- -->
-    <!-- Campos Opcionales -->
-    <!-- ----------------------------------------------------------------------------------------------------- -->
-    <!-- Section -->
-    <div class="w-full">
-        <div class="text-xl">Campos Opcionales</div>
-    </div>
-
-    <!-- Fila 1 -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4 mt-8">
-        <!-- Correo -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Correo</mat-label>
-            <input formControlName="email" matInput>
-            <mat-error *ngIf="formGroup.get('email').hasError('pattern')">
-                Formato de correo inválido</mat-error>
-        </mat-form-field>
-        <!-- Phone-->
-        <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Celular</mat-label>
-            <input formControlName="cell_phone" matInput>
-        </mat-form-field>
-    </div>
-
-    <!-- Fila 2 -->
-    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-2">
-        <!-- Address 1 -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Dirección</mat-label>
-            <input formControlName="address1" matInput>
-        </mat-form-field>
-        <!-- state -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Departamento</mat-label>
-            <input formControlName="state" matInput>
-        </mat-form-field>
-    </div>
-
-    <!-- Fila 2 -->
-    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-2">
-        <!-- City -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Ciudad/Municipio</mat-label>
-            <input formControlName="city" matInput>
-        </mat-form-field>
-        <!-- Neighborhood -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Barrio</mat-label>
-            <input formControlName="neighborhood" matInput>
-        </mat-form-field>
-    </div>
-
-    <!-- Fila 3 -->
-    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-2">
-        <!-- Neighborhood -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Genero</mat-label>
-            <input formControlName="gender" matInput>
-        </mat-form-field>
-        <!-- Birth Date -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Fecha de nacimiento</mat-label>
-            <input formControlName="birth_date" matInput>
-        </mat-form-field>
-    </div>
-</form>
+    <form [formGroup]="formGroup" novalidate class="flex flex-col">
+        <!-- Section -->
+        <div class="grid">
+            <!-- Identification -->
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Tipo de documento</mat-label>
+                <mat-select required formControlName="identificationType">
+                    <mat-option *ngFor="let identificationType of identificationTypes; let i=index"
+                        [value]="identificationType">
+                        {{identificationType.name}}</mat-option>
+    
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('identificationType').hasError('required') && formGroup.get('identificationType').touched" class="text-red">Campo
+                    requerido</mat-error>
+            </mat-form-field>
+            <!-- Identification -->
+            <mat-form-field [ngClass]="formFieldHelpers"
+                class="flex-auto gt-xs:pl-3 fuse-mat-dense fuse-mat-emphasized-affix">
+                <mat-label>Identificación</mat-label>
+                <input formControlName="identification" required matInput>
+                <span mat-icon-button matSuffix>
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                </span>
+                <mat-error *ngIf="formGroup.get('identification').hasError('required')  && formGroup.get('identification').touched">Campo
+                    requerido</mat-error>
+                <mat-error *ngIf="formGroup.get('identification').hasError('invalidAsync')">
+                    El cliente ya existe.</mat-error>
+            </mat-form-field>
+    
+            <!-- Company Name -->
+            <ng-container *ngIf="isNIT; else name">
+                <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                    <mat-label>Nombre de la empresa</mat-label>
+                    <input formControlName="companyName" required matInput>
+                    <mat-error *ngIf="formGroup.get('companyName').hasError('required') && formGroup.get('companyName').touched">Campo
+                        requerido</mat-error>
+                </mat-form-field>
+            </ng-container>
+    
+            <!-- Entire Name -->
+            <ng-template #name>
+                <!-- firstName -->
+                <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                    <mat-label>Nombres</mat-label>
+                    <input formControlName="firstName" required matInput>
+                    <mat-error *ngIf="formGroup.get('firstName').hasError('required')">Campo
+                        requerido</mat-error>
+                    <mat-error *ngIf="formGroup.get('firstName').errors?.wrongColor">blue requerido</mat-error>
+                </mat-form-field>
+                <!-- Last Name -->
+                <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                    <mat-label>Apellidos</mat-label>
+                    <input formControlName="lastName" required matInput>
+    
+                    <mat-error *ngIf="formGroup.get('lastName').hasError('required') && formGroup.get('lastName').touched">
+                        Campo
+                        requerido</mat-error>
+                </mat-form-field>
+            </ng-template>
+    
+            <!-- Address -->
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Dirección</mat-label>
+                <input formControlName="address" matInput>
+                <mat-error *ngIf="formGroup.get('address').hasError('required') && formGroup.get('address').touched">
+                    Campo requerido</mat-error>
+            </mat-form-field>
+            <!-- Phone-->
+            <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Teléfono</mat-label>
+                <input formControlName="phone" matInput>
+                <mat-error *ngIf="formGroup.get('phone').hasError('required') && formGroup.get('phone').touched">
+                    Campo requerido</mat-error>
+            </mat-form-field>
+        </div>
+    </form>

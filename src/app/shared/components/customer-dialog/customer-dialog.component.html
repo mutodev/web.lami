@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Nuevo cliente</h2>
+<mat-dialog-content class="mat-typography">
+    <app-customer #appCustomer></app-customer>
+
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <div class="flex  items-center mt-6 sm:mt-0 sm:ml-4">
+        <button [disabled]="customerComponent.formGroup.disabled" [mat-dialog-close]="true" class="mr-3" mat-flat-button
+            [color]="'accent'">
+            <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x'"></mat-icon>
+            Cancelar
+        </button>
+        <button [disabled]="customerComponent.formGroup.disabled" (click)="save()" type="button" [color]="'primary'"
+            mat-flat-button>
+            <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:check'">
+            </mat-icon>
+            <span *ngIf="!customerComponent.formGroup.disabled">
+                Guardar
+            </span>
+            <mat-progress-spinner *ngIf="customerComponent.formGroup.disabled" [diameter]="24" [mode]="'indeterminate'">
+            </mat-progress-spinner>
+        </button>
+
+    </div>
+</div>

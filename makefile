@@ -1,5 +1,5 @@
 nggc:
- v ${N} 
+ v ${N}  --skip-import
 
 gm:
   ng generate module ${N}

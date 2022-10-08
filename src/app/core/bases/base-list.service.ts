@@ -19,7 +19,7 @@ export class BaseListService {
     private _products: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
     private _quotations: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _taxes: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-
+    baseUrl:string = environment.endPoint;
     apiUrl: string;
     constructor(
         private _httpClient: HttpClient
@@ -60,18 +60,17 @@ export class BaseListService {
     // <!-- Get Sources -->
     // <!-- ----------------------------------------------------------------------------------------------------- -->
 
-    getDataSource(page: number = 1, size: number = 10, sort: string = '', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    getDataSource(page: number = 1, perPage: number = 10, sort: string = '', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
         Observable<{ pagination: Pagination; clients: any[] }> {
-        return this._httpClient.get<{ pagination: Pagination; clients: any[] }>(this.apiUrl, {
+        return this._httpClient.get<{ pagination: Pagination; clients: any[] }>(`${this.baseUrl}${this.apiUrl}`, {
             params: {
-                page: page,
-                page_size: '' + size,
-                sort,
-                order,
-                dato: search
+                page,
+                perPage
             }
         }).pipe(
             tap((response: any) => {
+               
+               
                 let pagination: Pagination = {
                     length: response.data.total,
                     size: response.data.per_page,

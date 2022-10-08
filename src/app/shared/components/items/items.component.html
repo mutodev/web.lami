@@ -6,7 +6,7 @@
             <div class="col-span-3 font-medium text-md">Producto/Servicio</div>
             <div class="col-span-2 font-medium text-md text-left">Precio</div>
             <div class="col-span-1 font-medium text-md text-left">Desc%</div>
-            <div class="col-span-2 font-medium text-md text-left">Impuesto</div>
+            <div class="col-span-2 font-medium text-md text-left">Proyecto</div>
             <div class="col-span-1 font-medium text-md text-left">Cantidad</div>
             <div class="col-span-2 font-medium text-md text-right">Total</div>
             <div class="col-span-1 font-medium text-md text-left"></div>
@@ -47,7 +47,7 @@
                     <!-- iva -->
                     <div class="col-span-2 self-center text-left">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
-                            <search-mat-select #taxSelect [customStyle]="{width: '100%'}" [placeholder]="'Impuesto'"
+                            <search-mat-select #taxSelect [customStyle]="{width: '100%'}" [placeholder]="'Proyecto'"
                                 labelButton="Nuevo Impuesto" [dataSource]="taxes"
                                 [filterColumns]="['name','percentage']" selectedValue="_id" [selectedText]="setTaxtText"
                                 (onClickButton)="openTaxDialog()" [formControlName]="'tax'">

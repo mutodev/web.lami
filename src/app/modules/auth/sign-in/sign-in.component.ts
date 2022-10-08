@@ -45,9 +45,8 @@ export class AuthSignInComponent implements OnInit
     {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email     : ['hughes.brian@company.com', [Validators.required, Validators.email]],
-            password  : ['admin', Validators.required],
-            rememberMe: ['']
+            username     : ['cvisbal', Validators.required],
+            password  : ['123456', Validators.required]
         });
     }
 
@@ -93,12 +92,12 @@ export class AuthSignInComponent implements OnInit
                     this.signInForm.enable();
 
                     // Reset the form
-                    this.signInNgForm.resetForm();
+                    this.signInNgForm.control.get('password').setValue('')
 
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Wrong email or password'
+                        message: 'Correo o contraseña incorrectos'
                     };
 
                     // Show the alert

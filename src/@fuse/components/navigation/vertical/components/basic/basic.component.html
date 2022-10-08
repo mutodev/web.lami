@@ -72,11 +72,12 @@
         </ng-container>
 
     
-      <ng-container *ngIf="item.button">
+      <!-- <ng-container *ngIf="item.button">
             <a
                 class="fuse-vertical-navigation-item hidden rounded-none group-hover:flex group-hover:bg-gray-800" 
-               
-                [routerLink]="item.button.link"
+                [preserveFragment]="item.preserveFragment ?? false"
+                [routerLink]="[item.button.link]",
+              
                
               
 
@@ -88,7 +89,7 @@
                 [svgIcon]="item.button.icon || 'add_circle_outline'"></mat-icon>
                 
             </a>
-        </ng-container>
+        </ng-container> -->
     <!-- <div class="fuse-vertical-navigation-item-badge flex-none visible mt-3    group-hover:visible z-50">
             <div
                 class="fuse-vertical-navigation-item-badge-content">

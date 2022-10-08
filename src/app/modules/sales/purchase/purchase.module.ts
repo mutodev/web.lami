@@ -26,6 +26,8 @@ import { CIDateFieldModule } from 'app/shared/controls/date-field/date-field.mod
 import { CompanyBrandModule } from 'app/shared/components/company-brand/company-brand.module';
 import { CICustomerSearchModule } from 'app/shared/components/customer-info-search/customer-info-search.module';
 import { ItemsModule } from 'app/shared/components/items/items.module';
+import { OrderInformationModule } from 'app/shared/components/order-information/order-information.module';
+import { CustomerDialogModule } from 'app/shared/components/customer-dialog/customer-dialog.module';
 
 @NgModule({
     declarations: [
@@ -41,7 +43,9 @@ import { ItemsModule } from 'app/shared/components/items/items.module';
         CIDateFieldModule,
         CompanyBrandModule,
         CICustomerSearchModule,
-        ItemsModule
+        ItemsModule,
+        OrderInformationModule,
+        CustomerDialogModule
     ],
     exports: [],
     providers: [],

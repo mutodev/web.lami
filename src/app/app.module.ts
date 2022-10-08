@@ -11,7 +11,7 @@ import { appConfig } from 'app/core/config/app.config';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
-
+import { mockApiServices } from 'app/mock-api';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -30,7 +30,7 @@ const routerConfig: ExtraOptions = {
         // Fuse, FuseConfig & FuseMockAPI
         FuseModule,
         FuseConfigModule.forRoot(appConfig),
-
+        FuseMockApiModule.forRoot(mockApiServices),
 
         // Core module of your application
         CoreModule,
