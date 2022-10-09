@@ -60,18 +60,19 @@
                                         {{client.identification}}
                                     </div>
                                     <!-- Name -->
-                                    <div ngif *ngIf="client.identification_type == 'C'; else bussiness">
-                                        {{client?.first_name}} {{client?.last_name}}
+                                    <div ngif *ngIf="client.identificationType.code == 'NIT'; else bussiness">
+                                        {{client?.companyName}}
                                     </div>
                                     <ng-template #bussiness>
                                         <div>
-                                            {{client?.business_name}}
+                                            {{client?.firstName}} {{client?.lastName}}
+                                            
                                         </div>
                                     </ng-template>
                                     
                                     <!-- Cell Phone -->
                                     <div class="hidden md:block">
-                                        {{client.cell_phone}}
+                                        {{client.phone}}
                                     </div>
                                     <!-- Emaal -->
                                     <div class="hidden md:block">
@@ -79,7 +80,7 @@
                                     </div>
                                      <!-- Details button -->
                                      <div class="hidden md:block text-right">
-                                        <button [routerLink]="'/contact/customer/edit/' + client._id"
+                                        <button [routerLink]="'/contact/customer/edit/' + client.id"
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
                                             </mat-icon>

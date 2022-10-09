@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Customer, IdentificationType } from 'app/modules/contact/customer/clients.types';
 import { Store } from 'app/modules/settings/store/store.types';
 import { User } from 'app/modules/settings/user/user.types';
+import { APIResponse } from 'app/shared/interfaces/response';
+import { Type } from 'app/shared/interfaces/setting.types';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { STORE_DATA, USER_DATA } from './moke-data';
@@ -35,17 +37,35 @@ export class LamiService {
     /* #region  USER */
 
     private _users: BehaviorSubject<User[] | null> = new BehaviorSubject(null);
+    private _user: BehaviorSubject<User | null> = new BehaviorSubject(null);
 
 
     get users$(): Observable<User[]> {
         return this._users.asObservable();
     }
 
-    getUsers(): Observable<User[]> {
-        this._users.next(USER_DATA);
-        return of([])
+    get user$(): Observable<User> {
+        return this._user.asObservable();
     }
+
+    createUser(data: any): Observable<APIResponse<User>> {
+
+        return this._httpClient.post<APIResponse<User>>(`${environment.endPoint}/user`, data);
+    }
+
+    getUserById(id: string): Observable<APIResponse<User>> {
+        return this._httpClient.get<APIResponse<User>>(`${environment.endPoint}/user/${id}`).pipe(
+            tap((result) => {
+                this._user.next(result.data);
+            }));
+    }
+
+    updateUser(id: string, data: any):  Observable<APIResponse<User>> {
+        return this._httpClient.patch<APIResponse<User>>(`${environment.endPoint}/user/${id}`, data);
+    }
+
     /* #endregion */
+
 
     /* #region  IDENTIFICATION TYPE */
 
@@ -66,10 +86,48 @@ export class LamiService {
     /* #endregion */
 
 
-     /* #region  CUSTOMER */
-    createCustomer(data: any):Observable<Customer>{
-       console.log("🚀 ~ file: lami.service.ts ~ line 71 ~ LamiService ~ createCustomer ~ data", data)
-       return  this._httpClient.post<Customer>(`${environment.endPoint}/customer`,data);
+    /* #region  ROLES */
+    private _roleTypes: BehaviorSubject<Type[] | null> = new BehaviorSubject(null);
+
+    get roleTypes$(): Observable<Type[]> {
+        return this._roleTypes.asObservable();
     }
-     /* #region  CUSTOMER */
+
+    getRoleTypes(): Observable<IdentificationType[]> {
+        return this._httpClient.get<IdentificationType[]>(`${environment.endPoint}/setting/ROLES`).pipe(
+            tap((result: any) => {
+                this._roleTypes.next(result.settingDetail);
+            })
+        );
+    }
+
+    /* #endregion */
+
+
+    /* #region CUSTOMER  */
+
+    private _customer: BehaviorSubject<Customer | null> = new BehaviorSubject(null);
+
+    get customer$(): Observable<Customer> {
+        return this._customer.asObservable();
+    }
+
+    createCustomer(data: any): Observable<APIResponse<Customer>> {
+
+        return this._httpClient.post<APIResponse<Customer>>(`${environment.endPoint}/customer`, data);
+    }
+
+
+    getCustomerById(id: string): Observable<APIResponse<Customer>> {
+        return this._httpClient.get<APIResponse<Customer>>(`${environment.endPoint}/customer/${id}`).pipe(
+            tap((result) => {
+                this._customer.next(result.data);
+            }));
+    }
+
+    updateCustomer(id: string, data: any):  Observable<APIResponse<Customer>> {
+        return this._httpClient.patch<APIResponse<Customer>>(`${environment.endPoint}/customer/${id}`, data);
+    }
+    /* #endregion */
+
 }

@@ -60,7 +60,7 @@ export class BaseListService {
     // <!-- Get Sources -->
     // <!-- ----------------------------------------------------------------------------------------------------- -->
 
-    getDataSource(page: number = 1, perPage: number = 10, sort: string = '', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    getDataSource(page: number = 1, perPage: number = 25, sort: string = '', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
         Observable<{ pagination: Pagination; clients: any[] }> {
         return this._httpClient.get<{ pagination: Pagination; clients: any[] }>(`${this.baseUrl}${this.apiUrl}`, {
             params: {
@@ -77,7 +77,8 @@ export class BaseListService {
                     page: response.data.current_page
                 };
                 this._pagination.next(pagination);
-                this._source.next(response.data.result);
+                this._source.next(response.data.data);
+                console.log("🚀 ~ file: base-list.service.ts ~ line 81 ~ BaseListService ~ tap ~ response.data.data", response.data.data)
             })
         );
     }

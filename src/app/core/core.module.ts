@@ -1,13 +1,18 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FuseAlertModule } from '@fuse/components/alert';
 import { AuthModule } from 'app/core/auth/auth.module';
 import { IconsModule } from 'app/core/icons/icons.module';
 import { TranslocoCoreModule } from 'app/core/transloco/transloco.module';
+import { AlertyModule } from 'app/shared/components/alerty/alerty.module';
 
 @NgModule({
     imports: [
         AuthModule,
         IconsModule,
-        TranslocoCoreModule
+        TranslocoCoreModule,
+        MatSnackBarModule,
+        AlertyModule
     ]
 })
 export class CoreModule

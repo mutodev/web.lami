@@ -21,6 +21,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { UserSecurityModule } from 'app/shared/components/user-security/user-security.module';
 import { UserInformationModule } from 'app/shared/components/user-information/user-information.module';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 @NgModule({
     declarations: [
@@ -45,7 +46,8 @@ import { UserInformationModule } from 'app/shared/components/user-information/us
         MatTabsModule,
         SharedModule,
         UserSecurityModule,
-        UserInformationModule
+        UserInformationModule,
+        FuseAlertModule
     ],
     exports: [],
     providers: [],

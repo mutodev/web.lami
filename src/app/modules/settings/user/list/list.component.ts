@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, UntypedFormControl } from '@angular/forms';
 import { LamiService } from 'app/core/api/lami.service';
+import { BaseList } from 'app/core/bases/base-list';
+import { BaseListService } from 'app/core/bases/base-list.service';
 import { Observable } from 'rxjs';
 import { User } from '../user.types';
 
@@ -28,18 +30,19 @@ import { User } from '../user.types';
     `
 ],
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent extends BaseList implements OnInit {
 
   searchInputControl: FormControl = new FormControl();
   users$: Observable<User[]>;
   isLoading: boolean = false;
 
-  constructor(public _lamiService: LamiService) { }
+  constructor(public _lamiService: LamiService, public _baseListService: BaseListService) {
+    super(_baseListService);
+   }
 
-  ngOnInit(): void {
-     this.users$ = this._lamiService.users$;
-     console.log("🚀 ~ file: list.component.ts ~ line 22 ~ UserListComponent ~ ngOnInit ~  this.users$ ",  this.users$ )
-     
+  ngOnInit(): void{ ;
+    
+    this.getDataSource();
   }
 
   createUser():void{

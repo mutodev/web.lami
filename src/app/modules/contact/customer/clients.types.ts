@@ -1,7 +1,9 @@
 
 export interface Customer {
-    type: string;
-    identificationType: string;
+    id:string;
+    typeId: string;
+    identificationTypeId: string;
+    identificationType: IdentificationType;
     identification: string;
     source: string;
     email: string;

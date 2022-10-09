@@ -1,13 +1,17 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { FuseConfirmationService } from "@fuse/services/confirmation";
+import { AlertyComponent } from "app/shared/components/alerty/alerty.component";
 
 @Injectable({
     providedIn: 'root'
 })
 export class NotifyService {
 
-    constructor(public _fuseConfirmationService: FuseConfirmationService) {
+    durationInSeconds = 5
+    constructor(public _fuseConfirmationService: FuseConfirmationService,
+        private _snackBar: MatSnackBar) {
 
     }
 
@@ -50,9 +54,8 @@ export class NotifyService {
 
     error500(errorCode) {
         this._fuseConfirmationService.open({
-            title: 'Internal Error',
-            message: `An unexpected error occurred. Please try again. If the problem continues, contact wiht your administrator.
-            <br> <b>Error code: </b>${errorCode}`,
+            title: 'Error Interno',
+            message: `Se ha producido un error inesperado. Inténtelo de nuevo. Si el problema continúa, póngase en contacto con su administrador.`,
             icon: {
                 show: true,
                 name: 'heroicons_outline:x-circle',
@@ -88,5 +91,21 @@ export class NotifyService {
             }
         })
 
+    }
+
+
+    successAlert(msg:string, title:string='Mensaje'){
+        setTimeout(() => {
+            this._snackBar.openFromComponent(AlertyComponent,{
+                duration: this.durationInSeconds * 1000,
+                panelClass: ['bg-green-600'],
+                data:{
+                    type: 'success',
+                    msg: msg,
+                    title: title
+                }
+            })
+        }, 500);
+        
     }
 }

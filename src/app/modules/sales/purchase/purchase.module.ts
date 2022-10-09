@@ -28,6 +28,7 @@ import { CICustomerSearchModule } from 'app/shared/components/customer-info-sear
 import { ItemsModule } from 'app/shared/components/items/items.module';
 import { OrderInformationModule } from 'app/shared/components/order-information/order-information.module';
 import { CustomerDialogModule } from 'app/shared/components/customer-dialog/customer-dialog.module';
+import { MaintenanceModule } from 'app/modules/maintenance/maintenance.module';
 
 @NgModule({
     declarations: [
@@ -45,7 +46,8 @@ import { CustomerDialogModule } from 'app/shared/components/customer-dialog/cust
         CICustomerSearchModule,
         ItemsModule,
         OrderInformationModule,
-        CustomerDialogModule
+        CustomerDialogModule,
+         MaintenanceModule
     ],
     exports: [],
     providers: [],

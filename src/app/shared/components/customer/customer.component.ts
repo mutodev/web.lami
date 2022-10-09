@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from 'app/core/api/event/event.service';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseForm } from 'app/core/bases/base-form';
+import { items } from 'app/mock-api/apps/file-manager/data';
 import { IdentificationType } from 'app/modules/contact/customer/clients.types';
 import { AsyncCustomValidator } from 'app/shared/validators/async-validator';
 import { result } from 'lodash';
@@ -25,13 +26,16 @@ export class CustomerComponent extends BaseForm implements OnInit {
   isNIT:boolean= false;
   customerComponent = CustomerComponent;
   identificationTypes: IdentificationType[] = [];
+  identificationType
   static success: boolean = false;
 
   constructor(private _lamiService: LamiService,
     public _httpClient: HttpClient,
     private _formBuilder: FormBuilder,
-    private _eventService: EventService) {
+    private _eventService: EventService,
+    private _route: ActivatedRoute) {
     super();
+    this.id = this._route.snapshot.params['id'];
   }
 
   ngOnInit(): void {
@@ -40,26 +44,36 @@ export class CustomerComponent extends BaseForm implements OnInit {
 
     this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[])=>{
       this.identificationTypes = identificationTypes;
+
+    if(this.id)
+      this.getCusotmer();
   })
 
+  }
+  getCusotmer() {
+    this._lamiService.customer$.subscribe((customer)=>{
+      this.formGroup.patchValue(customer)
+    })
   }
 
   validations() {
     this.formGroup = this._formBuilder.group({
-      type: [null, Validators.nullValidator], //tipoCliente
-      identificationType: [null, Validators.required],
+      typeId: ['87345bca-46c0-11ed-88f1-7b765a5d50e1', Validators.nullValidator], //tipoCliente
+      identificationTypeId: [null, Validators.required],
       identification: ['', Validators.required],
-      source: ['', Validators.nullValidator],
+      source: ['Lead', Validators.nullValidator],
       firstName: ['', Validators.nullValidator],
       lastName: ['', Validators.nullValidator],
       companyName:  ['', Validators.nullValidator],
       address: ['', Validators.required],
       phone: ['', Validators.required],
+      email: ['', Validators.required],
     });
 
 
-    this.formGroup.get('identificationType').valueChanges.subscribe((value)=>{
-        if (value.code == 'NIT'){
+    this.formGroup.get('identificationTypeId').valueChanges.subscribe((id)=>{
+        const identificationType = this.identificationTypes.find((item:any)=>item.id ==id);
+        if (identificationType.code == 'NIT'){
           this.isNIT = true;
           this.formGroup.get('companyName').setValidators([Validators.required]);
           this.formGroup.get('companyName').updateValueAndValidity();
@@ -67,8 +81,7 @@ export class CustomerComponent extends BaseForm implements OnInit {
           this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
           this.formGroup.get('firstName').updateValueAndValidity();
           this.formGroup.get('lastName').updateValueAndValidity();
-        }
-         
+        }    
         else {
           this.isNIT = false;
           this.formGroup.get('companyName').setValidators([Validators.nullValidator]);
@@ -93,7 +106,6 @@ export class CustomerComponent extends BaseForm implements OnInit {
   save(): Observable<any> {
     if (this.formGroup.valid) {
       return this.create();
-      this.formGroup.disable();
     } else {
       this.validateAllFormFields(this.formGroup);
       this.formGroup.enable();
@@ -102,14 +114,12 @@ export class CustomerComponent extends BaseForm implements OnInit {
   }
 
   create(): Observable<any> {
-    console.log('this.formGroup.value :>> ', this.formGroup.value);
     return this._httpClient.post<any>('/api/customer', this.formGroup.value).pipe(
       map((res: any) => {
         if (res.status === 'success') {
           return { success: true, data: res.data }
         } else {
           this.formGroup.enable();
-          alert(res.message);
           return { success: false }
         }
       }),

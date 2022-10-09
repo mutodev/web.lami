@@ -3,42 +3,43 @@
 
 
     <div class="grid sm:grid-cols-5 gap-6 w-full mt-8">
+         <!-- Username -->
+         <div class="sm:col-span-5">
+            <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+                <mat-label>Usuario</mat-label>
+                <input [formControlName]="'userName'" matInput>
+            </mat-form-field>
+        </div>
+
         <!-- Name -->
         <div class="sm:col-span-5">
-            <mat-form-field class="fuse-mat-no-subscript w-full">
+            <mat-form-field class="fuse-mat-dense  w-full">
                 <mat-label>Nombres</mat-label>
-                <input [formControlName]="'name'" matInput>
+                <input [formControlName]="'firstName'" matInput>
             </mat-form-field>
         </div>
         <!-- Last Name -->
         <div class="sm:col-span-5">
-            <mat-form-field class="fuse-mat-no-subscript w-full">
+            <mat-form-field class="fuse-mat-dense  w-full">
                 <mat-label>Apellidos</mat-label>
-                <input [formControlName]="'last_name'" matInput>
+                <input [formControlName]="'lastName'" matInput>
             </mat-form-field>
         </div>
-        <!-- Username -->
-        <div class="sm:col-span-5">
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-emphasized-affix w-full">
-                <mat-label>Usuario</mat-label>
-                <input [formControlName]="'username'" matInput>
-            </mat-form-field>
-        </div>
-
+       
         <!-- Role -->
         <div class="sm:col-span-5">
-            <mat-form-field class="fuse-mat-no-subscript w-full">
+            <mat-form-field class="fuse-mat-dense  w-full">
                 <mat-label>Role</mat-label>
                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'" matPrefix></mat-icon>
-                <mat-select  [formControlName]="'role'">
-                    <mat-option *ngFor="let role of roles" [value]="'role'">{{role}}</mat-option>
+                <mat-select  [formControlName]="'roleId'">
+                    <mat-option *ngFor="let role of roles" [value]="role.id">{{role.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
         <!-- Status -->
         <div class="sm:col-span-5">
-            <div class="fuse-mat-no-subscript w-full mt-5">
-                <mat-slide-toggle [color]="'primary'" [formControlName]="'status'">Activo
+            <div class="fuse-mat-dense  w-full mt-5">
+                <mat-slide-toggle [color]="'primary'" [formControlName]="'active'">Activo
                 </mat-slide-toggle>
             </div>
         </div>
@@ -52,7 +53,7 @@
 
         <!-- Actions -->
         <div class="flex items-center justify-end">
-            <button class="ml-4" mat-flat-button type="submit" [color]="'primary'">Guardar
+            <button (click)="save()" class="ml-4" mat-flat-button type="submit" [color]="'primary'">Guardar
             </button>
         </div>
     </ng-container>

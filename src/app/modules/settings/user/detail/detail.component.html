@@ -12,12 +12,13 @@
         <!-- Actions -->
         <div class="flex sm:flex-row shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <!-- Add product button -->
-            <button class="" mat-flat-button type="button" [color]="'accent'" [routerLink]="[ '/settings/user/all']"
-                (click)="save()">
+            <button [disabled]="disabledForm" mat-flat-button type="button" [color]="'accent'"
+                [routerLink]="[ '/settings/user/all']">
                 <span class="ml-2 mr-1">Cancelar</span>
             </button>
             <!-- Add product button -->
-            <button *ngIf="!id" class="ml-4" type="button" mat-flat-button [color]="'primary'" (click)="save()">
+            <button *ngIf="!id"  [disabled]="disabledForm" class="ml-4" type="button" mat-flat-button [color]="'primary'"
+                (click)="save()">
                 <span class="ml-2 mr-1">Guardar</span>
             </button>
 
@@ -28,7 +29,6 @@
     <div class="flex-auto p-6 sm:p-10  max-w-3xl overflow-hidden">
 
         <!-- Form -->
-
         <mat-tab-group *ngIf="this.id; else alternative" class="sm:px-2" [animationDuration]="'0'">
 
             <mat-tab label="Información Personal">
@@ -53,34 +53,41 @@
         </mat-tab-group>
 
 
-        <form [formGroup]="accountForm">
+
+
+       
+
             <ng-template #alternative>
-                <!-- Section -->
-                <div class="w-full">
-                    <div class="text-xl">Información Personal</div>
-                </div>
-                <div class="w-full mt-8">
-                    <div class="w-full max-w-3xl">
-                        <app-user-information  #userInformation  [showSaveButton]="false"></app-user-information>
+                <div class="border-b rounded-2xl bg-card p-10">
+                    <!-- Section -->
+                    <div class="w-full">
+                        <div class="text-xl">Información Personal</div>
                     </div>
-                </div>
-
- <!-- Divider -->
- <div class="my-10 border-t"></div>
-
-                <div class="w-full">
-                    <div class="text-xl">Seguridad</div>
-                </div>
-                <div class=" w-full mt-8">
-                    <!-- Current password -->
-                    <div class="w-full max-w-3xl">
-                        <app-user-security  #userSecurity [showSaveButton]="false" [passwordLabel]="'Nueva Contraseña'" >
-                        </app-user-security>
+                    <div class="w-full mt-8">
+                        <div class="w-full max-w-3xl">
+                            <app-user-information #userInformation [showSaveButton]="false"></app-user-information>
+                        </div>
                     </div>
 
+                    <!-- Divider -->
+                    <div class="my-10 border-t"></div>
+
+                    <div class="w-full">
+                        <div class="text-xl">Seguridad</div>
+                    </div>
+                    <div class=" w-full mt-8">
+                        <!-- Current password -->
+                        <div class="w-full max-w-3xl">
+                            <app-user-security #userSecurity [showSaveButton]="false"
+                                [passwordLabel]="'Nueva Contraseña'">
+                            </app-user-security>
+                        </div>
+
+                    </div>
                 </div>
             </ng-template>
-        </form>
+
+
 
 
     </div>

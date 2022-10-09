@@ -82,8 +82,5 @@ export class FuseVerticalNavigationBasicItemComponent implements OnInit, OnDestr
 
     navigateTo(link: string){
         this._router.navigateByUrl(link)
-        console.log("🚀 ~ file: basic.component.ts ~ line 83 ~ navigateTo ~ link", link)
-        
-
     }
 }

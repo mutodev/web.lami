@@ -41,7 +41,7 @@ export class CustomerInfoSearchComponent implements OnInit {
     })
   }
   setClientText(customer: Customer) {
-    if (customer.identificationType == 'N'){
+    if (customer.identificationType.code == 'NIT'){
       return customer.companyName
     } else {
       return `${customer.firstName} ${customer.lastName}`;

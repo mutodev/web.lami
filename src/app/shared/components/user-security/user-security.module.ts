@@ -16,10 +16,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserSecurityComponent } from './user-security.component';
 import { SharedModule } from 'app/shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [UserSecurityComponent],
-    imports: [ CommonModule,
+    imports: [
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,

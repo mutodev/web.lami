@@ -3,3 +3,6 @@ nggc:
 
 gm:
   ng generate module ${N}
+
+
+  # regionfolder.wrapWithRegion (Ctrl+M Ctrl+R)

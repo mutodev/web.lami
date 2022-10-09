@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseForm } from 'app/core/bases/base-form';
+import { NotifyService } from 'app/core/notify/notify.service';
 import { CustomerComponent } from 'app/shared/components/customer/customer.component';
 import { AsyncCustomValidator } from 'app/shared/validators/async-validator';
 import { relativeTimeThreshold } from 'moment';
@@ -24,7 +25,8 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private _lamiService: LamiService,
-    private _router: Router) {
+    private _router: Router,
+    private _notifyService: NotifyService) {
     super();
     this.id = this.route.snapshot.params['id'];
     this.actionName = this.id ? 'Editar' : 'Nuevo';
@@ -33,17 +35,17 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
 
   ngOnInit(): void {
-
+    
   }
 
 
   save() {
+    
     let data: Customer = this.customrComponent.formGroup.value;
-    data.identificationType = this.customrComponent.formGroup.get('identificationType').value.code;
     if (this.customrComponent.formGroup.valid) {
       this.customrComponent.formGroup.disable();
       this.disabledForm = true;
-      this.id ? this.update() : this.create(data);
+      this.id ? this.update(data) : this.create(data);
     } else {
       this.validateAllFormFields(this.customrComponent.formGroup);
     }
@@ -51,9 +53,14 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
   create(data: any) {
     this._lamiService.createCustomer(data).subscribe({
-      next: (item) => console.log('next: ', item),
+      next: (result) => {
+        this._router.navigateByUrl('/contact/customer/all');
+        this._notifyService.successAlert(result.message);
+      },
       error: (err) => {
-        console.log('err: ', err)
+        this._notifyService.showError(err);
+        this.disabledForm = false
+        this.customrComponent.formGroup.enable();
       },
       complete: () => {
         this.disabledForm = false
@@ -62,8 +69,21 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
     });
   }
 
-  update() {
-
+  update(data: any) {
+    this._lamiService.updateCustomer(this.id, data).subscribe({
+      next: (result) => {
+        this._router.navigateByUrl('/contact/customer/all');
+        this._notifyService.successAlert("Registro actualiazado sastifactoriamente.");
+      },
+      error: (err) => {
+        this._notifyService.showError(err);
+        this.disabledForm = false
+        this.customrComponent.formGroup.enable();
+      },
+      complete: () => {
+        
+      }
+    });
   }
 
 }

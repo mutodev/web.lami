@@ -5,13 +5,13 @@
             <!-- Identification -->
             <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
                 <mat-label>Tipo de documento</mat-label>
-                <mat-select required formControlName="identificationType">
+                <mat-select required formControlName="identificationTypeId">
                     <mat-option *ngFor="let identificationType of identificationTypes; let i=index"
-                        [value]="identificationType">
+                        [value]="identificationType.id">
                         {{identificationType.name}}</mat-option>
     
                 </mat-select>
-                <mat-error *ngIf="formGroup.get('identificationType').hasError('required') && formGroup.get('identificationType').touched" class="text-red">Campo
+                <mat-error *ngIf="formGroup.get('identificationTypeId').hasError('required') && formGroup.get('identificationTypeId').touched" class="text-red">Campo
                     requerido</mat-error>
             </mat-form-field>
             <!-- Identification -->
@@ -71,6 +71,13 @@
                 <mat-label>Teléfono</mat-label>
                 <input formControlName="phone" matInput>
                 <mat-error *ngIf="formGroup.get('phone').hasError('required') && formGroup.get('phone').touched">
+                    Campo requerido</mat-error>
+            </mat-form-field>
+             <!-- Email-->
+             <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Correo</mat-label>
+                <input formControlName="email" matInput>
+                <mat-error *ngIf="formGroup.get('email').hasError('required') && formGroup.get('email').touched">
                     Campo requerido</mat-error>
             </mat-form-field>
         </div>
