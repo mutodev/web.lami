@@ -31,6 +31,7 @@ export class UserInformationComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', Validators.nullValidator],
+      phone:  ['', Validators.nullValidator],
       roleId: ['', Validators.required],
       active: [true, Validators.required]
     });
