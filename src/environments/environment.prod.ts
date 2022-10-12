@@ -1,4 +1,5 @@
 export const environment = {
-    production: true,
-    endPoint: ''
+    production: false,
+    endPoint: 'http://52.3.32.125:1200/api'
 };
+
