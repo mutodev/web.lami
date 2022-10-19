@@ -49,36 +49,14 @@
         </div>
     </div>
 
-    <div class="inset-0 min-w-0 text-center  overflow-auto print:overflow-visible" cdkScrollable>
+    <div class="inset-0 min-w-0 text-center  " cdkScrollable>
         <!-- Main -->
         <div class="inline-block p-6 sm:p-10 text-left print:p-0">
 
             <!-- Invoice -->
-            <ng-container [formGroup]="formGroup">
-                <div
-                    class="w-240 pt-3 pb-10  px-10 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent">
-
-                    <!-- ORDER HEADER -->
-                    <div class="flex justify-end gap-x-4">
-                      
-                            <!-- NUMERATION -->
-                            
-                                    <div class="text-2xl tracking-tight text-secondary">Pedido</div>
-                                    <div class="text-2xl col-span-3">#9-0004</div>
-                         
-
-                            <!-- DATES -->
-                            <!-- <div class="mt-6">
-                                <ci-date-field #dateField title="Fecha"></ci-date-field>
-                              
-                            </div> -->
-                            
-
-                        
-                
-                        <!-- COMPANY BRAND -->
-                        <!-- <app-company-brand></app-company-brand> -->
-                    </div>
+    
+                <div  [formGroup]="formGroup"
+                    class="w-240 pt-3 pb-10  px-10 rounded-2xl shadow bg-card ">
 
 
                     <div class="flex  gap-x-8 flex-row justify-between ">
@@ -112,16 +90,13 @@
                        
                     </div>
 
-
-
-
                     <!--ITEM TABLE-->
                     <div class="mt-12">
                         <ci-item-table #itemsApp [formGroup]="formGroup"></ci-item-table>
                     </div>
 
                 </div>
-            </ng-container>
+     
         </div>
     </div>
 </div>

@@ -68,7 +68,7 @@
                                     </div>
                                     <!-- # Cliente -->
                                     <div class="hidden md:block">
-                                        {{order.customer.name}}
+                                        {{order.customer.firstName}}    {{order.customer.lastName}}
                                     </div>
                                     <!-- Total -->
                                     <div>
@@ -76,20 +76,17 @@
                                     </div>
                                     <!-- DATE -->
                                     <div>
-                                        {{order.date}}
+                                        {{order.date | date}}
                                     </div>
                                     <!-- DUE DATE -->
                                     <div>
-                                        {{order.dueDate}}
+                                        {{order.dueDate | date}}
                                     </div>
                                      <!-- STATUS -->
                                      <div>
-                                        <span [ngClass]="{
-                                            'bg-blue-200 text-blue-800': order.status == 'sent',
-                                            'bg-green-200 text-green-800': order.status == 'closed',
-                                            'bg-red-200 text-red-800': order.status == 'open'}"
+                                        <span 
                                         class="bg-red-200 text-red-800 inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase">
-                                                       {{order.status | orderStatus}}</span>
+                                                      por cobrar</span>
                                     </div>
 
 

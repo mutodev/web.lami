@@ -92,6 +92,9 @@ const config = {
             xl: '1440px'
         },
         extend  : {
+            brightness: {
+                700: '7',
+              },
             animation               : {
                 'spin-slow': 'spin 3s linear infinite'
             },

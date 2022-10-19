@@ -50,8 +50,8 @@
                     <ng-container *ngFor="let item of quotation?.orderDetails; let i=index">
 
                         <!-- Items -->
-                        <div class="col-span-4 py-3">{{item?.name}}</div>
-                        <div class="col-span-2 text-right">{{item?.price | currency}}</div>
+                        <div class="col-span-4 py-3">{{item?.description}}</div>
+                        <div class="col-span-2 text-right">{{item?.value | currency}}</div>
                         <div class="col-span-1 text-center">{{item?.discount}}%</div>
                         <div *ngIf="item?.tax?.name; else elseTemplate" class="col-span-2 text-center">
                             {{item?.tax?.name}} ({{item?.tax?.percentage}}%)
@@ -60,7 +60,7 @@
                             <div class="col-span-2 text-center">0%</div>
                         </ng-template>
 
-                        <div class="col-span-1 text-center">{{item?.quantity }}</div>
+                        <div class="col-span-1 text-center">{{item?.amount }}</div>
                         <div class="col-span-2 text-right">{{item?.total | currency}}</div>
 
                         <!-- Divider -->

@@ -27,7 +27,10 @@ export const purchaseRoutes: Routes = [
         }
     },
     { 
-        path: 'edit:id', component: PurchaseDetailComponent 
+        path: 'edit/:id', component: PurchaseDetailComponent,
+        resolve: {
+            order: OrderResolver
+        }
     },
     { 
         path: 'view/:id',
