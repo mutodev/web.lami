@@ -24,7 +24,7 @@
         <!-- BODY -->
         <div class="flex flex-nowrap justify-between border-b cursor-pointer  hover:bg-gray-50"
             *ngFor="let item of filteredData | async">
-            <mat-option class="w-full p-0" [value]="item[selectedValue]">
+            <mat-option class="w-full p-0" [value]="item">
                 <div class="w-full p-3" *ngFor="let col of displayColumns">
                     <div class="tracking-tight font-normal text-base">{{item[col]}}
                     </div>

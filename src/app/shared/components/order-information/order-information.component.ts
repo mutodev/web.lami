@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment_ from 'moment';
+
+const moment = moment_;
 
 @Component({
   selector: 'ci-order-information',
@@ -17,5 +20,14 @@ export class OrderInformationComponent implements OnInit {
   ngOnInit(): void {
    
   }
+
+  get date(){
+    return moment(this.dateNow).format('YYYY-MM-DD');
+  }
+
+  get dueDate(){
+    return moment(this.validityDate).format('YYYY-MM-DD');
+  }
+
 
 }

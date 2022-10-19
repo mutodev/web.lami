@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
 import { Customer } from 'app/modules/contact/customer/clients.types';
 import { Subject } from 'rxjs';
@@ -26,7 +27,8 @@ export class CustomerInfoSearchComponent implements OnInit {
   formGroup: FormGroup;
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _baseListService: BaseListService,
+  constructor(private _lamiService: LamiService,
+    
     private _formBuilder: FormBuilder, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -40,7 +42,8 @@ export class CustomerInfoSearchComponent implements OnInit {
       customer: ['', [Validators.required]]
     })
   }
-  setClientText(customer: Customer) {
+  
+  setClientText(customer: any) {
     if (customer.identificationType.code == 'NIT'){
       return customer.companyName
     } else {
@@ -65,9 +68,10 @@ export class CustomerInfoSearchComponent implements OnInit {
   }
 
   getClients() {
-    this._baseListService.source$
+    this._lamiService.customers$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((clients: any[]) => {
+        console.log('clients :>> ', clients);
         this.clients = clients;
       });
   }

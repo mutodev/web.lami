@@ -3,15 +3,16 @@
         <!-- Identification -->
         <mat-form-field class="flex-auto gt-xs:pr-3 fuse-mat-dense">
             <mat-select  [placeholder]="'Seleccione Serie'" required formControlName="identification_type">
-                <mat-option >test</mat-option>
-                 
-          
+                <mat-option value="BQ" >BQ</mat-option>
+                <mat-option  value="BBQ">BBQ</mat-option>
+                <mat-option  value="PSBQ">PSBQ</mat-option>
             </mat-select>
            
         </mat-form-field>
         <!-- Identificacion -->
         <div class="grid gap-y-2">
             <div class="flex w-full gap-4">
+               
                 <div class="text-md font-medium leading-5 text-secondary basis-3/12" >Fecha del Pedido</div>
                 <div class="text-lg leading-5 text-secondary w-full" >{{dateNow | date}}</div>
             </div>

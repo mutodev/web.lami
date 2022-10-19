@@ -69,16 +69,13 @@ export class BaseListService {
             }
         }).pipe(
             tap((response: any) => {
-               
-               
                 let pagination: Pagination = {
-                    length: response.data.total,
-                    size: response.data.per_page,
-                    page: response.data.current_page
+                    length: response?.data?.total,
+                    size: response?.data?.per_page,
+                    page: response?.data?.current_page
                 };
                 this._pagination.next(pagination);
                 this._source.next(response.data.data);
-                console.log("🚀 ~ file: base-list.service.ts ~ line 81 ~ BaseListService ~ tap ~ response.data.data", response.data.data)
             })
         );
     }

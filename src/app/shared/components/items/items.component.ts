@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { Product } from 'app/shared/interfaces/product';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -13,7 +15,11 @@ export class ItemsComponent implements OnInit {
 
   @Input() formGroup: FormGroup;
   products: any[] = [];
-  taxes: any[];
+  taxes: any[] = [{
+    id:'1',
+    name:'IVA',
+    percetage: '19'
+  }];
   itemsFormGroup = new FormArray([]);
 
   discount: number;
@@ -24,12 +30,12 @@ export class ItemsComponent implements OnInit {
 
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _formBuilder: FormBuilder, public _baseListService: BaseListService,) { }
+  constructor(private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService:LamiService) { }
 
 
   ngOnInit(): void {
     this.getProducts();
-    this.getTaxes();
+    //this.getTaxes();
     Array.from(Array(1)).forEach(() => this.itemsFormGroup.push(this.addItemRow()));
     this.validations();
   }
@@ -44,7 +50,7 @@ export class ItemsComponent implements OnInit {
 
     //Items
     const itemsFormGroup = this._formBuilder.group({
-      _id: [''],
+      id: [''],
       name: ['', Validators.required],
       description: [''],
       code: [''],
@@ -56,7 +62,7 @@ export class ItemsComponent implements OnInit {
       taxObject: 0,
       subTotal: [0],
       currencyTax: [''],
-      total: ['', Validators.nullValidator],
+      total: [0, Validators.nullValidator],
 
     });
 
@@ -86,7 +92,7 @@ export class ItemsComponent implements OnInit {
 
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('discountTotal').setValue(discount.toString());
-        itemsFormGroup.get('total').setValue(total.toString());
+        itemsFormGroup.get('total').setValue(total);
         itemsFormGroup.get('currencyTax').setValue(currencyTax.toString());
         this.calculateSummary();
       });
@@ -106,7 +112,7 @@ export class ItemsComponent implements OnInit {
 
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
-        itemsFormGroup.get('total').setValue(total.toString());
+        itemsFormGroup.get('total').setValue(total);
         itemsFormGroup.get('currencyTax').setValue(currencyTax.toString());
         this.calculateSummary();
       });
@@ -126,7 +132,7 @@ export class ItemsComponent implements OnInit {
 
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
-        itemsFormGroup.get('total').setValue(total.toString());
+        itemsFormGroup.get('total').setValue(total);
         itemsFormGroup.get('currencyTax').setValue(currencyTax.toString());
         this.calculateSummary();
       });
@@ -147,7 +153,7 @@ export class ItemsComponent implements OnInit {
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
         itemsFormGroup.get('currencyTax').setValue(currencyTax.toString());
-        itemsFormGroup.get('total').setValue(total.toString());
+        itemsFormGroup.get('total').setValue(total);
         this.calculateSummary();
       });
     return itemsFormGroup;
@@ -167,7 +173,7 @@ export class ItemsComponent implements OnInit {
   }
 
   getTaxById(taxId: string) {
-    return this.taxes.find(item => item._id === taxId);
+    return this.taxes.find(item => item.id === taxId);
   }
 
   totalcTaxes() {
@@ -218,9 +224,9 @@ export class ItemsComponent implements OnInit {
 
   getProducts() {
     //Get Products
-    this._baseListService.products$
+    this._lamiService.products$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((products: any[]) => {
+      .subscribe((products) => {
         this.products = products;
       });
   }
@@ -237,7 +243,9 @@ export class ItemsComponent implements OnInit {
 
   //SELECTED TEXTS
   setProductText(item: any) {
-    return `${item.name}- Ref. ${item.code}`;
+   
+    if(item)
+    return `${item.name}`;
   }
 
   setTaxtText(item: any) {
@@ -246,14 +254,15 @@ export class ItemsComponent implements OnInit {
   // END
 
   selectedItem($event: any, item: FormGroup) {
-    item.get('price').setValue($event.sku.price);
+    console.log($event)
+    item.get('price').setValue($event.price);
     item.get('description').setValue($event.description);
     item.get('tax').setValue('');
-    item.get('code').setValue($event.code);
-    //item.get('discount').setValue(0); //TODO: update
-    item.get('total').setValue($event.sku.price);
-    item.get('_id').setValue($event._id);
+    // item.get('code').setValue($event.code);
+    item.get('discount').setValue(0); //TODO: update
+    item.get('total').setValue($event.price);
     item.get('quantity').setValue(1);
+    item.get('id').setValue($event.id);
   }
 
 }

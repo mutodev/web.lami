@@ -127,15 +127,17 @@ export class SelectMultiColumnsComponent implements OnInit, OnDestroy, ControlVa
 
         this.formControlSelect.valueChanges.subscribe((val) => {
             if (val) {
-                this.selectedItem = this.dataSource.find((a) => a[this.selectedValue] === val);
+                this.selectedItem = val;
                 if (this.selectedItem) {
                     if (typeof this.selectedText === 'string') {
                         this.textValue = this.selectedItem ? this.selectedItem[this.selectedText] : '';
                     } else {
+                        console.log(this.selectedText)
                         this.textValue = this.selectedText(this.selectedItem || {});
                     }
                 }
-                this.selectedChange.emit(this.selectedItem);
+                
+                this.selectedChange.emit(val);
             }
             if (this.onChanged)
                 this.onChanged(val);

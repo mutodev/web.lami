@@ -22,10 +22,10 @@
                             class="w-full fuse-mat-dense border-none border-opacity-100">
                             <select-multi-columns [dataSource]="products" [widthList]="'500px'"
                                 labelButton="Nuevo Producto" [placeholder]="'Seleccionar Producto ó Servicio'"
-                                [headers]="['Nombre', 'Referencia', 'Descripción']"
-                                [displayColumns]="['name', 'code', 'description']" [customStyle]="{width: '100%'}"
-                                selectedValue="_id" [selectedText]="setProductText" [formControlName]="'name'"
-                                (selectedChange)="selectedItem($event, item)" (onClickButton)="openProductDialog()">
+                                [headers]="['Nombre', 'Descripción']"
+                                [displayColumns]="['name', 'description']" [customStyle]="{width: '100%'}"
+                                selectedValue="id" [selectedText]="setProductText" [formControlName]="'name'"
+                                (selectedChange)="selectedItem($event,item)" (onClickButton)="openProductDialog()">
                             </select-multi-columns>
                         </mat-form-field>
 
@@ -35,7 +35,7 @@
 
                         <mat-form-field floatLabel="never" appearance="legacy"
                             class="w-full fuse-mat-dense border-none border-opacity-100">
-                            <input formControlName="price" [placeholder]="'Precio'" class="border-none" matInput>
+                            <input [value]="item.get('price').value   | currency" formControlName="price" [placeholder]="'Precio'" class="border-none" matInput>
                         </mat-form-field>
                     </div>
                     <!-- Desc -->
@@ -44,8 +44,16 @@
                             <input formControlName="discount" [placeholder]="'Desc%'" matInput>
                         </mat-form-field>
                     </div>
+                    <!-- PROJECT -->
+                    <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
+                        <mat-select  [placeholder]="'Proyecto'"  >
+                            <mat-option value="Digital" >Digital</mat-option>
+                            <mat-option  value="Retail">Retail</mat-option>
+                        </mat-select>
+                       
+                    </mat-form-field>
                     <!-- iva -->
-                    <div class="col-span-2 self-center text-left">
+                    <!-- <div class="col-span-2 self-center text-left">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
                             <search-mat-select #taxSelect [customStyle]="{width: '100%'}" [placeholder]="'Proyecto'"
                                 labelButton="Nuevo Impuesto" [dataSource]="taxes"
@@ -53,7 +61,7 @@
                                 (onClickButton)="openTaxDialog()" [formControlName]="'tax'">
                             </search-mat-select>
                         </mat-form-field>
-                    </div>
+                    </div> -->
                     <!-- Cantidad -->
                     <div class="col-span-1 self-center text-left">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">

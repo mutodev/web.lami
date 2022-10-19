@@ -10,25 +10,26 @@ import { APIResponse } from "app/shared/interfaces/response";
 import { Customer } from "./clients.types";
 
 
+
+
 @Injectable({
     providedIn: 'root'
 })
-export class ClientPaginationResolver implements Resolve<any> {
+export class CustomersResolver implements Resolve<any> {
     baseUrl:string = environment.endPoint;
-    constructor(public _baseListService: BaseListService) {
+    constructor(public _lamiService: LamiService) {
 
     }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: Pagination; clients: any[] }> {
-        this._baseListService.apiUrl = '/customers';
-        return this._baseListService.getDataSource();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<APIResponse<Customer[]>> {
+        return this._lamiService.getCustomers()
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class ClientsResolver implements Resolve<any> {
+export class PaginationClientsResolver implements Resolve<any> {
 
     constructor(public _baseListService: BaseListService) {
 

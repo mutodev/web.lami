@@ -42,10 +42,10 @@
                 <span class="ml-2 mr-1">Guardar</span>
             </button>
              <!-- Save button -->
-             <button (click)="save()" class="ml-4" mat-flat-button [color]="'primary'">
+             <!-- <button (click)="save()" class="ml-4" mat-flat-button [color]="'primary'">
                 <mat-icon [svgIcon]="'heroicons_outline:check'"></mat-icon>
                 <span class="ml-2 mr-1">Guardar & Pagar</span>
-            </button>
+            </button> -->
         </div>
     </div>
 
@@ -83,17 +83,7 @@
 
                     <div class="flex  gap-x-8 flex-row justify-between ">
 
-                         <!-- PURCHASE Infomration-->
-                         <div class="basis-3/6 flex-start">
-                            <div class="flex items-center justify-center my-5">
-                                <div class="flex-auto border-b"></div>
-                                <div class="flex-0 text-lg font-medium leading-5 text-secondary">
-                                    Información del Pedido
-                                </div>
-                                <div class="flex-auto border-b"></div>
-                            </div>
-                            <ci-order-information></ci-order-information>
-                        </div>
+                      
 
                         <!-- CUSTOMER SEARCH-->
                         <div class="basis-3/6 flex-start">
@@ -105,6 +95,18 @@
                                 <div class="flex-auto border-b"></div>
                             </div>
                             <ci-customer-search #customerApp></ci-customer-search>
+                        </div>
+
+                           <!-- PURCHASE Infomration-->
+                           <div class="basis-3/6 flex-start">
+                            <div class="flex items-center justify-center my-5">
+                                <div class="flex-auto border-b"></div>
+                                <div class="flex-0 text-lg font-medium leading-5 text-secondary">
+                                    Información del Pedido
+                                </div>
+                                <div class="flex-auto border-b"></div>
+                            </div>
+                            <ci-order-information #orderInfoApp></ci-order-information>
                         </div>
 
                        

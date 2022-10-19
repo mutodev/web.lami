@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { Customer, IdentificationType } from 'app/modules/contact/customer/clients.types';
 import { Store } from 'app/modules/settings/store/store.types';
 import { User } from 'app/modules/settings/user/user.types';
+import { Order } from 'app/shared/interfaces/order';
+import { Product } from 'app/shared/interfaces/product';
 import { APIResponse } from 'app/shared/interfaces/response';
 import { Type } from 'app/shared/interfaces/setting.types';
 import { environment } from 'environments/environment';
-import { BehaviorSubject, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 import { STORE_DATA, USER_DATA } from './moke-data';
 
 @Injectable({
@@ -60,7 +62,7 @@ export class LamiService {
             }));
     }
 
-    updateUser(id: string, data: any):  Observable<APIResponse<User>> {
+    updateUser(id: string, data: any): Observable<APIResponse<User>> {
         return this._httpClient.patch<APIResponse<User>>(`${environment.endPoint}/user/${id}`, data);
     }
 
@@ -107,9 +109,39 @@ export class LamiService {
     /* #region CUSTOMER  */
 
     private _customer: BehaviorSubject<Customer | null> = new BehaviorSubject(null);
+    private _customers: BehaviorSubject<Customer[] | null> = new BehaviorSubject(null);
 
     get customer$(): Observable<Customer> {
         return this._customer.asObservable();
+    }
+
+
+    get customers$(): Observable<Customer[]> {
+        return this._customers.asObservable();
+    }
+
+    getCustomers(): Observable<APIResponse<Customer[]>> {
+        return this._httpClient.get<Customer[]>(`${environment.endPoint}/customer`).pipe(
+            map((result: any) => {
+                console.log('result.data :>> ', result.data);
+                let newData = result.data.map((item: any) => {
+                    return {
+                        name: item?.firstName + ' ' + item?.lastName,
+                        ...item
+                    }
+
+                })
+                return {
+                    message: result.message,
+                    status: result.status,
+                    data: newData
+                }
+
+            }),
+            tap((result: any) => {
+                this._customers.next(result.data);
+            })
+        );
     }
 
     createCustomer(data: any): Observable<APIResponse<Customer>> {
@@ -125,9 +157,47 @@ export class LamiService {
             }));
     }
 
-    updateCustomer(id: string, data: any):  Observable<APIResponse<Customer>> {
+    updateCustomer(id: string, data: any): Observable<APIResponse<Customer>> {
         return this._httpClient.patch<APIResponse<Customer>>(`${environment.endPoint}/customer/${id}`, data);
     }
     /* #endregion */
+
+    /* #region  PRODUCT */
+    private _products: BehaviorSubject<Product[] | null> = new BehaviorSubject(null);
+
+    get products$(): Observable<Product[]> {
+        return this._products.asObservable();
+    }
+
+    getProducts(): Observable<APIResponse<Product[]>> {
+        return this._httpClient.get<Product[]>(`/product`).pipe(
+            tap((result: any) => {
+                this._products.next(result.data);
+            })
+        );
+    }
+    /* #endregion */
+
+    /* #region  ORDER */
+
+    private _order: BehaviorSubject<Order| null> = new BehaviorSubject(null);
+
+    createOrder(order: Order): Observable<APIResponse<Order>> {
+        return this._httpClient.post<APIResponse<Order>>(`${environment.endPoint}/order`, order);
+    }
+
+    get order$(): Observable<Order> {
+        return this._order.asObservable();
+    }
+
+    getOrderById(id: string) : Observable<APIResponse<Order>>{
+        return this._httpClient.get<APIResponse<Order>>(`${environment.endPoint}/order/${id}`).pipe(
+            tap((result) => {
+                this._order.next(result.data);
+            }));
+    }
+    /* #endregion */
+
+
 
 }

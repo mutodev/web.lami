@@ -11,12 +11,19 @@
                 <!-- COLUMN 2 -->
                 <div>
                     <mat-form-field class="w-full fuse-mat-dense c-mb-0  c-h-35 fuse-mat-emphasized">
-                        <search-mat-select #clientSearchSelect [customStyle]="{width: '100%'}" required
+                        <select-multi-columns [dataSource]="clients" [widthList]="'500px'"
+                        labelButton="Nuevo Cliente" [placeholder]="'Seleccionar Cliente'"
+                        [headers]="['Identificación','Nombre']"  (selectedChange)="clientChange($event)"
+                        [displayColumns]="['identification', 'name']" [customStyle]="{width: '100%'}"
+                        selectedValue="id" [selectedText]="setClientText" [formControlName]="'customer'"
+                        (onClickButton)="openClientDialog()">
+                    </select-multi-columns>
+                        <!-- <search-mat-select #clientSearchSelect [customStyle]="{width: '100%'}" required
                             [placeholder]="'Seleccionar cliente'" labelButton="Nuevo cliente" [dataSource]="clients"
                             [filterColumns]="['first_name','last_name', 'identification']" selectedValue="_id"
                             (selectionChange)="clientChange($event)" (onClickButton)="openClientDialog()"
                             [selectedText]="setClientText" formControlName="customer">
-                        </search-mat-select>
+                        </search-mat-select> -->
                     </mat-form-field>
                 </div>
             </div>

@@ -9,7 +9,7 @@ import { customers as customersData , identficationType as identificationTypeDat
 export class CustomerMockApi {
 
     private _customers: any[] = customersData;
-    private _identificationTypes: any[] = identificationTypeData;
+    private _identificationTypes: any = identificationTypeData;
     /**
     * Constructor
     */
@@ -25,7 +25,7 @@ export class CustomerMockApi {
         //  GET - All
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('/customers', 300)
+            .onGet('/customer', 300)
             .reply(({ request }) => {
                 let data: any = {}
 
@@ -34,24 +34,41 @@ export class CustomerMockApi {
 
                 // Clone the products
                 let customers: any[] | null = cloneDeep(this._customers);
-                data.result = customers
 
-                // Return the response
+                const page = request.params.get('page');
+
+                if (page) {
+                    data.data =customers
+                    console.log('data :>> ', data);
+                    // Return the response
+                    return [
+                        200,
+                        {
+                            data,
+                            message,
+                            status
+                            
+                        }
+                    ];
+                }
+
                 return [
                     200,
                     {
-                        data,
+                        data: customers,
                         message,
                         status
+                        
                     }
                 ];
+                
             });
 
          // -----------------------------------------------------------------------------------------------------
         //  GET IDENTIFICATION TYPE
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('/customer/identification-types', 300)
+            .onGet('/setting/IDENTIFICATION_TYPE', 300)
             .reply(({ request }) => {
                 let data: any = {}
 
@@ -60,13 +77,13 @@ export class CustomerMockApi {
 
                 // Clone the products
                 let identificationtypes: any[] | null = cloneDeep(this._identificationTypes);
-                data.result = identificationtypes;
-
+                data = identificationtypes;
+              
                 // Return the response
                 return [
                     200,
                     {
-                        data,
+                        ...identificationtypes,
                         message,
                         status
                     }
