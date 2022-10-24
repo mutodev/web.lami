@@ -7,7 +7,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { SearchMatSelectModule } from 'app/shared/controls/custom-mat-select/search-mat-select.module';
 import { CustomerComponent } from './customer.component';
 
 
@@ -19,6 +21,7 @@ import { CustomerComponent } from './customer.component';
         CommonModule,
         MatButtonModule,
         MatFormFieldModule,
+        MatRadioModule,
         FormsModule,
         ReactiveFormsModule,
         MatIconModule,
@@ -26,6 +29,7 @@ import { CustomerComponent } from './customer.component';
         MatProgressBarModule,
         MatRippleModule,
         MatSelectModule,
+        SearchMatSelectModule
     ],
     exports: [
         CustomerComponent,

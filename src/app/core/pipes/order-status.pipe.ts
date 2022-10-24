@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class OrderStatusPipe implements PipeTransform {
 
   transform(value: any, args?: any): String {
-   console.log(value, args)
     if(value == "open")
       return "Pendiente por pago";
     if(value == "closed")

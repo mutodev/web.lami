@@ -46,7 +46,7 @@ export class CIViewerDocumentComponent implements OnInit {
       }
     });
 
-    console.log(`Summary`, summary);
+
 
     this.totalcTaxes();
     this.subTotal = summary.map((item: any) => { return item.total }).reduce((acc, value) => Number(acc) + Number(value), 0);

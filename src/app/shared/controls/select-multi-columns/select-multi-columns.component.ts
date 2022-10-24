@@ -132,7 +132,7 @@ export class SelectMultiColumnsComponent implements OnInit, OnDestroy, ControlVa
                     if (typeof this.selectedText === 'string') {
                         this.textValue = this.selectedItem ? this.selectedItem[this.selectedText] : '';
                     } else {
-                        console.log(this.selectedText)
+
                         this.textValue = this.selectedText(this.selectedItem || {});
                     }
                 }

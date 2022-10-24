@@ -39,4 +39,8 @@ export class CustomerListComponent extends BaseList implements OnInit {
     this._router.navigate(['./new'], { relativeTo: this._activatedRoute });
   }
 
+   getStage(source: string): string{
+    return source == 'L' ? 'Posible cliente': 'Cliente';
+  }
+
 }

@@ -1,43 +1,13 @@
 <mat-select [placeholder]="placeholder" #select [formControl]="formControlSelect" [ngStyle]="customStyle"
     [ngClass]="customClass" (blur)="onTouched()" [multiple]="multiple">
     <mat-option>
-        <ngx-mat-select-search [formControl]="dataFilterSelect" [placeholderLabel]="labelSearch"
+        <ngx-mat-select-search [formControl]="dataFilterCrtl" [placeholderLabel]="labelSearch"
             noEntriesFoundLabel="Sin resultado...">
         </ngx-mat-select-search>
     </mat-option>
-    <mat-select-trigger>
-        {{textValue}}
-        <span *ngIf="multiple && formControlSelect.value?.length > countDisplayField" class="additional-selection">
-            (y {{formControlSelect.value.length - countDisplayField}} {{formControlSelect.value?.length === countDisplayField + 1 ? 'mas' : 'mas'}})
-          </span>
-    </mat-select-trigger>
+    <mat-option *ngFor="let data of filteredData | async" [value]="data.code">
+        {{data.name }}
+      </mat-option>
 
-    <div [ngStyle]="{'padding-left': multiple ? '5px' : ''}" class="flex flex-col flex-auto w-full overflow-x-auto">
-        <!-- BODY -->
-        <div class="flex flex-nowrap justify-between border-b cursor-pointer  hover:bg-gray-50"
-            *ngFor="let item of filteredData | async">
-            <mat-option class="w-full p-0" [value]="selectedText ? item[selectedValue] : item">
-                <div class="w-full p-3">
-                    <div class="tracking-tight font-normal text-base"> {{getText(item)}}
-                    </div>
-                </div>
-            </mat-option>
-        </div>
-        <!-- SPACE -->
-        <div class="flex flex-nowrap justify-between" *ngIf="showButton">
-            <div class="w-full py-6 text-white">
-
-            </div>
-            <!-- ACTION -->
-            <div class="flex w-full flex-nowrap justify-between border-b items-center fixed bottom-0">
-                <div class="w-full p-3 bg-white">
-                    <div class="font-medium tracking-tight text-secondary">
-                        <button (click)="clickButton()" type="button"
-                            class="underline cursor-pointer text-primary text-base">{{labelButton}}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  
 </mat-select>

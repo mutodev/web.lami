@@ -34,6 +34,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CIViewerDocumentModule } from 'app/shared/components/viewer-document/viewer-document.module';
 import { PurchaseViewComponent } from './view/view.component';
 
+
 @NgModule({
     declarations: [
         PurchaseDetailComponent, 
@@ -54,7 +55,7 @@ import { PurchaseViewComponent } from './view/view.component';
         OrderInformationModule,
         CustomerDialogModule,
          MaintenanceModule,
-         CIViewerDocumentModule,
+         CIViewerDocumentModule
     ],
     exports: [],
     providers: [],

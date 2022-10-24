@@ -7,6 +7,7 @@ import { Order } from 'app/shared/interfaces/order';
 import { Product } from 'app/shared/interfaces/product';
 import { APIResponse } from 'app/shared/interfaces/response';
 import { Type } from 'app/shared/interfaces/setting.types';
+import { Uhbt } from 'app/shared/interfaces/UHBT';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 import { STORE_DATA, USER_DATA } from './moke-data';
@@ -123,7 +124,6 @@ export class LamiService {
     getCustomers(): Observable<APIResponse<Customer[]>> {
         return this._httpClient.get<Customer[]>(`${environment.endPoint}/customer`).pipe(
             map((result: any) => {
-                console.log('result.data :>> ', result.data);
                 let newData = result.data.map((item: any) => {
                     return {
                         name: item?.firstName + ' ' + item?.lastName,
@@ -180,7 +180,7 @@ export class LamiService {
 
     /* #region  ORDER */
 
-    private _order: BehaviorSubject<Order| null> = new BehaviorSubject(null);
+    private _order: BehaviorSubject<Order | null> = new BehaviorSubject(null);
 
     createOrder(order: Order): Observable<APIResponse<Order>> {
         return this._httpClient.post<APIResponse<Order>>(`${environment.endPoint}/order`, order);
@@ -190,7 +190,7 @@ export class LamiService {
         return this._order.asObservable();
     }
 
-    getOrderById(id: string) : Observable<APIResponse<Order>>{
+    getOrderById(id: string): Observable<APIResponse<Order>> {
         return this._httpClient.get<APIResponse<Order>>(`${environment.endPoint}/order/${id}`).pipe(
             tap((result) => {
                 this._order.next(result.data);
@@ -199,5 +199,21 @@ export class LamiService {
     /* #endregion */
 
 
+
+    /* #region  U_HBT */
+
+    private _Uhbt: BehaviorSubject<Uhbt | null> = new BehaviorSubject(null);
+
+    get U_HBT$(): Observable<Uhbt> {
+        return this._Uhbt.asObservable();
+    }
+
+    getU_HBT(id: string): Observable<Uhbt[]> {
+        return this._httpClient.get<Uhbt[]>(`${environment.endPoint}/setting/${id}`).pipe(
+            map((result: any) => {
+                return result.settingDetail;
+            }));
+    }
+    /* #endregion */
 
 }

@@ -39,7 +39,6 @@ export class CustomerMockApi {
 
                 if (page) {
                     data.data =customers
-                    console.log('data :>> ', data);
                     // Return the response
                     return [
                         200,

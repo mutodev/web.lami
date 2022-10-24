@@ -254,7 +254,7 @@ export class ItemsComponent implements OnInit {
   // END
 
   selectedItem($event: any, item: FormGroup) {
-    console.log($event)
+
     item.get('price').setValue($event.price);
     item.get('description').setValue($event.description);
     item.get('tax').setValue('');

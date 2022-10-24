@@ -33,7 +33,7 @@ export class OrderMockApi {
                 let status = ''
 
                 const id = request.params.get('id');
-                console.log("🚀 ~ file: api.ts ~ line 36 ~ OrderMockApi ~ .reply ~ id", id)
+
 
                 if (id) {
                     // Clone the products

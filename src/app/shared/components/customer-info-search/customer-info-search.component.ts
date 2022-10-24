@@ -71,7 +71,6 @@ export class CustomerInfoSearchComponent implements OnInit {
     this._lamiService.customers$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((clients: any[]) => {
-        console.log('clients :>> ', clients);
         this.clients = clients;
       });
   }

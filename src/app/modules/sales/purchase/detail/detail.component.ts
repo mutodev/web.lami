@@ -55,7 +55,6 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
 
 
   buildOrderRequest(): Order {
-    console.log('this.formGroup :>> ', this.formGroup.value);
     let orderDetails: OrderDetail[] = this.formGroup
       .get('orderDetails').value
       .map((item: any) => {

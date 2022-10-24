@@ -47,7 +47,6 @@ export class UserDetailComponent extends BaseForm implements OnInit {
     if (this.userSecurityComponent.securityForm.valid && this.userInformationComponent.accountForm.valid) {
 
       this.userSecurityComponent.securityForm.removeControl('passwordConfirm');
-      console.log('this.userSecurityComponent.securityForm :>> ', this.userSecurityComponent.securityForm.value);
       this.userInformationComponent.accountForm.disable();
       this.userSecurityComponent.securityForm.disable();
       this.disabledForm = true;
@@ -64,7 +63,7 @@ export class UserDetailComponent extends BaseForm implements OnInit {
     this._lamiService.updateUser(this.id, { ...this.userInformationComponent.accountForm.value, ...this.userSecurityComponent.securityForm.value })
       .subscribe({
         next: (result: any) => {
-          console.log('result :>> ', result);
+
           this._router.navigateByUrl('/settings/user/all');
         },
         error: (error) => this._notifyService.error500(error),
