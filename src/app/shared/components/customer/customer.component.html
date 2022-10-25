@@ -186,7 +186,7 @@
                 <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers"
                     class="flex-auto gt-xs:pr-3 fuse-mat-dense">
                     <mat-label>Grupo</mat-label>
-                    <mat-select formControlName="CUSTOMER_GROUP">
+                    <mat-select formControlName="groupCode">
                         <mat-option *ngFor="let item of CUSTOMER_GROUP; let i=index" [value]="item.code">
                             {{item.name}}</mat-option>
 
