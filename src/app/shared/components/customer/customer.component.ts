@@ -25,14 +25,20 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   formGroup: FormGroup;
   customerType: any[] = [];
   genders: any[] = [];
-  isNIT:boolean= false;
+  isNIT: boolean = false;
+  labelName: string = 'Nombre completo'
   customerComponent = CustomerComponent;
   identificationTypes: IdentificationType[] = [];
   identificationType
   static success: boolean = false;
   U_HBT_MunMed: Uhbt[] = [];
-  U_HBT_MedPag: Uhbt[]  = [];
-
+  U_HBT_MedPag: Uhbt[] = [];
+  U_HBT_RegTrib: Uhbt[] = [];
+  CUSTOMER_GROUP: Uhbt[] = [];
+  payTermsGrpCode: Uhbt[] = [];
+  salesPersonCode: Uhbt[] = [];
+  U_HBT_Nacional: Uhbt[] = [];
+  U_HBT_RegFis: Uhbt[] = [];
 
   // @ViewChild('U_HBT_MunMedSelect', { static: true }) U_HBT_MunMedSelectComponent: SearchMatSelectComponent;
   @ViewChildren('U_HBT_Group')
@@ -53,30 +59,33 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
   ngAfterViewInit(): void {
 
-   this.UHBTGroup.changes.subscribe(comps=>{
-    this.U_HBT_MunMedSelectComponent =  comps.find((p: any) => p.id == 'U_HBT_MunMed');
-    this.U_HBT_MedPagSelectComponent =  comps.find((p: any) => p.id == 'U_HBT_MedPag');
-    console.log('this.U_HBT_MedPagSelectComponent', this.U_HBT_MedPagSelectComponent)
-  
-   })
+    this.UHBTGroup.changes.subscribe(comps => {
+      this.U_HBT_MunMedSelectComponent = comps.find((p: any) => p.id == 'U_HBT_MunMed');
+      this.U_HBT_MedPagSelectComponent = comps.find((p: any) => p.id == 'U_HBT_MedPag');
+      console.log('this.U_HBT_MedPagSelectComponent', this.U_HBT_MedPagSelectComponent)
+
+    })
 
   }
 
   ngOnInit(): void {
     this._eventService.addEvent({ name: 'saveClient', event: this.save.bind(this) });
     this.validations();
+    this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { console.log('result', result); this.salesPersonCode = result });
+    this._lamiService.getU_HBT('PayTermsGrpCode').subscribe((result: Uhbt[]) => { this.payTermsGrpCode = result });
+    console.log('salesPersonCode', this.salesPersonCode)
 
-    this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[])=>{
+    this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
       this.identificationTypes = identificationTypes;
 
-    if(this.id)
-      this.getCusotmer();
-  })
+      if (this.id)
+        this.getCusotmer();
+    })
 
   }
 
   getCusotmer() {
-    this._lamiService.customer$.subscribe((customer)=>{
+    this._lamiService.customer$.subscribe((customer) => {
       this.formGroup.patchValue(customer)
     })
   }
@@ -87,67 +96,85 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       identificationTypeId: [null, Validators.required],
       identification: ['', Validators.required],
       source: ['L', Validators.nullValidator],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      lastName2: ['', Validators.required],
-      companyName:  ['', Validators.nullValidator],
+      name: ['', Validators.required],
+      firstName: ['', Validators.nullValidator],
+      lastName: ['', Validators.nullValidator],
+      lastName2: ['', Validators.nullValidator],
       address: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', Validators.required],
       U_HBT_MunMed: ['', Validators.nullValidator],
       U_HBT_MedPag: ['', Validators.nullValidator],
+      U_HBT_RegTrib: ['', Validators.nullValidator],
+      groupCode: ['', Validators.nullValidator],
+      payTermsGrpCode: ['', Validators.nullValidator],
+      salesPersonCode: ['', Validators.nullValidator],
+      U_HBT_Nacional: ['', Validators.nullValidator],
+      U_HBT_RegFis: ['', Validators.nullValidator],
     });
 
 
-    this.formGroup.get('identificationTypeId').valueChanges.subscribe((id)=>{
-        const identificationType = this.identificationTypes.find((item:any)=>item.id ==id);
-        if (identificationType.code == "31" || identificationType.code == "50" ){
-          this.isNIT = true;
-          this.formGroup.get('companyName').setValidators([Validators.required]);
-          this.formGroup.get('companyName').updateValueAndValidity();
-          this.formGroup.get('firstName').setValidators([Validators.nullValidator]);
-          this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
-          this.formGroup.get('firstName').updateValueAndValidity();
-          this.formGroup.get('lastName').updateValueAndValidity();
-        }    
-        else {
-          this.isNIT = false;
-          this.formGroup.get('companyName').setValidators([Validators.nullValidator]);
-          this.formGroup.get('companyName').updateValueAndValidity();
-          this.formGroup.get('firstName').setValidators([Validators.required]);
-          this.formGroup.get('lastName').setValidators([Validators.required]);
-          this.formGroup.get('firstName').updateValueAndValidity();
-          this.formGroup.get('lastName').updateValueAndValidity();
-        }
-           
+    this.formGroup.get('identificationTypeId').valueChanges.subscribe((id) => {
+      const identificationType = this.identificationTypes.find((item: any) => item.id == id);
+      if (identificationType.code == "31" || identificationType.code == "50") {
+        this.isNIT = true;
+        this.labelName = 'Nombre de la empresa';
+
+
+        this.formGroup.get('firstName').updateValueAndValidity();
+        this.formGroup.get('lastName').updateValueAndValidity();
+      }
+      else {
+        this.isNIT = false;
+        this.labelName = 'Nombre completo';
+        this.formGroup.get('companyName').setValidators([Validators.nullValidator]);
+        this.formGroup.get('companyName').updateValueAndValidity();
+        this.formGroup.get('firstName').setValidators([Validators.required]);
+        this.formGroup.get('lastName').setValidators([Validators.required]);
+        this.formGroup.get('firstName').updateValueAndValidity();
+        this.formGroup.get('lastName').updateValueAndValidity();
+      }
+
     });
 
-    this.formGroup.get('source').valueChanges.subscribe((value)=>{
-      this.validateUhtbFields(value);       
-  });   
+    this.formGroup.get('source').valueChanges.subscribe((value) => {
+      this.validateUhtbFields(value);
+    });
   }
 
-  validateUhtbFields(source:string){
-    if (source == "C" ){
+  validateUhtbFields(source: string) {
+    if (source == "C") {
       this.getHbtsValues();
+      this.formGroup.get('firstName').setValidators([Validators.required]);
+      this.formGroup.get('lastName').setValidators([Validators.required]);
+      this.formGroup.get('lastName2').setValidators([Validators.required]);
       this.formGroup.get('U_HBT_MunMed').setValidators([Validators.required]);
       this.formGroup.get('U_HBT_MedPag').setValidators([Validators.required]);
-      this.formGroup.get('U_HBT_MunMed').updateValueAndValidity();
-      this.formGroup.get('U_HBT_MedPag').updateValueAndValidity();
-    }else {
+
+
+
+    } else {
+      this.formGroup.get('firstName').setValidators([Validators.nullValidator]);
+      this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
+      this.formGroup.get('lastName2').setValidators([Validators.nullValidator]);
       this.formGroup.get('U_HBT_MunMed').setValidators([Validators.nullValidator]);
       this.formGroup.get('U_HBT_MedPag').setValidators([Validators.nullValidator]);
-      this.formGroup.get('U_HBT_MunMed').updateValueAndValidity();
-      this.formGroup.get('U_HBT_MedPag').updateValueAndValidity();
+
     }
+
+    this.formGroup.get('U_HBT_MunMed').updateValueAndValidity();
+    this.formGroup.get('U_HBT_MedPag').updateValueAndValidity();
+    this.formGroup.get('firstName').updateValueAndValidity();
+    this.formGroup.get('lastName').updateValueAndValidity();
+    this.formGroup.get('lastName2').updateValueAndValidity();
   }
 
   getList(): void {
 
-    this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[])=>{
-        this.identificationTypes = identificationTypes;
+    this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
+      this.identificationTypes = identificationTypes;
     })
-    
+
   }
 
   save(): Observable<any> {
@@ -185,17 +212,18 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
   }
 
-  displayClientFields():void {
+  displayClientFields(): void {
 
   }
 
   getHbtsValues(): void {
-    // this.U_HBT_MunMedSelectComponent.bankCtrl.setValidators([Validators.required]);
-    // this.U_HBT_MunMedSelectComponent.bankCtrl.updateValueAndValidity();
-    // this.formGroup.setControl('U_HBT_MunMed',this.U_HBT_MunMedSelectComponent.bankCtrl);
-    
-    this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result:Uhbt[])=>{ this.U_HBT_MunMedSelectComponent.loadData(result); });
-    this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result:Uhbt[])=>{ this.U_HBT_MedPagSelectComponent.loadData(result);  });
-  }
 
+    this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMedSelectComponent.loadData(result); });
+    this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPagSelectComponent.loadData(result); });
+
+    this._lamiService.getU_HBT('U_HBT_RegTrib').subscribe((result: Uhbt[]) => { this.U_HBT_RegTrib = result });
+    this._lamiService.getU_HBT('CUSTOMER_GROUP').subscribe((result: Uhbt[]) => { this.CUSTOMER_GROUP = result });
+    this._lamiService.getU_HBT('U_HBT_Nacional').subscribe((result: Uhbt[]) => { this.U_HBT_Nacional = result });
+    this._lamiService.getU_HBT('U_HBT_RegFis').subscribe((result: Uhbt[]) => { this.U_HBT_RegFis = result });
+  }
 }
