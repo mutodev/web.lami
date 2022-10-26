@@ -133,10 +133,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       else {
         this.isNIT = false;
         this.labelName = 'Nombre completo';
-        this.formGroup.get('companyName').setValidators([Validators.nullValidator]);
+        this.formGroup.get('companyName')?.setValidators([Validators.nullValidator]);
         this.formGroup.get('companyName').updateValueAndValidity();
-        this.formGroup.get('firstName').setValidators([Validators.required]);
-        this.formGroup.get('lastName').setValidators([Validators.required]);
+        this.formGroup.get('firstName')?.setValidators([Validators.required]);
+        this.formGroup.get('lastName')?.setValidators([Validators.required]);
         this.formGroup.get('firstName').updateValueAndValidity();
         this.formGroup.get('lastName').updateValueAndValidity();
       }
@@ -151,20 +151,20 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   validateUhtbFields(source: string) {
     if (source == "C") {
       this.getHbtsValues();
-      this.formGroup.get('firstName').setValidators([Validators.required]);
-      this.formGroup.get('lastName').setValidators([Validators.required]);
-      this.formGroup.get('lastName2').setValidators([Validators.required]);
-      this.formGroup.get('U_HBT_MunMed').setValidators([Validators.required]);
-      this.formGroup.get('U_HBT_MedPag').setValidators([Validators.required]);
+      this.formGroup.get('firstName')?.setValidators([Validators.required]);
+      this.formGroup.get('lastName')?.setValidators([Validators.required]);
+      this.formGroup.get('lastName2')?.setValidators([Validators.required]);
+      this.formGroup.get('U_HBT_MunMed')?.setValidators([Validators.required]);
+      this.formGroup.get('U_HBT_MedPag')?.setValidators([Validators.required]);
 
 
 
     } else {
-      this.formGroup.get('firstName').setValidators([Validators.nullValidator]);
-      this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
-      this.formGroup.get('lastName2').setValidators([Validators.nullValidator]);
-      this.formGroup.get('U_HBT_MunMed').setValidators([Validators.nullValidator]);
-      this.formGroup.get('U_HBT_MedPag').setValidators([Validators.nullValidator]);
+      this.formGroup.get('firstName')?.setValidators([Validators.nullValidator]);
+      this.formGroup.get('lastName')?.setValidators([Validators.nullValidator]);
+      this.formGroup.get('lastName2')?.setValidators([Validators.nullValidator]);
+      this.formGroup.get('U_HBT_MunMed')?.setValidators([Validators.nullValidator]);
+      this.formGroup.get('U_HBT_MedPag')?.setValidators([Validators.nullValidator]);
 
     }
 
