@@ -101,7 +101,7 @@
 
 
         <!-- Datos de Facturacion -->
-        <ng-container *ngIf="formGroup.get('source').value == 'C'">
+        <ng-container [hidden]="formGroup.get('source').value !== 'C'">
 
             <!-- HEADER -->
             <div class="flex items-center justify-center my-5">
