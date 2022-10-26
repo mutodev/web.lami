@@ -208,7 +208,7 @@
 
 
         </ng-template>
-        <ng-container [ngIfElse]="localizacion" [ngIf]="formGroup.get('source').value === 'C'"></ng-container>
+        <ng-container *ngTemplateOutlet="localizacion"></ng-container>
     </div>
 
 </form>
