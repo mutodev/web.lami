@@ -101,7 +101,7 @@
 
 
         <!-- Datos de Facturacion -->
-        <ng-template #localizacion>
+        <div [hidden]="formGroup.get('source').value !== 'C'">
 
             <!-- HEADER -->
             <div class="flex items-center justify-center my-5">
@@ -207,8 +207,8 @@
 
 
 
-        </ng-template>
-        <ng-container *ngTemplateOutlet="formGroup.get('source').value === 'C' else localizacion"></ng-container>
+        </div>
+       
     </div>
 
 </form>
