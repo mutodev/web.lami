@@ -2,7 +2,7 @@
 
     <!-- Header -->
     <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-3 pb-5 pt-3 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
             <div>
@@ -14,10 +14,11 @@
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
                         <span class="ml-1 text-secondary">{{actionName}} Cliente</span>
+                       
                     </div>
                 </div>
                 <div class="flex sm:hidden">
-                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="[ '/contact/customer/all' ]">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'">
                         </mat-icon>
                         <span class="ml-1">Back</span>
@@ -28,18 +29,22 @@
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     {{actionName}} cliente
+                    <button  (click)="save()"
+                    class="min-w-10 min-h-7 h-7 px-2 top-1 leading-6 md:hidden" mat-button>
+                    <mat-icon class="icon-size-7" [svgIcon]="'mat_outline:add_circle_outline'">
+                    </mat-icon>
+                </button>
                 </h2>
             </div>
         </div>
         <!-- Actions -->
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/contact/customer/all' ]" mat-flat-button
-                [color]="'accent'">
+        <div class="flex hidden sm:block flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/contact/customer/all' ]"
+                mat-flat-button [color]="'accent'">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x'"></mat-icon>
                 Cancelar
             </button>
-            <button type="button" [disabled]="disabledForm" (click)="save()" [color]="'primary'"
-                mat-flat-button>
+            <button type="button" [disabled]="disabledForm" (click)="save()" [color]="'primary'" mat-flat-button>
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:check'"></mat-icon>
                 <span>
                     Guardar
@@ -56,11 +61,11 @@
         <div class="max-w-5xl w-full">
             <div class="overflow-hidden">
                 <div class="border-b rounded-2xl bg-card p-10">
-                    <app-customer #customerComponent  ></app-customer>
+                    <app-customer #customerComponent></app-customer>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
 </div>
