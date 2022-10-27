@@ -13,7 +13,26 @@ import { ClientsService } from '../clients.service';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
+  styles         : [
+    /* language=SCSS */
+    `
+        .list-grid {
+            grid-template-columns: auto 48px ;
+
+            @screen sm {
+                grid-template-columns: auto  80px 150px 80px;
+            }
+
+            @screen md {
+                grid-template-columns: auto 100px 150px 40px;
+            }
+
+            @screen lg {
+                grid-template-columns: 200px auto 300px 80px 200px 100px;
+            }
+        }
+    `
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
