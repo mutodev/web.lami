@@ -36,64 +36,66 @@
                 <ng-container *ngIf="dataSource.length > 0; else nodataSource">
                     <div class="grid">
                         <!-- Header -->
-                        <div class="grid-cols-12 gap-4 inventory-grid z-10 sticky top-0 grid py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                        <div class="list-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort matSortDisableClear>
-                            <div class="hidden sm:block col-span-2" >
+                            <div class="hidden lg:block">
                                 Identificación
                             </div>
-                            <div class="col-span-3">Nombre</div>
-                            <div class="hidden sm:block col-span-2">Télefono</div>
-                            
-                            <div class="hidden sm:block col-span-3">
+                            <div class="">Nombre</div>
+                            <div class="hidden  lg:block">
                                 Correo
                             </div>
                             <div class="hidden sm:block">
-                                
+                                SAP
                             </div>
-                            <div class="hidden lg:block">
-                                
+                            <div class="hidden sm:block">
+                                Estado
+                            </div>
+                            <div class="">
+
                             </div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(dataSource$ | async) as dataSource">
                             <ng-container *ngFor="let client of dataSource; trackBy: trackByFn">
-                                <div
-                                    class="inventory-grid grid grid-cols-12 items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="list-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
                                     <!-- identification -->
 
-                                    <div class="hidden md:block col-span-2">
+                                    <div class="hidden lg:block">
                                         {{client.identification}}
                                     </div>
-                                    <!-- Name -->
-                                    <div class="col-span-3" *ngIf="client.identificationType.code == 'NIT'; else bussiness">
-                                        {{client?.companyName}}
+                                    <div>
+                                        {{client?.name}}
+
                                     </div>
-                                    <ng-template #bussiness>
-                                        <div class="col-span-3">
-                                            {{client?.name}}
-                                            
-                                        </div>
-                                    </ng-template>
-                                    
-                                    <!-- Cell Phone -->
-                                    <div class="hidden md:block col-span-2">
-                                        {{client.phone}}
-                                    </div>
-                                   
-                                     <!-- Emaal -->
-                                     <div class="hidden md:block col-span-2">
+
+                                    <!-- Emaal -->
+                                    <div class="hidden  lg:block">
                                         {{client.email}}
                                     </div>
-                                     <!-- customer stage -->
-                                     <div class="hidden md:block col-span-2">
-                                        <span 
-                                        [ngClass]="{'bg-orange-200 text-orange-800': client.source =='L', 'bg-green-200 text-greem-800': client.source =='C'}"
 
-                                        class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase">
-                                                     {{getStage(client.source)}}</span>
+
+                                    <!-- Active -->
+                                    <div class="hidden sm:block">
+                                        <ng-container *ngIf="client.sendToSap">
+                                            <mat-icon class="text-green-400 icon-size-5"
+                                                [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngIf="!client.sendToSap">
+                                            <mat-icon class="text-red-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
+                                            </mat-icon>
+                                        </ng-container>
+
                                     </div>
-                                     <!-- Details button -->
-                                     <div class="hidden md:block text-right">
+                                    <!-- customer stage -->
+                                    <div class="hidden sm:block">
+                                        <span
+                                            [ngClass]="{'bg-orange-200 text-orange-800': client.source =='L', 'bg-green-200 text-greem-800': client.source =='C'}"
+                                            class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase">
+                                            {{getStage(client.source)}}</span>
+                                    </div>
+                                    <!-- Details button -->
+                                    <div class="text-right">
                                         <button [routerLink]="'/contact/customer/edit/' + client.id"
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
