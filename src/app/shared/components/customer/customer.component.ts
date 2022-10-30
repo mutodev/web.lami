@@ -62,24 +62,6 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
 
 
-    if(this.id){
-   
-      this.U_HBT_MunMedSelectComponent = this.UHBTGroup.first;
-      this.U_HBT_MedPagSelectComponent = this.UHBTGroup.last;
-     
-      this.U_HBT_MunMedSelectComponent.loadData(this.U_HBT_MunMed);
-      this.U_HBT_MedPagSelectComponent.loadData(this.U_HBT_MedPag);
-    }
-    else {
-
-      this.UHBTGroup.changes.subscribe(comps => {
-        this.U_HBT_MunMedSelectComponent = comps.find((p: any) => p.id == 'U_HBT_MunMed');
-        this.U_HBT_MedPagSelectComponent = comps.find((p: any) => p.id == 'U_HBT_MedPag');
-      
-        this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMedSelectComponent.loadData(this.U_HBT_MunMed); });
-        this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPagSelectComponent.loadData(this.U_HBT_MedPag); });
-      });
-    }
   }
 
   ngOnInit(): void {
@@ -148,8 +130,6 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       else {
         this.isNIT = false;
         this.labelName = 'Nombre completo';
-        this.formGroup.get('companyName').setValidators([Validators.nullValidator]);
-        this.formGroup.get('companyName').updateValueAndValidity();
         this.formGroup.get('firstName').setValidators([Validators.required]);
         this.formGroup.get('lastName').setValidators([Validators.required]);
         this.formGroup.get('firstName').updateValueAndValidity();

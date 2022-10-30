@@ -1,0 +1,20 @@
+<mat-select [placeholder]="placeholder" #select [formControl]="formControlSelect" [ngStyle]="customStyle"
+    [ngClass]="customClass" (blur)="onTouched()" [multiple]="multiple">
+    <mat-option>
+        <ngx-mat-select-search [formControl]="dataFilterSelect" [placeholderLabel]="labelSearch"
+            noEntriesFoundLabel="Sin resultado...">
+        </ngx-mat-select-search>
+    </mat-option>
+    <mat-select-trigger>
+        {{textValue}}
+        <span *ngIf="multiple && formControlSelect.value?.length > countDisplayField" class="additional-selection">
+            (y {{formControlSelect.value.length - countDisplayField}} {{formControlSelect.value?.length === countDisplayField + 1 ? 'mas' : 'mas'}})
+          </span>
+    </mat-select-trigger>
+
+    <mat-option *ngFor="let item of filteredData | async" 
+        [value]="selectedText ? item[selectedValue] : item">
+        {{getText(item)}}
+    </mat-option>
+
+</mat-select>

@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { SearchMatSelectModule } from 'app/shared/controls/custom-mat-select/search-mat-select.module';
+import { SearchMatSelectModule } from 'app/shared/controls/custom-mat-select-new/search-mat-select.module';
 import { CustomerComponent } from './customer.component';
 
 

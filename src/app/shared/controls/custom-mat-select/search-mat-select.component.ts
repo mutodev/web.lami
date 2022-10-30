@@ -136,7 +136,8 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
 
         this.formControlSelect.valueChanges.subscribe((val) => {
             console.log('val', val)
-            this.onChanged(val);
+            if (this.onChanged)
+                this.onChanged(val);
         })
 
     }

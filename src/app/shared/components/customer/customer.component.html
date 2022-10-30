@@ -148,8 +148,16 @@
                 <!-- Municipio -->
                 <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto  gt-xs:pl-3 fuse-mat-dense">
                     <mat-label>Municipio medios magnetico</mat-label>
-                    <search-mat-select required [id]="'U_HBT_MunMed'" formControlName="U_HBT_MunMed" #U_HBT_Group>
+                    <search-mat-select [customStyle]="{width: '100%'}" required
+                                            [placeholder]="'Seleccionar el medio magnetico'"
+                                            [dataSource]="U_HBT_MedPag"
+                                            [filterColumns]="['name']"
+                                            selectedValue="id"
+                                            [selectedText]="'name'"
+                                            formControlName="U_HBT_MunMed">
                     </search-mat-select>
+                    <!-- <search-mat-select required [id]="'U_HBT_MunMed'" formControlName="U_HBT_MunMed" #U_HBT_Group>
+                    </search-mat-select> -->
                     <mat-error
                         *ngIf="formGroup.get('U_HBT_MunMed').hasError('required') && formGroup.get('U_HBT_MunMed').touched">
                         Campo requerido</mat-error>
@@ -171,7 +179,15 @@
                 <!-- Medio de pago -->
                 <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
                     <mat-label>Medio de pago</mat-label>
-                    <search-mat-select  [id]="'U_HBT_MedPag'" #U_HBT_Group formControlName="U_HBT_MedPag">
+                    <!-- <search-mat-select  [id]="'U_HBT_MedPag'" #U_HBT_Group formControlName="U_HBT_MedPag">
+                    </search-mat-select> -->
+                    <search-mat-select [customStyle]="{width: '100%'}" required
+                                            [placeholder]="'Seleccionar el medio de pago'"
+                                            [dataSource]="U_HBT_MedPag"
+                                            [filterColumns]="['name']"
+                                            selectedValue="id"
+                                            [selectedText]="'name'"
+                                            formControlName="U_HBT_MedPag">
                     </search-mat-select>
                     <mat-error
                         *ngIf="formGroup.get('U_HBT_MedPag').hasError('required') && formGroup.get('U_HBT_MedPag').touched">
