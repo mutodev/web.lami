@@ -49,15 +49,29 @@
             <mat-error *ngIf="formGroup.get('name').errors?.wrongColor">blue requerido</mat-error>
         </mat-form-field>
 
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
 
-        <!-- Address -->
-        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-            <mat-label>Dirección</mat-label>
-            <input formControlName="address" matInput>
-            <mat-error *ngIf="formGroup.get('address').hasError('required') && formGroup.get('address').touched">
-                Campo requerido</mat-error>
-        </mat-form-field>
+            <!-- CUSTOMER_GROUP -->
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Grupo</mat-label>
+                <mat-select formControlName="groupCode">
+                    <mat-option *ngFor="let item of CUSTOMER_GROUP; let i=index" [value]="item.code">
+                        {{item.name}}</mat-option>
 
+                </mat-select>
+                <mat-error
+                    *ngIf="formGroup.get('groupCode').hasError('required') && formGroup.get('groupCode').touched">
+                    Campo requerido</mat-error>
+            </mat-form-field>
+            <!-- Address -->
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Dirección</mat-label>
+                <input formControlName="address" matInput>
+                <mat-error *ngIf="formGroup.get('address').hasError('required') && formGroup.get('address').touched">
+                    Campo requerido</mat-error>
+            </mat-form-field>
+
+        </div>
         <!-- ROW 4 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
             <!-- Phone-->
@@ -121,8 +135,8 @@
                         requerido</mat-error>
                     <mat-error *ngIf="formGroup.get('firstName').errors?.wrongColor">blue requerido</mat-error>
                 </mat-form-field>
-                 <!-- Last Name -->
-                 <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                <!-- Last Name -->
+                <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
                     <mat-label>Apellido</mat-label>
                     <input formControlName="lastName" matInput>
 
@@ -149,12 +163,9 @@
                 <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto  gt-xs:pl-3 fuse-mat-dense">
                     <mat-label>Municipio medios magnetico</mat-label>
                     <search-mat-select [customStyle]="{width: '100%'}" required
-                                            [placeholder]="'Seleccionar el medio magnetico'"
-                                            [dataSource]="U_HBT_MunMed"
-                                            [filterColumns]="['name']"
-                                            selectedValue="code"
-                                            [selectedText]="'name'"
-                                            formControlName="U_HBT_MunMed">
+                        [placeholder]="'Seleccionar el medio magnetico'" [dataSource]="U_HBT_MunMed"
+                        [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                        formControlName="U_HBT_MunMed">
                     </search-mat-select>
                     <!-- <search-mat-select required [id]="'U_HBT_MunMed'" formControlName="U_HBT_MunMed" #U_HBT_Group>
                     </search-mat-select> -->
@@ -182,12 +193,9 @@
                     <!-- <search-mat-select  [id]="'U_HBT_MedPag'" #U_HBT_Group formControlName="U_HBT_MedPag">
                     </search-mat-select> -->
                     <search-mat-select [customStyle]="{width: '100%'}" required
-                                            [placeholder]="'Seleccionar el medio de pago'"
-                                            [dataSource]="U_HBT_MedPag"
-                                            [filterColumns]="['name']"
-                                            selectedValue="code"
-                                            [selectedText]="'name'"
-                                            formControlName="U_HBT_MedPag">
+                        [placeholder]="'Seleccionar el medio de pago'" [dataSource]="U_HBT_MedPag"
+                        [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                        formControlName="U_HBT_MedPag">
                     </search-mat-select>
                     <mat-error
                         *ngIf="formGroup.get('U_HBT_MedPag').hasError('required') && formGroup.get('U_HBT_MedPag').touched">
@@ -197,28 +205,19 @@
 
             <!-- ROW 2 -->
             <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
-                
-                <!-- CUSTOMER_GROUP -->
+
+
+                <!-- NACIONAL -->
+                <!-- NACIONAL -->
                 <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers"
                     class="flex-auto gt-xs:pr-3 fuse-mat-dense">
-                    <mat-label>Grupo</mat-label>
-                    <mat-select formControlName="groupCode">
-                        <mat-option *ngFor="let item of CUSTOMER_GROUP; let i=index" [value]="item.code">
+                    <mat-label>Nacionalidad</mat-label>
+                    <mat-select formControlName="U_HBT_Nacional">
+                        <mat-option *ngFor="let item of U_HBT_Nacional; let i=index" [value]="item.code">
                             {{item.name}}</mat-option>
 
                     </mat-select>
                 </mat-form-field>
-                <!-- NACIONAL -->
-                  <!-- NACIONAL -->
-                  <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers"
-                  class="flex-auto gt-xs:pr-3 fuse-mat-dense">
-                  <mat-label>Nacionalidad</mat-label>
-                  <mat-select formControlName="U_HBT_Nacional">
-                      <mat-option *ngFor="let item of U_HBT_Nacional; let i=index" [value]="item.code">
-                          {{item.name}}</mat-option>
-
-                  </mat-select>
-              </mat-form-field>
             </div>
 
 

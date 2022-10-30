@@ -109,7 +109,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       U_HBT_MunMed: ['', Validators.nullValidator],
       U_HBT_MedPag: ['', Validators.nullValidator],
       U_HBT_RegTrib: ['', Validators.nullValidator],
-      groupCode: ['', Validators.nullValidator],
+      groupCode: ['', [Validators.nullValidator, Validators.required]],
       payTermsGrpCode: ['', Validators.nullValidator],
       salesPersonCode: ['', Validators.nullValidator],
       U_HBT_Nacional: ['', Validators.nullValidator],
