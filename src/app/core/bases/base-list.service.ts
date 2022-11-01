@@ -65,7 +65,8 @@ export class BaseListService {
         return this._httpClient.get<{ pagination: Pagination; clients: any[] }>(`${this.baseUrl}${this.apiUrl}`, {
             params: {
                 page,
-                perPage
+                perPage, 
+                search
             }
         }).pipe(
             tap((response: any) => {

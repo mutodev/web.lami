@@ -62,6 +62,7 @@ export abstract class BaseList implements AfterViewInit {
                 debounceTime(1000),
                 switchMap((query) => {
                     //this.closeDetails();
+                    console.log('query', query)
                     this.isLoading = true;
                     return this._baseListService.getDataSource(1, 10, 'name', 'asc', query);
                 }),
