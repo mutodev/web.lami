@@ -10,7 +10,7 @@ const generatePalette = require(path.resolve(__dirname, ('src/@fuse/tailwind/uti
  * Tailwind-like color palettes automatically
  */
 const customPalettes = {
-    brand: generatePalette('#1f3873')
+    brand: generatePalette('#292E8A')
 };
 
 /**
@@ -24,8 +24,8 @@ const themes = {
             DEFAULT: colors.indigo[600]
         },
         accent   : {
-            ...colors.slate,
-            DEFAULT: colors.slate[800]
+            ...colors.amber,
+            DEFAULT: colors.amber[500]
         },
         warn     : {
             ...colors.red,
@@ -100,7 +100,8 @@ const config = {
             },
             colors                  : {
                 gray: colors.slate,
-                "lami-blue": "#1f3873"
+                "lami-blue": "#292E8A",
+                "lami-orange": "#F4A71B"
                 
             },
             flex                    : {
