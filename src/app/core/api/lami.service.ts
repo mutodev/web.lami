@@ -170,7 +170,7 @@ export class LamiService {
     }
 
     getProducts(): Observable<APIResponse<Product[]>> {
-        return this._httpClient.get<Product[]>(`/product`).pipe(
+        return this._httpClient.get<Product[]>(`${environment.endPoint}/items`).pipe(
             tap((result: any) => {
                 this._products.next(result.data);
             })

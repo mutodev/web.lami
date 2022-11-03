@@ -2,3 +2,13 @@
 /*  @ Import/write your custom styles here.
 /*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
 /* ----------------------------------------------------------------------------------------------------- */
+body.light .mat-form-field-appearance-legacy .mat-form-field-underline,
+body .light .mat-form-field-appearance-legacy .mat-form-field-underline {
+    background-color: transparent !important;
+}
+
+body.light .mat-form-field-appearance-legacy .mat-form-field-underline,
+body .light .mat-form-field-appearance-legacy .mat-form-field-underline:focus {
+    background-color: rgb(129 129 129);
+}
+

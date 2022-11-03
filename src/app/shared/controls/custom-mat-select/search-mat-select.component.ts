@@ -68,7 +68,6 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
     }
 
     set value(value) {
-        console.log('value', value)
         this.formControlSelect.setValue(value);
         this.ngControl.control.setValue(value);
         this.stateChanges.next();
@@ -135,7 +134,7 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
         }
 
         this.formControlSelect.valueChanges.subscribe((val) => {
-            console.log('val', val)
+        
             if (this.onChanged)
                 this.onChanged(val);
         })
@@ -213,7 +212,7 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
     }
 
     ngOnChanges(changes: SimpleChanges) {
-       console.log(' this.formControlSelect.value',  this.formControlSelect.value)
+       
     }
 
     getText(item) {

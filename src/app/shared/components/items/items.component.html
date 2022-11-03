@@ -6,7 +6,8 @@
             <div class="col-span-3 font-medium text-md">Producto/Servicio</div>
             <div class="col-span-2 font-medium text-md text-left">Precio</div>
             <div class="col-span-1 font-medium text-md text-left">Desc%</div>
-            <div class="col-span-2 font-medium text-md text-left">Proyecto</div>
+            <div class="col-span-1 font-medium text-md text-left">Proyecto</div>
+            <div class="col-span-1 font-medium text-md text-left">Imp.</div>
             <div class="col-span-1 font-medium text-md text-left">Cantidad</div>
             <div class="col-span-2 font-medium text-md text-right">Total</div>
             <div class="col-span-1 font-medium text-md text-left"></div>
@@ -21,8 +22,7 @@
                         <mat-form-field floatLabel="never" appearance="legacy"
                             class="w-full fuse-mat-dense border-none border-opacity-100">
                             <select-multi-columns [dataSource]="products" [widthList]="'500px'"
-                                labelButton="Nuevo Producto" [placeholder]="'Seleccionar Producto ó Servicio'"
-                                [headers]="['Nombre', 'Descripción']"
+                                [placeholder]="'Seleccionar Producto ó Servicio'" [headers]="['Nombre', 'Descripción']"
                                 [displayColumns]="['name', 'description']" [customStyle]="{width: '100%'}"
                                 selectedValue="id" [selectedText]="setProductText" [formControlName]="'name'"
                                 (selectedChange)="selectedItem($event,item)" (onClickButton)="openProductDialog()">
@@ -35,33 +35,36 @@
 
                         <mat-form-field floatLabel="never" appearance="legacy"
                             class="w-full fuse-mat-dense border-none border-opacity-100">
-                            <input [value]="item.get('price').value   | currency" formControlName="price" [placeholder]="'Precio'" class="border-none" matInput>
+                            <input [value]="item.get('price').value   | currency" formControlName="price"
+                                [placeholder]="'Precio'" class="border-none" matInput>
                         </mat-form-field>
                     </div>
                     <!-- Desc -->
                     <div class="col-span-1 self-center text-left">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
-                            <input formControlName="discount" [placeholder]="'Desc%'" matInput>
+                            <input type="number" min="0" formControlName="discount" [placeholder]="'Desc%'" matInput>
                         </mat-form-field>
                     </div>
                     <!-- PROJECT -->
-                    <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
-                        <mat-select  [placeholder]="'Proyecto'"  >
-                            <mat-option value="Digital" >Digital</mat-option>
-                            <mat-option  value="Retail">Retail</mat-option>
-                        </mat-select>
-                       
-                    </mat-form-field>
-                    <!-- iva -->
-                    <!-- <div class="col-span-2 self-center text-left">
+                    <div class="col-span-1 self-center text-left">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
-                            <search-mat-select #taxSelect [customStyle]="{width: '100%'}" [placeholder]="'Proyecto'"
-                                labelButton="Nuevo Impuesto" [dataSource]="taxes"
-                                [filterColumns]="['name','percentage']" selectedValue="_id" [selectedText]="setTaxtText"
-                                (onClickButton)="openTaxDialog()" [formControlName]="'tax'">
-                            </search-mat-select>
+                            <mat-select formControlName="project" [placeholder]="'Proyecto'">
+                                <mat-option value="DIGITAL">Digital</mat-option>
+                                <mat-option value="QUINT">Quint</mat-option>
+                                <mat-option value="RETAIL">Retail</mat-option>
+                            </mat-select>
+
                         </mat-form-field>
-                    </div> -->
+                    </div>
+
+                    <!-- iva -->
+                    <div class="col-span-1 self-center text-left">
+                        <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
+                            <mat-select formControlName="tax" [placeholder]="'Impuesto'">
+                                <mat-option *ngFor="let tax of taxes" [value]="tax.id">{{tax.label}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                     <!-- Cantidad -->
                     <div class="col-span-1 self-center text-left">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
@@ -99,7 +102,13 @@
 <!-- TOTALES-->
 <div class="grid grid-row-1">
     <div class="grid grid-cols-3">
-        <div class="col-span-2 font-medium text-md">
+        <!-- COMMENTS -->
+        <div class=" font-medium text-md pt-10">
+            <mat-form-field appearance="outline" class="w-full fuse-mat-dense">
+                <textarea placeholder="Comentarios..." [(ngModel)]="comments" matInput name="comments" id="comments" cols="10" rows="5"></textarea>
+            </mat-form-field>
+        </div>
+        <div class="font-medium text-md">
 
         </div>
         <div class="font-medium text-md text-left">
@@ -132,4 +141,5 @@
             </div>
         </div>
     </div>
+
 </div>

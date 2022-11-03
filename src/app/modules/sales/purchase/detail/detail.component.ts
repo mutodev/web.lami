@@ -46,8 +46,12 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
 
     if (this.formGroup.valid) {
       this._lamiService.createOrder(this.buildOrderRequest()).subscribe(result => {
-
+        if (result.status == 'success')
+          this._router.navigateByUrl('/sales/purchase/all');
+       
       });
+    } else {
+      this.validateAllFormFields(this.formGroup)
     }
   }
 
@@ -65,9 +69,9 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
           amount: item.quantity,
           value: item.price,
           vat: 0,
-          project: 'Digital',
-          itemCode:"10"
-
+          project: item.project,
+          wareHouseCode: "",
+          itemCode:item.id
         }
       });
 
@@ -76,10 +80,12 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
       date: this.orderInfoComponent.date,
       dueDate: this.orderInfoComponent.dueDate,
       vatTotal: 0,
+      serie:'13',
       subTotal: this.itemsComponent.subTotal,
       total: this.itemsComponent.total,
       discount: this.itemsComponent.discount,
       orderDetails: orderDetails,
+      comments: this.itemsComponent.comments
     }
   }
 }

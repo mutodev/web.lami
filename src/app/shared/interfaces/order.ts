@@ -8,6 +8,8 @@ export interface Order {
     subTotal:     number;
     total:        number;
     discount:     number;
+    serie: string;
+    comments: string
     orderDetails: OrderDetail[];
 }
 
@@ -19,4 +21,5 @@ export interface OrderDetail {
     value:         number;
     vat:           number;
     project:       string;
+    wareHouseCode: number
 }

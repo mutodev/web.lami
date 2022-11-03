@@ -6,6 +6,24 @@ import { Product } from 'app/shared/interfaces/product';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+const  TAXES : any[] = [
+   {
+    'id': '2',
+    'label': 'IVA - (0%)',
+    'percentage': 0
+  },
+  {
+    'id': '3',
+    'label': 'IVA - (5%)',
+    'percentage': 5
+  },
+  {
+    'id': '4',
+    'label': 'IVA - (19%)',
+    'percentage': 19
+  }
+]
+
 @Component({
   selector: 'ci-item-table',
   templateUrl: './items.component.html',
@@ -15,11 +33,7 @@ export class ItemsComponent implements OnInit {
 
   @Input() formGroup: FormGroup;
   products: any[] = [];
-  taxes: any[] = [{
-    id:'1',
-    name:'IVA',
-    percetage: '19'
-  }];
+  taxes= TAXES;
   itemsFormGroup = new FormArray([]);
 
   discount: number;
@@ -27,6 +41,7 @@ export class ItemsComponent implements OnInit {
   subTotal: number = 0;
   total: number = 0;
   totalTaxes: any[] = [];
+  comments: string = "";
 
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -34,6 +49,7 @@ export class ItemsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.taxes = TAXES;
     this.getProducts();
     //this.getTaxes();
     Array.from(Array(1)).forEach(() => this.itemsFormGroup.push(this.addItemRow()));
@@ -56,6 +72,7 @@ export class ItemsComponent implements OnInit {
       code: [''],
       discount: [''],
       discountTotal: [''],
+      project: [''],
       quantity: ['', [Validators.required, Validators.min(1)]],
       price: ['', Validators.required],
       tax: 0,
@@ -104,12 +121,11 @@ export class ItemsComponent implements OnInit {
         const quantityForm =  parseInt(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).percentage : 0;
-
+        console.log('taxPercentage', taxPercentage)
         const subTotal = priceForm * quantityForm;
         const discountTotal = (subTotal *  parseInt(discount)) / 100;
         const currencyTax = (taxPercentage * subTotal) / 100;
         let total = (subTotal - discountTotal) + currencyTax;
-
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
         itemsFormGroup.get('total').setValue(total);
@@ -123,7 +139,7 @@ export class ItemsComponent implements OnInit {
         const discountForm = parseInt(itemsFormGroup.get('discount').value);
         const quantityForm = parseInt(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
-        const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).percentage : 0;
+        const taxPercentage =   this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).percentage : 0;
 
         const subTotal = price * quantityForm;
         const discountTotal = (subTotal * discountForm) / 100;
@@ -173,7 +189,10 @@ export class ItemsComponent implements OnInit {
   }
 
   getTaxById(taxId: string) {
-    return this.taxes.find(item => item.id === taxId);
+
+    let item =  this.taxes.find(item => item.id === taxId);
+    console.log('item', item)
+    return item;
   }
 
   totalcTaxes() {
@@ -182,9 +201,9 @@ export class ItemsComponent implements OnInit {
     this.itemsFormGroup.controls.map(item => {
       const control = item as FormGroup;
       if (control.controls['tax'].value) {
-        const tax = this.getTaxById(control.controls['tax'].value);
+        const tax = this.getTaxById(control.controls['tax'].value.toString());
         return {
-          name: `${tax.name} - ${tax.percentage}%`,
+          name: `${tax.label}`,
           value: item.get('currencyTax').value
         }
       }
@@ -256,13 +275,14 @@ export class ItemsComponent implements OnInit {
   selectedItem($event: any, item: FormGroup) {
 
     item.get('price').setValue($event.price);
-    item.get('description').setValue($event.description);
-    item.get('tax').setValue('');
+    item.get('description').setValue($event.name);
+    //item.get('tax').setValue(0);
     // item.get('code').setValue($event.code);
     item.get('discount').setValue(0); //TODO: update
     item.get('total').setValue($event.price);
     item.get('quantity').setValue(1);
-    item.get('id').setValue($event.id);
+    item.get('project').setValue('DIGITAL');
+    item.get('id').setValue($event.code);
   }
 
 }
