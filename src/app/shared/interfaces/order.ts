@@ -9,7 +9,8 @@ export interface Order {
     total:        number;
     discount:     number;
     serie: string;
-    comments: string
+    comments: string,
+    salesPersonCode: string
     orderDetails: OrderDetail[];
 }
 
