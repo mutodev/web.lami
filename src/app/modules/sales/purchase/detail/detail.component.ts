@@ -43,7 +43,8 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
   save(): void {
     this.formGroup.addControl('orderDetails', this.itemsComponent.items);
     this.formGroup.addControl('customer', this.customerComponent.customer);
-
+    this.formGroup.addControl('salesPersonCode', this.orderInfoComponent.salesPerson);
+   
     if (this.formGroup.valid) {
       this._lamiService.createOrder(this.buildOrderRequest()).subscribe(result => {
         if (result.status == 'success')
@@ -54,9 +55,6 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
       this.validateAllFormFields(this.formGroup)
     }
   }
-
-
-
 
   buildOrderRequest(): Order {
     let orderDetails: OrderDetail[] = this.formGroup
@@ -80,6 +78,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
       date: this.orderInfoComponent.date,
       dueDate: this.orderInfoComponent.dueDate,
       vatTotal: 0,
+      salesPersonCode: this.formGroup.get('salesPersonCode').value,
       serie:'13',
       subTotal: this.itemsComponent.subTotal,
       total: this.itemsComponent.total,
