@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LamiService } from 'app/core/api/lami.service';
@@ -10,9 +10,9 @@ import { takeUntil } from 'rxjs/operators';
 import { CustomerDialogComponent } from '../customer-dialog/customer-dialog.component';
 
 interface Client {
-  identification: string;
-  phone: string;
-  email:string;
+  identification?: string;
+  phone?: string;
+  email?: string;
 }
 
 @Component({
@@ -20,36 +20,41 @@ interface Client {
   templateUrl: './customer-info-search.component.html',
   styleUrls: ['./customer-info-search.component.scss']
 })
-export class CustomerInfoSearchComponent implements OnInit {
+export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
 
-  client: Client;
+  client: any = {};
   clients: any[];
   formGroup: FormGroup;
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _lamiService: LamiService,
-    
-    private _formBuilder: FormBuilder, public dialog: MatDialog) { }
+  constructor(private _lamiService: LamiService, private _formBuilder: FormBuilder, public dialog: MatDialog) { }
+  
+  
+  ngAfterViewInit(): void {
+   this._unsubscribeAll.unsubscribe();
+  }
 
   ngOnInit(): void {
 
     this.getClients();
-    this.validation();
+
+    this._lamiService.order$.subscribe((order) => {
+      this.client = order.customer;
+      this.validation(order.customerId || '');
+    });
   }
 
-  validation() {
+  validation(customerId = '') {
     this.formGroup = this._formBuilder.group({
-      customer: ['', [Validators.required]]
-    })
+      customerId: [customerId, [Validators.required]]
+    });
+
+    console.log('formGroup', this.formGroup)
   }
-  
+
   setClientText(customer: any) {
-    if (customer.identificationType.code == 'NIT'){
-      return customer.companyName
-    } else {
-      return `${customer.firstName} ${customer.lastName}`;
-    }
-    
+    return customer.name
+
   }
 
   openClientDialog() {

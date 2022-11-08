@@ -1,5 +1,7 @@
+import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
 import { Product } from 'app/shared/interfaces/product';
@@ -35,7 +37,7 @@ export class ItemsComponent implements OnInit {
   products: any[] = [];
   taxes= TAXES;
   itemsFormGroup = new FormArray([]);
-
+  id
   discount: number;
   tax: number;
   subTotal: number = 0;
@@ -45,15 +47,35 @@ export class ItemsComponent implements OnInit {
 
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService:LamiService) { }
+  constructor(private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService:LamiService,
+    private route: ActivatedRoute,) { 
+
+    this.id = this.route.snapshot.params['id'];
+  }
 
 
   ngOnInit(): void {
     this.taxes = TAXES;
     this.getProducts();
     //this.getTaxes();
-    Array.from(Array(1)).forEach(() => this.itemsFormGroup.push(this.addItemRow()));
+   
+    if (this.id){
+      this._lamiService.order$.subscribe((order)=>{
+        order.orderDetails.forEach((item)=>{
+          this.itemsFormGroup.push(this.addItemRow(item));
+         
+        });
+      });
+   
+      
+    } else{
+      Array.from(Array(1)).forEach(() => this.itemsFormGroup.push(this.addItemRow()));
+   
+    }
+  
     this.validations();
+  
+
   }
 
   validations() {
@@ -62,19 +84,18 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  addItemRow(): UntypedFormGroup {
+  addItemRow(item: any={}): UntypedFormGroup {
 
-    //Items
     const itemsFormGroup = this._formBuilder.group({
       id: [''],
-      name: ['', Validators.required],
-      description: [''],
-      code: [''],
-      discount: [''],
+      name: [item?.description, Validators.required],
+      description: [item?.description] || '',
+      code: [item?.code],
+      discount: [item?.discount],
       discountTotal: [''],
-      project: [''],
-      quantity: ['', [Validators.required, Validators.min(1)]],
-      price: ['', Validators.required],
+      project: [item?.project],
+      quantity: [item?.amount,[Validators.required, Validators.min(1)]],
+      price: [item?.value, Validators.required],
       tax: 0,
       taxObject: 0,
       subTotal: [0],
@@ -121,7 +142,6 @@ export class ItemsComponent implements OnInit {
         const quantityForm =  parseInt(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).percentage : 0;
-        console.log('taxPercentage', taxPercentage)
         const subTotal = priceForm * quantityForm;
         const discountTotal = (subTotal *  parseInt(discount)) / 100;
         const currencyTax = (taxPercentage * subTotal) / 100;
@@ -191,7 +211,6 @@ export class ItemsComponent implements OnInit {
   getTaxById(taxId: string) {
 
     let item =  this.taxes.find(item => item.id === taxId);
-    console.log('item', item)
     return item;
   }
 
@@ -264,7 +283,7 @@ export class ItemsComponent implements OnInit {
   setProductText(item: any) {
    
     if(item)
-    return `${item.name}`;
+    return `${item.name }`;
   }
 
   setTaxtText(item: any) {
@@ -274,15 +293,15 @@ export class ItemsComponent implements OnInit {
 
   selectedItem($event: any, item: FormGroup) {
 
-    item.get('price').setValue($event.price);
-    item.get('description').setValue($event.name);
-    //item.get('tax').setValue(0);
-    // item.get('code').setValue($event.code);
-    item.get('discount').setValue(0); //TODO: update
-    item.get('total').setValue($event.price);
-    item.get('quantity').setValue(1);
-    item.get('project').setValue('DIGITAL');
-    item.get('id').setValue($event.code);
+    // item.get('price').setValue($event.price);
+    // item.get('description').setValue($event.name);
+    // //item.get('tax').setValue(0);
+    // // item.get('code').setValue($event.code);
+    // item.get('discount').setValue(0); //TODO: update
+    // item.get('total').setValue($event.price);
+    // item.get('quantity').setValue(1);
+    // item.get('project').setValue('DIGITAL');
+    // item.get('id').setValue($event.code);
   }
 
 }

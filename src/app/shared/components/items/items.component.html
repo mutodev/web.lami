@@ -22,9 +22,9 @@
                         <mat-form-field floatLabel="never" appearance="legacy"
                             class="w-full fuse-mat-dense border-none border-opacity-100">
                             <select-multi-columns [dataSource]="products" [widthList]="'500px'"
-                                [placeholder]="'Seleccionar Producto ó Servicio'" [headers]="['Nombre', 'Descripción']"
-                                [displayColumns]="['name', 'description']" [customStyle]="{width: '100%'}"
-                                selectedValue="id" [selectedText]="setProductText" [formControlName]="'name'"
+                                [placeholder]="'Seleccionar Producto ó Servicio'" [headers]="['Nombre', 'Cam', 'Com', 'Ped']"
+                                [displayColumns]="['name', 'Cam', 'Com', 'Ped']" [customStyle]="{width: '100%'}"
+                                selectedValue="id" [selectedText]="setProductText" [formControlName]="'description'"
                                 (selectedChange)="selectedItem($event,item)" (onClickButton)="openProductDialog()">
                             </select-multi-columns>
                         </mat-form-field>

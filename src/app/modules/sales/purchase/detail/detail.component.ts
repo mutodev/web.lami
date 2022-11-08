@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -21,6 +21,9 @@ import { CIFormatter } from 'app/shared/validators/formatters';
 })
 export class PurchaseDetailComponent extends BaseList implements OnInit {
 
+
+  order: Order;
+  id
   formGroup: FormGroup;
   @ViewChild('itemsApp', { static: false }) itemsComponent: ItemsComponent;
   @ViewChild('customerApp', { static: true }) customerComponent: CustomerInfoSearchComponent;
@@ -30,7 +33,17 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
     public _baseListService: BaseListService,
     private route: ActivatedRoute,
     private _router: Router) {
-    super(_baseListService)
+    super(_baseListService);
+
+
+    this.id = this.route.snapshot.params['id'];
+
+    if(this.id){
+      this._lamiService.order$.subscribe(order=>{ this.order = order;});
+
+     
+    }
+
   }
 
   dateNow = new Date();
@@ -38,7 +51,10 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this._formBuilder.group({});
+   
   }
+
+
 
   save(): void {
     this.formGroup.addControl('orderDetails', this.itemsComponent.items);
