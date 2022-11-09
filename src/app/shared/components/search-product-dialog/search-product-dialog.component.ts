@@ -1,0 +1,52 @@
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BaseList } from 'app/core/bases/base-list';
+import { BaseListService } from 'app/core/bases/base-list.service';
+
+@Component({
+  selector: 'app-search-product-dialog',
+  templateUrl: './search-product-dialog.component.html',
+  styles         : [
+    /* language=SCSS */
+    `
+        .list-grid {
+            grid-template-columns: auto 48px ;
+
+            @screen sm {
+                grid-template-columns: auto  80px 150px 80px;
+            }
+
+            @screen md {
+                grid-template-columns: auto 100px 150px 40px;
+            }
+
+            @screen lg {
+                grid-template-columns: auto 80px 80px 80px 80px;
+            }
+        }
+    `
+],
+})
+export class SearchProductDialogComponent  extends BaseList implements OnInit {
+
+  @Output() selectedItem: EventEmitter<any> = new EventEmitter();
+
+  constructor(public _baseListService: BaseListService,
+    public dialogRef: MatDialogRef<SearchProductDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
+    super(_baseListService);
+  }
+
+  ngOnInit(): void {
+    this.getDataSource();
+  }
+
+  onSelectedItem(item: any){
+    this.data.selectItem(item);
+  }
+
+
+
+  
+}

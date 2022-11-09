@@ -76,21 +76,22 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
     let orderDetails: OrderDetail[] = this.formGroup
       .get('orderDetails').value
       .map((item: any) => {
+        console.log('item', item)
         return {
-          description: item.description,
+          description: item.name,
           aditionalInfo: '',
           discount: Number(item.discount),
           amount: item.quantity,
           value: item.price,
-          vat: 0,
+          vat: 19,
           project: item.project,
           wareHouseCode: "",
-          itemCode:item.id
+          itemCode:item.code
         }
       });
 
     return {
-      customerId: this.formGroup.get('customer').value.id,
+      customerId: this.formGroup.get('customer').value,
       date: this.orderInfoComponent.date,
       dueDate: this.orderInfoComponent.dueDate,
       vatTotal: 0,

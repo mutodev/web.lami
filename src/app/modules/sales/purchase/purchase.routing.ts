@@ -22,7 +22,7 @@ export const purchaseRoutes: Routes = [
         resolve: {
             paginateCustomers: PaginationClientsResolver,
             customers:CustomersResolver,
-            products: ProductsResolver
+            products: PaginationProductResolver
 
         }
     },

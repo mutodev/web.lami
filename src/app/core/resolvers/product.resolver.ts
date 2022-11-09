@@ -33,7 +33,7 @@ export class PaginationProductResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):  Observable<{ pagination: Pagination; clients: any[]}>
     {
-        this._baseListService.apiUrl = '/product';
+        this._baseListService.apiUrl = '/items';
         return this._baseListService.getDataSource();
     }
 }

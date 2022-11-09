@@ -3,12 +3,13 @@
     <div class="grid grid-row-2">
         <!-- HEADER ITEMS-->
         <div class="grid p-3 grid-cols-12 items-center gap-x-4 text-white  bg-zinc-500">
-            <div class="col-span-3 font-medium text-md">Producto/Servicio</div>
-            <div class="col-span-2 font-medium text-md text-left">Precio</div>
-            <div class="col-span-1 font-medium text-md text-left">Desc%</div>
+            <div class="col-span-4 font-medium text-md">Descripción</div>
+            <div class="col-span-1 font-medium text-md text-left">Desc %</div>
+            <div class="col-span-1 font-medium text-md text-left">Cant.</div>
             <div class="col-span-1 font-medium text-md text-left">Proyecto</div>
-            <div class="col-span-1 font-medium text-md text-left">Imp.</div>
-            <div class="col-span-1 font-medium text-md text-left">Cantidad</div>
+            <!-- <div class="col-span-1 font-medium text-md text-left">Imp.</div> -->
+            <!-- <div class="col-span-1 font-medium text-md text-left">Cantidad</div> -->
+            <div class="col-span-2 font-medium text-md text-right">Precio</div>
             <div class="col-span-2 font-medium text-md text-right">Total</div>
             <div class="col-span-1 font-medium text-md text-left"></div>
         </div>
@@ -18,33 +19,28 @@
             <ng-container *ngFor="let item of items.controls; let i=index">
                 <ng-container [formGroup]="item">
                     <!-- Items -->
-                    <div class="col-span-3 text-lg font-medium">
-                        <mat-form-field floatLabel="never" appearance="legacy"
-                            class="w-full fuse-mat-dense border-none border-opacity-100">
-                            <select-multi-columns [dataSource]="products" [widthList]="'500px'"
-                                [placeholder]="'Seleccionar Producto ó Servicio'" [headers]="['Nombre', 'Cam', 'Com', 'Ped']"
-                                [displayColumns]="['name', 'Cam', 'Com', 'Ped']" [customStyle]="{width: '100%'}"
-                                selectedValue="id" [selectedText]="setProductText" [formControlName]="'description'"
-                                (selectedChange)="selectedItem($event,item)" (onClickButton)="openProductDialog()">
-                            </select-multi-columns>
-                        </mat-form-field>
+                    <div class="col-span-4 text-base font-medium">
 
-                    </div>
-                    <!-- price -->
-                    <div class="col-span-2 self-center text-lef border-nonet">
-
-                        <mat-form-field floatLabel="never" appearance="legacy"
-                            class="w-full fuse-mat-dense border-none border-opacity-100">
-                            <input [value]="item.get('price').value   | currency" formControlName="price"
-                                [placeholder]="'Precio'" class="border-none" matInput>
-                        </mat-form-field>
-                    </div>
+                        <div class="font-semibold">{{ item.get('code').value }}</div>
+                        <div class="text-secondary" >{{ item.get('name').value }}</div>
+                      
+                    </div> 
+                    
                     <!-- Desc -->
                     <div class="col-span-1 self-center text-left">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
                             <input type="number" min="0" formControlName="discount" [placeholder]="'Desc%'" matInput>
                         </mat-form-field>
                     </div>
+
+                     <!-- Cantidad -->
+                     <div class="col-span-1 self-center text-left">
+                        <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
+                            <input type="number" min="1" formControlName="quantity" class="text-center" matInput>
+                        </mat-form-field>
+                    </div>
+
+                  
                     <!-- PROJECT -->
                     <div class="col-span-1 self-center text-left">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
@@ -57,29 +53,31 @@
                         </mat-form-field>
                     </div>
 
+                      <!-- price -->
+                      <div class="col-span-2 self-center text-right border-nonet">
+                        <div class="font-semibold text-lg" >{{ item.get('price').value | currency }}</div>
+                        <!-- <mat-form-field floatLabel="never" appearance="legacy"
+                            class="w-full fuse-mat-dense border-none border-opacity-100">
+                            <input [value]="item.get('price').value   | currency" formControlName="price"
+                                [placeholder]="'Precio'" class="border-none" matInput>
+                        </mat-form-field> -->
+                    </div>
+
                     <!-- iva -->
-                    <div class="col-span-1 self-center text-left">
+                    <!-- <div class="col-span-1 self-center text-left">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
                             <mat-select formControlName="tax" [placeholder]="'Impuesto'">
                                 <mat-option *ngFor="let tax of taxes" [value]="tax.id">{{tax.label}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                    </div>
-                    <!-- Cantidad -->
-                    <div class="col-span-1 self-center text-left">
-                        <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
-                            <input type="number" min="1" formControlName="quantity" class="text-center" matInput>
-                        </mat-form-field>
-                    </div>
+                    </div> -->
+                   
                     <!-- Total -->
                     <div class="col-span-2 self-center text-right">
-                        <mat-form-field appearance="legacy" class="w-full fuse-mat-dense">
-                            <input readonly [value]="item.get('total').value | currency" formControlName="total"
-                                class="text-right" matInput>
-                        </mat-form-field>
+                        <div class="font-semibold text-lg" >{{ item.get('total').value | currency }}</div>
                     </div>
                     <div class="col-span-1 self-center text-right">
-                        <button *ngIf="![0].includes(i)" (click)="removeItemRowBtn(i)" mat-button>
+                        <button (click)="removeItemRowBtn(i)" mat-button>
                             <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
                             </mat-icon>
                         </button>
@@ -121,7 +119,7 @@
 
                 <ng-container *ngFor="let tax of totalTaxes">
                     <div class="self-center font-medium tracking-tight text-secondary text-right uppercase">
-                        {{tax.name}}
+                       IVA 19%
                     </div>
                     <div class="text-right text-lg text-right"> {{tax.value | currency}}</div>
                 </ng-container>

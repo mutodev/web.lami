@@ -1,0 +1,86 @@
+<h1 mat-dialog-title>Buscar Articulos</h1>
+
+<div class="grid grid-row p-2">
+  <div class="w-full mb-3">
+    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript w-full fuse-mat-rounded">
+      <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+      <input matInput [formControl]="searchInputControl" [autocomplete]="'off'" [placeholder]="'Buscar articulo'">
+    </mat-form-field>
+  </div>
+
+  <!-- dataSource list -->
+  <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+    <ng-container *ngIf="(dataSource$| async) as dataSource">
+      <ng-container *ngIf="dataSource.length > 0; else nodataSource">
+        <div class="grid">
+          <!-- Header -->
+          <div
+            class="list-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+            matSort matSortDisableClear>
+            <div class="hidden lg:block">
+              Articulo
+            </div>
+            <div class="hidden  lg:block">
+              Can
+            </div>
+            <div class="hidden sm:block">
+              Com
+            </div>
+            <div class="hidden sm:block">
+              Ped
+            </div>
+            <div class="">
+              Precio
+            </div>
+          </div>
+          <!-- Rows -->
+          <ng-container *ngIf="(dataSource$ | async) as dataSource">
+            <ng-container *ngFor="let item of dataSource; trackBy: trackByFn">
+              <div (click)="onSelectedItem(item)" class="list-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b cursor-pointer hover:bg-gray-100">
+                <div class="hidden lg:block">
+                  <div class="font-semibold text-orange">{{item.code}}</div>
+                  <p>{{item.name}}</p>
+                </div>
+
+                <div class="hidden lg:block">
+                  {{item.quantityOnStock}}
+                </div>
+
+                <div class="hidden lg:block">
+                  {{item.quantityOrderedByCustomers}}
+                </div>
+
+                <div class="hidden lg:block">
+                  {{item.quantityOrderedFromVendors}}
+                </div>
+
+                <div class="hidden lg:block">
+                  {{item.price | currency}}
+                </div>
+
+
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+
+        <mat-paginator
+        class="sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+        [length]="pagination.length" [pageIndex]="pagination.pageIndex" [pageSize]="pagination.size"
+        [pageSizeOptions]="[25, 50, 75, 100]" [showFirstLastButtons]="true"></mat-paginator>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #nodataSource>
+      <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">No hay Articulos!
+      </div>
+    </ng-template>
+
+  </div>
+
+</div>
+
+<!-- <div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</div> -->

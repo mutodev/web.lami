@@ -37,11 +37,13 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.getClients();
-
+  
     this._lamiService.order$.subscribe((order) => {
       this.client = order.customer;
-      this.validation(order.customerId || '');
+      
     });
+
+    this.validation(this.client.customerId || '');
   }
 
   validation(customerId = '') {
@@ -81,7 +83,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   }
 
   get customer() {
-    return this.formGroup.get('customer');
+    return this.formGroup.get('customerId');
   }
 
 

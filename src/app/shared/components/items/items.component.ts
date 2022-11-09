@@ -1,12 +1,14 @@
 import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
 import { Product } from 'app/shared/interfaces/product';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SearchProductDialogComponent } from '../search-product-dialog/search-product-dialog.component';
 
 const  TAXES : any[] = [
    {
@@ -48,7 +50,7 @@ export class ItemsComponent implements OnInit {
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService:LamiService,
-    private route: ActivatedRoute,) { 
+    private route: ActivatedRoute, public dialog: MatDialog) { 
 
     this.id = this.route.snapshot.params['id'];
   }
@@ -69,7 +71,7 @@ export class ItemsComponent implements OnInit {
    
       
     } else{
-      Array.from(Array(1)).forEach(() => this.itemsFormGroup.push(this.addItemRow()));
+      //Array.from(Array(1)).forEach(() => this.itemsFormGroup.push(this.addItemRow()));
    
     }
   
@@ -85,24 +87,26 @@ export class ItemsComponent implements OnInit {
   }
 
   addItemRow(item: any={}): UntypedFormGroup {
-
+  
     const itemsFormGroup = this._formBuilder.group({
       id: [''],
-      name: [item?.description, Validators.required],
+      name: [item?.name, Validators.required],
       description: [item?.description] || '',
       code: [item?.code],
-      discount: [item?.discount],
+      discount: ['0'],
       discountTotal: [''],
-      project: [item?.project],
-      quantity: [item?.amount,[Validators.required, Validators.min(1)]],
-      price: [item?.value, Validators.required],
+      project: [item?.project, Validators.required],
+      quantity: ['1',[Validators.required, Validators.min(1)]],
+      price: [item?.price, Validators.required],
       tax: 0,
       taxObject: 0,
-      subTotal: [0],
+      subTotal: [item?.price],
       currencyTax: [''],
-      total: [0, Validators.nullValidator],
+      total: [item?.price, Validators.nullValidator],
 
     });
+
+    
 
     itemsFormGroup.get('name').valueChanges.subscribe((productId: any) => {
       if (productId) {
@@ -192,6 +196,7 @@ export class ItemsComponent implements OnInit {
         itemsFormGroup.get('total').setValue(total);
         this.calculateSummary();
       });
+      
     return itemsFormGroup;
   }
 
@@ -201,6 +206,8 @@ export class ItemsComponent implements OnInit {
 
 
   calculateSummary() {
+    console.log( this.itemsFormGroup.controls)
+    this.itemsFormGroup.controls.map((control: FormGroup) => console.log(control.get('subTotal').value));
     this.subTotal = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('subTotal').value).reduce((acc, value) => Number(acc) + Number(value), 0);
     this.discount = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('discountTotal').value).reduce((acc, value) => Number(acc) + Number(value), 0);
     this.tax = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('currencyTax').value).reduce((acc, value) => Number(acc) + Number(value), 0);
@@ -247,7 +254,25 @@ export class ItemsComponent implements OnInit {
 
   //ADD/REMOVE ITEMS ROWS
   addItemRowBtn() {
-    this.itemsFormGroup.push(this.addItemRow());
+  
+      const dialogRef = this.dialog.open(SearchProductDialogComponent, {
+        width: '900px',
+        maxHeight: '900px',
+        minHeight: '900px',
+        data: {
+          selectItem: (item)=>{
+            this.itemsFormGroup.push(this.addItemRow(item));
+            this.calculateSummary();
+          }
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+       
+     
+      });
+    
+    
     //this.productSearchSelect?.loadData(this.products, 'product');
   }
 
