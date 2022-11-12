@@ -37,22 +37,20 @@ export class CIViewerDocumentComponent implements OnInit {
 
   setSummary() {
 
-    const summary = this.quotation.items.map((item) => {
-      const taxPercentage = item.tax ? item.tax.percentage : 0;
+    const summary = this.quotation.orderDetails.map((item) => {
       return {
-        discount: (item.price * item.discount) / 100,
-        tax: (item.price * taxPercentage) / 100,
-        total: item.price * item.quantity
+        discount: (item.value * item.discount) / 100,
+        tax: item.vat,
+        total: item.value * item.amount
       }
     });
 
 
-
-    this.totalcTaxes();
+    //this.totalcTaxes();
     this.subTotal = summary.map((item: any) => { return item.total }).reduce((acc, value) => Number(acc) + Number(value), 0);
     this.discount = summary.map((item: any) => { return item.discount }).reduce((acc, value) => Number(acc) + Number(value), 0);
-    let tax = this.taxes.map((item: any) => { return item.value | 0 }).reduce((acc, value) => Number(acc) + Number(value), 0);
-    this.total = (this.subTotal - this.discount) + tax;
+    //let tax = this.taxes.map((item: any) => { return item.value | 0 }).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.total = (this.subTotal - this.discount);
   }
 
   totalcTaxes() {

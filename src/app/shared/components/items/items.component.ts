@@ -46,6 +46,7 @@ export class ItemsComponent implements OnInit {
   total: number = 0;
   totalTaxes: any[] = [];
   comments: string = "";
+  projects: any[] = [];
 
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -57,7 +58,8 @@ export class ItemsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.taxes = TAXES;
+    this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
+    this._lamiService.getU_HBT('TAX').subscribe((result) => this.taxes = result);
     this.getProducts();
     //this.getTaxes();
    
@@ -98,7 +100,7 @@ export class ItemsComponent implements OnInit {
       project: [item?.project, Validators.required],
       quantity: ['1',[Validators.required, Validators.min(1)]],
       price: [item?.price, Validators.required],
-      tax: 0,
+      tax: item.arTaxCode,
       taxObject: 0,
       subTotal: [item?.price],
       currencyTax: [''],
@@ -124,13 +126,15 @@ export class ItemsComponent implements OnInit {
         const priceForm = parseInt(itemsFormGroup.get('price').value);
         const discountForm = parseInt(itemsFormGroup.get('discount').value);
         const tax = itemsFormGroup.get('tax').value
-        const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).percentage : 0;
+        const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
 
         const subTotal = priceForm * quantity;
         const discount = (subTotal * discountForm) / 100;
-        const currencyTax = (taxPercentage * subTotal) / 100;
+      
 
-        let total = (subTotal - discount) + currencyTax;
+        let total = (subTotal - discount);
+
+        const currencyTax = (taxPercentage * total) / 100;
 
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('discountTotal').setValue(discount.toString());
@@ -145,11 +149,11 @@ export class ItemsComponent implements OnInit {
         const priceForm = parseInt(itemsFormGroup.get('price').value);
         const quantityForm =  parseInt(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
-        const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).percentage : 0;
+        const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
         const subTotal = priceForm * quantityForm;
         const discountTotal = (subTotal *  parseInt(discount)) / 100;
-        const currencyTax = (taxPercentage * subTotal) / 100;
-        let total = (subTotal - discountTotal) + currencyTax;
+        let total = (subTotal - discountTotal) ;
+        const currencyTax = (taxPercentage * total) / 100;
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
         itemsFormGroup.get('total').setValue(total);
@@ -163,7 +167,7 @@ export class ItemsComponent implements OnInit {
         const discountForm = parseInt(itemsFormGroup.get('discount').value);
         const quantityForm = parseInt(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
-        const taxPercentage =   this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).percentage : 0;
+        const taxPercentage =   this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
 
         const subTotal = price * quantityForm;
         const discountTotal = (subTotal * discountForm) / 100;
@@ -180,24 +184,31 @@ export class ItemsComponent implements OnInit {
 
     itemsFormGroup.get('tax').valueChanges
       .subscribe((taxId: any) => {
-
-        const priceForm = parseInt(itemsFormGroup.get('price').value);
-        const discountForm = parseInt(itemsFormGroup.get('discount').value);
-        const quantityForm = parseInt(itemsFormGroup.get('quantity').value);
-        const taxPercentage = this.getTaxById(taxId) ? this.getTaxById(taxId).percentage : 0;
-        const subTotal = priceForm * quantityForm;
-        const discountTotal = (subTotal * discountForm) / 100;
-        const currencyTax = (taxPercentage * subTotal) / 100;
-        let total = (subTotal - discountTotal) + currencyTax;
-
-        itemsFormGroup.get('subTotal').setValue(subTotal);
-        itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
-        itemsFormGroup.get('currencyTax').setValue(currencyTax.toString());
-        itemsFormGroup.get('total').setValue(total);
+        this.calculateCurrencyTax(itemsFormGroup);
         this.calculateSummary();
       });
       
+  
+    this.calculateCurrencyTax(itemsFormGroup);
     return itemsFormGroup;
+  }
+
+  calculateCurrencyTax(itemsFormGroup){
+    const taxId = itemsFormGroup.get('tax').value;
+    const priceForm = parseInt(itemsFormGroup.get('price').value);
+    const discountForm = parseInt(itemsFormGroup.get('discount').value);
+    const quantityForm = parseInt(itemsFormGroup.get('quantity').value);
+    const taxPercentage = this.getTaxById(taxId) ? this.getTaxById(taxId).value : 0;
+    const subTotal = priceForm * quantityForm;
+    const discountTotal = (subTotal * discountForm) / 100;
+    let total = (subTotal - discountTotal);
+    const currencyTax = (taxPercentage * total) / 100;
+
+    itemsFormGroup.get('subTotal').setValue(subTotal);
+    itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
+    itemsFormGroup.get('currencyTax').setValue(currencyTax);
+    itemsFormGroup.get('total').setValue(total);
+     
   }
 
   get items() {
@@ -206,8 +217,6 @@ export class ItemsComponent implements OnInit {
 
 
   calculateSummary() {
-    console.log( this.itemsFormGroup.controls)
-    this.itemsFormGroup.controls.map((control: FormGroup) => console.log(control.get('subTotal').value));
     this.subTotal = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('subTotal').value).reduce((acc, value) => Number(acc) + Number(value), 0);
     this.discount = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('discountTotal').value).reduce((acc, value) => Number(acc) + Number(value), 0);
     this.tax = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('currencyTax').value).reduce((acc, value) => Number(acc) + Number(value), 0);
@@ -217,7 +226,7 @@ export class ItemsComponent implements OnInit {
 
   getTaxById(taxId: string) {
 
-    let item =  this.taxes.find(item => item.id === taxId);
+    let item =  this.taxes.find(item => item.code === taxId);
     return item;
   }
 
@@ -229,8 +238,8 @@ export class ItemsComponent implements OnInit {
       if (control.controls['tax'].value) {
         const tax = this.getTaxById(control.controls['tax'].value.toString());
         return {
-          name: `${tax.label}`,
-          value: item.get('currencyTax').value
+          name: `${tax.name}`,
+          value: Number(item.get('currencyTax').value)
         }
       }
       else
@@ -244,11 +253,14 @@ export class ItemsComponent implements OnInit {
       res[value.name].value += value.value;
       return res;
     }, {});
-    this.totalTaxes = result;
+   
+    const filteredResult = result.filter((item:any) => item.name != undefined)
+    this.totalTaxes = filteredResult;
+    console.log('filteredResult', filteredResult)
   }
 
   update() { }
-  //END
+  //END4
 
 
 
@@ -257,8 +269,7 @@ export class ItemsComponent implements OnInit {
   
       const dialogRef = this.dialog.open(SearchProductDialogComponent, {
         width: '900px',
-        maxHeight: '900px',
-        minHeight: '900px',
+       maxHeight: 'calc(100vh - 22px) !important;',
         data: {
           selectItem: (item)=>{
             this.itemsFormGroup.push(this.addItemRow(item));

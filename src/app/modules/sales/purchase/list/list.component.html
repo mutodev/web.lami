@@ -64,7 +64,7 @@
                                     class="inventory-grid grid grid-cols-7 items-center gap-4 py-3 px-6 md:px-8 border-b">
                                     <!-- # Order -->
                                     <div class="hidden md:block">
-                                        {{order.order}}
+                                        {{order?.docNumber}}
                                     </div>
                                     <!-- # Cliente -->
                                     <div class="hidden md:block">
@@ -97,11 +97,11 @@
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:eye'">
                                             </mat-icon>
                                         </button>
-                                        <button [routerLink]="'/sales/purchase/edit/' + order.id"
+                                        <!-- <button [routerLink]="'/sales/purchase/edit/' + order.id"
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
                                             </mat-icon>
-                                        </button>
+                                        </button> -->
                                     </div>
                                 </div>
                             </ng-container>

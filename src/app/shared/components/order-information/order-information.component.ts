@@ -25,7 +25,8 @@ export class OrderInformationComponent implements OnInit {
    
 
     this.formGroup = this._formBuilder.group({
-      salesPersonCode: ['', Validators.required]
+      salesPersonCode: ['', Validators.required],
+      serie:  ['', Validators.required],
     });
     this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
   }
@@ -40,6 +41,10 @@ export class OrderInformationComponent implements OnInit {
 
   get salesPerson() {
     return this.formGroup.get('salesPersonCode');
+  }
+
+  get serie() {
+    return this.formGroup.get('serie');
   }
 
 

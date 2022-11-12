@@ -12,7 +12,7 @@
             <div class="flex items-start justify-between">
                 <div class="grid grid-cols-2 gap-x-4 gap-y-1">
                     <div class="text-4xl tracking-tight text-secondary">No.</div>
-                    <div class="text-4xl">{{quotation?.number}}</div>
+                    <div class="text-4xl">{{quotation?.docNumber}}</div>
                     <div class="font-medium tracking-tight text-secondary">Fecha creación</div>
                     <div class="font-medium">{{quotation?.date | date}}</div>
                     <div class="font-medium tracking-tight text-secondary">Fecha vigencia</div>
@@ -37,11 +37,12 @@
             <div class="grid grid-row-2 mt-12">
                 <!-- HEADER ITEMS-->
                 <div class="grid p-3 grid-cols-12 items-center gap-x-4 text-white  bg-zinc-500">
-                    <div class="col-span-4 font-medium text-md">Producto</div>
-                    <div class="col-span-2 font-medium text-md text-right">Precio</div>
+                    <div class="col-span-4 font-medium text-md">Descripción</div>
                     <div class="col-span-1 font-medium text-md text-center">Desc%</div>
-                    <div class="col-span-2 font-medium text-md text-center">Impuesto</div>
-                    <div class="col-span-1 font-medium text-md text-left">Cantidad</div>
+                    <div class="col-span-1 font-medium text-md text-center">Cant.</div>
+                    <div class="col-span-1 font-medium text-md text-center">Proyecto</div>
+                    <div class="col-span-1 font-medium text-md text-center">Imp.</div>
+                    <div class="col-span-2 font-medium text-md text-right">Precio</div>
                     <div class="col-span-2 font-medium text-md text-right">Total</div>
                 </div>
                 <!-- HEADER BODY-->
@@ -50,18 +51,26 @@
                     <ng-container *ngFor="let item of quotation?.orderDetails; let i=index">
 
                         <!-- Items -->
-                        <div class="col-span-4 py-3">{{item?.description}}</div>
-                        <div class="col-span-2 text-right">{{item?.value | currency}}</div>
-                        <div class="col-span-1 text-center">{{item?.discount}}%</div>
-                        <div *ngIf="item?.tax?.name; else elseTemplate" class="col-span-2 text-center">
+                        <div class="col-span-4 text-base font-medium">
+                            <div class="font-semibold">{{item?.itemCode }}</div>
+                            <div class="text-secondary">  {{item?.description}}</div>
+                        </div>
+                        <div class="col-span-1 text-center">{{item?.discount}}</div>
+                        <div class="col-span-1 text-center">{{item?.amount}}</div>
+                        <div class="col-span-1 text-center">{{ item?.project }}</div>
+                        <div class="col-span-1 text-center">{{item?.arTaxCode }}</div>
+
+                        <div class="col-span-2 text-right">{{item?.value   | currency}}</div>
+                        <div class="col-span-2 text-right">{{item?.total | currency}}</div>
+                    
+
+                        <!-- <div *ngIf="item?.tax?.name; else elseTemplate" class="col-span-2 text-center">
                             {{item?.tax?.name}} ({{item?.tax?.percentage}}%)
                         </div>
                         <ng-template #elseTemplate>
                             <div class="col-span-2 text-center">0%</div>
-                        </ng-template>
+                        </ng-template> -->
 
-                        <div class="col-span-1 text-center">{{item?.amount }}</div>
-                        <div class="col-span-2 text-right">{{item?.total | currency}}</div>
 
                         <!-- Divider -->
                         <div class="col-span-12 my-1 border-b"></div>
@@ -85,12 +94,13 @@
                             </div>
                             <div class="text-right text-lg">{{subTotal | currency}}</div>
 
-                            <ng-container *ngFor="let tax of groupTaxes">
+                            <!-- <ng-container *ngFor="let tax of groupTaxes"> -->
                                 <div class="self-center font-medium tracking-tight text-secondary text-right">
-                                    {{tax.name}}
+                                    <!-- {{tax.name}} -->
+                                    IMPUESTOS
                                 </div>
-                                <div class="text-right text-lg text-right"> {{tax.value | currency}}</div>
-                            </ng-container>
+                                <div class="text-right text-lg text-right"> {{quotation.vat}}</div>
+                            <!-- </ng-container> -->
 
                             <ng-container *ngIf="discount > 0">
                                 <div class="self-center font-medium tracking-tight text-secondary text-right">
@@ -103,7 +113,7 @@
                             <!-- Total -->
                             <div class="self-center text-2xl font-medium tracking-tight text-secondary text-righ">
                                 TOTAL</div>
-                            <div class="text-right text-2xl font-medium text-righ">{{total | currency}}</div>
+                            <div class="text-right text-2xl font-medium text-righ">{{quotation.total | currency}}</div>
                         </div>
                     </div>
                 </div>

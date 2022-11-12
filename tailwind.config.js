@@ -24,8 +24,8 @@ const themes = {
             DEFAULT: colors.indigo[600]
         },
         accent   : {
-            ...colors.amber,
-            DEFAULT: colors.amber[500]
+            ...colors.gray,
+            DEFAULT: colors.gray[500]
         },
         warn     : {
             ...colors.red,

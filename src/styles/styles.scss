@@ -12,3 +12,22 @@ body .light .mat-form-field-appearance-legacy .mat-form-field-underline:focus {
     background-color: rgb(129 129 129);
 }
 
+.mat-select-panel-wrap {
+    flex-basis: 100%;
+    min-width: 350px !important;
+}
+
+
+.custom-m-height-calc {
+    max-height:  calc(100vh - 286px) !important;
+} 
+
+
+.mat-dialog-container {
+    max-height:  calc(100vh - 38px) !important;
+}
+
+.custom-m-bottom {
+    max-height: calc(100vh - 222px) !important;
+
+}
