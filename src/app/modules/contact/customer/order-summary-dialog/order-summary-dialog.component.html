@@ -1,0 +1,84 @@
+<div class="flex justify-between">
+  <div class="grid grid-row">
+    <h1 class="text-lg font-semibold">Detalle de Pedidos</h1>
+    <div class="text-secondary">{{data.displayName}}</div>
+  </div>
+  <button mat-dialog-close mat-icon-button>
+    <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
+    </mat-icon>
+  </button>
+</div>
+
+
+
+<!-- dataSource list -->
+<div class="mt-5">
+  <mat-accordion multi>
+    <mat-expansion-panel class="mb-1" *ngFor="let order of orderDetail">
+      <mat-expansion-panel-header class=" bg-gray-100">
+        <mat-panel-title>
+          <div class="font-semibold">
+            {{ order?.name }}
+          </div>
+
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ order?.ordersCount }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <ng-container *ngIf="order.orders.length > 0; else nodataSource">
+        <div class="custom-m-height-calc grid overflow-y-auto ">
+          <!-- Header -->
+          <div
+            class="list-grid z-10 sticky sm:overflow-y-auto px-3  top-0 mt-5 grid gap-4 py-3 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+            matSort matSortDisableClear>
+            <div class="hidden lg:block">
+              # Pedido
+            </div>
+            <div class="hidden  lg:block">
+              Total
+            </div>
+            <div class="hidden sm:block">
+              Fecha pedido
+            </div>
+            <div class="hidden sm:block">
+              Vigencia
+            </div>
+            <div class="">
+
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngFor="let order of order.orders">
+        <div class="list-grid grid items-center gap-4 py-3 px-3  border-b">
+          <div>{{order?.docNumber}}</div>
+          <div>{{order?.total | currency}}</div>
+          <div>{{order?.date | date}}</div>
+          <div>{{order?.dueDate | date}}</div>
+          <div  class="text-right">
+            <button mat-dialog-close matTooltip="Ir a detalle pedido" [routerLink]="'/sales/purchase/view/' + order.id"
+              class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
+              <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:eye'">
+              </mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #nodataSource>
+        <div class="flex justify-center  w-full text-center mt-5">
+          No hay pedidos registrados.
+        </div>
+
+      </ng-template>
+
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+
+</div>

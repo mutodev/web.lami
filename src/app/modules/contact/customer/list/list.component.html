@@ -104,9 +104,14 @@
                                     </div>
                                     <!-- Details button -->
                                     <div class="text-right">
-                                        <button [routerLink]="'/contact/customer/edit/' + client.id"
+                                        <button matTooltip="Editar cliente" [routerLink]="'/contact/customer/edit/' + client.id"
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
+                                            </mat-icon>
+                                        </button>
+                                        <button matTooltip="Detalle pedidos"  (click)="openDetailOrder(client)"
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:shopping-cart'">
                                             </mat-icon>
                                         </button>
                                     </div>

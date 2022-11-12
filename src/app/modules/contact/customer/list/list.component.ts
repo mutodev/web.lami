@@ -1,14 +1,14 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { BaseList } from 'app/core/bases/base-list';
 import { BaseListService } from 'app/core/bases/base-list.service';
-import { Pagination } from 'app/shared/interfaces/pagination';
-import { merge, Observable, of, Subject } from 'rxjs';
-import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
-import { ClientsService } from '../clients.service';
+import { SearchProductDialogComponent } from 'app/shared/components/search-product-dialog/search-product-dialog.component';
+import { OrderSummaryDialogComponent } from '../order-summary-dialog/order-summary-dialog.component';
+
 
 @Component({
   selector: 'app-list',
@@ -42,7 +42,8 @@ export class CustomerListComponent extends BaseList implements OnInit {
   dataSource = [];
   constructor(public _baseListService: BaseListService,
     public _changeDetectorRef: ChangeDetectorRef,
-    private _activatedRoute: ActivatedRoute,
+    private _activatedRoute: ActivatedRoute
+    , public dialog: MatDialog,
     private _router: Router) {
     super(_baseListService);
     this.apiUrl = '/api/customer';
@@ -61,5 +62,17 @@ export class CustomerListComponent extends BaseList implements OnInit {
    getStage(source: string): string{
     return source == 'L' ? 'Posible cliente': 'Cliente';
   }
+
+  openDetailOrder(customer){
+    this.dialog.open(OrderSummaryDialogComponent, {
+     width: '900px',
+     maxHeight: 'calc(100vh - 22px) !important;',
+      data: {
+        customerId: customer.id,
+        displayName: customer.name
+      },
+    });
+  }
+  
 
 }

@@ -111,15 +111,29 @@ export class LamiService {
 
     private _customer: BehaviorSubject<Customer | null> = new BehaviorSubject(null);
     private _customers: BehaviorSubject<Customer[] | null> = new BehaviorSubject(null);
+    private _orderDetail: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
 
     get customer$(): Observable<Customer> {
         return this._customer.asObservable();
+    }
+
+    get orderDetail$(): Observable<any> {
+        return this._orderDetail.asObservable();
     }
 
 
     get customers$(): Observable<Customer[]> {
         return this._customers.asObservable();
     }
+
+    getOrderDetail(customerId): Observable<APIResponse<any[]>> {
+        return this._httpClient.get<any[]>(`${environment.endPoint}/customer/orders/${customerId}`).pipe(
+            tap((result: any) => {
+                this._orderDetail.next(result.data);
+            })
+        );
+    }
+
 
     getCustomers(): Observable<APIResponse<Customer[]>> {
         return this._httpClient.get<Customer[]>(`${environment.endPoint}/customer`).pipe(
