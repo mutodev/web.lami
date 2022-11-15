@@ -3,7 +3,7 @@
 
 <!-- Navigation -->
 <fuse-vertical-navigation
-    class="dark bg-gray-900 print:hidden"
+    class="dark bg-lami-gray print:hidden"
     [mode]="isScreenSmall ? 'over' : 'side'"
     [name]="'mainNavigation'"
     [navigation]="navigation.default"
@@ -14,12 +14,12 @@
         <div class="flex items-center h-20 p-6 pb-0 ">
             <!-- Light version -->
             <img
-                class="dark:hidden filter  brightness-700"
+                class="dark:hidden"
                 src="../../../../assets/images/logo/lami_logo.svg"
                 alt="Logo image">
             <!-- Dark version -->
             <img
-                class="hidden dark:flex w-60 filter  brightness-700"
+                class="hidden dark:flex w-60 "
                 src="../../../../assets/images/logo/lami_logo.svg"
                 alt="Logo image">
         </div>

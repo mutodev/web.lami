@@ -3,8 +3,8 @@
     [class.fuse-vertical-navigation-item-has-subtitle]="!!item.subtitle"
     [ngClass]="item.classes?.wrapper">
 
-    <div
-        class="fuse-vertical-navigation-item"
+    <div 
+        class="fuse-vertical-navigation-item  hover:bg-lami-orange"
         [ngClass]="{'fuse-vertical-navigation-item-disabled': item.disabled}"
         [matTooltip]="item.tooltip || ''"
         (click)="toggleCollapsable()">
@@ -18,7 +18,7 @@
         </ng-container>
 
         <!-- Title & Subtitle -->
-        <div class="fuse-vertical-navigation-item-title-wrapper">
+        <div class="fuse-vertical-navigation-item-title-wrapper  hover:bg-lami-orange">
             <div class="fuse-vertical-navigation-item-title">
                 <span [ngClass]="item.classes?.title">
                     {{item.title}}

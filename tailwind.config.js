@@ -101,7 +101,8 @@ const config = {
             colors                  : {
                 gray: colors.slate,
                 "lami-blue": "#292E8A",
-                "lami-orange": "#F4A71B"
+                "lami-orange": "#F4A71B",
+                "lami-gray": "#737277"
                 
             },
             flex                    : {
