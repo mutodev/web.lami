@@ -146,6 +146,9 @@ export class ItemsComponent implements OnInit {
     itemsFormGroup.get('discount')
       .valueChanges
       .subscribe((discount) => {
+        discount = discount || '0';
+        console.log('discount', discount)
+
         const priceForm = parseInt(itemsFormGroup.get('price').value);
         const quantityForm =  parseInt(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;

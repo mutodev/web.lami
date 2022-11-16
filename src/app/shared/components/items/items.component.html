@@ -119,6 +119,14 @@
                 </div>
                 <div class="text-right text-lg">{{subTotal | currency}}</div>
 
+                <!-- DISCOUNT -->
+                <ng-container *ngIf="discount > 0">
+                    <div class="self-center font-medium tracking-tight text-secondary text-right ">
+                        DESCUENTO</div>
+                    <div class="text-right text-lg text-right">- {{discount | currency}}</div>
+                </ng-container>
+
+                <!-- TAXES -->
                 <ng-container *ngFor="let tax of totalTaxes">
                     <div class="self-center font-medium tracking-tight text-secondary text-right uppercase">
                         {{tax.name}}
@@ -126,11 +134,7 @@
                     <div class="text-right text-lg text-right"> {{tax.value | currency}}</div>
                 </ng-container>
 
-                <ng-container *ngIf="discount > 0">
-                    <div class="self-center font-medium tracking-tight text-secondary text-right ">
-                        DESCUENTO</div>
-                    <div class="text-right text-lg text-right">- {{discount | currency}}</div>
-                </ng-container>
+               
                 <!-- Divider -->
                 <div class="col-span-2 my-3 border-b"></div>
 
