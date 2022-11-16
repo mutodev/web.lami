@@ -35,6 +35,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   U_HBT_MedPag: Uhbt[] = [];
   U_HBT_RegTrib: Uhbt[] = [];
   CUSTOMER_GROUP: Uhbt[] = [];
+  projects: Uhbt[] = [];
   payTermsGrpCode: Uhbt[] = [];
   salesPersonCode: Uhbt[] = [];
   U_HBT_Nacional: Uhbt[] = [];
@@ -77,6 +78,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('U_HBT_RegFis').subscribe((result: Uhbt[]) => { this.U_HBT_RegFis = result });
     this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMed = result });
     this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result});
+    this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
       
     this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
       this.identificationTypes = identificationTypes;
@@ -106,6 +108,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       address: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', Validators.required],
+      project:  ['', Validators.required],
       U_HBT_MunMed: ['', Validators.nullValidator],
       U_HBT_MedPag: ['', Validators.nullValidator],
       U_HBT_RegTrib: ['', Validators.nullValidator],
