@@ -42,6 +42,7 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
   save() {
     
     let data: Customer = this.customrComponent.formGroup.value;
+    console.log(' this.customrComponent.formGroup',  this.customrComponent.formGroup)
     if (this.customrComponent.formGroup.valid) {
       this.customrComponent.formGroup.disable();
       this.disabledForm = true;
@@ -57,8 +58,8 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
         this._router.navigateByUrl('/contact/customer/all');
         this._notifyService.successAlert(result.message);
       },
-      error: (err) => {
-        this._notifyService.showError(err);
+      error: ({ error }) => {
+        this._notifyService.dispalyErrorMsg(error.message);
         this.disabledForm = false
         this.customrComponent.formGroup.enable();
       },
@@ -75,8 +76,8 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
         this._router.navigateByUrl('/contact/customer/all');
         this._notifyService.successAlert("Registro actualiazado sastifactoriamente.");
       },
-      error: (err) => {
-        this._notifyService.showError(err);
+      error: ({ error } ) => {
+        this._notifyService.dispalyErrorMsg(error.message);
         this.disabledForm = false
         this.customrComponent.formGroup.enable();
       },

@@ -118,20 +118,23 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
 
     this.formGroup.get('identificationTypeId').valueChanges.subscribe((id) => {
+
       const identificationType = this.identificationTypes.find((item: any) => item.id == id);
+    
       if (identificationType.code == "31" || identificationType.code == "50") {
         this.isNIT = true;
         this.labelName = 'Nombre de la empresa';
 
-
+        this.formGroup.get('firstName').setValidators([Validators.required]);
+        this.formGroup.get('lastName').setValidators([Validators.required]);
         this.formGroup.get('firstName').updateValueAndValidity();
         this.formGroup.get('lastName').updateValueAndValidity();
       }
       else {
         this.isNIT = false;
         this.labelName = 'Nombre completo';
-        this.formGroup.get('firstName').setValidators([Validators.required]);
-        this.formGroup.get('lastName').setValidators([Validators.required]);
+        this.formGroup.get('firstName').setValidators([Validators.nullValidator]);
+        this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
         this.formGroup.get('firstName').updateValueAndValidity();
         this.formGroup.get('lastName').updateValueAndValidity();
       }

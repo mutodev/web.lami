@@ -4,6 +4,10 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { FuseConfirmationService } from "@fuse/services/confirmation";
 import { AlertyComponent } from "app/shared/components/alerty/alerty.component";
 
+
+
+
+const INTERNAL_ERROR =  `Se ha producido un error inesperado. Inténtelo de nuevo. Si el problema continúa, póngase en contacto con su administrador.`;
 @Injectable({
     providedIn: 'root'
 })
@@ -18,10 +22,30 @@ export class NotifyService {
 
     showError(errorResponse: HttpErrorResponse){
         if([422].includes(errorResponse.status)) 
-            this.error400(errorResponse.error);
+            this.error400(errorResponse.message);
         else{
             this.error500(errorResponse.status);
         }
+    }
+
+    dispalyErrorMsg(msg: string = ""){
+        this._fuseConfirmationService.open({
+            title: 'Error Interno',
+            message: msg || INTERNAL_ERROR,
+            icon: {
+                show: true,
+                name: 'heroicons_outline:x-circle',
+                color: 'warn'
+            },
+            actions: {
+                cancel: {
+                    show: false
+                },
+                confirm: {
+                    label: 'OK'
+                }
+            }
+        })
     }
 
     error400(error: any) {
@@ -55,7 +79,7 @@ export class NotifyService {
     error500(errorCode) {
         this._fuseConfirmationService.open({
             title: 'Error Interno',
-            message: `Se ha producido un error inesperado. Inténtelo de nuevo. Si el problema continúa, póngase en contacto con su administrador.`,
+            message: INTERNAL_ERROR,
             icon: {
                 show: true,
                 name: 'heroicons_outline:x-circle',
