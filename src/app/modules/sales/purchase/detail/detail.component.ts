@@ -28,7 +28,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
   @ViewChild('itemsApp', { static: false }) itemsComponent: ItemsComponent;
   @ViewChild('customerApp', { static: true }) customerComponent: CustomerInfoSearchComponent;
   @ViewChild('orderInfoApp', { static: true }) orderInfoComponent: OrderInformationComponent;
-
+  disabledForm: boolean = false;
   constructor(private _formBuilder: FormBuilder, public _lamiService: LamiService,
     public _baseListService: BaseListService,
     private route: ActivatedRoute,

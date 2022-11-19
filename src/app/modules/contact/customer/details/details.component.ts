@@ -23,6 +23,7 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
   @ViewChild('customerComponent') customrComponent: CustomerComponent;
 
+
   constructor(private route: ActivatedRoute,
     private _lamiService: LamiService,
     private _router: Router,

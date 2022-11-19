@@ -14,7 +14,7 @@ body .light .mat-form-field-appearance-legacy .mat-form-field-underline:focus {
 
 .mat-select-panel-wrap {
     flex-basis: 100%;
-    min-width: 350px !important;
+    //min-width: 350px !important;
 }
 
 
@@ -31,3 +31,15 @@ body .light .mat-form-field-appearance-legacy .mat-form-field-underline:focus {
     max-height: calc(100vh - 222px) !important;
 
 }
+
+
+@media only screen and (max-width: 600px) {
+    .cdk-overlay-pane {
+        left: 10px !important;
+    }
+
+    .mat-select-pannoneel-wrap{
+        min-width: 320px !important;
+    }
+}
+
