@@ -57,8 +57,8 @@
                         </div>
                         <div class="col-span-1 text-center">{{item?.discount}}</div>
                         <div class="col-span-1 text-center">{{item?.amount}}</div>
-                        <div class="col-span-1 text-center">{{ item?.project }}</div>
-                        <div class="col-span-1 text-center">{{item?.arTaxCode }}</div>
+                        <div class="col-span-1 text-center">{{ item?.projectObj?.name }}</div>
+                        <div class="col-span-1 text-center">{{item?.taxObj?.name }}</div>
 
                         <div class="col-span-2 text-right">{{item?.value   | currency}}</div>
                         <div class="col-span-2 text-right">{{item?.total | currency}}</div>
@@ -81,7 +81,7 @@
             </div>
 
             <!-- TOTALES-->
-            <div class="grid grid-row-1 mt-5">
+            <div class="grid grid-row-1 mt-5" >
                 <div class="grid grid-cols-3">
                     <div class="col-span-2 font-medium text-md">
 
@@ -117,6 +117,14 @@
                         </div>
                     </div>
                 </div>
+               
+                <ng-container *ngIf="quotation.comments">
+                    <div class="font-semibold">Comentarios:</div>
+                    <div>{{ quotation?.comments }}</div>
+                  
+                </ng-container>
+                
+               
             </div>
         </div>
     </div>
