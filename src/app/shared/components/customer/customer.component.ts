@@ -141,7 +141,11 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
         this.formGroup.get('lastName2').setValidators([Validators.nullValidator]);
         this.formGroup.get('name').setValidators([Validators.required]);
-        this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaJuridica)
+        this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaJuridica);
+        this.formGroup.get('checkSameInfo').reset();
+        this.formGroup.get('firstName').reset();
+        this.formGroup.get('lastName').reset();
+        this.formGroup.get('lastName2').reset();
       }
       else {
         this.formGroup.get('firstName').setValidators([Validators.required]);
@@ -149,6 +153,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         this.formGroup.get('lastName2').setValidators([Validators.required]);
         this.formGroup.get('name').setValidators([Validators.nullValidator]);
         this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaNatural);
+        this.formGroup.get('name').reset();
       }
 
       this.formGroup.get('firstName').updateValueAndValidity();

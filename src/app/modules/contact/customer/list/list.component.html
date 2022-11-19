@@ -73,7 +73,13 @@
                                         {{client.identification}}
                                     </div>
                                     <div>
-                                        {{client?.name}}
+                                        <ng-container *ngIf="client.identificationType.code == '31' || client.identificationType.code == '50'; else displayName">
+                                            {{client?.name}}
+                                        </ng-container>
+                                      <ng-template #displayName>
+                                        {{client?.firstName}}    {{client?.lastName}}  {{client?.lastName2}}
+                                      </ng-template>
+                                      
 
                                     </div>
 

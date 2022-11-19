@@ -178,7 +178,7 @@
         </div>
 
          <!-- CHECk BOX -->
-         <mat-checkbox formControlName="checkSameInfo" [color]="'primary'" class="mb-5">Usar misma información cliente</mat-checkbox>
+         <mat-checkbox *ngIf="!isNIT"  formControlName="checkSameInfo" [color]="'primary'" class="mb-5">Usar misma información cliente</mat-checkbox>
 
         <!-- ROW 0.0 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
