@@ -26,7 +26,6 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   customerType: any[] = [];
   genders: any[] = [];
   isNIT: boolean = false;
-  labelName: string = 'Nombre completo'
   customerComponent = CustomerComponent;
   identificationTypes: IdentificationType[] = [];
   identificationType
@@ -101,10 +100,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       identificationTypeId: [null, Validators.required],
       identification: ['', Validators.required],
       source: ['L', Validators.required],
-      name: ['', Validators.required],
-      firstName: ['', Validators.nullValidator],
-      lastName: ['', Validators.nullValidator],
-      lastName2: ['', Validators.nullValidator],
+      name: ['', Validators.nullValidator],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      lastName2: ['', Validators.required],
       address: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', Validators.required],
@@ -117,53 +116,91 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       salesPersonCode: ['', [Validators.nullValidator, Validators.required]],
       U_HBT_Nacional: ['', Validators.nullValidator],
       U_HBT_RegFis: ['', Validators.nullValidator],
+      firstNameBilling:  ['', Validators.nullValidator],
+      lastNameBilling:  ['', Validators.nullValidator],
+      lastName2Billing:  ['', Validators.nullValidator],
+      checkSameInfo: [false]
     });
 
 
     this.formGroup.get('identificationTypeId').valueChanges.subscribe((id) => {
 
       const identificationType = this.identificationTypes.find((item: any) => item.id == id);
+      this.isNIT = identificationType.code == "31" || identificationType.code == "50";
     
-      if (identificationType.code == "31" || identificationType.code == "50") {
-        this.isNIT = true;
-        this.labelName = 'Nombre de la empresa';
-
-        this.formGroup.get('firstName').setValidators([Validators.required]);
-        this.formGroup.get('lastName').setValidators([Validators.required]);
-        this.formGroup.get('firstName').updateValueAndValidity();
-        this.formGroup.get('lastName').updateValueAndValidity();
-      }
-      else {
-        this.isNIT = false;
-        this.labelName = 'Nombre completo';
+      if (this.isNIT) {
         this.formGroup.get('firstName').setValidators([Validators.nullValidator]);
         this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
-        this.formGroup.get('firstName').updateValueAndValidity();
-        this.formGroup.get('lastName').updateValueAndValidity();
+        this.formGroup.get('lastName2').setValidators([Validators.nullValidator]);
+        this.formGroup.get('name').setValidators([Validators.required]);
       }
+      else {
+        this.formGroup.get('firstName').setValidators([Validators.required]);
+        this.formGroup.get('lastName').setValidators([Validators.required]);
+        this.formGroup.get('lastName2').setValidators([Validators.required]);
+        this.formGroup.get('name').setValidators([Validators.nullValidator]);
+      }
+
+      this.formGroup.get('firstName').updateValueAndValidity();
+      this.formGroup.get('lastName').updateValueAndValidity();
+      this.formGroup.get('lastName2').updateValueAndValidity();
+      this.formGroup.get('name').updateValueAndValidity();
 
     });
 
     this.formGroup.get('source').valueChanges.subscribe((value) => {
       this.validateUhtbFields(value);
     });
+
+    this.formGroup.get('firstName').valueChanges.subscribe((value) => {
+     if (this.formGroup.get('checkSameInfo').value)
+        this.formGroup.get('firstNameBilling').setValue(value);
+    });
+
+    this.formGroup.get('lastName').valueChanges.subscribe((value) => {
+      if (this.formGroup.get('checkSameInfo').value)
+         this.formGroup.get('lastNameBilling').setValue(value);
+     });
+
+     this.formGroup.get('lastName2').valueChanges.subscribe((value) => {
+      if (this.formGroup.get('checkSameInfo').value)
+         this.formGroup.get('lastName2Billing').setValue(value);
+     });
+
+    this.formGroup.get('checkSameInfo').valueChanges.subscribe((value) => {
+
+      if (value) {
+        this.formGroup.get('firstNameBilling').setValue(this.formGroup.get('firstName').value);
+        this.formGroup.get('lastNameBilling').setValue(this.formGroup.get('lastName').value);
+        this.formGroup.get('lastName2Billing').setValue(this.formGroup.get('lastName2').value);
+        this.formGroup.get('firstNameBilling').disable();
+        this.formGroup.get('lastNameBilling').disable();
+        this.formGroup.get('lastName2Billing').disable();
+      } else {
+        this.formGroup.get('firstNameBilling').setValue('');
+        this.formGroup.get('lastNameBilling').setValue('');
+        this.formGroup.get('lastName2Billing').setValue('');
+        this.formGroup.get('firstNameBilling').enable();
+        this.formGroup.get('lastNameBilling').enable()
+        this.formGroup.get('lastName2Billing').enable()
+      }
+      
+    });
   }
 
   validateUhtbFields(source: string) {
     if (source == "C") {
       this.getHbtsValues();
-      this.formGroup.get('firstName').setValidators([Validators.required]);
-      this.formGroup.get('lastName').setValidators([Validators.required]);
-      this.formGroup.get('lastName2').setValidators([Validators.required]);
+      this.formGroup.get('firstNameBilling').setValidators([Validators.required]);
+      this.formGroup.get('lastNameBilling').setValidators([Validators.required]);
+      this.formGroup.get('lastName2Billing').setValidators([Validators.required]);
       this.formGroup.get('U_HBT_MunMed').setValidators([Validators.required]);
       this.formGroup.get('U_HBT_MedPag').setValidators([Validators.required]);
 
-
-
     } else {
-      this.formGroup.get('firstName').setValidators([Validators.nullValidator]);
-      this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
-      this.formGroup.get('lastName2').setValidators([Validators.nullValidator]);
+      this.formGroup.get('firstNameBilling').setValidators([Validators.nullValidator]);
+      this.formGroup.get('lastNameBilling').setValidators([Validators.nullValidator]);
+      this.formGroup.get('lastName2Billing').setValidators([Validators.nullValidator]);
       this.formGroup.get('U_HBT_MunMed').setValidators([Validators.nullValidator]);
       this.formGroup.get('U_HBT_MedPag').setValidators([Validators.nullValidator]);
 
@@ -171,8 +208,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     this.formGroup.get('U_HBT_MunMed').updateValueAndValidity();
     this.formGroup.get('U_HBT_MedPag').updateValueAndValidity();
-    this.formGroup.get('firstName').updateValueAndValidity();
-    this.formGroup.get('lastName').updateValueAndValidity();
+    this.formGroup.get('firstNameBilling').updateValueAndValidity();
+    this.formGroup.get('lastName2Billing').updateValueAndValidity();
     this.formGroup.get('lastName2').updateValueAndValidity();
   }
 
