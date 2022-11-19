@@ -43,8 +43,10 @@
           <!-- Rows -->
           <ng-container *ngIf="(dataSource$ | async) as dataSource">
             <ng-container *ngFor="let item of dataSource; trackBy: trackByFn">
-              <div  class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
-                <div (click)="onSelectedItem(item)">
+              <div class="flex md:block">
+                <div (click)="onSelectedItem(item)"
+                  class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
+
                   <div>
                     <div class="font-semibold text-orange">{{item.code}}</div>
                     <p>{{item.name}}</p>
@@ -66,21 +68,63 @@
                     {{item.price | currency}}
                   </div>
                 </div>
+
                 <!-- Details button -->
-                <div class="md:hidden ">
+                <div class="grid align-middle border-b pr-2  items-center sm:invisible z-9999 ">
                   <button type="button" class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
-                    (click)="selectedProduct = !selectedProduct">
+                    (click)="toggleDetails(item.id)">
                     <mat-icon class="icon-size-5"
-                      [svgIcon]="selectedProduct ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                      [svgIcon]="selectedProduct === item.id  ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
                     </mat-icon>
                   </button>
                 </div>
               </div>
+              <div class="grid">
+                <ng-container *ngIf="selectedProduct === item.id">
+                  <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: item}"></ng-container>
+                </ng-container>
+              </div>
+
+
             </ng-container>
           </ng-container>
         </div>
       </ng-container>
     </ng-container>
+
+
+    <ng-template #rowDetailsTemplate let-item>
+      <div class="shadow-lg overflow-hidden">
+        <div class="flex border-b">
+          <!-- Selected product form -->
+          <form class="flex flex-col w-full">
+
+            <div class="flex flex-col sm:flex-row px-5 py-2">
+
+              <!-- Product images and status -->
+              <div class="flex flex-col">
+                <div class="flex flex-col">
+                  <div class="flex justify-between ">
+                    <div>Cant.</div>
+                    <div>Comp.</div>
+                    <div>Ped.</div>
+                  </div>
+                  <div class="flex justify-between ">
+                    <div class="text-center">{{item.quantityOnStock}}</div>
+                    <div>{{item.quantityOrderedByCustomers}} </div>
+                    <div>{{item.quantityOrderedFromVendors}}</div>
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <span class="font-semibold">Precio: </span> {{item.price | currency}}
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </ng-template>
+
 
     <ng-template #nodataSource>
       <div class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">No hay Artículos!

@@ -10,7 +10,7 @@ import { BaseListService } from 'app/core/bases/base-list.service';
     /* language=SCSS */
     `
         .list-grid {
-            grid-template-columns: auto 48px ;
+            grid-template-columns: calc(100vw - 90px);
 
             @screen sm {
                 grid-template-columns: auto  80px 150px 80px;
@@ -47,10 +47,14 @@ export class SearchProductDialogComponent extends BaseList implements OnInit {
     this.data.selectItem(item);
   }
 
-  toggleDetails(): void {
+  toggleDetails(productID): void {
     // If the product is already selected...
-  this.selectedProduct = !this.selectedProduct;
- 
+    if(this.selectedProduct && this.selectedProduct == productID){
+       this.selectedProduct = null; 
+       return;
+    }; 
+
+    this.selectedProduct = productID;
   }
 
 }
