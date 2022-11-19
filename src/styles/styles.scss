@@ -36,7 +36,10 @@ body .light .mat-form-field-appearance-legacy .mat-form-field-underline:focus {
 @media only screen and (max-width: 600px) {
     .cdk-overlay-pane {
         left: 10px !important;
+        max-width: 97vw !important;
     }
+
+   
 
     .mat-select-pannoneel-wrap{
         min-width: 320px !important;

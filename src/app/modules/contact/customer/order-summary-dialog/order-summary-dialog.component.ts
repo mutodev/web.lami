@@ -12,7 +12,7 @@ import {MatAccordion} from '@angular/material/expansion';
     /* language=SCSS */
     `
         .list-grid {
-            grid-template-columns: auto 48px ;
+            grid-template-columns: auto ;
 
             @screen sm {
                 grid-template-columns: auto  80px 150px 80px;
