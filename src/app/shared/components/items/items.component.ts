@@ -273,6 +273,7 @@ export class ItemsComponent implements OnInit {
       const dialogRef = this.dialog.open(SearchProductDialogComponent, {
         width: '900px',
        maxHeight: 'calc(100vh - 22px) !important;',
+       disableClose:true,
         data: {
           selectItem: (item)=>{
             this.itemsFormGroup.push(this.addItemRow(item));

@@ -15,6 +15,12 @@ import { result } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
+
+export enum EnumCustomerType {
+  PersonaNatural = '87345bca-46c0-11ed-88f1-7b765a5d50e1',
+  PersonaJuridica = '87345bcb-46c0-11ed-88f1-7b765a5d50e1'
+}
+
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
@@ -90,13 +96,15 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   getCusotmer() {
    
     this._lamiService.customer$.subscribe((customer) => {
-      this.formGroup.patchValue(customer)
+      this.formGroup.patchValue(customer);
+      if(customer.source == 'C')
+        this.formGroup.get('source').disable();
     })
   }
 
   validations() {
     this.formGroup = this._formBuilder.group({
-      typeId: ['87345bca-46c0-11ed-88f1-7b765a5d50e1', Validators.nullValidator], //tipoCliente
+      typeId: [EnumCustomerType.PersonaNatural, Validators.nullValidator], //tipoCliente
       identificationTypeId: [null, Validators.required],
       identification: ['', Validators.required],
       source: ['L', Validators.required],
@@ -133,12 +141,14 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
         this.formGroup.get('lastName2').setValidators([Validators.nullValidator]);
         this.formGroup.get('name').setValidators([Validators.required]);
+        this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaJuridica)
       }
       else {
         this.formGroup.get('firstName').setValidators([Validators.required]);
         this.formGroup.get('lastName').setValidators([Validators.required]);
         this.formGroup.get('lastName2').setValidators([Validators.required]);
         this.formGroup.get('name').setValidators([Validators.nullValidator]);
+        this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaNatural);
       }
 
       this.formGroup.get('firstName').updateValueAndValidity();
@@ -232,7 +242,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   }
 
   create(): Observable<any> {
-    return this._httpClient.post<any>('/api/customer', this.formGroup.value).pipe(
+    return this._httpClient.post<any>('/api/customer', this.formGroup.getRawValue()).pipe(
       map((res: any) => {
         if (res.status === 'success') {
           return { success: true, data: res.data }

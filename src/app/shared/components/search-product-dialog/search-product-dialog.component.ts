@@ -6,7 +6,7 @@ import { BaseListService } from 'app/core/bases/base-list.service';
 @Component({
   selector: 'app-search-product-dialog',
   templateUrl: './search-product-dialog.component.html',
-  styles         : [
+  styles: [
     /* language=SCSS */
     `
         .list-grid {
@@ -25,11 +25,12 @@ import { BaseListService } from 'app/core/bases/base-list.service';
             }
         }
     `
-],
+  ],
 })
-export class SearchProductDialogComponent  extends BaseList implements OnInit {
+export class SearchProductDialogComponent extends BaseList implements OnInit {
 
   @Output() selectedItem: EventEmitter<any> = new EventEmitter();
+  selectedProduct: boolean = false;
 
   constructor(public _baseListService: BaseListService,
     public dialogRef: MatDialogRef<SearchProductDialogComponent>,
@@ -42,11 +43,16 @@ export class SearchProductDialogComponent  extends BaseList implements OnInit {
     this.getDataSource();
   }
 
-  onSelectedItem(item: any){
+  onSelectedItem(item: any) {
     this.data.selectItem(item);
   }
 
+  toggleDetails(): void {
+    // If the product is already selected...
+  this.selectedProduct = !this.selectedProduct;
+ 
+  }
 
-
-  
 }
+
+ 
