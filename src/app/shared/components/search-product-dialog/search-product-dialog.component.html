@@ -67,7 +67,14 @@
                   <div class="hidden lg:block">
                     {{item.price | currency}}
                   </div>
+
+                  <div class="col-span-5 text-right">
+                    <span class="mr-2"> Fecha aprox. de entrega:   </span>
+                    <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
+                  
+                  </div>
                 </div>
+               
 
                 <!-- Details button -->
                 <div class="grid align-middle border-b pr-2  items-center sm:hidden">
