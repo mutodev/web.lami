@@ -56,7 +56,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   }
 
   setClientText(customer: any) {
-    return customer.name
+    return customer.displayName
 
   }
 
