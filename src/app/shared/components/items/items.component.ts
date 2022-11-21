@@ -31,7 +31,26 @@ const  TAXES : any[] = [
 @Component({
   selector: 'ci-item-table',
   templateUrl: './items.component.html',
-  styleUrls: ['./items.component.scss']
+  styleUrls: ['./items.component.scss'],
+  styles: [
+    /* language=SCSS */
+    `
+        .list-grid {
+            grid-template-columns:auto;
+
+            @screen sm {
+                grid-template-columns: auto 80px 80px 110px 110px 150px 150px 40px;
+            }
+            @screen md {
+                grid-template-columns: auto 40px 40px 90px 90px 110px 110px 20px;
+            }
+
+            @screen lg {
+                grid-template-columns: auto 80px 80px 110px 110px 150px 150px 40px;
+            }
+        }
+    `
+  ],
 })
 export class ItemsComponent implements OnInit {
 
