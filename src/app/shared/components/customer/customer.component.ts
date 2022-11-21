@@ -106,15 +106,15 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this.formGroup = this._formBuilder.group({
       typeId: [EnumCustomerType.PersonaNatural, Validators.nullValidator], //tipoCliente
       identificationTypeId: [null, Validators.required],
-      identification: ['', Validators.required],
+      identification: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
       source: ['L', Validators.required],
       name: ['', Validators.nullValidator],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       lastName2: ['', Validators.required],
       address: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
+      email: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")]],
       project:  ['', Validators.required],
       U_HBT_MunMed: ['', Validators.nullValidator],
       U_HBT_MedPag: ['', Validators.nullValidator],

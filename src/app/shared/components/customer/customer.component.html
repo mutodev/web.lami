@@ -1,9 +1,9 @@
 <form [formGroup]="formGroup" novalidate class="flex flex-col">
     <!-- Section -->
-  
+
     <div class="grid">
         <!-- client type -->
-        <mat-radio-group [color]="'primary'"  formControlName="source" class="mb-5" aria-label="Select an option">
+        <mat-radio-group [color]="'primary'" formControlName="source" class="mb-5" aria-label="Select an option">
             <mat-radio-button class="mr-5" value="L">Posible cliente</mat-radio-button>
             <mat-radio-button value="C">Cliente</mat-radio-button>
         </mat-radio-group>
@@ -36,6 +36,9 @@
                     *ngIf="formGroup.get('identification').hasError('required')  && formGroup.get('identification').touched">
                     Campo
                     requerido</mat-error>
+                    <mat-error *ngIf="formGroup.get('identification').hasError('pattern')  && formGroup.get('identification').touched">
+                        Solo números permitidos 
+                    </mat-error>
                 <mat-error *ngIf="formGroup.get('identification').hasError('invalidAsync')">
                     El cliente ya existe.</mat-error>
             </mat-form-field>
@@ -116,7 +119,7 @@
         </mat-form-field>
 
     </div>
-   
+
     <!-- ROW 4 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
         <!-- Phone-->
@@ -125,6 +128,9 @@
             <input formControlName="phone" matInput>
             <mat-error *ngIf="formGroup.get('phone').hasError('required') && formGroup.get('phone').touched">
                 Campo requerido</mat-error>
+                <mat-error *ngIf="formGroup.get('phone').hasError('pattern')  && formGroup.get('phone').touched">
+                    Solo números permitidos 
+                </mat-error>
         </mat-form-field>
         <!-- Email-->
         <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
@@ -132,6 +138,9 @@
             <input formControlName="email" matInput>
             <mat-error *ngIf="formGroup.get('email').hasError('required') && formGroup.get('email').touched">
                 Campo requerido</mat-error>
+            <mat-error *ngIf="formGroup.get('email').hasError('pattern')  && formGroup.get('email').touched">
+                Formato de correo inválido
+            </mat-error>
         </mat-form-field>
     </div>
 
@@ -177,8 +186,9 @@
             <div class="flex-auto border-b"></div>
         </div>
 
-         <!-- CHECk BOX -->
-         <mat-checkbox *ngIf="!isNIT"  formControlName="checkSameInfo" [color]="'primary'" class="mb-5">Usar misma información cliente</mat-checkbox>
+        <!-- CHECk BOX -->
+        <mat-checkbox *ngIf="!isNIT" formControlName="checkSameInfo" [color]="'primary'" class="mb-5">Usar misma
+            información cliente</mat-checkbox>
 
         <!-- ROW 0.0 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
@@ -195,7 +205,8 @@
                 <mat-label>Apellido</mat-label>
                 <input formControlName="lastNameBilling" matInput>
 
-                <mat-error *ngIf="formGroup.get('lastNameBilling').hasError('required') && formGroup.get('lastNameBilling').touched">
+                <mat-error
+                    *ngIf="formGroup.get('lastNameBilling').hasError('required') && formGroup.get('lastNameBilling').touched">
                     Campo
                     requerido</mat-error>
             </mat-form-field>
@@ -208,7 +219,8 @@
                 <mat-label>Segundo apellido</mat-label>
                 <input formControlName="lastName2Billing" matInput>
 
-                <mat-error *ngIf="formGroup.get('lastName2Billing').hasError('required') && formGroup.get('lastName2Billing').touched">
+                <mat-error
+                    *ngIf="formGroup.get('lastName2Billing').hasError('required') && formGroup.get('lastName2Billing').touched">
                     Campo
                     requerido</mat-error>
             </mat-form-field>
