@@ -42,9 +42,8 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
   save() {
     
-    let data: Customer = this.customrComponent.formGroup.value;
-    console.log("🚀 ~ file: details.component.ts ~ line 46 ~ CustomerDetailsComponent ~ save ~ this.customrComponent.formGroup.value;", this.customrComponent.formGroup.value)
-    
+    let data: Customer = this.customrComponent.formGroup.getRawValue();
+   
     if (this.customrComponent.formGroup.valid) {
       this.customrComponent.formGroup.disable();
       this.disabledForm = true;
@@ -55,7 +54,7 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
   }
 
   create(data: any) {
-    console.log('data', data)
+
     this._lamiService.createCustomer(data).subscribe({
       next: (result) => {
         this._router.navigateByUrl('/contact/customer/all');

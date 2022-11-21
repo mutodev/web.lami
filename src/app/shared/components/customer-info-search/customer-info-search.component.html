@@ -14,7 +14,7 @@
                         <select-multi-columns [dataSource]="clients" [widthList]="'500px'"
                         labelButton="Nuevo Cliente" [placeholder]="'Seleccionar Cliente'"
                         [headers]="['Identificación','Nombre']"  (selectedChange)="clientChange($event)"
-                        [displayColumns]="['identification', 'name']" [customStyle]="{width: '100%'}"
+                        [displayColumns]="['identification', 'displayName']" [customStyle]="{width: '100%'}"
                         selectedValue="id" [selectedText]="setClientText" formControlName="customerId"
                         (onClickButton)="openClientDialog()">
                     </select-multi-columns>

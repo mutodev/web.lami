@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { items } from 'app/mock-api/apps/file-manager/data';
 import { Customer } from 'app/modules/contact/customer/clients.types';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -78,7 +79,19 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
     this._lamiService.customers$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((clients: any[]) => {
-        this.clients = clients;
+        this.clients = clients.map((item) => {
+          let displayName;
+          if (item.identificationType.code == '31' || item.identificationType.code == '50')
+              displayName = item.name;
+          else 
+            displayName =  `${item?.firstName} ${item?.lastName} ${item?.lastName2}`;
+
+          return {
+            ...item,
+            displayName:  displayName
+          }
+
+        });
       });
   }
 
