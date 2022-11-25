@@ -106,7 +106,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this.formGroup = this._formBuilder.group({
       typeId: [EnumCustomerType.PersonaNatural, Validators.nullValidator], //tipoCliente
       identificationTypeId: [null, Validators.required],
-      identification: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
+      identification: ['', [Validators.required, Validators.pattern("^[0-9]+$|^CL-[0-9]+$")]],
       source: ['L', Validators.required],
       name: ['', Validators.nullValidator],
       firstName: ['', Validators.required],
