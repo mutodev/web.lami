@@ -28,7 +28,7 @@
 
         <!-- Items Array -->
         <ng-container *ngFor="let item of items.controls; let i=index">
-            <div class="list-grid  grid mt-1  gap-x-4 items-center border-b py-2 md:px-3" formArrayName="items">
+            <div class="list-grid grid  mt-1  gap-x-4 items-center border-b py-2 md:px-3" formArrayName="items">
                 <ng-container [formGroup]="item">
                     <!-- Items -->
                     <div class="text-base font-medium">
@@ -89,10 +89,94 @@
                             </mat-icon>
                         </button>
                     </div>
+                    <!-- Details button -->
+
+                    <button type="button" class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
+                        (click)="toggleDetails(item.get('id'))">
+                        <mat-icon class="icon-size-5"
+                            [svgIcon]="selectedProduct === item.id  ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                        </mat-icon>
+                    </button>
+
+                    <div class="grid col-span-2">
+                        <ng-container *ngIf="selectedProduct === item.get('id')">
+                            <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: item}">
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
                 </ng-container>
 
             </div>
         </ng-container>
+
+        <ng-template #rowDetailsTemplate let-item>
+            <div class="overflow-hidden">
+                    <!-- Selected product form -->
+                    <!-- <ng-container *ngFor="let item of items.controls; let i=index"> -->
+                        <ng-container [formGroup]="item">
+                            <div class="px-5 py-3">
+                                <!-- ROW 1 -->
+                                <div class="flex  justify-between">
+                                    <div>
+                                        <mat-form-field floatLabel="float" appearance="legacy"
+                                            class="w-full fuse-mat-dense">
+                                            <input type="number" min="0" formControlName="discount"
+                                                [placeholder]="'Descuento %'" matInput>
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field floatLabel="float" appearance="legacy"
+                                            class="w-full fuse-mat-dense">
+                                            <input type="number" min="1" [placeholder]="'Cantidad'"
+                                                formControlName="quantity"  matInput>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <!-- ROW 2 -->
+                                <div class="flex w-full">
+                                    <mat-form-field floatLabel="float" appearance="legacy" class="w-full fuse-mat-dense">
+                                        <mat-select formControlName="project" [placeholder]="'Proyecto'">
+                                            <mat-option *ngFor="let project of projects" [value]="project.code">{{project.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                 <!-- ROW 3 -->
+                                 <div class="flex w-full">
+                                    <mat-form-field floatLabel="float" appearance="legacy" class="w-full fuse-mat-dense">
+                                        <mat-select formControlName="tax" [placeholder]="'Impuesto'">
+                                            <mat-option class="text-sm" *ngFor="let tax of taxes" [value]="tax.code">{{tax.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- ROW 4 -->
+                                <div class="flex justify-between">
+                                    <div class="flex flex-col">
+                                        <div class="font-semibold">Price</div>
+                                        <div class="font-semibold text-lg">{{ item.get('price').value | currency }}</div>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="font-semibold">Total</div>
+                                        <div class="font-semibold text-lg">{{ item.get('total').value | currency }}</div>
+                                    </div>
+                                   
+                                </div>
+                                 <!-- ROW 4 -->
+                                 <div class="flex justify-end">
+                                    <button (click)="removeItemRowBtn(i)" mat-button>
+                                        <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:trash'">
+                                        </mat-icon>
+                                    </button>
+                                 </div>
+                            </div>
+
+                        </ng-container>
+                    <!-- </ng-container> -->
+            </div>
+        </ng-template>
+
 
         <div class="text-center text-secondary md:mt-3" *ngIf="items.controls.length == 0">
             No hay artículos agregados a este pedido.
@@ -108,8 +192,8 @@
     <!-- COMMENTS -->
     <div class="order-last md:order-first font-medium text-md pt-10 basis-1/2 ">
         <mat-form-field appearance="outline" class="w-full fuse-mat-dense">
-            <textarea maxlength="250" placeholder="Comentarios..." [(ngModel)]="comments" matInput name="comments" id="comments"
-                cols="10" rows="5"></textarea>
+            <textarea maxlength="250" placeholder="Comentarios..." [(ngModel)]="comments" matInput name="comments"
+                id="comments" cols="10" rows="5"></textarea>
         </mat-form-field>
     </div>
 
