@@ -68,7 +68,7 @@
                     {{item.price | currency}}
                   </div>
 
-                  <div class="col-span-5 text-right">
+                  <div class="col-span-5 text-right hidden md:block">
                     <span class="mr-2"> Fecha aprox. de entrega:   </span>
                     <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
                   
@@ -124,6 +124,11 @@
                 </div>
                 <div class="mt-2">
                   <span class="font-semibold">Precio: </span> {{item.price | currency}}
+                </div>
+                <div class="mt-2">
+                  <span class="mr-2"> Fecha aprox. de entrega:   </span>
+                  <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
+                
                 </div>
               </div>
             </div>

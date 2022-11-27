@@ -36,7 +36,7 @@ const  TAXES : any[] = [
     /* language=SCSS */
     `
         .list-grid {
-            grid-template-columns:auto;
+            grid-template-columns: auto 40px;
 
             @screen sm {
                 grid-template-columns: auto 80px 80px 110px 110px 150px 150px 40px;
@@ -66,6 +66,7 @@ export class ItemsComponent implements OnInit {
   totalTaxes: any[] = [];
   comments: string = "";
   projects: any[] = [];
+  selectedProduct: boolean = false;
 
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -363,4 +364,14 @@ export class ItemsComponent implements OnInit {
     // item.get('id').setValue($event.code);
   }
 
+
+  toggleDetails(productID): void {
+
+    if(this.selectedProduct && this.selectedProduct == productID){
+       this.selectedProduct = null; 
+       return;
+    }; 
+
+    this.selectedProduct = productID;
+  }
 }
