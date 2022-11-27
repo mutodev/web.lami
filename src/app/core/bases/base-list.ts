@@ -108,4 +108,9 @@ export abstract class BaseList implements AfterViewInit {
             }
         });
     }
+
+    editSource(newDate: any[]) {
+        this._baseListService.editSource(newDate);
+        this.dataSource$ = this._baseListService.source$;
+    }
 }

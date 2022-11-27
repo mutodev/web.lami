@@ -51,8 +51,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   @ViewChildren('U_HBT_Group')
   public UHBTGroup: QueryList<SearchMatSelectComponent>
 
-  private U_HBT_MunMedSelectComponent: SearchMatSelectComponent;
-  private U_HBT_MedPagSelectComponent: SearchMatSelectComponent
+  // private U_HBT_MunMedSelectComponent: SearchMatSelectComponent;
+  // private U_HBT_MedPagSelectComponent: SearchMatSelectComponent
 
 
   constructor(private _lamiService: LamiService,
@@ -279,8 +279,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
   getHbtsValues(): void {
 
-    this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMedSelectComponent.loadData(result); });
-    this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPagSelectComponent.loadData(result); });
+    // this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMedSelectComponent.loadData(result); });
+    // this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPagSelectComponent.loadData(result); });
 
   }
 }

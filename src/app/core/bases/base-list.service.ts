@@ -113,5 +113,7 @@ export class BaseListService {
         );
     }
 
-
+    editSource(newDate: any[]) {
+        this._source.next(newDate);
+    }
 }
