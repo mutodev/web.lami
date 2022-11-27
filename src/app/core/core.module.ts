@@ -5,6 +5,8 @@ import { AuthModule } from 'app/core/auth/auth.module';
 import { IconsModule } from 'app/core/icons/icons.module';
 import { TranslocoCoreModule } from 'app/core/transloco/transloco.module';
 import { AlertyModule } from 'app/shared/components/alerty/alerty.module';
+import { RealTimeService } from './services/real-time.service';
+import { SseService } from './services/sse.service';
 
 @NgModule({
     imports: [
@@ -13,7 +15,8 @@ import { AlertyModule } from 'app/shared/components/alerty/alerty.module';
         TranslocoCoreModule,
         MatSnackBarModule,
         AlertyModule
-    ]
+    ],
+    providers: [SseService, RealTimeService]
 })
 export class CoreModule
 {

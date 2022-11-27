@@ -235,7 +235,7 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.dataSource && changes.dataSource.currentValue) {
+        if (changes.dataSource && changes.dataSource.currentValue.length > 0 && changes.dataSource.currentValue) {
             this.dataSource = changes.dataSource.currentValue;
             this.filteredData.next(this.dataSource.slice());
             if (this.formControlSelect.value) {

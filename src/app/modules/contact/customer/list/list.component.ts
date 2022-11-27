@@ -6,7 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { BaseList } from 'app/core/bases/base-list';
 import { BaseListService } from 'app/core/bases/base-list.service';
-import { SearchProductDialogComponent } from 'app/shared/components/search-product-dialog/search-product-dialog.component';
+import { RealTimeService } from 'app/core/services/real-time.service';
+import { environment } from 'environments/environment';
 import { OrderSummaryDialogComponent } from '../order-summary-dialog/order-summary-dialog.component';
 
 
@@ -42,8 +43,9 @@ export class CustomerListComponent extends BaseList implements OnInit {
   dataSource = [];
   constructor(public _baseListService: BaseListService,
     public _changeDetectorRef: ChangeDetectorRef,
-    private _activatedRoute: ActivatedRoute
-    , public dialog: MatDialog,
+    private _activatedRoute: ActivatedRoute,
+    public dialog: MatDialog,
+    private realTime: RealTimeService,
     private _router: Router) {
     super(_baseListService);
     this.apiUrl = '/api/customer';
@@ -52,6 +54,20 @@ export class CustomerListComponent extends BaseList implements OnInit {
   ngOnInit(): void {
 
     this.getDataSource();
+
+    this.realTime.getServerSentEvent(`${environment.endPoint}/customer/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
+    .subscribe(event => {
+      if (this.dataSource$) {
+        const customer = JSON.parse(event.data);
+        let data = (this.dataSource$.source as any)._value;
+        const obj = data.find((a) => a.id === customer.id);
+        if (obj) {
+            obj.sendToSap = customer.sendToSap;
+        }
+        this.editSource([...data]);
+      }
+    });
+
   }
 
 

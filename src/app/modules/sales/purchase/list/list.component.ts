@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { BaseList } from 'app/core/bases/base-list';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { RealTimeService } from 'app/core/services/real-time.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-list',
@@ -31,12 +33,26 @@ import { BaseListService } from 'app/core/bases/base-list.service';
 })
 export class PurchaseListComponent extends BaseList implements OnInit {
 
-  constructor(public _baseListService: BaseListService,) {
+  constructor(public _baseListService: BaseListService,
+              private realTime: RealTimeService) {
     super(_baseListService);
    }
 
   ngOnInit(): void {
     this.getDataSource();
+
+    this.realTime.getServerSentEvent(`${environment.endPoint}/customer/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
+    .subscribe(event => {
+      if (this.dataSource$) {
+        const customer = JSON.parse(event.data);
+        let data = (this.dataSource$.source as any)._value;
+        const obj = data.find((a) => a.id === customer.id);
+        if (obj) {
+            obj.sendToSap = customer.sendToSap;
+        }
+        this.editSource([...data]);
+      }
+    });
   }
 
 }
