@@ -87,7 +87,7 @@
                             </div>
                             <div class="flex-auto border-b"></div>
                         </div>
-                        <ci-order-information #orderInfoApp></ci-order-information>
+                        <ci-order-information [estimatedDate]="estimatedDate" #orderInfoApp ></ci-order-information>
                     </div>
 
 
@@ -95,7 +95,7 @@
 
                 <!--ITEM TABLE-->
                 <div class="mt-12">
-                    <ci-item-table #itemsApp [formGroup]="formGroup"></ci-item-table>
+                    <ci-item-table  (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
                 </div>
 
             </div>

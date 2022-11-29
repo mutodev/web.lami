@@ -1,17 +1,19 @@
 import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { EventService } from 'app/core/event/event.service';
 import { Product } from 'app/shared/interfaces/product';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SearchProductDialogComponent } from '../search-product-dialog/search-product-dialog.component';
+import * as _moment from 'moment';
 
-const  TAXES : any[] = [
-   {
+const TAXES: any[] = [
+  {
     'id': '2',
     'label': 'IVA - (0%)',
     'percentage': 0
@@ -56,7 +58,7 @@ export class ItemsComponent implements OnInit {
 
   @Input() formGroup: FormGroup;
   products: any[] = [];
-  taxes= TAXES;
+  taxes = TAXES;
   itemsFormGroup = new FormArray([]);
   id
   discount: number;
@@ -67,38 +69,42 @@ export class ItemsComponent implements OnInit {
   comments: string = "";
   projects: any[] = [];
   selectedProduct: boolean = false;
+  estimatedDate = _moment().format('YYYY-MM-DD');
+  @Output() onEstimatedDate = new EventEmitter<any>();;
 
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService:LamiService,
-    private route: ActivatedRoute, public dialog: MatDialog) { 
+  constructor(private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService: LamiService,
+    private route: ActivatedRoute, public dialog: MatDialog,
+    private _event: EventService) {
 
     this.id = this.route.snapshot.params['id'];
   }
 
 
   ngOnInit(): void {
+    console.log('estimatedDate', this.estimatedDate)
     this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
     this._lamiService.getU_HBT('TAX').subscribe((result) => this.taxes = result);
     this.getProducts();
     //this.getTaxes();
-   
-    if (this.id){
-      this._lamiService.order$.subscribe((order)=>{
-        order.orderDetails.forEach((item)=>{
+
+    if (this.id) {
+      this._lamiService.order$.subscribe((order) => {
+        order.orderDetails.forEach((item) => {
           this.itemsFormGroup.push(this.addItemRow(item));
-         
+
         });
       });
-   
-      
-    } else{
+
+
+    } else {
       //Array.from(Array(1)).forEach(() => this.itemsFormGroup.push(this.addItemRow()));
-   
+
     }
-  
+
     this.validations();
-  
+
 
   }
 
@@ -108,8 +114,8 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  addItemRow(item: any={}): UntypedFormGroup {
-  
+  addItemRow(item: any = {}): UntypedFormGroup {
+
     const itemsFormGroup = this._formBuilder.group({
       id: [''],
       name: [item?.name, Validators.required],
@@ -118,17 +124,18 @@ export class ItemsComponent implements OnInit {
       discount: ['0'],
       discountTotal: [''],
       project: [item?.project, Validators.required],
-      quantity: ['1',[Validators.required, Validators.min(1)]],
+      quantity: ['1', [Validators.required, Validators.min(1)]],
       price: [item?.price, Validators.required],
       tax: item.arTaxCode,
       taxObject: 0,
       subTotal: [item?.price],
       currencyTax: [''],
+      estimatedDate: [item?.estimatedDate],
       total: [item?.price, Validators.nullValidator],
 
     });
 
-    
+
 
     itemsFormGroup.get('name').valueChanges.subscribe((productId: any) => {
       if (productId) {
@@ -150,7 +157,7 @@ export class ItemsComponent implements OnInit {
 
         const subTotal = priceForm * quantity;
         const discount = (subTotal * discountForm) / 100;
-      
+
 
         let total = (subTotal - discount);
 
@@ -170,12 +177,12 @@ export class ItemsComponent implements OnInit {
         console.log('discount', discount)
 
         const priceForm = parseInt(itemsFormGroup.get('price').value);
-        const quantityForm =  parseInt(itemsFormGroup.get('quantity').value);
+        const quantityForm = parseInt(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
         const subTotal = priceForm * quantityForm;
-        const discountTotal = (subTotal *  parseInt(discount)) / 100;
-        let total = (subTotal - discountTotal) ;
+        const discountTotal = (subTotal * parseInt(discount)) / 100;
+        let total = (subTotal - discountTotal);
         const currencyTax = (taxPercentage * total) / 100;
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
@@ -190,7 +197,7 @@ export class ItemsComponent implements OnInit {
         const discountForm = parseInt(itemsFormGroup.get('discount').value);
         const quantityForm = parseInt(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
-        const taxPercentage =   this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
+        const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
 
         const subTotal = price * quantityForm;
         const discountTotal = (subTotal * discountForm) / 100;
@@ -210,13 +217,13 @@ export class ItemsComponent implements OnInit {
         this.calculateCurrencyTax(itemsFormGroup);
         this.calculateSummary();
       });
-      
-  
+
+
     this.calculateCurrencyTax(itemsFormGroup);
     return itemsFormGroup;
   }
 
-  calculateCurrencyTax(itemsFormGroup){
+  calculateCurrencyTax(itemsFormGroup) {
     const taxId = itemsFormGroup.get('tax').value;
     const priceForm = parseInt(itemsFormGroup.get('price').value);
     const discountForm = parseInt(itemsFormGroup.get('discount').value);
@@ -231,7 +238,7 @@ export class ItemsComponent implements OnInit {
     itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
     itemsFormGroup.get('currencyTax').setValue(currencyTax);
     itemsFormGroup.get('total').setValue(total);
-     
+
   }
 
   get items() {
@@ -249,7 +256,7 @@ export class ItemsComponent implements OnInit {
 
   getTaxById(taxId: string) {
 
-    let item =  this.taxes.find(item => item.code === taxId);
+    let item = this.taxes.find(item => item.code === taxId);
     return item;
   }
 
@@ -276,10 +283,10 @@ export class ItemsComponent implements OnInit {
       res[value.name].value += value.value;
       return res;
     }, {});
-   
-    const filteredResult = result.filter((item:any) => item.name != undefined)
+
+    const filteredResult = result.filter((item: any) => item.name != undefined)
     this.totalTaxes = filteredResult;
-    console.log('filteredResult', filteredResult)
+
   }
 
   update() { }
@@ -289,31 +296,35 @@ export class ItemsComponent implements OnInit {
 
   //ADD/REMOVE ITEMS ROWS
   addItemRowBtn() {
-  
-      const dialogRef = this.dialog.open(SearchProductDialogComponent, {
-        width: '900px',
-       maxHeight: 'calc(100vh - 22px) !important;',
-       disableClose:true,
-        data: {
-          selectItem: (item)=>{
-            this.itemsFormGroup.push(this.addItemRow(item));
-            this.calculateSummary();
-          }
-        },
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-       
-     
-      });
-    
-    
+
+    const dialogRef = this.dialog.open(SearchProductDialogComponent, {
+      width: '900px',
+      maxHeight: 'calc(100vh - 22px) !important;',
+      disableClose: true,
+      data: {
+        selectItem: (item) => {
+          this.itemsFormGroup.push(this.addItemRow(item));
+          this.calculateSummary();
+
+
+        }
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.calculateOrderEstimatedDate();
+
+    });
+
+
     //this.productSearchSelect?.loadData(this.products, 'product');
   }
 
   removeItemRowBtn(index: number) {
     this.itemsFormGroup.removeAt(index);
     this.calculateSummary();
+    this.calculateOrderEstimatedDate();
+
   }
   //END
 
@@ -341,9 +352,9 @@ export class ItemsComponent implements OnInit {
 
   //SELECTED TEXTS
   setProductText(item: any) {
-   
-    if(item)
-    return `${item.name }`;
+
+    if (item)
+      return `${item.name}`;
   }
 
   setTaxtText(item: any) {
@@ -367,11 +378,32 @@ export class ItemsComponent implements OnInit {
 
   toggleDetails(productID): void {
 
-    if(this.selectedProduct && this.selectedProduct == productID){
-       this.selectedProduct = null; 
-       return;
-    }; 
+    if (this.selectedProduct && this.selectedProduct == productID) {
+      this.selectedProduct = null;
+      return;
+    };
 
     this.selectedProduct = productID;
+  }
+
+
+  calculateOrderEstimatedDate() {
+console.log('this.itemsFormGroup.controls.length', this.itemsFormGroup.controls.length)
+    if (this.itemsFormGroup.controls.length > 0) {
+      this.estimatedDate = this.itemsFormGroup.controls[0].get('estimatedDate').value;
+      this.itemsFormGroup.controls.forEach(item => {
+        let estimatedDate = item.get('estimatedDate').value;
+        let momentA = _moment(this.estimatedDate);
+        var momentB = _moment(estimatedDate);
+        console.log(momentA > momentB)
+        if (momentA > momentB)
+          this.estimatedDate = momentA.toString();
+        else
+          this.estimatedDate = momentB.toString();
+      });
+    } else {
+      this.estimatedDate = '';
+    }
+    this.onEstimatedDate.emit(this.estimatedDate);
   }
 }

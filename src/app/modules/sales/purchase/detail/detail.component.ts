@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -29,6 +29,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
   @ViewChild('customerApp', { static: true }) customerComponent: CustomerInfoSearchComponent;
   @ViewChild('orderInfoApp', { static: true }) orderInfoComponent: OrderInformationComponent;
   disabledForm: boolean = false;
+  estimatedDate;
   constructor(private _formBuilder: FormBuilder, public _lamiService: LamiService,
     public _baseListService: BaseListService,
     private route: ActivatedRoute,
@@ -105,5 +106,9 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
       orderDetails: orderDetails,
       comments: this.itemsComponent.comments
     }
+  }
+
+  changeEstimatedDate(date){
+    this.estimatedDate = date;
   }
 }

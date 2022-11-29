@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LamiService } from 'app/core/api/lami.service';
 import { Uhbt } from 'app/shared/interfaces/UHBT';
@@ -17,6 +17,9 @@ export class OrderInformationComponent implements OnInit {
   validityDate = new Date().setDate(this.dateNow.getDate() + 10);
   salesPersonCode: Uhbt[] = [];
   formGroup: FormGroup;
+  @Input('estimatedDate') estimatedDate: string;
+ 
+  
   constructor(private _lamiService: LamiService,  private _formBuilder: FormBuilder) { }
 
    
