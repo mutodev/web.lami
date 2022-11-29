@@ -10,6 +10,7 @@ export interface Order {
     subTotal:     number;
     total:        number;
     discount:     number;
+    estimatedDate: string;
     customer?: Customer;
     serie: string;
     comments: string,

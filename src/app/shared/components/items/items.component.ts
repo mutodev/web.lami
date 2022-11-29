@@ -388,18 +388,16 @@ export class ItemsComponent implements OnInit {
 
 
   calculateOrderEstimatedDate() {
-console.log('this.itemsFormGroup.controls.length', this.itemsFormGroup.controls.length)
     if (this.itemsFormGroup.controls.length > 0) {
       this.estimatedDate = this.itemsFormGroup.controls[0].get('estimatedDate').value;
       this.itemsFormGroup.controls.forEach(item => {
         let estimatedDate = item.get('estimatedDate').value;
         let momentA = _moment(this.estimatedDate);
         var momentB = _moment(estimatedDate);
-        console.log(momentA > momentB)
         if (momentA > momentB)
-          this.estimatedDate = momentA.toString();
+          this.estimatedDate = momentA.format('YYYY-MM-DD');
         else
-          this.estimatedDate = momentB.toString();
+          this.estimatedDate = momentB.format('YYYY-MM-DD');
       });
     } else {
       this.estimatedDate = '';

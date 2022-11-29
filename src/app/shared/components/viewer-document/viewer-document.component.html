@@ -14,18 +14,20 @@
                     <div class="text-4xl tracking-tight text-secondary">No.</div>
                     <div class="text-4xl">{{quotation?.docNumber}}</div>
                     <div class="font-medium tracking-tight text-secondary">Fecha creación</div>
-                    <div class="font-medium">{{quotation?.date | date}}</div>
+                    <div class="font-medium">{{quotation?.date |  date:'dd/MM/yyyy':'GMT'}}</div>
                     <div class="font-medium tracking-tight text-secondary">Fecha vigencia</div>
-                    <div class="font-medium">{{quotation?.dueDate | date}}</div>
-                    <div class="font-medium tracking-tight text-secondary">TOTAL </div>
-                    <div class="font-medium">{{quotation.total | currency}}</div>
+                    <div class="font-medium">{{quotation?.dueDate |  date:'dd/MM/yyyy':'GMT'}}</div>
+                    <div class="font-medium tracking-tight text-secondary">Fecha Aprox. Entrega</div>
+                    <div class="font-medium">{{quotation?.estimatedDate | date:'dd/MM/yyyy':'GMT'}}</div>
+                    <div class="font-medium tracking-tight text-secondary mt-5">TOTAL </div>
+                    <div class="font-medium  mt-5">{{quotation.total | currency}}</div>
                 </div>
                 <div >
                     <app-company-brand></app-company-brand>
                 </div>
             </div>
 
-            <div class="text-md">
+            <div class="text-md mt-10">
                 <div class="text-xl font-medium">{{quotation?.customer?.firstName}} {{quotation?.customer?.lastName}}
                 </div>
                 <div>{{quotation?.customer?.address}}</div>

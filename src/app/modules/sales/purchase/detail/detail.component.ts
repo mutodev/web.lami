@@ -103,6 +103,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
       subTotal: this.itemsComponent.subTotal,
       total: this.itemsComponent.total,
       discount: Number(this.itemsComponent.discount),
+      estimatedDate : this.itemsComponent.estimatedDate,
       orderDetails: orderDetails,
       comments: this.itemsComponent.comments
     }
