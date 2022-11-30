@@ -5,7 +5,7 @@ import { LamiService } from 'app/core/api/lami.service';
 import { NotifyService } from 'app/core/notify/notify.service';
 import { ROLE, User } from 'app/modules/settings/user/user.types';
 import { Type } from 'app/shared/interfaces/setting.types';
-
+import { Uhbt } from 'app/shared/interfaces/UHBT';
 
 @Component({
   selector: 'app-user-information',
@@ -16,6 +16,7 @@ export class UserInformationComponent implements OnInit {
   accountForm: FormGroup;
   roles: Type[];
   id: string;
+  salesPersonCode: Uhbt[];
 
   constructor(private _formBuilder: FormBuilder, private _lamiService: LamiService,
     private _route: ActivatedRoute,private _notifyService: NotifyService,
@@ -33,7 +34,8 @@ export class UserInformationComponent implements OnInit {
       email: [null, Validators.nullValidator],
       phone:  ['', Validators.nullValidator],
       roleId: ['', Validators.required],
-      active: [true, Validators.required]
+      active: [true, Validators.required],
+      salesPersonCode: [''],
     });
 
     this._lamiService.roleTypes$
@@ -44,6 +46,7 @@ export class UserInformationComponent implements OnInit {
       if(this.id)
         this.getUser();
 
+      this.getSalesPersonCode();
   }
 
   getUser(){
@@ -67,6 +70,10 @@ export class UserInformationComponent implements OnInit {
       },
       error:(error) =>  this._notifyService.showError(error)
     })
+  }
+
+  getSalesPersonCode() {
+    this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
   }
 
 }

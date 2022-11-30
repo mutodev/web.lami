@@ -16,6 +16,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { UserInformationComponent } from './user-information.component';
+import { SearchMatSelectModule } from 'app/shared/controls/custom-mat-select-new/search-mat-select.module';
 
 @NgModule({
     declarations: [UserInformationComponent],
@@ -28,7 +29,8 @@ import { UserInformationComponent } from './user-information.component';
         MatSlideToggleModule,
         MatSelectModule,
         MatTooltipModule,
-        SharedModule
+        SharedModule,
+        SearchMatSelectModule
      ],
     exports: [UserInformationComponent],
     providers: [],
