@@ -77,7 +77,7 @@ export class UserInformationComponent implements OnInit {
   }
 
   nameSalesPerson(item) {
-    return `${item.name} ${item.extendedData?.cities[0]}`;
+    return item.extendedData?.cities[0] ? `${item.name} (${item.extendedData?.cities[0]})` : item.name;
   }
 
 }
