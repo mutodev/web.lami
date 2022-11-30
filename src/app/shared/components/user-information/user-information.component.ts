@@ -73,7 +73,7 @@ export class UserInformationComponent implements OnInit {
   }
 
   getSalesPersonCode() {
-    this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
+    this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
   }
 
 }
