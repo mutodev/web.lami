@@ -76,5 +76,9 @@ export class UserInformationComponent implements OnInit {
     this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
   }
 
+  nameSalesPerson(item) {
+    return `${item.name} ${item.extendedData?.cities[0]}`;
+  }
+
 }
 
