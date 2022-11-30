@@ -149,15 +149,20 @@
         <!-- payTermsGrpCode -->
         <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
             <mat-label>Vendedor</mat-label>
-            <mat-select formControlName="salesPersonCode">
+            <search-mat-select [customStyle]="{width: '100%'}" required
+            [placeholder]="'Seleccionar el vendedor'" [dataSource]="salesPersonCode"
+            [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+            formControlName="salesPersonCode">
+            </search-mat-select>
+            <!-- <mat-select formControlName="salesPersonCode">
                 <mat-option *ngFor="let item of salesPersonCode" [value]="item.code">
                     {{item.name}}</mat-option>
 
-            </mat-select>
+            </mat-select> -->
         </mat-form-field>
         <!-- CUSTOMER_GROUP -->
         <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
-            <mat-label>Metodo de pago</mat-label>
+            <mat-label>Condiciones de pago</mat-label>
             <mat-select formControlName="payTermsGrpCode">
                 <mat-option *ngFor="let item of payTermsGrpCode; let i=index" [value]="item.code">
                     {{item.name}}</mat-option>
