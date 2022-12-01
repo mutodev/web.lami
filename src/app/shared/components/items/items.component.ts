@@ -84,7 +84,7 @@ export class ItemsComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('estimatedDate', this.estimatedDate)
-    this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
+    /* this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result); */
     this._lamiService.getU_HBT('TAX').subscribe((result) => this.taxes = result);
     this.getProducts();
     //this.getTaxes();
@@ -123,7 +123,7 @@ export class ItemsComponent implements OnInit {
       code: [item?.code],
       discount: ['0'],
       discountTotal: [''],
-      project: [item?.project, Validators.required],
+      /* project: [item?.project, Validators.required], */
       quantity: ['1', [Validators.required, Validators.min(1)]],
       price: [item?.price, Validators.required],
       tax: item.arTaxCode,

@@ -5,6 +5,7 @@ export interface Uhbt {
     code:      string;
     name:      string;
     settingId: string;
+    value?: string;
     createdAt: string;
     updatedAt: string;
 }

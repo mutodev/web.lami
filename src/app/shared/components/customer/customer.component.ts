@@ -45,8 +45,11 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   salesPersonCode: Uhbt[] = [];
   U_HBT_Nacional: Uhbt[] = [];
   U_HBT_RegFis: Uhbt[] = [];
-  
-
+  COUNTIES: Uhbt[] = [];
+  CITIESTEMP: Uhbt[] = [];
+  CITIES: Uhbt[] = [];
+  COUNTIESBILLING: Uhbt[] = [];
+  CITIESBILLING: Uhbt[] = [];
   // @ViewChild('U_HBT_MunMedSelect', { static: true }) U_HBT_MunMedSelectComponent: SearchMatSelectComponent;
   @ViewChildren('U_HBT_Group')
   public UHBTGroup: QueryList<SearchMatSelectComponent>
@@ -84,6 +87,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMed = result });
     this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result});
     this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
+    this._lamiService.getU_HBT('County').subscribe((result) => {this.COUNTIES = result; this.COUNTIESBILLING = [...result];});
+    this._lamiService.getU_HBT('CITIES').subscribe((result) => this.CITIESTEMP = result);
       
     this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
       this.identificationTypes = identificationTypes;
@@ -91,7 +96,26 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       if (this.id)
         this.getCusotmer();
     });
+
+    this.formGroup.controls.County.valueChanges.subscribe((val) => {
+      this.formGroup.controls.City.setValue('');
+      this.CITIES = this.CITIESTEMP.filter((a) => a.value == val);
+      const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
+      if (checkSameAddress) this.formGroup.controls.CountyBilling.setValue(val);
+    });
+
+    this.formGroup.controls.City.valueChanges.subscribe((val) => {
+      const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
+      if (checkSameAddress) this.formGroup.controls.CityBilling.setValue(val);
+    });
+
+    this.formGroup.controls.CountyBilling.valueChanges.subscribe((val) => {
+      this.formGroup.controls.CityBilling.setValue('');
+      this.CITIESBILLING = this.CITIESTEMP.filter((a) => a.value == val);
+    });
+
   }
+    
 
   getCusotmer() {
    
@@ -127,7 +151,13 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       firstNameBilling:  ['', Validators.nullValidator],
       lastNameBilling:  ['', Validators.nullValidator],
       lastName2Billing:  ['', Validators.nullValidator],
-      checkSameInfo: [false]
+      checkSameInfo: [false],
+      County:  ['', [Validators.nullValidator, Validators.required]],
+      City:  ['', [Validators.nullValidator, Validators.required]],
+      CityBilling: [''],
+      CountyBilling: [''],
+      addressBilling: [''],
+      checkSameAddress: [false]
     });
 
 
@@ -201,6 +231,17 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       }
       
     });
+
+    this.formGroup.controls.checkSameAddress.valueChanges.subscribe((val) => {
+      if (val) {
+        this.formGroup.controls.CountyBilling.setValue(this.formGroup.controls.County.value);
+        this.formGroup.controls.CityBilling.setValue(this.formGroup.controls.City.value);
+        this.formGroup.controls.addressBilling.setValue(this.formGroup.controls.address.value);
+      } else {
+        this.formGroup.controls.CountyBilling.setValue('');
+        this.formGroup.controls.CityBilling.setValue('');
+      }
+    });
   }
 
   validateUhtbFields(source: string) {
@@ -211,6 +252,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       this.formGroup.get('lastName2Billing').setValidators([Validators.required]);
       this.formGroup.get('U_HBT_MunMed').setValidators([Validators.required]);
       this.formGroup.get('U_HBT_MedPag').setValidators([Validators.required]);
+      this.formGroup.get('CountyBilling').setValidators([Validators.required]);
+      this.formGroup.get('CityBilling').setValidators([Validators.required]);
 
     } else {
       this.formGroup.get('firstNameBilling').setValidators([Validators.nullValidator]);
@@ -218,6 +261,9 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       this.formGroup.get('lastName2Billing').setValidators([Validators.nullValidator]);
       this.formGroup.get('U_HBT_MunMed').setValidators([Validators.nullValidator]);
       this.formGroup.get('U_HBT_MedPag').setValidators([Validators.nullValidator]);
+
+      this.formGroup.get('CountyBilling').setValidators([Validators.nullValidator]);
+      this.formGroup.get('CityBilling').setValidators([Validators.nullValidator]);
 
     }
 
@@ -283,4 +329,5 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     // this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPagSelectComponent.loadData(result); });
 
   }
+
 }
