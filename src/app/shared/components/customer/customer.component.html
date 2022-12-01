@@ -169,6 +169,37 @@
             </mat-select>
         </mat-form-field>
 
+       
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+        <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-label>Departamento</mat-label>
+            <search-mat-select [customStyle]="{width: '100%'}" required
+            [placeholder]="'Seleccionar el departamento'" [dataSource]="COUNTIES"
+            [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+            formControlName="County">
+            </search-mat-select>
+
+            <mat-error *ngIf="formGroup.get('County').hasError('required')  && formGroup.get('County').touched">
+                El departamento es requerido.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-label>Ciudad</mat-label>
+            <search-mat-select [customStyle]="{width: '100%'}" required
+            [placeholder]="'Seleccionar la ciudad'" [dataSource]="CITIES"
+            [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+            formControlName="City">
+            </search-mat-select>
+            <mat-error *ngIf="formGroup.get('City').hasError('required')  && formGroup.get('City').touched">
+                La ciudad es requerida.
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
         <!-- PROJECT -->
         <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
             <mat-label>¿Por que medio te enteraste de nosotros?</mat-label>
@@ -192,9 +223,13 @@
         </div>
 
         <!-- CHECk BOX -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
         <mat-checkbox *ngIf="!isNIT" formControlName="checkSameInfo" [color]="'primary'" class="mb-5">Usar misma
             información cliente</mat-checkbox>
 
+        <mat-checkbox formControlName="checkSameAddress" [color]="'primary'" class="mb-5">Usar misma
+            dirección del cliente</mat-checkbox>
+        </div>
         <!-- ROW 0.0 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
             <!-- FIRST NAME -->
@@ -272,8 +307,8 @@
             </mat-form-field>
         </div>
 
-        <!-- ROW 2 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+         <!-- ROW 2 -->
+         <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
 
 
             <!-- NACIONAL -->
@@ -286,8 +321,44 @@
 
                 </mat-select>
             </mat-form-field>
+
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Dirección de facturación</mat-label>
+                <input maxlength="250" formControlName="addressBilling" matInput>
+                <mat-error *ngIf="formGroup.get('addressBilling').hasError('required') && formGroup.get('addressBilling').touched">
+                    Campo requerido</mat-error>
+            </mat-form-field>
         </div>
 
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Departamento</mat-label>
+                <search-mat-select [customStyle]="{width: '100%'}" required
+                [placeholder]="'Seleccionar el departamento'" [dataSource]="COUNTIESBILLING"
+                [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                formControlName="CountyBilling">
+                </search-mat-select>
+    
+                <mat-error *ngIf="formGroup.get('CountyBilling').hasError('required')  && formGroup.get('CountyBilling').touched">
+                    El departamento es requerido.
+                </mat-error>
+            </mat-form-field>
+    
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Ciudad</mat-label>
+                <search-mat-select [customStyle]="{width: '100%'}" required
+                [placeholder]="'Seleccionar la ciudad'" [dataSource]="CITIESBILLING"
+                [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                formControlName="CityBilling">
+                </search-mat-select>
+                <mat-error *ngIf="formGroup.get('CityBilling').hasError('required')  && formGroup.get('CityBilling').touched">
+                    La ciudad es requerida.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+       
 
 
     </ng-container>
