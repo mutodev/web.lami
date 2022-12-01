@@ -26,6 +26,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   client: any = {};
   clients: any[];
   formGroup: FormGroup;
+  projects: any[];
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private _lamiService: LamiService, private _formBuilder: FormBuilder, public dialog: MatDialog) { }
@@ -44,6 +45,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
       
     });
 
+    this._lamiService.getU_HBT('Project').subscribe((data)  => this.projects = data);
     this.validation(this.client.customerId || '');
   }
 
@@ -71,7 +73,8 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
     this.client = {
       identification: customer.identification,
       phone: customer.phone,
-      email: customer.email
+      email: customer.email,
+      project: this.projects.find((a) => a.code == customer.project)?.name
     }
   }
 

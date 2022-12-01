@@ -12,6 +12,7 @@ export interface Customer {
     lastName: string;
     address: string;
     phone: string;
+    project: string;
 }
 
 
