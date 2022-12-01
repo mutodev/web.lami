@@ -87,9 +87,14 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMed = result });
     this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result});
     this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
+    this._lamiService.getU_HBT('CITIES').subscribe((result) => {
+      this.CITIESTEMP = result;
+      if (this.formGroup.controls.County.value) this.CITIES = this.CITIESTEMP.filter((a) => a.value == this.formGroup.controls.County.value);
+      if (this.formGroup.controls.CountyBilling.value) this.CITIESBILLING = this.CITIESTEMP.filter((a) => a.value == this.formGroup.controls.CountyBilling.value);
+
+    });
     this._lamiService.getU_HBT('County').subscribe((result) => {this.COUNTIES = result; this.COUNTIESBILLING = [...result];});
-    this._lamiService.getU_HBT('CITIES').subscribe((result) => this.CITIESTEMP = result);
-      
+    
     this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
       this.identificationTypes = identificationTypes;
 
@@ -98,7 +103,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     });
 
     this.formGroup.controls.County.valueChanges.subscribe((val) => {
-      this.formGroup.controls.City.setValue('');
+      // this.formGroup.controls.City.setValue('');
       this.CITIES = this.CITIESTEMP.filter((a) => a.value == val);
       const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
       if (checkSameAddress) this.formGroup.controls.CountyBilling.setValue(val);
@@ -110,7 +115,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     });
 
     this.formGroup.controls.CountyBilling.valueChanges.subscribe((val) => {
-      this.formGroup.controls.CityBilling.setValue('');
+      // this.formGroup.controls.CityBilling.setValue('');
       this.CITIESBILLING = this.CITIESTEMP.filter((a) => a.value == val);
     });
 
