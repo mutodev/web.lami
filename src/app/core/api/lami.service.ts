@@ -135,8 +135,8 @@ export class LamiService {
     }
 
 
-    getCustomers(): Observable<APIResponse<Customer[]>> {
-        return this._httpClient.get<Customer[]>(`${environment.endPoint}/customer`).pipe(
+    getCustomers(params?: any): Observable<APIResponse<Customer[]>> {
+        return this._httpClient.get<Customer[]>(`${environment.endPoint}/customer`, {params}).pipe(
             map((result: any) => {
                 let newData = result.data.map((item: any) => {
                     return {
