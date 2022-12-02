@@ -3,9 +3,7 @@
         <!-- Identification -->
         <mat-form-field class="flex-auto gt-xs:pr-3 fuse-mat-dense">
             <mat-select formControlName="serie" [placeholder]="'Seleccione Serie'" required>
-                <mat-option value="BQ">BQ</mat-option>
-                <!-- <mat-option  value="BBQ">BBQ</mat-option>
-                <mat-option  value="PSBQ">PSBQ</mat-option> -->
+                <mat-option *ngFor="let item of Series" [value]="item.code">{{item.name}}</mat-option>
             </mat-select>
         </mat-form-field>
 
