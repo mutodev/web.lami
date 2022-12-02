@@ -41,14 +41,15 @@ export class PurchaseListComponent extends BaseList implements OnInit {
   ngOnInit(): void {
     this.getDataSource();
 
-    this.realTime.getServerSentEvent(`${environment.endPoint}/customer/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
+    this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
     .subscribe(event => {
       if (this.dataSource$) {
-        const customer = JSON.parse(event.data);
+        const order = JSON.parse(event.data);
         let data = (this.dataSource$.source as any)._value;
-        const obj = data.find((a) => a.id === customer.id);
+        const obj = data.find((a) => a.id === order.id);
         if (obj) {
-            obj.sendToSap = customer.sendToSap;
+            obj.sendToSap = order.sendToSap;
+            obj.docNumber = order.docNumber;
         }
         this.editSource([...data]);
       }

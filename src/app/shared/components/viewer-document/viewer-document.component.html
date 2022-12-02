@@ -62,8 +62,8 @@
                         <div class="col-span-1 text-center">{{ item?.projectObj?.name }}</div>
                         <div class="col-span-1 text-center">{{item?.taxObj?.name }}</div>
 
-                        <div class="col-span-2 text-right">{{item?.value   | currency}}</div>
-                        <div class="col-span-2 text-right">{{item?.total | currency}}</div>
+                        <div class="col-span-2 text-right">{{item?.value | currency}}</div>
+                        <div class="col-span-2 text-right">{{(item?.value * item.amount) | currency}}</div>
                     
 
                         <!-- <div *ngIf="item?.tax?.name; else elseTemplate" class="col-span-2 text-center">
@@ -101,7 +101,7 @@
                                     <!-- {{tax.name}} -->
                                     IMPUESTOS
                                 </div>
-                                <div class="text-right text-lg text-right"> {{quotation.vat}}</div>
+                                <div class="text-right text-lg text-right"> {{+quotation?.vatTotal?.toFixed(2) | currency}}</div>
                             <!-- </ng-container> -->
 
                             <ng-container *ngIf="discount > 0">
