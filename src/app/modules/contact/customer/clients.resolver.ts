@@ -52,6 +52,8 @@ export class ClientResolver implements Resolve<any> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<APIResponse<Customer>> {
         const id = route.params.id;
-        return this._lamiService.getCustomerById(id);
+        if (id)
+            return this._lamiService.getCustomerById(id);
+        return null;
     }
 }

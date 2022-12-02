@@ -64,7 +64,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     private _eventService: EventService,
     private _route: ActivatedRoute) {
     super();
-    this.id = this._route.snapshot.params['id'];
+    this.id = this._route.snapshot.params['id'] || null;
   }
 
   ngAfterViewInit(): void {
