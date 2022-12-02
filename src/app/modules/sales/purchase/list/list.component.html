@@ -78,7 +78,7 @@
                                     <!-- # Cliente -->
                                     <div >
                                         <div class="md:hidden text-sm text-secondary"># {{order.docNumber}}</div>
-                                        {{order.customer.firstName}}    {{order.customer.lastName}}
+                                        {{order?.customer?.firstName}}    {{order?.customer?.lastName}}
                                     </div>
                                     <!-- Active -->
                                     <div class="hidden sm:block">

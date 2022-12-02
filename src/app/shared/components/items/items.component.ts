@@ -150,8 +150,8 @@ export class ItemsComponent implements OnInit {
       .valueChanges
       .subscribe((quantity: any) => {
 
-        const priceForm = parseInt(itemsFormGroup.get('price').value);
-        const discountForm = parseInt(itemsFormGroup.get('discount').value);
+        const priceForm = Number(itemsFormGroup.get('price').value);
+        const discountForm = Number(itemsFormGroup.get('discount').value);
         const tax = itemsFormGroup.get('tax').value
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
 
@@ -176,14 +176,14 @@ export class ItemsComponent implements OnInit {
         discount = discount || '0';
         console.log('discount', discount)
 
-        const priceForm = parseInt(itemsFormGroup.get('price').value);
-        const quantityForm = parseInt(itemsFormGroup.get('quantity').value);
+        const priceForm = Number(itemsFormGroup.get('price').value);
+        const quantityForm = Number(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
         const subTotal = priceForm * quantityForm;
-        const discountTotal = (subTotal * parseInt(discount)) / 100;
+        const discountTotal = (subTotal * Number(discount)) / 100;
         let total = (subTotal - discountTotal);
-        const currencyTax = (taxPercentage * total) / 100;
+        const currencyTax = (+taxPercentage * total) / 100;
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
         itemsFormGroup.get('total').setValue(total);
@@ -194,14 +194,14 @@ export class ItemsComponent implements OnInit {
     itemsFormGroup.get('price')
       .valueChanges
       .subscribe((price: any) => {
-        const discountForm = parseInt(itemsFormGroup.get('discount').value);
-        const quantityForm = parseInt(itemsFormGroup.get('quantity').value);
+        const discountForm = Number(itemsFormGroup.get('discount').value);
+        const quantityForm = Number(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
 
         const subTotal = price * quantityForm;
         const discountTotal = (subTotal * discountForm) / 100;
-        const currencyTax = (taxPercentage * subTotal) / 100;
+        const currencyTax = (+taxPercentage * subTotal) / 100;
         let total = (subTotal - discountTotal) + currencyTax;
 
         itemsFormGroup.get('subTotal').setValue(subTotal);
@@ -225,14 +225,14 @@ export class ItemsComponent implements OnInit {
 
   calculateCurrencyTax(itemsFormGroup) {
     const taxId = itemsFormGroup.get('tax').value;
-    const priceForm = parseInt(itemsFormGroup.get('price').value);
-    const discountForm = parseInt(itemsFormGroup.get('discount').value);
-    const quantityForm = parseInt(itemsFormGroup.get('quantity').value);
+    const priceForm = Number(itemsFormGroup.get('price').value);
+    const discountForm = Number(itemsFormGroup.get('discount').value);
+    const quantityForm = Number(itemsFormGroup.get('quantity').value);
     const taxPercentage = this.getTaxById(taxId) ? this.getTaxById(taxId).value : 0;
     const subTotal = priceForm * quantityForm;
     const discountTotal = (subTotal * discountForm) / 100;
     let total = (subTotal - discountTotal);
-    const currencyTax = (taxPercentage * total) / 100;
+    const currencyTax = (+taxPercentage * total) / 100;
 
     itemsFormGroup.get('subTotal').setValue(subTotal);
     itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());

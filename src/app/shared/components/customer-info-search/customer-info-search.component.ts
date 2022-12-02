@@ -41,7 +41,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
     this.getClients();
   
     this._lamiService.order$.subscribe((order) => {
-      this.client = order.customer;
+      this.client = order?.customer || {};
       
     });
 

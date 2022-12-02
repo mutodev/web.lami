@@ -97,7 +97,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
       customerId: this.formGroup.get('customer').value,
       date: this.orderInfoComponent.date,
       dueDate: this.orderInfoComponent.dueDate,
-      vatTotal: 0,
+      vatTotal: this.itemsComponent.tax,
       salesPersonCode: this.formGroup.get('salesPersonCode').value,
       serie: '13',
       subTotal: this.itemsComponent.subTotal,
