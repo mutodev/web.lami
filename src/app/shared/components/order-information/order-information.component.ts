@@ -18,7 +18,7 @@ export class OrderInformationComponent implements OnInit {
   salesPersonCode: Uhbt[] = [];
   formGroup: FormGroup;
   @Input('estimatedDate') estimatedDate: string;
- 
+  Series: Uhbt[] = [];
   
   constructor(private _lamiService: LamiService,  private _formBuilder: FormBuilder) { }
 
@@ -32,6 +32,7 @@ export class OrderInformationComponent implements OnInit {
       serie:  ['', Validators.required],
     });
     this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
+    this._lamiService.getU_HBT('SERIES').subscribe((result: Uhbt[]) => { this.Series = result });
   }
 
   get date(){
