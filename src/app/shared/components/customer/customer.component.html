@@ -305,13 +305,18 @@
             </mat-form-field>
         </div>
 
-         <!-- ROW 2 -->
-         <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
-
-
-            <!-- NACIONAL -->
-            <!-- NACIONAL -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
             <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Regimen fiscal</mat-label>
+                <mat-select formControlName="U_HBT_RegFis">
+                    <mat-option *ngFor="let item of U_HBT_RegFis; let i=index" [value]="item.code">
+                        {{item.name}}</mat-option>
+
+                </mat-select>
+            </mat-form-field>
+
+             <!-- NACIONAL -->
+             <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
                 <mat-label>Nacionalidad</mat-label>
                 <mat-select formControlName="U_HBT_Nacional">
                     <mat-option *ngFor="let item of U_HBT_Nacional; let i=index" [value]="item.code">
@@ -319,6 +324,14 @@
 
                 </mat-select>
             </mat-form-field>
+            
+        </div>
+
+
+         <!-- ROW 2 -->
+         <!-- <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4"> -->
+
+           
 
             <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
                 <mat-label>Dirección de facturación</mat-label>
@@ -326,7 +339,7 @@
                 <mat-error *ngIf="formGroup.get('addressBilling').hasError('required') && formGroup.get('addressBilling').touched">
                     Campo requerido</mat-error>
             </mat-form-field>
-        </div>
+        <!-- </div> -->
 
 
         <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
@@ -357,7 +370,6 @@
         </div>
 
        
-
 
     </ng-container>
 
