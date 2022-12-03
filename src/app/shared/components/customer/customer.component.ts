@@ -231,12 +231,14 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         this.formGroup.get('lastNameBilling').disable();
         this.formGroup.get('lastName2Billing').disable();
       } else {
-        this.formGroup.get('firstNameBilling').setValue('');
-        this.formGroup.get('lastNameBilling').setValue('');
-        this.formGroup.get('lastName2Billing').setValue('');
-        this.formGroup.get('firstNameBilling').enable();
-        this.formGroup.get('lastNameBilling').enable()
-        this.formGroup.get('lastName2Billing').enable()
+        if (!this.id) {
+          this.formGroup.get('firstNameBilling').setValue('');
+          this.formGroup.get('lastNameBilling').setValue('');
+          this.formGroup.get('lastName2Billing').setValue('');
+          this.formGroup.get('firstNameBilling').enable();
+          this.formGroup.get('lastNameBilling').enable()
+          this.formGroup.get('lastName2Billing').enable()
+        }
       }
       
     });
@@ -247,8 +249,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         this.formGroup.controls.CityBilling.setValue(this.formGroup.controls.City.value);
         this.formGroup.controls.addressBilling.setValue(this.formGroup.controls.address.value);
       } else {
-        this.formGroup.controls.CountyBilling.setValue('');
-        this.formGroup.controls.CityBilling.setValue('');
+        if (!this.id) {
+          this.formGroup.controls.CountyBilling.setValue('');
+          this.formGroup.controls.CityBilling.setValue('');
+        }
       }
     });
   }
