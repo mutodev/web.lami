@@ -45,6 +45,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   salesPersonCode: Uhbt[] = [];
   U_HBT_Nacional: Uhbt[] = [];
   U_HBT_RegFis: Uhbt[] = [];
+  U_HBT_ResFis: Uhbt[] = [];
   COUNTIES: Uhbt[] = [];
   CITIESTEMP: Uhbt[] = [];
   CITIES: Uhbt[] = [];
@@ -84,6 +85,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('CUSTOMER_GROUP').subscribe((result: Uhbt[]) => { this.CUSTOMER_GROUP = result });
     this._lamiService.getU_HBT('U_HBT_Nacional').subscribe((result: Uhbt[]) => { this.U_HBT_Nacional = result });
     this._lamiService.getU_HBT('U_HBT_RegFis').subscribe((result: Uhbt[]) => { this.U_HBT_RegFis = result });
+    // this._lamiService.getU_HBT('U_HBT_ResFis').subscribe((result: Uhbt[]) => { this.U_HBT_ResFis = result });
     this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMed = result });
     this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result});
     this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
@@ -153,6 +155,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       salesPersonCode: ['', [Validators.nullValidator, Validators.required]],
       U_HBT_Nacional: ['', Validators.nullValidator],
       U_HBT_RegFis: ['', Validators.nullValidator],
+      // U_HBT_ResFis: ['', Validators.nullValidator],
       firstNameBilling:  ['', Validators.nullValidator],
       lastNameBilling:  ['', Validators.nullValidator],
       lastName2Billing:  ['', Validators.nullValidator],
@@ -181,6 +184,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         this.formGroup.get('firstName').reset();
         this.formGroup.get('lastName').reset();
         this.formGroup.get('lastName2').reset();
+        this.formGroup.controls.U_HBT_RegTrib.setValue('NR'); // por defecto no responsable de iva
       }
       else {
         this.formGroup.get('firstName').setValidators([Validators.required]);
