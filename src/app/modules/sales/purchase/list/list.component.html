@@ -76,9 +76,19 @@
                                         {{order?.docNumber}}
                                     </div>
                                     <!-- # Cliente -->
-                                    <div >
+                                    <!-- <div >
                                         <div class="md:hidden text-sm text-secondary"># {{order.docNumber}}</div>
                                         {{order?.customer?.firstName}}    {{order?.customer?.lastName}}
+                                    </div> -->
+                                    <div>
+                                        <ng-container *ngIf="order.customer.identificationType.code == '31' || order.customer?.identificationType.code == '50'; else displayName">
+                                            {{order.customer?.name}}
+                                        </ng-container>
+                                      <ng-template #displayName>
+                                        {{order.customer?.firstName}}    {{order.customer?.lastName}}  {{order.customer?.lastName2}}
+                                      </ng-template>
+                                      
+
                                     </div>
                                     <!-- Active -->
                                     <div class="hidden sm:block">
