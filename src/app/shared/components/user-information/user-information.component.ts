@@ -17,7 +17,7 @@ export class UserInformationComponent implements OnInit {
   roles: Type[];
   id: string;
   salesPersonCode: Uhbt[];
-
+  sellerTypes: Uhbt[];
   constructor(private _formBuilder: FormBuilder, private _lamiService: LamiService,
     private _route: ActivatedRoute,private _notifyService: NotifyService,
     private _router: Router,
@@ -36,6 +36,7 @@ export class UserInformationComponent implements OnInit {
       roleId: ['', Validators.required],
       active: [true, Validators.required],
       salesPersonCode: [''],
+      sellerTypeId: [''],
     });
 
     this._lamiService.roleTypes$
@@ -73,7 +74,8 @@ export class UserInformationComponent implements OnInit {
   }
 
   getSalesPersonCode() {
-    this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
+    this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result; });
+    this._lamiService.getU_HBT('SELLER_TYPE').subscribe((result: Uhbt[]) => { this.sellerTypes = result; });
   }
 
   nameSalesPerson(item) {
