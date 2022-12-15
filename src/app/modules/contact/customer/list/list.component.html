@@ -92,12 +92,17 @@
                                     <!-- Active -->
                                     <div class="hidden sm:block">
                                         <ng-container *ngIf="client.sendToSap">
-                                            <mat-icon class="text-green-400 icon-size-5"
+                                            <mat-icon matTooltip="Enviado" class="text-green-400 icon-size-5"
                                                 [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                               
                                         </ng-container>
-                                        <ng-container *ngIf="!client.sendToSap">
-                                            <mat-icon class="text-red-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
+                                        <ng-container *ngIf="client.sendToSap == false">
+                                            <mat-icon matTooltip="Fallido" class="text-red-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
                                             </mat-icon>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="client.sendToSap == null">
+                                            <mat-icon matTooltip="Por enviar" class="text-yellow-400 icon-size-5">warning</mat-icon>
                                         </ng-container>
 
                                     </div>

@@ -51,6 +51,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   CITIES: Uhbt[] = [];
   COUNTIESBILLING: Uhbt[] = [];
   CITIESBILLING: Uhbt[] = [];
+  U_HBT_ActEco: Uhbt[] = [];
   // @ViewChild('U_HBT_MunMedSelect', { static: true }) U_HBT_MunMedSelectComponent: SearchMatSelectComponent;
   @ViewChildren('U_HBT_Group')
   public UHBTGroup: QueryList<SearchMatSelectComponent>
@@ -86,7 +87,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('U_HBT_Nacional').subscribe((result: Uhbt[]) => { this.U_HBT_Nacional = result });
     this._lamiService.getU_HBT('U_HBT_RegFis').subscribe((result: Uhbt[]) => { this.U_HBT_RegFis = result });
     // this._lamiService.getU_HBT('U_HBT_ResFis').subscribe((result: Uhbt[]) => { this.U_HBT_ResFis = result });
-    this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMed = result });
+    // this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMed = result });
+    this._lamiService.getU_HBT('U_HBT_ActEco').subscribe((result: Uhbt[]) => { this.U_HBT_ActEco = result });
     this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result});
     this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
     this._lamiService.getU_HBT('CITIES').subscribe((result) => {
@@ -134,38 +136,45 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   }
 
   validations() {
+    
+    const user = JSON.parse(localStorage.getItem('user'));
+    let selesPersonCode = '';
+    if (user.sellerTypeId !== '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
+      selesPersonCode = user.salesPersonCode; 
+    }
     this.formGroup = this._formBuilder.group({
       typeId: [EnumCustomerType.PersonaNatural, Validators.nullValidator], //tipoCliente
-      identificationTypeId: [null, Validators.required],
-      identification: ['', [Validators.required, Validators.pattern("^[0-9]+$|^CL-[0-9]+$")]],
+      identificationTypeId: ['7974094a-46c0-11ed-88f1-7b765a5d50e1', Validators.required],
+      identification: [''],
       source: ['L', Validators.required],
-      name: ['', Validators.nullValidator],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      lastName2: ['', Validators.required],
+      name: [''],
+      firstName: ['', [Validators.required, Validators.nullValidator]],
+      lastName: ['', [Validators.required, Validators.nullValidator]],
+      lastName2: ['', [Validators.required, Validators.nullValidator]],
       address: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
       email: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")]],
       project:  ['', Validators.required],
-      U_HBT_MunMed: ['', Validators.nullValidator],
-      U_HBT_MedPag: ['', Validators.nullValidator],
-      U_HBT_RegTrib: ['', Validators.nullValidator],
+      // U_HBT_MunMed: ['', Validators.nullValidator],
+      U_HBT_MedPag: ['1', Validators.nullValidator],
+      U_HBT_RegTrib: ['NR', Validators.nullValidator],
       groupCode: ['', [Validators.nullValidator, Validators.required]],
       payTermsGrpCode: ['', [Validators.nullValidator, Validators.required]],
-      salesPersonCode: ['', [Validators.nullValidator, Validators.required]],
-      U_HBT_Nacional: ['', Validators.nullValidator],
-      U_HBT_RegFis: ['', Validators.nullValidator],
+      salesPersonCode: [selesPersonCode, [Validators.nullValidator, Validators.required]],
+      U_HBT_Nacional: ['1', Validators.nullValidator],
+      U_HBT_RegFis: ['49', Validators.nullValidator],
       // U_HBT_ResFis: ['', Validators.nullValidator],
-      firstNameBilling:  ['', Validators.nullValidator],
-      lastNameBilling:  ['', Validators.nullValidator],
-      lastName2Billing:  ['', Validators.nullValidator],
+      firstNameBilling:  [''],
+      lastNameBilling:  [''],
+      lastName2Billing:  [''],
       checkSameInfo: [false],
       County:  ['', [Validators.nullValidator, Validators.required]],
       City:  ['', [Validators.nullValidator, Validators.required]],
       CityBilling: [''],
       CountyBilling: [''],
       addressBilling: [''],
-      checkSameAddress: [false]
+      checkSameAddress: [false],
+      U_HBT_ActEco:  ['']
     });
 
 
@@ -175,30 +184,54 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       this.isNIT = identificationType.code == "31" || identificationType.code == "50";
     
       if (this.isNIT) {
-        this.formGroup.get('firstName').setValidators([Validators.nullValidator]);
-        this.formGroup.get('lastName').setValidators([Validators.nullValidator]);
-        this.formGroup.get('lastName2').setValidators([Validators.nullValidator]);
+        this.formGroup.get('identification').setValidators([Validators.required, Validators.pattern("^[0-9]+-[0-9]{1}$|^CL-[0-9]+-[0-9]{1}$")]);
         this.formGroup.get('name').setValidators([Validators.required]);
         this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaJuridica);
         this.formGroup.get('checkSameInfo').reset();
-        this.formGroup.get('firstName').reset();
-        this.formGroup.get('lastName').reset();
-        this.formGroup.get('lastName2').reset();
+        this.formGroup.get('firstName').clearValidators();
+        this.formGroup.get('lastName').clearValidators();
+        this.formGroup.get('lastName2').clearValidators();
+        this.formGroup.get('U_HBT_ActEco').setValidators([Validators.nullValidator]);
         this.formGroup.controls.U_HBT_RegTrib.setValue('NR'); // por defecto no responsable de iva
+
+        if (this.formGroup.get('source').value === 'C') {
+          this.formGroup.get('firstNameBilling').clearValidators();
+          this.formGroup.get('lastNameBilling').clearValidators();
+          this.formGroup.get('lastName2Billing').clearValidators();
+        }
+
       }
       else {
-        this.formGroup.get('firstName').setValidators([Validators.required]);
-        this.formGroup.get('lastName').setValidators([Validators.required]);
-        this.formGroup.get('lastName2').setValidators([Validators.required]);
-        this.formGroup.get('name').setValidators([Validators.nullValidator]);
+        this.formGroup.get('identification').setValidators([Validators.required, Validators.pattern("^[0-9]+$|^CL-[0-9]+$")]);
+        this.formGroup.get('firstName').setValidators([Validators.required, Validators.nullValidator]);
+        this.formGroup.get('lastName').setValidators([Validators.required, Validators.nullValidator]);
+        this.formGroup.get('lastName2').setValidators([Validators.required, Validators.nullValidator]);
+        this.formGroup.get('name').clearAsyncValidators();
         this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaNatural);
+
+        if (this.formGroup.get('source').value === 'C') {
+          this.formGroup.get('firstNameBilling').setValidators([Validators.required]);
+          this.formGroup.get('lastNameBilling').setValidators([Validators.required]);
+          this.formGroup.get('lastName2Billing').setValidators([Validators.required]);
+        } else {
+          this.formGroup.get('firstNameBilling').clearValidators();
+          this.formGroup.get('lastNameBilling').clearValidators();
+          this.formGroup.get('lastName2Billing').clearValidators();
+        }
+
         this.formGroup.get('name').reset();
+        this.formGroup.get('U_HBT_ActEco').reset();
       }
 
+      this.formGroup.get('identification').updateValueAndValidity();
       this.formGroup.get('firstName').updateValueAndValidity();
       this.formGroup.get('lastName').updateValueAndValidity();
       this.formGroup.get('lastName2').updateValueAndValidity();
       this.formGroup.get('name').updateValueAndValidity();
+      this.formGroup.get('U_HBT_ActEco').updateValueAndValidity();
+      this.formGroup.get('firstNameBilling').updateValueAndValidity();
+      this.formGroup.get('lastNameBilling').updateValueAndValidity();
+      this.formGroup.get('lastName2Billing').updateValueAndValidity();
 
     });
 
@@ -260,28 +293,31 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   validateUhtbFields(source: string) {
     if (source == "C") {
       this.getHbtsValues();
-      this.formGroup.get('firstNameBilling').setValidators([Validators.required]);
-      this.formGroup.get('lastNameBilling').setValidators([Validators.required]);
-      this.formGroup.get('lastName2Billing').setValidators([Validators.required]);
-      this.formGroup.get('U_HBT_MunMed').setValidators([Validators.required]);
-      this.formGroup.get('U_HBT_MedPag').setValidators([Validators.required]);
+
+      if (this.formGroup.get('typeId').value === EnumCustomerType.PersonaNatural) {
+        this.formGroup.get('firstNameBilling').setValidators([Validators.required]);
+        this.formGroup.get('lastNameBilling').setValidators([Validators.required]);
+        this.formGroup.get('lastName2Billing').setValidators([Validators.required]);
+      } else {
+        this.formGroup.get('firstNameBilling').clearValidators();
+        this.formGroup.get('lastNameBilling').clearValidators();
+        this.formGroup.get('lastName2Billing').clearValidators();
+      }
+      
       this.formGroup.get('CountyBilling').setValidators([Validators.required]);
       this.formGroup.get('CityBilling').setValidators([Validators.required]);
 
     } else {
-      this.formGroup.get('firstNameBilling').setValidators([Validators.nullValidator]);
-      this.formGroup.get('lastNameBilling').setValidators([Validators.nullValidator]);
-      this.formGroup.get('lastName2Billing').setValidators([Validators.nullValidator]);
-      this.formGroup.get('U_HBT_MunMed').setValidators([Validators.nullValidator]);
-      this.formGroup.get('U_HBT_MedPag').setValidators([Validators.nullValidator]);
 
-      this.formGroup.get('CountyBilling').setValidators([Validators.nullValidator]);
-      this.formGroup.get('CityBilling').setValidators([Validators.nullValidator]);
+      this.formGroup.get('firstNameBilling').clearValidators();
+      this.formGroup.get('lastNameBilling').clearValidators();
+      this.formGroup.get('lastName2Billing').clearValidators();
+      this.formGroup.get('CountyBilling').clearValidators();
+      this.formGroup.get('CityBilling').clearValidators();
 
     }
-
-    this.formGroup.get('U_HBT_MunMed').updateValueAndValidity();
-    this.formGroup.get('U_HBT_MedPag').updateValueAndValidity();
+    this.formGroup.get('CountyBilling').updateValueAndValidity();
+    this.formGroup.get('CityBilling').updateValueAndValidity();
     this.formGroup.get('firstNameBilling').updateValueAndValidity();
     this.formGroup.get('lastName2Billing').updateValueAndValidity();
     this.formGroup.get('lastName2').updateValueAndValidity();
