@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LamiService } from 'app/core/api/lami.service';
+import { Uhbt } from 'app/shared/interfaces/UHBT';
+import * as moment_ from 'moment';
+
+const moment = moment_;
 
 @Component({
   selector: 'ci-order-information',
@@ -9,13 +15,41 @@ export class OrderInformationComponent implements OnInit {
 
   dateNow = new Date();
   validityDate = new Date().setDate(this.dateNow.getDate() + 10);
- 
-  constructor() { }
+  salesPersonCode: Uhbt[] = [];
+  formGroup: FormGroup;
+  @Input('estimatedDate') estimatedDate: string;
+  Series: Uhbt[] = [];
+  
+  constructor(private _lamiService: LamiService,  private _formBuilder: FormBuilder) { }
 
    
 
   ngOnInit(): void {
    
+
+    this.formGroup = this._formBuilder.group({
+      salesPersonCode: ['', Validators.required],
+      serie:  ['', Validators.required],
+    });
+    this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
+    this._lamiService.getU_HBT('SERIES').subscribe((result: Uhbt[]) => { this.Series = result });
   }
+
+  get date(){
+    return moment(this.dateNow).format('YYYY-MM-DD');
+  }
+
+  get dueDate(){
+    return moment(this.validityDate).format('YYYY-MM-DD');
+  }
+
+  get salesPerson() {
+    return this.formGroup.get('salesPersonCode');
+  }
+
+  get serie() {
+    return this.formGroup.get('serie');
+  }
+
 
 }

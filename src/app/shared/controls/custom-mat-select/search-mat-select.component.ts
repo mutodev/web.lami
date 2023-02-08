@@ -3,6 +3,7 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChange
 import { ControlValueAccessor, FormControl, NgControl, ValidatorFn } from '@angular/forms';
 import { MatFormFieldAppearance, MatFormFieldControl } from '@angular/material/form-field';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'search-mat-select',
@@ -68,11 +69,13 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
 
     set value(value) {
         this.formControlSelect.setValue(value);
+        this.ngControl.control.setValue(value);
         this.stateChanges.next();
     }
 
     get errorState(): boolean {
-        return this.ngControl.errors !== null && !!this.ngControl.touched;
+    
+        return  this.ngControl.control.status == 'INVALID'  && !!this.ngControl.control.touched;
     }
 
     @Input()
@@ -88,8 +91,8 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
 
     @HostBinding('attr.aria-describedby')
     describedBy: string = '';
-    @HostBinding()
-    id = `search-mat-select-${++SearchMatSelectComponent.nextId}`;
+    // @HostBinding()
+    // id = `search-mat-select-${++SearchMatSelectComponent.nextId}`;
     @HostBinding('class.floating')
     get shouldLabelFloat(): boolean {
         return this.focused || !this.empty;
@@ -99,6 +102,7 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
     }
     //--------
     @Input() multiple = false;
+    @Input() id:string;
     @Input() labelSearch: string = "Buscar ...";
     @Input() customClass: string;
     @Input() dataSource: any[] = [];
@@ -112,7 +116,7 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
     @Input() labelButton: string = 'Nuevo';
     @Input() showButton: boolean = true;
     @Input() countDisplayField: number = 1;
-    dataFilterSelect: FormControl = new FormControl();
+    dataFilterCrtl: FormControl = new FormControl();
     // disabled = false;
     touched = false;
     onChanged!: Function;
@@ -121,68 +125,45 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
     textValue: string;
     public filteredData: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
     formControlSelect = new FormControl({ value: '', disabled: this.disabled });
+    protected _onDestroy = new Subject<void>();
+
     constructor(@Self() public ngControl: NgControl) {
         if (ngControl) {
             this.ngControl.valueAccessor = this;
             ngControl.valueAccessor = this;
         }
-        this.formControlSelect.valueChanges.subscribe((val) => {
-            if (val) {
-                this.selectedItem = this.dataSource.find((a) =>  this.selectedValue ? a[this.selectedValue] === val : a === val || val.includes(this.selectedValue ? a[this.selectedValue] : a));
-                let selected;
-                if (this.selectedItem) {
-                    if (!this.selectedText) {
-                        let newVal = [];
-                        if (this.multiple) {
-                            for (let index = 0; index < this.countDisplayField; index++) {
-                                newVal.push(val[index]);
-                            }
-                        }
-                        this.textValue = this.multiple ? newVal.join(',') : this.selectedItem;
-                        selected = this.multiple ? this.dataSource.filter((a) => val.includes(a)) : this.selectedItem;
-                    } else if (typeof this.selectedText === 'string') {
-                        let newVal = [];
-                        if (this.multiple) {
-                            for (let index = 0; index < this.countDisplayField; index++) {
-                                const obj = this.dataSource.find((a) => a[this.selectedValue] === val[index])
-                                newVal.push(obj[this.selectedText]);
-                            }
-                        }
-                        this.textValue = this.multiple ? newVal.join(',') : this.selectedItem ? this.selectedItem[this.selectedText] : '';
-                        selected = this.multiple ? this.dataSource.filter((a: any) => val.includes(a[this.selectedValue])) : this.selectedItem;
-                    } else {
-                        let newVal = [];
-                        if (this.multiple) {
-                            for (let index = 0; index < this.countDisplayField; index++) {
-                                const obj = this.dataSource.find((a) => a[this.selectedValue] === val[index])
-                                newVal.push(obj[this.selectedText(obj)]);
-                            }
-                        }
-                        this.textValue =  this.multiple ? newVal.join(',') : this.selectedText(this.selectedItem || {});
-                        selected = this.multiple ? this.dataSource.filter((a: any) => val.includes(a[this.selectedValue])) : this.selectedItem;
-                    }
-                }
-                this.selectionChange.emit(selected);
-            }
 
+        this.formControlSelect.valueChanges.subscribe((val) => {
+        
             if (this.onChanged)
                 this.onChanged(val);
-        });
-
-        this.dataFilterSelect.valueChanges
-            .subscribe((val) => {
-                this.onFilter.emit(val);
-                const filter = (a, s) => this.filterColumns && this.filterColumns.length > 0 ? this.filterColumns.map((col) => {
-                    return a[col].toString().toLowerCase();
-                }).join(' ').includes(s) : a.toLowerCase().includes(s);
-                this.filterData(filter, this.dataSource, this.dataFilterSelect, this.filteredData);
-            });
+        })
 
     }
 
     ngOnInit() {
 
     }
+
+    loadData(data: any[]): void {
+        // set initial selection
+        //this.bankCtrl.setValue(data[0]);
+        this.dataSource = data;
+        // load the initial bank list
+        this.filteredData.next(this.dataSource.slice());
+
+        // listen for search field value changes
+        this.dataFilterCrtl.valueChanges
+        .pipe(takeUntil(this._onDestroy))
+        .subscribe(() => {
+            this.filterData();
+        });
+    }
+
+    ngOnDestroy() {
+        this._onDestroy.next();
+        this._onDestroy.complete();
+      }
 
     close() {
         this.mySelect.close();
@@ -212,64 +193,26 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
         this.disabled = disabled;
     }
 
-    protected filterData(filter, data: any[], ctr: FormControl, filteredData: ReplaySubject<any[]>) {
-        if (!data) {
+    protected filterData() {
+        if (!this.dataSource) {
             return;
         }
         // get the search keyword
-        let search = ctr.value;
+        let search = this.dataFilterCrtl.value;
         if (!search) {
-            filteredData.next(data.slice());
+            this.filteredData.next(this.dataSource.slice());
             return;
         } else {
             search = search.toLowerCase();
         }
         // filter the banks
-        filteredData.next(
-            data.filter((a) => filter(a, search))
+        this.filteredData.next(
+             this.dataSource.filter(data => data.name.toLowerCase().indexOf(search) > -1)
         );
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.dataSource && changes.dataSource.currentValue) {
-            this.dataSource = changes.dataSource.currentValue;
-            this.filteredData.next(this.dataSource.slice());
-            if (this.formControlSelect.value) {
-                // ((a) =>  this.selectedValue ? a[this.selectedValue] === val : a === val || val.includes(this.selectedValue ? a[this.selectedValue] : a));
-                let val = this.formControlSelect.value;
-                this.selectedItem = this.dataSource.find((a) => this.selectedValue ? a[this.selectedValue] === this.formControlSelect.value : a === this.formControlSelect.value || this.formControlSelect.value.includes(this.selectedValue ? a[this.selectedValue] : a));
-
-                if (!this.selectedText) {
-                    let newVal = [];
-                    if (this.multiple) {
-                        for (let index = 0; index < this.countDisplayField; index++) {
-                            newVal.push(val[index]);
-                        }
-                    }
-                    this.textValue = this.multiple ? newVal.join(',') : this.selectedItem;
-                } else if (typeof this.selectedText === 'string') {
-                    let newVal = [];
-                    if (this.multiple) {
-                        for (let index = 0; index < this.countDisplayField; index++) {
-                            const obj = this.dataSource.find((a) => a[this.selectedValue] === val[index])
-                            newVal.push(obj[this.selectedText]);
-                        }
-                    }
-                    this.textValue = this.multiple ? newVal.join(',') : this.selectedItem[this.selectedText];
-                } else {
-                    let newVal = [];
-                    if (this.multiple) {
-                        for (let index = 0; index < this.countDisplayField; index++) {
-                            const obj = this.dataSource.find((a) => a[this.selectedValue] === val[index])
-                            newVal.push(obj[this.selectedText(obj)]);
-                        }
-                    }
-                    this.textValue = this.multiple ? newVal.join(',') : this.selectedText(this.selectedItem);
-                }
-            }
-            if (this.onChanged)
-                this.onChanged(this.formControlSelect.value);
-        }
+       
     }
 
     getText(item) {

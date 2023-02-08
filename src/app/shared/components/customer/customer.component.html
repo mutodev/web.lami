@@ -1,84 +1,377 @@
+<form [formGroup]="formGroup" novalidate class="flex flex-col">
+    <!-- Section -->
 
-    <form [formGroup]="formGroup" novalidate class="flex flex-col">
-        <!-- Section -->
-        <div class="grid">
-            <!-- Identification -->
-            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+    <div class="grid">
+        <!-- client type -->
+        <mat-radio-group [color]="'primary'" formControlName="source" class="mb-5" aria-label="Select an option">
+            <mat-radio-button class="mr-5" value="L">Posible cliente</mat-radio-button>
+            <mat-radio-button value="C">Cliente</mat-radio-button>
+        </mat-radio-group>
+
+        <!-- ROW 2 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+            <!-- Tipo Identification -->
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
                 <mat-label>Tipo de documento</mat-label>
                 <mat-select required formControlName="identificationTypeId">
                     <mat-option *ngFor="let identificationType of identificationTypes; let i=index"
                         [value]="identificationType.id">
                         {{identificationType.name}}</mat-option>
-    
+
                 </mat-select>
-                <mat-error *ngIf="formGroup.get('identificationTypeId').hasError('required') && formGroup.get('identificationTypeId').touched" class="text-red">Campo
+                <mat-error
+                    *ngIf="formGroup.get('identificationTypeId').hasError('required') && formGroup.get('identificationTypeId').touched"
+                    class="text-red">Campo
                     requerido</mat-error>
             </mat-form-field>
             <!-- Identification -->
             <mat-form-field [ngClass]="formFieldHelpers"
                 class="flex-auto gt-xs:pl-3 fuse-mat-dense fuse-mat-emphasized-affix">
-                <mat-label>Identificación</mat-label>
-                <input formControlName="identification" required matInput>
+                <mat-label>{{ formGroup.controls?.identificationTypeId?.value == '743bf703-501e-11ed-b8b2-93cfa5187c2a'
+                    ? 'Nít' : 'Identificación'}}</mat-label>
+                <input maxlength="250" formControlName="identification" required matInput>
                 <span mat-icon-button matSuffix>
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
                 </span>
-                <mat-error *ngIf="formGroup.get('identification').hasError('required')  && formGroup.get('identification').touched">Campo
+                <mat-error
+                    *ngIf="formGroup.get('identification').hasError('required')  && formGroup.get('identification').touched">
+                    Campo
                     requerido</mat-error>
+                <mat-error
+                    *ngIf="!isNIT && formGroup.get('identification').hasError('pattern')  && formGroup.get('identification').touched">
+                    Solo números permitidos
+                </mat-error>
+                <mat-error
+                    *ngIf="isNIT && formGroup.get('identification').hasError('required')  && formGroup.get('identification').touched">
+                    Campo
+                    requerido</mat-error>
+                <mat-error
+                    *ngIf="formGroup.get('identification').hasError('pattern')  && formGroup.get('identification').touched">
+                    Agregue un Nít valido con su dígitio de verificación.
+                </mat-error>
                 <mat-error *ngIf="formGroup.get('identification').hasError('invalidAsync')">
                     El cliente ya existe.</mat-error>
             </mat-form-field>
-    
-            <!-- Company Name -->
-            <ng-container *ngIf="isNIT; else name">
-                <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-                    <mat-label>Nombre de la empresa</mat-label>
-                    <input formControlName="companyName" required matInput>
-                    <mat-error *ngIf="formGroup.get('companyName').hasError('required') && formGroup.get('companyName').touched">Campo
-                        requerido</mat-error>
-                </mat-form-field>
-            </ng-container>
-    
-            <!-- Entire Name -->
-            <ng-template #name>
-                <!-- firstName -->
-                <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-                    <mat-label>Nombres</mat-label>
-                    <input formControlName="firstName" required matInput>
-                    <mat-error *ngIf="formGroup.get('firstName').hasError('required')">Campo
-                        requerido</mat-error>
-                    <mat-error *ngIf="formGroup.get('firstName').errors?.wrongColor">blue requerido</mat-error>
-                </mat-form-field>
+        </div>
+
+
+        <ng-container *ngIf="isNIT; else naturalPeople">
+            <!-- Complete Name -->
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Nombre de la compañia</mat-label>
+                <input maxlength="250" formControlName="name" required matInput>
+                <mat-error *ngIf="formGroup.get('name').hasError('required')">Campo
+                    requerido</mat-error>
+                <mat-error *ngIf="formGroup.get('name').errors?.wrongColor">blue requerido</mat-error>
+            </mat-form-field>
+        </ng-container>
+
+        <ng-template #naturalPeople>
+            <!-- FIRST NAME -->
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Nombre</mat-label>
+                <input maxlength="250" formControlName="firstName" matInput>
+                <mat-error *ngIf="formGroup.get('firstName').hasError('required')">Campo
+                    requerido</mat-error>
+                <mat-error *ngIf="formGroup.get('firstName').errors?.wrongColor">blue requerido</mat-error>
+            </mat-form-field>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
                 <!-- Last Name -->
                 <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-                    <mat-label>Apellidos</mat-label>
-                    <input formControlName="lastName" required matInput>
-    
-                    <mat-error *ngIf="formGroup.get('lastName').hasError('required') && formGroup.get('lastName').touched">
+                    <mat-label>Apellido</mat-label>
+                    <input maxlength="250" formControlName="lastName" matInput>
+
+                    <mat-error
+                        *ngIf="formGroup.get('lastName').hasError('required') && formGroup.get('lastName').touched">
                         Campo
                         requerido</mat-error>
                 </mat-form-field>
-            </ng-template>
-    
-            <!-- Address -->
+
+                <!-- Second Last Name -->
+                <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                    <mat-label>Segundo apellido</mat-label>
+                    <input maxlength="250" formControlName="lastName2" matInput>
+
+                    <mat-error
+                        *ngIf="formGroup.get('lastName').hasError('required') && formGroup.get('lastName').touched">
+                        Campo
+                        requerido</mat-error>
+                </mat-form-field>
+            </div>
+        </ng-template>
+
+
+
+
+    </div>
+
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+
+        <!-- CUSTOMER_GROUP -->
+        <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-label>Grupo</mat-label>
+            <mat-select formControlName="groupCode">
+                <mat-option *ngFor="let item of CUSTOMER_GROUP; let i=index" [value]="item.code">
+                    {{item.name}}</mat-option>
+
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('groupCode').hasError('required') && formGroup.get('groupCode').touched">
+                Campo requerido</mat-error>
+        </mat-form-field>
+
+        <!-- Phone-->
+        <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
+            <mat-label>Teléfono</mat-label>
+            <input maxlength="250" formControlName="phone" matInput>
+            <mat-error *ngIf="formGroup.get('phone').hasError('required') && formGroup.get('phone').touched">
+                Campo requerido</mat-error>
+            <mat-error *ngIf="formGroup.get('phone').hasError('pattern')  && formGroup.get('phone').touched">
+                Solo números permitidos
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <!-- ROW 4 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+
+        <!-- Email-->
+        <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
+            <mat-label>Correo</mat-label>
+            <input maxlength="250" formControlName="email" matInput>
+            <mat-error *ngIf="formGroup.get('email').hasError('required') && formGroup.get('email').touched">
+                Campo requerido</mat-error>
+            <mat-error *ngIf="formGroup.get('email').hasError('pattern')  && formGroup.get('email').touched">
+                Formato de correo inválido
+            </mat-error>
+        </mat-form-field>
+
+        <!-- payTermsGrpCode -->
+        <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-label>Vendedor</mat-label>
+            <search-mat-select [customStyle]="{width: '100%'}" required [placeholder]="'Seleccionar el vendedor'"
+                [dataSource]="salesPersonCode" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                formControlName="salesPersonCode">
+            </search-mat-select>
+        </mat-form-field>
+    </div>
+
+    <!-- ROW 4 -->
+    <!-- U_HBT_ActEco -->
+    <mat-form-field *ngIf="isNIT" floatLabel="auto" [ngClass]="formFieldHelpers"
+        class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+        <mat-label>Actividad económica</mat-label>
+        <search-mat-select [customStyle]="{width: '100%'}" required [placeholder]="'Seleccionar la actividad económica'"
+            [dataSource]="U_HBT_ActEco" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+            formControlName="U_HBT_ActEco">
+        </search-mat-select>
+    </mat-form-field>
+
+    <!-- ROW 4 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+
+        <!-- CUSTOMER_GROUP -->
+        <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-label>Condiciones de pago</mat-label>
+            <mat-select formControlName="payTermsGrpCode">
+                <mat-option *ngFor="let item of payTermsGrpCode; let i=index" [value]="item.code">
+                    {{item.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Address -->
+        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+            <mat-label>Dirección</mat-label>
+            <input maxlength="250" formControlName="address" matInput>
+            <mat-error *ngIf="formGroup.get('address').hasError('required') && formGroup.get('address').touched">
+                Campo requerido</mat-error>
+        </mat-form-field>
+
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+        <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-label>Departamento</mat-label>
+            <search-mat-select [customStyle]="{width: '100%'}" required [placeholder]="'Seleccionar el departamento'"
+                [dataSource]="COUNTIES" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                formControlName="County">
+            </search-mat-select>
+
+            <mat-error *ngIf="formGroup.get('County').hasError('required')  && formGroup.get('County').touched">
+                El departamento es requerido.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-label>Ciudad</mat-label>
+            <search-mat-select [customStyle]="{width: '100%'}" required [placeholder]="'Seleccionar la ciudad'"
+                [dataSource]="CITIES" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                formControlName="City">
+            </search-mat-select>
+            <mat-error *ngIf="formGroup.get('City').hasError('required')  && formGroup.get('City').touched">
+                La ciudad es requerida.
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+        <!-- PROJECT -->
+        <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-label>¿Por que medio te enteraste de nosotros?</mat-label>
+            <mat-select formControlName="project" [placeholder]="'Proyecto'">
+                <mat-option *ngFor="let project of projects" [value]="project.code">{{project.name}}</mat-option>
+            </mat-select>
+
+        </mat-form-field>
+    </div>
+
+    <!-- Datos de Facturacion -->
+    <ng-container *ngIf="formGroup.get('source').value == 'C'">
+
+
+        <!-- HEADER -->
+        <div class="flex items-center justify-center my-5">
+            <div class="flex-0 text-lg font-medium leading-5 text-secondary">
+                Datos de faturación
+            </div>
+            <div class="flex-auto border-b"></div>
+        </div>
+
+        <!-- CHECk BOX -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+            <mat-checkbox *ngIf="!isNIT" formControlName="checkSameInfo" [color]="'primary'" class="mb-5">Usar misma
+                información cliente</mat-checkbox>
+
+            <mat-checkbox formControlName="checkSameAddress" [color]="'primary'" class="mb-5">Usar misma
+                dirección del cliente</mat-checkbox>
+        </div>
+        <!-- ROW 0.0 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4" *ngIf="!isNIT">
+            <!-- FIRST NAME -->
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto  gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Nombre</mat-label>
+                <input maxlength="250" formControlName="firstNameBilling" matInput>
+                <mat-error *ngIf="formGroup.get('firstNameBilling').hasError('required')">Campo
+                    requerido</mat-error>
+                <mat-error *ngIf="formGroup.get('firstNameBilling').errors?.wrongColor">blue requerido</mat-error>
+            </mat-form-field>
+            <!-- Last Name -->
             <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
-                <mat-label>Dirección</mat-label>
-                <input formControlName="address" matInput>
-                <mat-error *ngIf="formGroup.get('address').hasError('required') && formGroup.get('address').touched">
-                    Campo requerido</mat-error>
-            </mat-form-field>
-            <!-- Phone-->
-            <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
-                <mat-label>Teléfono</mat-label>
-                <input formControlName="phone" matInput>
-                <mat-error *ngIf="formGroup.get('phone').hasError('required') && formGroup.get('phone').touched">
-                    Campo requerido</mat-error>
-            </mat-form-field>
-             <!-- Email-->
-             <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
-                <mat-label>Correo</mat-label>
-                <input formControlName="email" matInput>
-                <mat-error *ngIf="formGroup.get('email').hasError('required') && formGroup.get('email').touched">
-                    Campo requerido</mat-error>
+                <mat-label>Apellido</mat-label>
+                <input maxlength="250" formControlName="lastNameBilling" matInput>
+
+                <mat-error
+                    *ngIf="formGroup.get('lastNameBilling').hasError('required') && formGroup.get('lastNameBilling').touched">
+                    Campo
+                    requerido</mat-error>
             </mat-form-field>
         </div>
-    </form>
+
+        <!-- ROW 0.1 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4" *ngIf="!isNIT">
+            <!-- Second Last Name -->
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Segundo apellido</mat-label>
+                <input maxlength="250" formControlName="lastName2Billing" matInput>
+
+                <mat-error
+                    *ngIf="formGroup.get('lastName2Billing').hasError('required') && formGroup.get('lastName2Billing').touched">
+                    Campo
+                    requerido</mat-error>
+            </mat-form-field>
+
+             <!-- NACIONAL -->
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Nacionalidad</mat-label>
+                <mat-select formControlName="U_HBT_Nacional">
+                    <mat-option *ngFor="let item of U_HBT_Nacional; let i=index" [value]="item.code">
+                        {{item.name}}</mat-option>
+
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+         <!-- NACIONAL -->
+        <mat-form-field *ngIf="isNIT" floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-label>Nacionalidad</mat-label>
+            <mat-select formControlName="U_HBT_Nacional">
+                <mat-option *ngFor="let item of U_HBT_Nacional; let i=index" [value]="item.code">
+                    {{item.name}}</mat-option>
+
+            </mat-select>
+        </mat-form-field>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+
+            <!-- U_HBT_RegTrib -->
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Regimen tributario</mat-label>
+                <mat-select formControlName="U_HBT_RegTrib">
+                    <mat-option *ngFor="let item of U_HBT_RegTrib; let i=index" [value]="item.code">
+                        {{item.name}}</mat-option>
+
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Regimen fiscal</mat-label>
+                <mat-select formControlName="U_HBT_RegFis">
+                    <mat-option *ngFor="let item of U_HBT_RegFis; let i=index" [value]="item.code">
+                        {{item.name}}</mat-option>
+
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+
+        <!-- ROW 2 -->
+        <!-- <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4"> -->
+
+
+
+        <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+            <mat-label>Dirección de facturación</mat-label>
+            <input maxlength="250" formControlName="addressBilling" matInput>
+            <mat-error
+                *ngIf="formGroup.get('addressBilling').hasError('required') && formGroup.get('addressBilling').touched">
+                Campo requerido</mat-error>
+        </mat-form-field>
+        <!-- </div> -->
+
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Departamento</mat-label>
+                <search-mat-select [customStyle]="{width: '100%'}" required
+                    [placeholder]="'Seleccionar el departamento'" [dataSource]="COUNTIESBILLING"
+                    [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                    formControlName="CountyBilling">
+                </search-mat-select>
+
+                <mat-error
+                    *ngIf="formGroup.get('CountyBilling').hasError('required')  && formGroup.get('CountyBilling').touched">
+                    El departamento es requerido.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Ciudad</mat-label>
+                <search-mat-select [customStyle]="{width: '100%'}" required [placeholder]="'Seleccionar la ciudad'"
+                    [dataSource]="CITIESBILLING" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                    formControlName="CityBilling">
+                </search-mat-select>
+                <mat-error
+                    *ngIf="formGroup.get('CityBilling').hasError('required')  && formGroup.get('CityBilling').touched">
+                    La ciudad es requerida.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+
+
+    </ng-container>
+
+</form>

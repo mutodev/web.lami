@@ -22,7 +22,12 @@ import { ShortcutsMockApi } from 'app/mock-api/common/shortcuts/api';
 import { TasksMockApi } from 'app/mock-api/apps/tasks/api';
 import { UserMockApi } from 'app/mock-api/common/user/api';
 import { CustomerMockApi } from './contact/customer/api';
+import { ProductMockApi } from './inventory/product/api';
+import { OrderMockApi } from './sales/order/api';
+
 
 export const mockApiServices = [
-    CustomerMockApi
+    CustomerMockApi,
+    ProductMockApi,
+    OrderMockApi
 ];

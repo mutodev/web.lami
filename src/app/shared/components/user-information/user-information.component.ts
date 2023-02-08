@@ -5,7 +5,7 @@ import { LamiService } from 'app/core/api/lami.service';
 import { NotifyService } from 'app/core/notify/notify.service';
 import { ROLE, User } from 'app/modules/settings/user/user.types';
 import { Type } from 'app/shared/interfaces/setting.types';
-
+import { Uhbt } from 'app/shared/interfaces/UHBT';
 
 @Component({
   selector: 'app-user-information',
@@ -16,7 +16,8 @@ export class UserInformationComponent implements OnInit {
   accountForm: FormGroup;
   roles: Type[];
   id: string;
-
+  salesPersonCode: Uhbt[];
+  sellerTypes: Uhbt[];
   constructor(private _formBuilder: FormBuilder, private _lamiService: LamiService,
     private _route: ActivatedRoute,private _notifyService: NotifyService,
     private _router: Router,
@@ -30,9 +31,12 @@ export class UserInformationComponent implements OnInit {
       userName: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.nullValidator],
+      email: [null, Validators.nullValidator],
+      phone:  ['', Validators.nullValidator],
       roleId: ['', Validators.required],
-      active: [true, Validators.required]
+      active: [true, Validators.required],
+      salesPersonCode: [''],
+      sellerTypeId: [''],
     });
 
     this._lamiService.roleTypes$
@@ -43,6 +47,7 @@ export class UserInformationComponent implements OnInit {
       if(this.id)
         this.getUser();
 
+      this.getSalesPersonCode();
   }
 
   getUser(){
@@ -66,6 +71,15 @@ export class UserInformationComponent implements OnInit {
       },
       error:(error) =>  this._notifyService.showError(error)
     })
+  }
+
+  getSalesPersonCode() {
+    this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result; });
+    this._lamiService.getU_HBT('SELLER_TYPE').subscribe((result: Uhbt[]) => { this.sellerTypes = result; });
+  }
+
+  nameSalesPerson(item) {
+    return item.extendedData?.cities[0] ? `${item.name} (${item.extendedData?.cities[0]})` : item.name;
   }
 
 }

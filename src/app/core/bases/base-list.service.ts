@@ -65,20 +65,18 @@ export class BaseListService {
         return this._httpClient.get<{ pagination: Pagination; clients: any[] }>(`${this.baseUrl}${this.apiUrl}`, {
             params: {
                 page,
-                perPage
+                perPage, 
+                search
             }
         }).pipe(
             tap((response: any) => {
-               
-               
                 let pagination: Pagination = {
-                    length: response.data.total,
-                    size: response.data.per_page,
-                    page: response.data.current_page
+                    length: response?.data?.total,
+                    size: response?.data?.per_page,
+                    page: response?.data?.current_page
                 };
                 this._pagination.next(pagination);
                 this._source.next(response.data.data);
-                console.log("🚀 ~ file: base-list.service.ts ~ line 81 ~ BaseListService ~ tap ~ response.data.data", response.data.data)
             })
         );
     }
@@ -115,5 +113,7 @@ export class BaseListService {
         );
     }
 
-
+    editSource(newDate: any[]) {
+        this._source.next(newDate);
+    }
 }

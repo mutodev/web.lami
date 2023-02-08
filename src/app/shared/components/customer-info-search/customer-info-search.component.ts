@@ -1,17 +1,19 @@
 
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { items } from 'app/mock-api/apps/file-manager/data';
 import { Customer } from 'app/modules/contact/customer/clients.types';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CustomerDialogComponent } from '../customer-dialog/customer-dialog.component';
 
 interface Client {
-  identification: string;
-  phone: string;
-  email:string;
+  identification?: string;
+  phone?: string;
+  email?: string;
 }
 
 @Component({
@@ -19,34 +21,45 @@ interface Client {
   templateUrl: './customer-info-search.component.html',
   styleUrls: ['./customer-info-search.component.scss']
 })
-export class CustomerInfoSearchComponent implements OnInit {
+export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
 
-  client: Client;
+  client: any = {};
   clients: any[];
   formGroup: FormGroup;
+  projects: any[];
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _baseListService: BaseListService,
-    private _formBuilder: FormBuilder, public dialog: MatDialog) { }
+  constructor(private _lamiService: LamiService, private _formBuilder: FormBuilder, public dialog: MatDialog) { }
+  
+  
+  ngAfterViewInit(): void {
+   this._unsubscribeAll.unsubscribe();
+  }
 
   ngOnInit(): void {
 
     this.getClients();
-    this.validation();
+  
+    this._lamiService.order$.subscribe((order) => {
+      this.client = order?.customer || {};
+      
+    });
+
+    this._lamiService.getU_HBT('Project').subscribe((data)  => this.projects = data);
+    this.validation(this.client.customerId || '');
   }
 
-  validation() {
+  validation(customerId = '') {
     this.formGroup = this._formBuilder.group({
-      customer: ['', [Validators.required]]
-    })
+      customerId: [customerId, [Validators.required]]
+    });
+
+    console.log('formGroup', this.formGroup)
   }
-  setClientText(customer: Customer) {
-    if (customer.identificationType.code == 'NIT'){
-      return customer.companyName
-    } else {
-      return `${customer.firstName} ${customer.lastName}`;
-    }
-    
+
+  setClientText(customer: any) {
+    return customer.displayName
+
   }
 
   openClientDialog() {
@@ -60,20 +73,33 @@ export class CustomerInfoSearchComponent implements OnInit {
     this.client = {
       identification: customer.identification,
       phone: customer.phone,
-      email: customer.email
+      email: customer.email,
+      project: this.projects.find((a) => a.code == customer.project)?.name
     }
   }
 
   getClients() {
-    this._baseListService.source$
+    this._lamiService.customers$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((clients: any[]) => {
-        this.clients = clients;
+        this.clients = clients.map((item) => {
+          let displayName;
+          if (item.identificationType.code == '31' || item.identificationType.code == '50')
+              displayName = item.name;
+          else 
+            displayName =  `${item?.firstName} ${item?.lastName} ${item?.lastName2}`;
+
+          return {
+            ...item,
+            displayName:  displayName
+          }
+
+        });
       });
   }
 
   get customer() {
-    return this.formGroup.get('customer');
+    return this.formGroup.get('customerId');
   }
 
 

@@ -3,16 +3,23 @@
 
     <!-- Header -->
     <div
-        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-1 md:py-8 px-6 md:px-8 border-b">
         <!-- Loader -->
 
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">Clientes</div>
+        <div class="text-4xl font-extrabold tracking-tight">
+            Clientes
+            <button [routerLink]="[ '/contact/customer/new' ]" class="min-w-10 min-h-7 h-7 top-1 px-2 leading-6 md:hidden"
+                mat-button>
+                <mat-icon class="icon-size-7" [svgIcon]="'mat_outline:add_circle_outline'">
+                </mat-icon>
+            </button>
+        </div>
         <!-- Actions -->
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <div class="flex flex-shrink-0 items-center my-2 sm:mt-0 sm:ml-4">
             <!-- Search -->
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-80 fuse-mat-rounded">
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
@@ -20,7 +27,8 @@
                     [placeholder]="'Buscar cliente'">
             </mat-form-field>
             <!-- Add product button -->
-            <button class="ml-4" mat-flat-button [color]="'primary'" [routerLink]="[ '/contact/customer/new' ]">
+            <button class="ml-4 hidden md:block" mat-flat-button [color]="'primary'"
+                [routerLink]="[ '/contact/customer/new' ]">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">Nuevo</span>
             </button>
@@ -36,53 +44,85 @@
                 <ng-container *ngIf="dataSource.length > 0; else nodataSource">
                     <div class="grid">
                         <!-- Header -->
-                        <div class="grid-cols-5 gap-4 inventory-grid z-10 sticky top-0 grid py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                        <div class="list-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort matSortDisableClear>
-                            <div class="hidden sm:block" >
+                            <div class="hidden lg:block">
                                 Identificación
                             </div>
-                            <div>Nombre</div>
-                            <div class="hidden sm:block">Télefono</div>
-                            <div class="hidden sm:block">
+                            <div class="">Nombre</div>
+                            <div class="hidden  lg:block">
                                 Correo
                             </div>
-                            <div class="hidden lg:block">
-                                
+                            <div class="hidden sm:block">
+                                SAP
+                            </div>
+                            <div class="hidden sm:block">
+                                Estado
+                            </div>
+                            <div class="">
+
                             </div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(dataSource$ | async) as dataSource">
                             <ng-container *ngFor="let client of dataSource; trackBy: trackByFn">
-                                <div
-                                    class="inventory-grid grid grid-cols-5 items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="list-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
                                     <!-- identification -->
-                                    <div class="hidden md:block">
+
+                                    <div class="hidden lg:block">
                                         {{client.identification}}
                                     </div>
-                                    <!-- Name -->
-                                    <div ngif *ngIf="client.identificationType.code == 'NIT'; else bussiness">
-                                        {{client?.companyName}}
+                                    <div>
+                                        <ng-container *ngIf="client.identificationType.code == '31' || client.identificationType.code == '50'; else displayName">
+                                            {{client?.name}}
+                                        </ng-container>
+                                      <ng-template #displayName>
+                                        {{client?.firstName}}    {{client?.lastName}}  {{client?.lastName2}}
+                                      </ng-template>
+                                      
+
                                     </div>
-                                    <ng-template #bussiness>
-                                        <div>
-                                            {{client?.firstName}} {{client?.lastName}}
-                                            
-                                        </div>
-                                    </ng-template>
-                                    
-                                    <!-- Cell Phone -->
-                                    <div class="hidden md:block">
-                                        {{client.phone}}
-                                    </div>
+
                                     <!-- Emaal -->
-                                    <div class="hidden md:block">
+                                    <div class="hidden  lg:block">
                                         {{client.email}}
                                     </div>
-                                     <!-- Details button -->
-                                     <div class="hidden md:block text-right">
-                                        <button [routerLink]="'/contact/customer/edit/' + client.id"
+
+
+                                    <!-- Active -->
+                                    <div class="hidden sm:block">
+                                        <ng-container *ngIf="client.sendToSap">
+                                            <mat-icon matTooltip="Enviado" class="text-green-400 icon-size-5"
+                                                [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                               
+                                        </ng-container>
+                                        <ng-container *ngIf="client.sendToSap == false">
+                                            <mat-icon matTooltip="Fallido" class="text-red-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
+                                            </mat-icon>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="client.sendToSap == null">
+                                            <mat-icon matTooltip="Por enviar" class="text-yellow-400 icon-size-5">warning</mat-icon>
+                                        </ng-container>
+
+                                    </div>
+                                    <!-- customer stage -->
+                                    <div class="hidden sm:block">
+                                        <span
+                                            [ngClass]="{'bg-orange-200 text-orange-800': client.source =='L', 'bg-green-200 text-greem-800': client.source =='C'}"
+                                            class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase">
+                                            {{getStage(client.source)}}</span>
+                                    </div>
+                                    <!-- Details button -->
+                                    <div class="text-right">
+                                        <button matTooltip="Editar cliente" [routerLink]="'/contact/customer/edit/' + client.id"
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
+                                            </mat-icon>
+                                        </button>
+                                        <button matTooltip="Detalle pedidos"  (click)="openDetailOrder(client)"
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:shopping-cart'">
                                             </mat-icon>
                                         </button>
                                     </div>

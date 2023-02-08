@@ -1,125 +1,105 @@
 <div [@fadeInRight] class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
-    <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-6 sm:px-10 border-b bg-card dark:bg-transparent">
-        <!-- Breadcrumbs -->
-        <div class="flex-1 min-w-0">
-            <div>
-                <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div>
-                        <a [routerLink]="'./..'" class="whitespace-nowrap text-primary-500">Pedidos</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                        </mat-icon>
-                        <span class="ml-1 text-secondary"> Nuevo Pedido</span>
-                    </div>
-                </div>
-                <div class="flex sm:hidden">
-                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'">
-                        </mat-icon>
-                        <span class="ml-1">Back</span>
-                    </a>
-                </div>
-            </div>
 
-            <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Nuevo Pedido</div>
-        </div>
+      <!-- Header -->
+      <div
+      class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-3 pb-5 pt-3 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div>
+              <div class="hidden sm:flex flex-wrap items-center font-medium">
+                  <div>
+                      <a  [routerLink]="'/sales/purchase/all'" class="whitespace-nowrap text-primary-500">Pedidos</a>
+                  </div>
+                  <div class="flex items-center ml-1 whitespace-nowrap">
+                      <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                      </mat-icon>
+                      <span class="ml-1 text-secondary">Nuevo pedido</span>
+                     
+                  </div>
+              </div>
+              <div class="flex sm:hidden">
+                  <a class="inline-flex items-center -ml-1.5 text-secondary font-medium"  [routerLink]="'/sales/purchase/all'">
+                      <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'">
+                      </mat-icon>
+                      <span class="ml-1">Back</span>
+                  </a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-2">
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                 Nuevo pedido
+                  <button  (click)="save()"
+                  class="min-w-10 min-h-7 h-7 px-2 top-1 leading-6 md:hidden" mat-button>
+                  <mat-icon class="icon-size-7" [svgIcon]="'mat_outline:add_circle_outline'">
+                  </mat-icon>
+              </button>
+              </h2>
+          </div>
+      </div>
+      <!-- Actions -->
+      <div class="flex hidden sm:block flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+          <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/sales/purchase/all' ]"
+              mat-stroked-button>
+              <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x'"></mat-icon>
+              Cancelar
+          </button>
+          <button type="button" [disabled]="disabledForm" (click)="save()" [color]="'primary'" mat-flat-button>
+              <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:check'"></mat-icon>
+              <span>
+                  Guardar
+              </span>
+          </button>
 
-        <!-- Actions -->
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0">
-            <!-- Cancel  button -->
-            <button mat-flat-button [color]="'accent'" [routerLink]="'/contact/purchase/all'">
-                <mat-icon  [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                <span class="mr-1">Cancelar</span>
-            </button>
-            <!-- Save button -->
-            <button (click)="save()" class="ml-4" mat-flat-button [color]="'primary'">
-                <mat-icon [svgIcon]="'heroicons_outline:save'"></mat-icon>
-                <span class="ml-2 mr-1">Guardar</span>
-            </button>
-             <!-- Save button -->
-             <button (click)="save()" class="ml-4" mat-flat-button [color]="'primary'">
-                <mat-icon [svgIcon]="'heroicons_outline:check'"></mat-icon>
-                <span class="ml-2 mr-1">Guardar & Pagar</span>
-            </button>
-        </div>
-    </div>
+      </div>
+  </div>
 
-    <div class="inset-0 min-w-0 text-center  overflow-auto print:overflow-visible" cdkScrollable>
+    <div class="inset-0 min-w-0 text-center  " cdkScrollable>
         <!-- Main -->
-        <div class="inline-block p-6 sm:p-10 text-left print:p-0">
+        <div class="flex inline-block p-6   md:p-10 text-left print:p-0">
 
             <!-- Invoice -->
-            <ng-container [formGroup]="formGroup">
-                <div
-                    class="w-240 pt-3 pb-10  px-10 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent">
 
-                    <!-- ORDER HEADER -->
-                    <div class="flex justify-end gap-x-4">
-                      
-                            <!-- NUMERATION -->
-                            
-                                    <div class="text-2xl tracking-tight text-secondary">Pedido</div>
-                                    <div class="text-2xl col-span-3">#9-0004</div>
-                         
-
-                            <!-- DATES -->
-                            <!-- <div class="mt-6">
-                                <ci-date-field #dateField title="Fecha"></ci-date-field>
-                              
-                            </div> -->
-                            
-
-                        
-                
-                        <!-- COMPANY BRAND -->
-                        <!-- <app-company-brand></app-company-brand> -->
-                    </div>
+            <div [formGroup]="formGroup" class="w-full md:pt-3 pb-10  md:px-10 rounded-2xl md:shadow md:bg-card ">
 
 
-                    <div class="flex  gap-x-8 flex-row justify-between ">
+                <div class="flex flex-wrap md:flex-nowrap   gap-x-8 flex-row justify-between ">
 
-                         <!-- PURCHASE Infomration-->
-                         <div class="basis-3/6 flex-start">
-                            <div class="flex items-center justify-center my-5">
-                                <div class="flex-auto border-b"></div>
-                                <div class="flex-0 text-lg font-medium leading-5 text-secondary">
-                                    Información del Pedido
-                                </div>
-                                <div class="flex-auto border-b"></div>
+                    <!-- CUSTOMER SEARCH-->
+                    <div class="md:basis-3/6 w-full flex-start">
+                        <div class="flex items-center justify-center my-5">
+                            <div class="flex-auto border-b"></div>
+                            <div class="flex-0 text-lg font-medium leading-5 text-secondary">
+                                Información del cliente
                             </div>
-                            <ci-order-information></ci-order-information>
+                            <div class="flex-auto border-b"></div>
                         </div>
+                        <ci-customer-search #customerApp></ci-customer-search>
+                    </div>
 
-                        <!-- CUSTOMER SEARCH-->
-                        <div class="basis-3/6 flex-start">
-                            <div class="flex items-center justify-center my-5">
-                                <div class="flex-auto border-b"></div>
-                                <div class="flex-0 text-lg font-medium leading-5 text-secondary">
-                                    Información del cliente
-                                </div>
-                                <div class="flex-auto border-b"></div>
+                    <!-- PURCHASE Infomration-->
+                    <div class="md:basis-3/6 w-full flex-start">
+                        <div class="flex items-center justify-center my-5">
+                            <div class="flex-auto border-b"></div>
+                            <div class="flex-0 text-lg font-medium leading-5 text-secondary">
+                                Información del Pedido
                             </div>
-                            <ci-customer-search #customerApp></ci-customer-search>
+                            <div class="flex-auto border-b"></div>
                         </div>
-
-                       
+                        <ci-order-information [estimatedDate]="estimatedDate" #orderInfoApp ></ci-order-information>
                     </div>
 
-
-
-
-                    <!--ITEM TABLE-->
-                    <div class="mt-12">
-                        <ci-item-table #itemsApp [formGroup]="formGroup"></ci-item-table>
-                    </div>
 
                 </div>
-            </ng-container>
+
+                <!--ITEM TABLE-->
+                <div class="mt-12">
+                    <ci-item-table  (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </div>

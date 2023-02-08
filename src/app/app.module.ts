@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
@@ -13,15 +13,19 @@ import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 import { mockApiServices } from 'app/mock-api';
 import { ToastrModule } from 'ngx-toastr';
-
+import { registerLocaleData } from '@angular/common';
+import localeDeAt from '@angular/common/locales/es-CO';
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
     scrollPositionRestoration: 'enabled'
 };
-
+registerLocaleData(localeDeAt);
 @NgModule({
     declarations: [
         AppComponent
+    ],
+    providers:[
+        // { provide: LOCALE_ID, useValue: 'es-CO' }
     ],
     imports     : [
         BrowserModule,
@@ -50,3 +54,5 @@ const routerConfig: ExtraOptions = {
 export class AppModule
 {
 }
+
+

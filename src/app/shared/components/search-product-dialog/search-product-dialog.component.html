@@ -1,0 +1,153 @@
+<div class="flex justify-between">
+
+  <h1 mat-dialog-title>Buscar Artículos</h1>
+  <button mat-dialog-close mat-icon-button>
+    <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
+    </mat-icon>
+  </button>
+</div>
+
+<div class="grid grid-row p-2">
+  <div class="w-full mb-3">
+    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript w-full fuse-mat-rounded">
+      <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+      <input matInput [formControl]="searchInputControl" [autocomplete]="'off'" [placeholder]="'Buscar artículo'">
+    </mat-form-field>
+  </div>
+
+  <!-- dataSource list -->
+  <div class="">
+    <ng-container *ngIf="(dataSource$| async) as dataSource">
+      <ng-container *ngIf="dataSource.length > 0; else nodataSource">
+        <div class="custom-m-height-calc grid overflow-y-auto ">
+          <!-- Header -->
+          <div
+            class="list-grid z-10 hidden md:grid sticky sm:overflow-y-auto top-0 gap-4 py-4 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+            matSort matSortDisableClear>
+            <div class="hidden lg:block">
+              Artículo
+            </div>
+            <div class="hidden  lg:block">
+              Can
+            </div>
+            <div class="hidden sm:block">
+              Com
+            </div>
+            <div class="hidden sm:block">
+              Ped
+            </div>
+            <div class="">
+              Precio
+            </div>
+          </div>
+          <!-- Rows -->
+          <ng-container *ngIf="(dataSource$ | async) as dataSource">
+            <ng-container *ngFor="let item of dataSource; trackBy: trackByFn">
+              <div class="flex md:block">
+                <div (click)="onSelectedItem(item)"
+                  class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
+
+                  <div>
+                    <div class="font-semibold text-orange">{{item.code}}</div>
+                    <p>{{item.name}}</p>
+                  </div>
+
+                  <div class="hidden lg:block">
+                    {{item.quantityOnStock}}
+                  </div>
+
+                  <div class="hidden lg:block">
+                    {{item.quantityOrderedByCustomers}}
+                  </div>
+
+                  <div class="hidden lg:block">
+                    {{item.quantityOrderedFromVendors}}
+                  </div>
+
+                  <div class="hidden lg:block">
+                    {{item.price | currency}}
+                  </div>
+
+                  <div class="col-span-5 text-right hidden md:block">
+                    <span class="mr-2"> Fecha aprox. de entrega:   </span>
+                    <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
+                  
+                  </div>
+                </div>
+               
+
+                <!-- Details button -->
+                <div class="grid align-middle border-b pr-2  items-center sm:hidden">
+                  <button type="button" class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
+                    (click)="toggleDetails(item.id)">
+                    <mat-icon class="icon-size-5"
+                      [svgIcon]="selectedProduct === item.id  ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                    </mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="grid">
+                <ng-container *ngIf="selectedProduct === item.id">
+                  <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: item}"></ng-container>
+                </ng-container>
+              </div>
+
+
+            </ng-container>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ng-container>
+
+
+    <ng-template #rowDetailsTemplate let-item>
+      <div class="shadow-lg overflow-hidden">
+        <div class="flex border-b">
+          <!-- Selected product form -->
+          <form class="flex flex-col w-full">
+
+            <div class="flex flex-col sm:flex-row px-5 py-2">
+
+              <!-- Product images and status -->
+              <div class="flex flex-col">
+                <div class="flex flex-col">
+                  <div class="flex justify-between ">
+                    <div>Cant.</div>
+                    <div>Comp.</div>
+                    <div>Ped.</div>
+                  </div>
+                  <div class="flex justify-between ">
+                    <div class="text-center">{{item.quantityOnStock}}</div>
+                    <div>{{item.quantityOrderedByCustomers}} </div>
+                    <div>{{item.quantityOrderedFromVendors}}</div>
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <span class="font-semibold">Precio: </span> {{item.price | currency}}
+                </div>
+                <div class="mt-2">
+                  <span class="mr-2"> Fecha aprox. de entrega:   </span>
+                  <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
+                
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </ng-template>
+
+
+    <ng-template #nodataSource>
+      <div class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">No hay Artículos!
+      </div>
+    </ng-template>
+
+  </div>
+
+</div>
+
+<!-- <div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</div> -->

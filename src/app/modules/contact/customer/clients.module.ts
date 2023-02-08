@@ -20,11 +20,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CustomerModule } from 'app/shared/components/customer/customer.module';
 import { CustomerDetailsComponent } from './details/details.component';
 import { CustomerListComponent } from './list/list.component';
-
+import { OrderSummaryDialogComponent } from './order-summary-dialog/order-summary-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 @NgModule({
     declarations: [
         CustomerDetailsComponent,
-        CustomerListComponent
+        CustomerListComponent,
+        OrderSummaryDialogComponent
     ],
     imports: [
         CommonModule,
@@ -44,7 +47,10 @@ import { CustomerListComponent } from './list/list.component';
         MatTooltipModule,
         SharedModule,
         MatProgressSpinnerModule,
-        CustomerModule
+        CustomerModule,
+        MatDialogModule,
+        MatExpansionModule,
+    
     ],
     exports: [],
     providers: [],

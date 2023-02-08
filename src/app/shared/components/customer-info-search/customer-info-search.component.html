@@ -11,12 +11,13 @@
                 <!-- COLUMN 2 -->
                 <div>
                     <mat-form-field class="w-full fuse-mat-dense c-mb-0  c-h-35 fuse-mat-emphasized">
-                        <search-mat-select #clientSearchSelect [customStyle]="{width: '100%'}" required
-                            [placeholder]="'Seleccionar cliente'" labelButton="Nuevo cliente" [dataSource]="clients"
-                            [filterColumns]="['first_name','last_name', 'identification']" selectedValue="_id"
-                            (selectionChange)="clientChange($event)" (onClickButton)="openClientDialog()"
-                            [selectedText]="setClientText" formControlName="customer">
-                        </search-mat-select>
+                        <select-multi-columns [dataSource]="clients" [widthList]="'500px'"
+                        labelButton="Nuevo Cliente" [placeholder]="'Seleccionar Cliente'"
+                        [headers]="['Identificación','Nombre']"  (selectedChange)="clientChange($event)"
+                        [displayColumns]="['identification', 'displayName']" [customStyle]="{width: '100%'}"
+                        selectedValue="id" [selectedText]="setClientText" formControlName="customerId"
+                        (onClickButton)="openClientDialog()">
+                    </select-multi-columns>
                     </mat-form-field>
                 </div>
             </div>
@@ -24,15 +25,19 @@
             <div class="grid gap-y-2">
                 <div class="flex w-full gap-4">
                     <div class="text-md font-medium leading-5 text-secondary basis-2/12" >Identificación</div>
-                    <div class="text-lg leading-5 text-secondary w-full" >{{client?.identification}}</div>
+                    <div class="text-lg leading-5 text-secondary w-full" >{{client.identification}}</div>
                 </div>
                 <div  class="flex w-full gap-4">
                     <div class="text-md font-medium leading-5 text-secondary basis-2/12" >Telefono</div>
-                    <div class="text-lg leading-5 text-secondary  w-full" >{{client?.phone}}</div>
+                    <div class="text-lg leading-5 text-secondary  w-full" >{{client.phone}}</div>
                 </div>
                 <div class="flex flex w-full gap-4">
                     <div class="text-md font-medium leading-5 text-secondary  basis-2/12" >Correo</div>
-                    <div class="text-lg leading-5 text-secondary w-full" >{{client?.email}}</div>
+                    <div class="text-lg leading-5 text-secondary w-full" >{{client.email}}</div>
+                </div>
+                <div class="flex flex w-full gap-4">
+                    <div class="text-md font-medium leading-5 text-secondary  basis-2/12" >Proyecto</div>
+                    <div class="text-lg leading-5 text-secondary w-full" >{{client.project}}</div>
                 </div>
             </div>
             

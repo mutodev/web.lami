@@ -1,0 +1,12 @@
+:host {
+    width: 100%;
+}
+
+::ng-deep.mat-option .mat-option-text {
+    display: contents !important;
+}
+
+.additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
+  }

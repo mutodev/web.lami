@@ -1,25 +1,36 @@
-<form novalidate class="flex flex-col">
+<form [formGroup]="formGroup" novalidate class="flex flex-col">
     <div class="grid">
         <!-- Identification -->
         <mat-form-field class="flex-auto gt-xs:pr-3 fuse-mat-dense">
-            <mat-select  [placeholder]="'Seleccione Serie'" required formControlName="identification_type">
-                <mat-option >test</mat-option>
-                 
-          
+            <mat-select formControlName="serie" [placeholder]="'Seleccione Serie'" required>
+                <mat-option *ngFor="let item of Series" [value]="item.code">{{item.name}}</mat-option>
             </mat-select>
-           
         </mat-form-field>
+
+        <!-- VENDEDOR -->
+        <mat-form-field floatLabel="auto" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <search-mat-select [customStyle]="{width: '100%'}" required [placeholder]="'Seleccione vendedor'"
+                [dataSource]="salesPersonCode" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                formControlName="salesPersonCode">
+            </search-mat-select>
+        </mat-form-field>
+
         <!-- Identificacion -->
         <div class="grid gap-y-2">
             <div class="flex w-full gap-4">
-                <div class="text-md font-medium leading-5 text-secondary basis-3/12" >Fecha del Pedido</div>
-                <div class="text-lg leading-5 text-secondary w-full" >{{dateNow | date}}</div>
+
+                <div class="text-md font-medium leading-5 text-secondary basis-3/6">Fecha del Pedido</div>
+                <div class="text-lg leading-5 text-secondary w-full">{{dateNow | date}}</div>
             </div>
-            <div  class="flex w-full gap-4">
-                <div class="text-md font-medium leading-5 text-secondary basis-3/12" >Vigencia</div>
-                <div class="text-lg leading-5 text-secondary  w-full" >{{validityDate | date}}</div>
+            <div class="flex w-full gap-4">
+                <div class="text-md font-medium leading-5 text-secondary basis-3/6">Vigencia</div>
+                <div class="text-lg leading-5 text-secondary  w-full">{{validityDate | date}}</div>
             </div>
-           
+            <div class="flex w-full gap-4">
+                <div class="text-md font-medium leading-5 text-secondary basis-3/6">Fecha aprox. de entrega</div>
+                <div class="text-lg leading-5 text-secondary  w-full">{{estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</div>
+            </div>
+
         </div>
     </div>
 </form>

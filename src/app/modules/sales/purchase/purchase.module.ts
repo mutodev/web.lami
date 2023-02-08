@@ -29,11 +29,18 @@ import { ItemsModule } from 'app/shared/components/items/items.module';
 import { OrderInformationModule } from 'app/shared/components/order-information/order-information.module';
 import { CustomerDialogModule } from 'app/shared/components/customer-dialog/customer-dialog.module';
 import { MaintenanceModule } from 'app/modules/maintenance/maintenance.module';
+import { OrderStatusPipe } from 'app/core/pipes/order-status.pipe';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CIViewerDocumentModule } from 'app/shared/components/viewer-document/viewer-document.module';
+import { PurchaseViewComponent } from './view/view.component';
+
 
 @NgModule({
     declarations: [
         PurchaseDetailComponent, 
-        PurchaseListComponent
+        PurchaseListComponent,
+        PurchaseViewComponent,
+        OrderStatusPipe
         ],
     imports: [
         CommonModule,
@@ -47,7 +54,8 @@ import { MaintenanceModule } from 'app/modules/maintenance/maintenance.module';
         ItemsModule,
         OrderInformationModule,
         CustomerDialogModule,
-         MaintenanceModule
+         MaintenanceModule,
+         CIViewerDocumentModule
     ],
     exports: [],
     providers: [],
