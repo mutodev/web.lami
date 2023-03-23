@@ -1,0 +1,15 @@
+.list-grid {
+    grid-template-columns: calc(100vw - 90px);
+
+    @screen sm {
+        grid-template-columns: auto  80px 150px 80px;
+    }
+
+    @screen md {
+        grid-template-columns: auto 100px 150px 40px;
+    }
+
+    @screen lg {
+        grid-template-columns: auto 80px 80px 80px 80px;
+    }
+}

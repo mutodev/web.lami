@@ -81,7 +81,7 @@
                                         {{order?.customer?.firstName}}    {{order?.customer?.lastName}}
                                     </div> -->
                                     <div>
-                                        <ng-container *ngIf="order.customer.identificationType.code == '31' || order.customer?.identificationType.code == '50'; else displayName">
+                                        <ng-container *ngIf="order.customer?.identificationType?.code == '31' || order.customer?.identificationType?.code == '50'; else displayName">
                                             {{order.customer?.name}}
                                         </ng-container>
                                       <ng-template #displayName>
