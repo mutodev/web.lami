@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SearchProductDialogComponent } from '../search-product-dialog/search-product-dialog.component';
 import * as _moment from 'moment';
+import { ProductStockDialogComponent } from '../product-stock-dialog/product-stock-dialog.component';
 
 const TAXES: any[] = [
   {
@@ -404,4 +405,19 @@ export class ItemsComponent implements OnInit {
     }
     this.onEstimatedDate.emit(this.estimatedDate);
   }
+
+  stockItemRowBtn() {
+
+    const dialogRef = this.dialog.open(ProductStockDialogComponent, {
+      width: '900px',
+      maxHeight: 'calc(100vh - 22px) !important;',
+      disableClose: true,
+      data: {
+       
+      },
+    });
+
+  }
+
+
 }

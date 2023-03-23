@@ -5,13 +5,10 @@ import { fuseAnimations } from '@fuse/animations';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseList } from 'app/core/bases/base-list';
 import { BaseListService } from 'app/core/bases/base-list.service';
-import { products } from 'app/mock-api/inventory/product/data';
 import { CustomerInfoSearchComponent } from 'app/shared/components/customer-info-search/customer-info-search.component';
 import { ItemsComponent } from 'app/shared/components/items/items.component';
 import { OrderInformationComponent } from 'app/shared/components/order-information/order-information.component';
 import { Order, OrderDetail } from 'app/shared/interfaces/order';
-import { Product } from 'app/shared/interfaces/product';
-import { CIFormatter } from 'app/shared/validators/formatters';
 
 @Component({
   selector: 'app-detail',
@@ -55,8 +52,6 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
    
   }
 
-
-
   save(): void {
     this.formGroup.addControl('orderDetails', this.itemsComponent.items);
     this.formGroup.addControl('customer', this.customerComponent.customer);
@@ -99,7 +94,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
       dueDate: this.orderInfoComponent.dueDate,
       vatTotal: this.itemsComponent.tax,
       salesPersonCode: this.formGroup.get('salesPersonCode').value,
-      serie: '13',
+      serie: this.formGroup.get('serie').value,
       subTotal: this.itemsComponent.subTotal,
       total: this.itemsComponent.total,
       discount: Number(this.itemsComponent.discount),
