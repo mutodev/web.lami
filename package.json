@@ -8,9 +8,13 @@
     "scripts": {
         "ng": "ng",
         "prod": "ng serve -c=production -o",
+        "dev": "ng serve -c=dev -o",
+        "local": "ng serve -c=local -o",
         "start": "ng serve",
         "build": "ng build",
         "build-prod": "ng build -c=production",
+        "build-dev": "ng build -c=dev",
+        "build-local": "ng build -c=local",
         "mock": "ng serve  --configuration mock",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
