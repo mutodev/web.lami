@@ -1,3 +1,4 @@
+import { HttpMethodService } from './core/services/http-method.service';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +17,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { registerLocaleData } from '@angular/common';
 import localeDeAt from '@angular/common/locales/es-CO';
 const routerConfig: ExtraOptions = {
-    preloadingStrategy       : PreloadAllModules,
+    preloadingStrategy: PreloadAllModules,
     scrollPositionRestoration: 'enabled'
 };
 registerLocaleData(localeDeAt);
@@ -24,10 +25,11 @@ registerLocaleData(localeDeAt);
     declarations: [
         AppComponent
     ],
-    providers:[
+    providers: [
+        HttpMethodService,
         // { provide: LOCALE_ID, useValue: 'es-CO' }
     ],
-    imports     : [
+    imports: [
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes, routerConfig),
@@ -47,12 +49,11 @@ registerLocaleData(localeDeAt);
         // 3rd party modules that require global configuration via forRoot
         MarkdownModule.forRoot({})
     ],
-    bootstrap   : [
+    bootstrap: [
         AppComponent
     ]
 })
-export class AppModule
-{
+export class AppModule {
 }
 
 
