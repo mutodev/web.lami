@@ -77,7 +77,7 @@ export class UserDetailComponent extends BaseForm implements OnInit {
   }
 
   create(): void {
-    this._lamiService.createUser({ ...this.userInformationComponent.accountForm.value, ...this.userSecurityComponent.securityForm.value })
+    this._lamiService.createUser({ ...this.userInformationComponent.accountForm.getRawValue(), ...this.userSecurityComponent.securityForm.value })
       .subscribe({
         next: (result) => {
          this._router.navigateByUrl('/settings/user/all');
