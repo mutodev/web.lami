@@ -30,18 +30,25 @@ export class UserSecurityComponent implements OnInit {
         validators: FuseValidators.mustMatch('password', 'passwordConfirm')
       });
 
-      this.user = JSON.parse(localStorage.getItem('user'));
+
+  //llamar la variable de localstorage actualziada
+
+    this.user = JSON.parse(localStorage.getItem('user_to_edit'));
+
   }
 
   async save() {
+
+
+    let id_to_edit = localStorage.getItem('user_to_edit');
     if (this.securityForm.valid) {
-      let result = await this.httpService.patch(`/user/${this.user.id}/update-password`, {password: this.securityForm.controls.password.value});
+      let result = await this.httpService.patch(`/user/${id_to_edit}/update-password`, {password: this.securityForm.controls.password.value});
       if (result.status === 'success') {
         this._notifyService.successAlert(result.message);
         this.securityForm.reset();
       }
     }
-    
+
   }
 
 }

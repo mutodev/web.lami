@@ -41,8 +41,9 @@ export class UserListComponent extends BaseList implements OnInit {
    }
 
   ngOnInit(): void{ ;
-    
+
     this.getDataSource();
+    console.log( this.dataSource$);
   }
 
   createUser():void{

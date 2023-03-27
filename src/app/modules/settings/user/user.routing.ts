@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RolesTypesResolver } from 'app/core/resolvers/types.resolver';
 import { UserResolver, UsersResolver } from 'app/core/resolvers/user.resolver';
 import { UserDetailComponent } from './detail/detail.component';
+import { EditComponent } from './edit/edit.component';
 import { UserListComponent } from './list/list.component';
 
 export const userRoutes: Routes = [
@@ -15,20 +16,29 @@ export const userRoutes: Routes = [
         }
     },
     {
-        path: 'new', 
+        path: 'new',
         component: UserDetailComponent,
         resolve: {
             roles: RolesTypesResolver
         }
     },
     {
-        path: ':id', 
+        path: ':id',
         component: UserDetailComponent,
         resolve: {
             roles: RolesTypesResolver,
             user: UserResolver
         }
     },
+    {
+        path: ':id',
+        component: EditComponent,
+        resolve: {
+            roles: RolesTypesResolver,
+            user: UserResolver
+        }
+    },
+
 
 ];
 

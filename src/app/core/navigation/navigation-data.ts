@@ -32,23 +32,26 @@ export const compactNavigation: FuseNavigationItem[] = [{
             {
                 id   : 'pedidos',
                 title: 'Pedidos',
-                type : 'basic',     
+                type : 'basic',
                 link : 'sales/purchase/all',
                 button:{
                     link:'sales/purchase/new'
                 },
             },
-            {
-                id   : 'plan-separe',
+           // {
+           /*     id   : 'plan-separe',
                 title: 'Cotizaciones',
                 type : 'basic',
                 link : '/plan-separe'
-            },
-            {
+                */
+          //  },
+            // {
+           /*
                 id      : 'seguridad',
                 title   : 'Recaudos',
                 type    : 'basic',
-            },
+                  */
+          //  },
             // {
             //     id   : 'contra-entrega',
             //     title: 'Contra entrega',
@@ -56,15 +59,18 @@ export const compactNavigation: FuseNavigationItem[] = [{
             //     icon : 'departure_board',
             //     link : '/contra-entrega'
             // },
-            {
+             // {
+            /*
                 id   : 'list_alt',
                 title: 'Precios',
                 type : 'basic',
                 link : '/lista-de-precios'
-            }
+                */
+                //  },
         ]
     },
-    {
+    /*
+        {
         id      : 'seguridad',
         title   : 'Bitácora',
         type    : 'basic',
@@ -75,9 +81,11 @@ export const compactNavigation: FuseNavigationItem[] = [{
         title   : 'Reportes',
         type    : 'basic',
         icon : 'insert_chart_outlined',
-    }
-]},
-{
+    }*/
+]
+
+},
+/*{
     id      : 'comercial',
     title   : 'Logistica',
     type    : 'group',
@@ -93,7 +101,7 @@ export const compactNavigation: FuseNavigationItem[] = [{
     title   : 'PostVenta',
     type    : 'group',
     children: []
-},
+},*/
     {
         id      : 'seguridad',
         title   : 'Settings',
