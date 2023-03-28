@@ -15,16 +15,16 @@
             <!-- Light version -->
             <img
                 class="dark:hidden"
-                src="../../../../assets/images/logo/lami_logo.svg"
+                src="../../../../assets/images/logo/logo_png.png"
                 alt="Logo image">
             <!-- Dark version -->
             <img
                 class="hidden dark:flex w-60 "
-                src="../../../../assets/images/logo/lami_logo.svg"
+                src="../../../../assets/images/logo/logo_png.png"
                 alt="Logo image">
         </div>
         <div class="flex flex-col items-center w-full p-4">
-           
+
             <div class="flex flex-col items-center justify-center w-full mt-6">
                 <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden text-lg text-center leading-normal font-medium">
                     {{user.firstName}}  {{user.lastName}}
@@ -43,7 +43,7 @@
     <!-- Header -->
     <div class="fixed relative bg-lami-blue text-white flex flex-0 items-center w-full h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden">
         <!-- Navigation toggle button -->
-        <button 
+        <button
             mat-icon-button
             (click)="toggleNavigation('mainNavigation')">
             <mat-icon class="text-white" [svgIcon]="'heroicons_outline:menu'"></mat-icon>

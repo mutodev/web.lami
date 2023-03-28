@@ -21,7 +21,7 @@ export class UserInformationComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private _lamiService: LamiService,
     private _route: ActivatedRoute,private _notifyService: NotifyService,
     private _router: Router,
-    ) { 
+    ) {
       this.id = this._route.snapshot.params['id'];
     }
 
@@ -45,7 +45,8 @@ export class UserInformationComponent implements OnInit {
       });
 
       if(this.id)
-        this.getUser();
+      this.getUser();
+
 
       this.getSalesPersonCode();
   }
@@ -53,6 +54,11 @@ export class UserInformationComponent implements OnInit {
   getUser(){
     this._lamiService.user$.subscribe((user) => {
       this.accountForm.patchValue(user)
+      console.log(this.id);
+
+      localStorage.setItem('user_to_edit', this.id);
+
+// llnar una variable del local storage
 
     })
   }
@@ -64,6 +70,8 @@ export class UserInformationComponent implements OnInit {
 
 
   update(): void {
+
+
     this._lamiService.updateUser(this.id,  this.accountForm.value).subscribe({
       next: (result)=>{
         this._notifyService.successAlert("Registro actualizado.")
