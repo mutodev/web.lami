@@ -48,7 +48,8 @@ export class UserInformationComponent implements OnInit {
       this.getUser();
 
 
-      this.getSalesPersonCode();
+    this.getSalesPersonCode();
+
   }
 
   getUser(){
@@ -83,11 +84,15 @@ export class UserInformationComponent implements OnInit {
 
   getSalesPersonCode() {
     this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result; });
+
     this._lamiService.getU_HBT('SELLER_TYPE').subscribe((result: Uhbt[]) => { this.sellerTypes = result; });
+
   }
 
   nameSalesPerson(item) {
+
     return item.extendedData?.cities[0] ? `${item.name} (${item.extendedData?.cities[0]})` : item.name;
+
   }
 
 }

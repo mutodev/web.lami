@@ -68,7 +68,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             .subscribe((user: User) => {
                 this.user = user;
             });
-           
+
 
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
@@ -78,6 +78,10 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+
+
+
+
     }
 
     /**
