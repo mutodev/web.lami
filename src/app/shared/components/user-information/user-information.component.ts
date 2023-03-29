@@ -39,6 +39,7 @@ export class UserInformationComponent implements OnInit {
       sellerTypeId: [''],
     });
 
+
     this._lamiService.roleTypes$
       .subscribe((roles: Type[]) => {
         this.roles = roles;
@@ -84,7 +85,6 @@ export class UserInformationComponent implements OnInit {
 
   getSalesPersonCode() {
     this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result; });
-
     this._lamiService.getU_HBT('SELLER_TYPE').subscribe((result: Uhbt[]) => { this.sellerTypes = result; });
 
   }

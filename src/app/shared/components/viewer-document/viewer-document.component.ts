@@ -25,6 +25,7 @@ export class CIViewerDocumentComponent implements OnInit {
   ngOnInit(): void {
     this.getDataSource();
 
+  console.log(this.sales_person);
   }
 
   getDataSource() {
@@ -34,8 +35,12 @@ export class CIViewerDocumentComponent implements OnInit {
       .subscribe((data: any) => {
         //Sales person code
 
-        console.log(data.salesPersonCode);
+        console.log(data);
+
         this.sales_person = data.salesPersonCode;
+        console.log(this.sales_person);
+        console.log(   this._lamiService.order$);
+
         this.quotation = data;
         this.setSummary();
       });
