@@ -25,7 +25,7 @@ export class CIViewerDocumentComponent implements OnInit {
   ngOnInit(): void {
     this.getDataSource();
 
-  console.log(this.sales_person);
+  console.log("Order Detalle");
   }
 
   getDataSource() {
