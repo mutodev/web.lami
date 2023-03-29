@@ -12,6 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 export class CIViewerDocumentComponent implements OnInit {
 
   quotation: any;
+  sales_person: any;
   subTotal: number;
   discount: number;
   total: number;
@@ -23,6 +24,7 @@ export class CIViewerDocumentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataSource();
+
   }
 
   getDataSource() {
@@ -30,6 +32,10 @@ export class CIViewerDocumentComponent implements OnInit {
     this._lamiService.order$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((data: any) => {
+        //Sales person code
+
+        console.log(data.salesPersonCode);
+        this.sales_person = data.salesPersonCode;
         this.quotation = data;
         this.setSummary();
       });
@@ -78,5 +84,8 @@ export class CIViewerDocumentComponent implements OnInit {
     }, {});
     this.groupTaxes = result;
   }
+
+
+
 
 }

@@ -64,7 +64,7 @@
 
                         <div class="col-span-2 text-right">{{item?.value | currency}}</div>
                         <div class="col-span-2 text-right">{{(item?.value * item.amount) | currency}}</div>
-                    
+
 
                         <!-- <div *ngIf="item?.tax?.name; else elseTemplate" class="col-span-2 text-center">
                             {{item?.tax?.name}} ({{item?.tax?.percentage}}%)
@@ -119,14 +119,14 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <ng-container *ngIf="quotation.comments">
                     <div class="font-semibold">Comentarios:</div>
                     <div>{{ quotation?.comments }}</div>
-                  
+
                 </ng-container>
-                
-               
+
+
             </div>
         </div>
     </div>

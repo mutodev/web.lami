@@ -14,6 +14,7 @@ export class UserSecurityComponent implements OnInit {
   @Input() passwordLabel: string = 'Contraseña';
   @Input() confirPasswordLabel: string = 'Confirmar Contraseña';
   user: any;
+  password_reset_ok: boolean = false;
 
   constructor(private _formBuilder: FormBuilder,
     private httpService: HttpMethodService,
@@ -22,14 +23,16 @@ export class UserSecurityComponent implements OnInit {
   ngOnInit(): void {
 
     // Create the form
+
     this.securityForm = this._formBuilder.group({
       password: ['', [Validators.required, FuseValidators.passwordStrengthValidator]],
       passwordConfirm: ['', Validators.required]
     },
       {
-        validators: FuseValidators.mustMatch('password', 'passwordConfirm')
-      });
 
+        validators: FuseValidators.mustMatch('password', 'passwordConfirm')
+
+      });
 
   //llamar la variable de localstorage actualziada
 
@@ -41,11 +44,13 @@ export class UserSecurityComponent implements OnInit {
 
 
     let id_to_edit = localStorage.getItem('user_to_edit');
+
     if (this.securityForm.valid) {
       let result = await this.httpService.patch(`/user/${id_to_edit}/update-password`, {password: this.securityForm.controls.password.value});
       if (result.status === 'success') {
+        this.password_reset_ok = true;
         this._notifyService.successAlert(result.message);
-        this.securityForm.reset();
+       // this.securityForm.reset();
       }
     }
 
