@@ -27,10 +27,15 @@
         <div class="list-grid p-3 hidden md:grid items-center gap-x-4 text-white  bg-zinc-500">
             <div class="font-medium text-md">Descripción</div>
             <div class="font-medium text-md text-center">Desc %</div>
+
             <div class="font-medium text-md text-center">Cant.</div>
             <!-- <div class="font-medium text-md text-center">Proyecto</div> -->
             <div class="font-medium text-md text-center">Imp.</div>
             <!-- <div class="col-span-1 font-medium text-md text-left">Cantidad</div> -->
+            <ng-container *ngIf="typer_of_seller == '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a'">
+                <div class="font-medium text-md text-right">Brilla</div>
+            </ng-container>
+
             <div class="font-medium text-md text-right">Precio</div>
             <div class="font-medium text-md text-right">Total</div>
             <div class="font-medium text-md text-left"></div>
@@ -86,10 +91,24 @@
                         </mat-form-field>
                     </div>
 
+  <!-- Brilla-->
+  <ng-container *ngIf="typer_of_seller == '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a'">
+
+  <div class="self-center text-left hidden md:block">
+    <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
+        <mat-select formControlName="brilla" [placeholder]="'Brilla'">
+            <mat-option class="text-sm" *ngFor="let price of brilla_prices" [value]="price.value">{{price.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+  </ng-container>
                     <!-- price -->
                     <div class="self-center text-right border-nonet hidden md:block">
                         <div class="font-semibold text-lg">{{ item.get('price').value | currency }}</div>
                     </div>
+
 
                     <!-- Total -->
                     <div class="self-center text-right hidden md:block">

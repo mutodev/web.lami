@@ -32,6 +32,7 @@ import { environment } from 'environments/environment';
   animations: fuseAnimations
 })
 export class PurchaseListComponent extends BaseList implements OnInit {
+  current_sales_personecode: string;
 
   constructor(public _baseListService: BaseListService,
               private realTime: RealTimeService) {
@@ -40,10 +41,16 @@ export class PurchaseListComponent extends BaseList implements OnInit {
 
   ngOnInit(): void {
     this.getDataSource();
+    this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
 
+
+    console.log("current_sales_personecode",  this.current_sales_personecode);
+    console.log("listado de ordenes",this.dataSource$);
     this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
     .subscribe(event => {
       if (this.dataSource$) {
+
+
         const order = JSON.parse(event.data);
         let data = (this.dataSource$.source as any)._value;
         const obj = data.find((a) => a.id === order.id);

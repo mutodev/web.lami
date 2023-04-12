@@ -1,5 +1,8 @@
 import { FuseNavigationItem } from "@fuse/components/navigation";
 
+
+
+
 export const compactNavigation: FuseNavigationItem[] = [{
     id      : 'comercial',
     title   : 'Comercial',
@@ -106,7 +109,7 @@ export const compactNavigation: FuseNavigationItem[] = [{
         id      : 'seguridad',
         title   : 'Settings',
         type    : 'group',
-        icon : 'settings',
+        icon    : 'settings',
         children: [
             {
                 id   : 'usuarios',
@@ -124,6 +127,16 @@ export const compactNavigation: FuseNavigationItem[] = [{
                 type : 'basic',
                 icon:'store',
                 link : 'settings/store/all'
+                // button:{
+                //     link:'settings/store/new'
+                // },
+            },
+            {
+                id   : 'precios_brilla',
+                title: 'Precios Brilla',
+                type : 'basic',
+                icon:'attach_money',
+                link : 'settings/brilla/all'
                 // button:{
                 //     link:'settings/store/new'
                 // },

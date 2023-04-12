@@ -6,7 +6,7 @@ import { StoreDetailComponent } from './detail/detail.component';
 import { StoreListComponent } from './list/list.component';
 
 export const storeRoutes: Routes = [
-    { 
+    {
         path: 'all', component: StoreListComponent,
         resolve:{
             user: StoresResolver
@@ -14,7 +14,6 @@ export const storeRoutes: Routes = [
     },
     { path: 'new', component: StoreDetailComponent },
     { path: ':id', component: StoreDetailComponent },
-   
-    
-];
 
+
+];

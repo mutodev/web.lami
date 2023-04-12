@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
-import { Subject } from 'rxjs';
+import { Store } from 'app/modules/settings/store/store.types';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -10,8 +11,11 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./viewer-document.component.scss']
 })
 export class CIViewerDocumentComponent implements OnInit {
-
+  [x: string]: any;
+  stores$: Observable<Store[]>;
+  brilla_price = 0;
   quotation: any;
+  store: any;
   sales_person: any;
   subTotal: number;
   discount: number;
@@ -20,12 +24,44 @@ export class CIViewerDocumentComponent implements OnInit {
   groupTaxes: any[];
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
+
   constructor(public _lamiService: LamiService) { }
 
   ngOnInit(): void {
+
     this.getDataSource();
 
-  console.log("Order Detalle");
+    this.getStore(this.sales_person);
+    this.brilla_price = 0.40;
+
+
+  }
+
+  getStore(city_name) {
+    console.log(city_name,"Ciudad recibida");
+    this._lamiService.getStores();
+
+    this._lamiService.stores$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((data: any) => {
+
+
+
+
+
+        const result = data.find(({ city }) => city === city_name);
+        this.store= result;
+
+        console.log( this.store,"Tienda Comparada");
+
+        this.setSummary();
+      });
+
+
+
+
+
+
   }
 
   getDataSource() {
@@ -37,11 +73,9 @@ export class CIViewerDocumentComponent implements OnInit {
 
         console.log(data);
 
-        this.sales_person = data.salesPersonCode;
-        console.log(this.sales_person);
-        console.log(   this._lamiService.order$);
-
+        this.sales_person = data.salesPerson.extendedData.cities[0];
         this.quotation = data;
+        console.log(  this.quotation ,"Orden Captuada");
         this.setSummary();
       });
   }

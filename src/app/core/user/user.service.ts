@@ -30,9 +30,15 @@ export class UserService
     {
         // Store the value
         this._user.next(value);
-        localStorage.setItem('user', JSON.stringify(value))
+        console.log(value);
+        console.log(value['salesPersonCode']);
+        localStorage.setItem('user', JSON.stringify(value));
+        localStorage.setItem('user_sellerTypeId', value.sellerTypeId);
+        localStorage.setItem('user_role', value.role);
+        localStorage.setItem('user_salesPersonCode', value.id);
+
     }
-z
+
     get user$(): Observable<User>
     {
         return of(JSON.parse(localStorage.getItem('user')))

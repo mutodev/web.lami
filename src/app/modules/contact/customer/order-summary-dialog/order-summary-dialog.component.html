@@ -31,7 +31,7 @@
         <div class="custom-m-height-calc grid overflow-y-auto ">
           <!-- Header -->
           <div
-            class="list-grid z-10 sticky hidden md:grid sm:overflow-y-auto px-3  top-0 mt-5 gap-4 py-3 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+            class="list-grid z-10 sticky hidden  sm:overflow-y-auto px-3  top-0 mt-5 gap-4 py-3 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
             matSort matSortDisableClear>
             <div class="hidden lg:block">
               # Pedido
@@ -53,28 +53,28 @@
       </ng-container>
 
       <ng-container *ngFor="let order of order.orders">
-        <div class="list-grid grid items-center   md:gap-4 py-3 px-3  border-b">
+        <div class="list items-center   border-b">
 
           <div class="flex gap-x-4">
-            <span class="md:hidden"># Order</span>
+            <span class="md:hidden" ># Order</span>
             <span class="font-bold md:font-normal">   {{order?.docNumber}}</span>
           </div>
 
           <div  class="flex gap-x-4">
             <span class="md:hidden">Total</span>
-            <div class="font-bold md:font-normal">{{order?.total | currency}}</div>
+            <span class="font-bold md:font-normal">{{order?.total | currency}}</span>
           </div>
 
           <div class="flex gap-x-4">
             <span class="md:hidden">Fecha</span>
-            <div class="font-bold md:font-normal">{{order?.date | date}}</div>
+            <span class="font-bold md:font-normal">{{order?.date | date}}</span>
           </div>
 
           <div  class="flex gap-x-4">
             <span class="md:hidden">Vigencia</span>
-            <div class="font-bold md:font-normal">{{order?.dueDate | date}}</div>
+            <span class="font-bold md:font-normal">{{order?.dueDate | date}}</span>
           </div>
-      
+
           <div  class="text-right">
             <button mat-dialog-close matTooltip="Ir a detalle pedido" [routerLink]="'/sales/purchase/view/' + order.id"
               class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>

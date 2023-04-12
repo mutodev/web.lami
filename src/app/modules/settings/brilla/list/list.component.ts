@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { LamiService } from 'app/core/api/lami.service';
 import { Observable } from 'rxjs';
 import { User } from '../../user/user.types';
-import { Store } from '../store.types';
+import { BPrice } from '../brilla.types';
 import { Price } from 'app/shared/interfaces/Price.types';
 
 @Component({
@@ -27,22 +27,21 @@ import { Price } from 'app/shared/interfaces/Price.types';
     `
 ],
 })
-export class StoreListComponent implements OnInit {
-
+export class ListComponent implements OnInit {
   searchInputControl: FormControl = new FormControl();
-    stores$: Observable<Store[]>;
-
+  stores$: Observable<BPrice[]>;
+  prices$: Observable<Price[]>;
   isLoading: boolean = false;
 
   constructor(public _lamiService: LamiService) { }
 
   ngOnInit(): void {
       this.stores$ = this._lamiService.stores$;
-
-
+      this._lamiService.getPrices();
+     this.prices$ = this._lamiService.prices$;
   }
 
-  createStore():void{
+  createPrices():void{
 
   }
 

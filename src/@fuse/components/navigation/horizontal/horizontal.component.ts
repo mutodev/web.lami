@@ -57,6 +57,9 @@ export class FuseHorizontalNavigationComponent implements OnChanges, OnInit, OnD
      */
     ngOnInit(): void
     {
+console.log("test user admin", localStorage.getItem('user_role'));
+
+
         // Make sure the name input is not an empty string
         if ( this.name === '' )
         {

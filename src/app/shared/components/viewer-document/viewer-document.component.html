@@ -3,11 +3,21 @@
     <div class="inline-block p-6 sm:p-10 text-left print:p-0">
 
         <div
-            class="w-240 p-10  rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent">
+            class="p-10  rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent">
             <div class="bg-red-200 text-red-800 uppercase grid mb-10 text-white auto-cols-max grid-flow-col w-36  gap-x-8 -ml-10 -mt-10 py-1 px-5 rounded-tl-2xl rounded-br-2xl"
                >
                Por cobrar
             </div>
+
+            <div class="pl-10 border-l text-md md:hidden sm:block ">
+                <div class="font-medium text-lg">Lami SAS</div>
+                                   <div>{{store?.name}} </div>
+                                   <div> {{store?.city}},{{store?.address}}</div>
+                                   <div>{{store?.phone_number
+                                   }}</div>
+                                   <div>{{store?.email}}</div>
+           </div>
+
 
             <div class="flex items-start justify-between">
                 <div class="grid grid-cols-2 gap-x-4 gap-y-1">
@@ -24,28 +34,29 @@
                 </div>
                 <div >
 
-                    <div class="grid auto-cols-max grid-flow-col gap-x-8 -mr-10 py-6 px-8 rounded-l-2xl bg-zinc-500 dark">
+
+                    <div class="grid auto-cols-max grid-flow-col gap-x-8 -mr-10 py-6 px-8 rounded-l-2xl bg-zinc-500 dark hidden md:block">
 
                         <div class="place-self-center print:hidden">
                             <img class="w-30 filter  brightness-700 rounded-l-md" src="https://lami.com.co/wp-content/uploads/2021/04/logo_azul.svg">
                         </div>
                         <div class="pl-10 border-l text-md">
-                            <div class="font-medium text-lg">Lami SAS</div>
-                            <div>Muebles Lami </div>
-                            <div> {{quotation.salesPerson?.extendedData?.cities[0]}}, </div>
-                            <div></div>
-                            <div>info@lami.com</div>
+                             <div class="font-medium text-lg">Lami SAS</div>
+                                                <div>{{store?.name}} </div>
+                                                <div> {{store?.city}},{{store?.address}}</div>
+                                                <div>{{store?.phone_number
+                                                }}</div>
+                                                <div>{{store?.email}}</div>
                         </div>
                     </div>
-
-
-
 
 
                 </div>
             </div>
 
-            <div class="text-md mt-10">
+
+
+            <div class="hidden md:block">
                 <div class="text-xl font-medium">{{quotation?.customer?.firstName}} {{quotation?.customer?.lastName}}
                 </div>
                 <div>{{quotation?.customer?.address}}</div>
@@ -54,34 +65,52 @@
             </div>
 
             <!-- TABLE ITEMS-->
-            <div class="grid grid-row-2 mt-12">
+            <div class="grid grid-row-2 mt-12 ">
                 <!-- HEADER ITEMS-->
-                <div class="grid p-3 grid-cols-12 items-center gap-x-4 text-white  bg-zinc-500">
-                    <div class="col-span-4 font-medium text-md">Descripción</div>
-                    <div class="col-span-1 font-medium text-md text-center">Desc%</div>
-                    <div class="col-span-1 font-medium text-md text-center">Cant.</div>
-                    <div class="col-span-1 font-medium text-md text-center">Proyecto</div>
-                    <div class="col-span-1 font-medium text-md text-center">Imp.</div>
-                    <div class="col-span-2 font-medium text-md text-right">Precio</div>
-                    <div class="col-span-2 font-medium text-md text-right">Total</div>
+
+
+                <div class="grid p-3 grid-cols-12 items-center gap-x-4 text-white  bg-zinc-500 ">
+
+                    <div class="col-span-2 font-medium text-md">Descripción</div>
+                    <div class="col-span-1 font-medium text-md text-center hidden md:block ">Desc%</div>
+                    <div class="col-span-1 font-medium text-md text-center hidden md:block">Cant.</div>
+                    <div class="col-span-1 font-medium text-md text-center hidden md:block">Proyecto</div>
+                    <div class="col-span-1 font-medium text-md text-center hidden md:block">Imp.</div>
+                    <div class="col-span-2 font-medium text-md text-right hidden md:block">Precio</div>
+                    <div class="col-span-2 font-medium text-md text-right
+                    hidden md:block">Total</div>
                 </div>
+
+
+
                 <!-- HEADER BODY-->
-                <div class="grid mt-1 grid-cols-12 gap-x-4 items-center px-2">
+                <div class="grid mt-1 grid gap-x-1 items-center px-2">
                     <!-- Items Array -->
                     <ng-container *ngFor="let item of quotation?.orderDetails; let i=index">
 
-                        <!-- Items -->
-                        <div class="col-span-4 text-base font-medium">
-                            <div class="font-semibold">{{item?.itemCode }}</div>
-                            <div class="text-secondary">  {{item?.description}}</div>
-                        </div>
-                        <div class="col-span-1 text-center">{{item?.discount}}</div>
-                        <div class="col-span-1 text-center">{{item?.amount}}</div>
-                        <div class="col-span-1 text-center">{{ item?.projectObj?.name }}</div>
-                        <div class="col-span-1 text-center">{{item?.taxObj?.name }}</div>
+                          <!-- Items movile-->
 
-                        <div class="col-span-2 text-right">{{item?.value | currency}}</div>
-                        <div class="col-span-2 text-right">{{(item?.value * item.amount) | currency}}</div>
+                        <!-- Items -->
+                        <div class="col-span-2 text-base font-medium">
+                            <div class="font-semibold">{{item?.itemCode }}</div>
+                            <div class="text-secondary">  {{item?.description}}
+                                <div class="md:hidden sm:block text-secondary">
+                                    Desc% = {{item?.discount}}</div>
+                                <div class="md:hidden sm:block text-secondary"> Cant = {{item?.amount}}</div>
+                                <div class="md:hidden sm:block text-secondary">Proy = {{ item?.projectObj?.name }}</div>
+                                <div class="md:hidden sm:block text-secondary">Imp = {{item?.taxObj?.name }}</div>
+
+                                <div class="md:hidden sm:block text-secondary">Precio = {{item?.value | currency}}</div>
+                                <div class="md:hidden sm:block text-secondary">Total = {{(item?.value * item.amount) | currency}}</div>
+                            </div>
+                        </div>
+                        <div class="col-span-1 text-center hidden md:block">{{item?.discount}}</div>
+                        <div class="col-span-1 text-center hidden md:block">{{item?.amount}}</div>
+                        <div class="col-span-1 text-center hidden md:block">{{ item?.projectObj?.name }}</div>
+                        <div class="col-span-1 text-center hidden md:block">{{item?.taxObj?.name }}</div>
+
+                        <div class="col-span-2 text-right  hidden md:block">{{item?.value | currency}}</div>
+                        <div class="col-span-2 text-right  hidden md:block ">{{(item?.value * item.amount) | currency}}</div>
 
 
                         <!-- <div *ngIf="item?.tax?.name; else elseTemplate" class="col-span-2 text-center">
@@ -101,11 +130,48 @@
             </div>
 
             <!-- TOTALES-->
-            <div class="grid grid-row-1 mt-5" >
+            <div class="grid grid-row-1 mt-5 " >
+
                 <div class="grid grid-cols-3">
                     <div class="col-span-2 font-medium text-md">
 
                     </div>
+                    <div class="font-medium text-md text-left hidden md:block">
+                        <div class="grid gap-2 grid-cols-2 p-3">
+
+                            <div class="self-center font-medium tracking-tight text-secondary text-right">
+                                SUBTOTAL
+                            </div>
+                            <div class="text-right text-lg">{{subTotal | currency}}</div>
+
+                            <!-- <ng-container *ngFor="let tax of groupTaxes"> -->
+                                <div class="self-center font-medium tracking-tight text-secondary text-right">
+                                    <!-- {{tax.name}} -->
+                                    IMPUESTOS
+                                </div>
+                                <div class="text-right text-lg text-right"> {{+quotation?.vatTotal?.toFixed(2) | currency}}</div>
+                            <!-- </ng-container> -->
+
+                            <ng-container *ngIf="discount > 0">
+                                <div class="self-center font-medium tracking-tight text-secondary text-right">
+                                    DESCUENTO</div>
+                                <div class="text-right text-lg text-right">- {{discount | currency}} </div>
+                            </ng-container>
+                            <!-- Divider -->
+                            <div class="col-span-2 my-3 border-b"></div>
+
+                            <!-- Total -->
+                            <div class="self-center text-2xl font-medium tracking-tight text-secondary text-righ">
+                                TOTAL</div>
+                            <div class="text-right text-2xl font-medium text-righ">{{quotation.total | currency}}</div>
+                        </div>
+                    </div>
+                </div>
+   <!-- TOTALES responsive-->
+            <div class="md:hidden sm:block" >
+
+                <div >
+
                     <div class="font-medium text-md text-left">
                         <div class="grid gap-2 grid-cols-2 p-3">
 
@@ -137,7 +203,6 @@
                         </div>
                     </div>
                 </div>
-
                 <ng-container *ngIf="quotation.comments">
                     <div class="font-semibold">Comentarios:</div>
                     <div>{{ quotation?.comments }}</div>

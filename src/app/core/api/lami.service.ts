@@ -4,13 +4,14 @@ import { Customer, IdentificationType } from 'app/modules/contact/customer/clien
 import { Store } from 'app/modules/settings/store/store.types';
 import { User } from 'app/modules/settings/user/user.types';
 import { Order } from 'app/shared/interfaces/order';
+import { Price } from 'app/shared/interfaces/Price.types';
 import { Product } from 'app/shared/interfaces/product';
 import { APIResponse } from 'app/shared/interfaces/response';
 import { Type } from 'app/shared/interfaces/setting.types';
 import { Uhbt } from 'app/shared/interfaces/UHBT';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
-import { STORE_DATA, USER_DATA } from './moke-data';
+import { BRILLA_PRICES, STORE_DATA, USER_DATA } from './moke-data';
 
 @Injectable({
     providedIn: 'root'
@@ -22,18 +23,34 @@ export class LamiService {
     }
 
 
+
+
+      /* #Brilla prices */
+
+      public _prices: BehaviorSubject<Price[] | null> = new BehaviorSubject(null);
+
+
+
+    getPrices(): Observable<Price[]> {
+        this._prices.next(BRILLA_PRICES);
+        return of([])
+    }
+
+
+
+
+
     /* #region  STORES */
 
     private _stores: BehaviorSubject<Store[] | null> = new BehaviorSubject(null);
 
-    get stores$(): Observable<Store[]> {
-        return this._stores.asObservable();
-    }
+
 
     getStores(): Observable<Store[]> {
         this._stores.next(STORE_DATA);
-        return of([])
+          return of([])
     }
+
     /* #endregion */
 
 
@@ -42,7 +59,12 @@ export class LamiService {
     private _users: BehaviorSubject<User[] | null> = new BehaviorSubject(null);
     private _user: BehaviorSubject<User | null> = new BehaviorSubject(null);
 
-
+    get prices$(): Observable<Price[]> {
+        return this._prices.asObservable();
+    }
+    get stores$(): Observable<Store[]> {
+        return this._stores.asObservable();
+    }
     get users$(): Observable<User[]> {
         return this._users.asObservable();
     }

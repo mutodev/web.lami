@@ -59,6 +59,7 @@ export class ItemsComponent implements OnInit {
 
   @Input() formGroup: FormGroup;
   products: any[] = [];
+  brilla_price = 0;
   taxes = TAXES;
   itemsFormGroup = new FormArray([]);
   id
@@ -71,7 +72,10 @@ export class ItemsComponent implements OnInit {
   projects: any[] = [];
   selectedProduct: boolean = false;
   estimatedDate = _moment().format('YYYY-MM-DD');
-  @Output() onEstimatedDate = new EventEmitter<any>();;
+  @Output() onEstimatedDate = new EventEmitter<any>();
+  typer_of_seller: string;
+  brilla_prices:  any[] = [];
+;
 
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -84,7 +88,8 @@ export class ItemsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log('estimatedDate', this.estimatedDate)
+    this.getType_seller();
+
     /* this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result); */
     this._lamiService.getU_HBT('TAX').subscribe((result) => this.taxes = result);
     this.getProducts();
@@ -115,10 +120,24 @@ export class ItemsComponent implements OnInit {
     });
   }
 
+    getType_seller() {
+  this.typer_of_seller = localStorage.getItem('user_sellerTypeId');
+
+      if (this.typer_of_seller == '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
+        this._lamiService.getPrices();
+        this.brilla_price = parseFloat( "0."+this._lamiService._prices.value[2].value);
+        this.brilla_prices = this._lamiService._prices.value;
+
+        console.log('Vendedor Brilla Precio Especial', this.brilla_price );
+      }
+  }
+
   addItemRow(item: any = {}): UntypedFormGroup {
 
     const itemsFormGroup = this._formBuilder.group({
       id: [''],
+      brilla: [''],
+      Oprice: [item?.price],
       name: [item?.name, Validators.required],
       description: [item?.description] || '',
       code: [item?.code],
@@ -126,10 +145,10 @@ export class ItemsComponent implements OnInit {
       discountTotal: [''],
       /* project: [item?.project, Validators.required], */
       quantity: ['1', [Validators.required, Validators.min(1)]],
-      price: [item?.price, Validators.required],
-      tax: item.arTaxCode,
+      price: [item?.price + (item?.price * this.brilla_price ), Validators.required],
+           tax: item.arTaxCode,
       taxObject: 0,
-      subTotal: [item?.price],
+      subTotal: [item?.price ],
       currencyTax: [''],
       estimatedDate: [item?.estimatedDate],
       total: [item?.price, Validators.nullValidator],
@@ -151,7 +170,7 @@ export class ItemsComponent implements OnInit {
       .valueChanges
       .subscribe((quantity: any) => {
 
-        const priceForm = Number(itemsFormGroup.get('price').value);
+        const priceForm = Number(itemsFormGroup.get('Oprice').value);
         const discountForm = Number(itemsFormGroup.get('discount').value);
         const tax = itemsFormGroup.get('tax').value
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
@@ -170,6 +189,36 @@ export class ItemsComponent implements OnInit {
         itemsFormGroup.get('currencyTax').setValue(currencyTax.toString());
         this.calculateSummary();
       });
+
+
+
+      itemsFormGroup.get('brilla')
+      .valueChanges
+      .subscribe((brilla) => {
+       brilla = brilla || '0';
+        console.log('brilla', brilla)
+
+        const priceForm = Number(itemsFormGroup.get('Oprice').value) ;
+
+        const NewpriceForm = priceForm  +( priceForm * parseFloat("0."+brilla));
+
+        const quantityForm = Number(itemsFormGroup.get('quantity').value);
+        const tax = itemsFormGroup.get('tax').value;
+        const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
+        const subTotal = NewpriceForm * quantityForm;
+        const currencyTax = (+taxPercentage * priceForm) / 100;
+
+        const discountTotal =  (subTotal * Number(itemsFormGroup.get('discount').value)) / 100;
+        let total = (subTotal - discountTotal);
+        itemsFormGroup.get('price').setValue(NewpriceForm);
+        itemsFormGroup.get('subTotal').setValue(subTotal);
+        itemsFormGroup.get('currencyTax').setValue(currencyTax.toString());
+        itemsFormGroup.get('total').setValue(total);
+        this.calculateSummary();
+      });
+
+
+
 
     itemsFormGroup.get('discount')
       .valueChanges
@@ -195,7 +244,8 @@ export class ItemsComponent implements OnInit {
     itemsFormGroup.get('price')
       .valueChanges
       .subscribe((price: any) => {
-        const discountForm = Number(itemsFormGroup.get('discount').value);
+
+            const discountForm = Number(itemsFormGroup.get('discount').value);
         const quantityForm = Number(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
@@ -413,7 +463,7 @@ export class ItemsComponent implements OnInit {
       maxHeight: 'calc(100vh - 22px) !important;',
       disableClose: true,
       data: {
-       
+
       },
     });
 

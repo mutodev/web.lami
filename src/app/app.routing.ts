@@ -10,14 +10,14 @@ import { InitialDataResolver } from 'app/app.resolvers';
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/example'
-    {path: '', pathMatch : 'full', redirectTo: 'example'},
+    {path: '', pathMatch : 'full', redirectTo: 'contact/customer/all'},
 
     // Redirect signed in user to the '/example'
     //
     // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'example'},
+    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'contact/customer/all'},
 
     // Auth routes for guests
     {
@@ -69,7 +69,8 @@ export const appRoutes: Route[] = [
                 children: [
                     {path: 'account', loadChildren: () => import('app/modules/settings/account/account.module').then(m => m.AccountModule)},
                     {path: 'user', loadChildren: () => import('app/modules/settings/user/user.module').then(m => m.UserModule)},
-                    {path: 'store', loadChildren: () => import('app/modules/settings/store/store.module').then(m => m.StoreModule)},
+                    { path: 'store', loadChildren: () => import('app/modules/settings/store/store.module').then(m => m.StoreModule) },
+                    {path: 'brilla', loadChildren: () => import('app/modules/settings/brilla/brilla.module').then(m => m.BrillaModule)},
                 ]
             },
             {

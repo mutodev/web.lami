@@ -1,4 +1,4 @@
-export interface Store {
+export interface BPrice {
     _id: string;
     code: string;
     name: string;

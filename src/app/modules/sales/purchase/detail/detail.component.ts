@@ -39,7 +39,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
     if(this.id){
       this._lamiService.order$.subscribe(order=>{ this.order = order;});
 
-     
+
     }
 
   }
@@ -49,7 +49,11 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this._formBuilder.group({});
-   
+
+    let current_user = localStorage.getItem('user');
+
+    console.log(current_user);
+
   }
 
   save(): void {
@@ -57,12 +61,12 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
     this.formGroup.addControl('customer', this.customerComponent.customer);
     this.formGroup.addControl('salesPersonCode', this.orderInfoComponent.salesPerson);
     this.formGroup.addControl('serie', this.orderInfoComponent.serie);
-   
+
     if (this.formGroup.valid) {
       this._lamiService.createOrder(this.buildOrderRequest()).subscribe(result => {
         if (result.status == 'success')
           this._router.navigateByUrl('/sales/purchase/all');
-       
+
       });
     } else {
       this.validateAllFormFields(this.formGroup)

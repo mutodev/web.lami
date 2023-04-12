@@ -8,7 +8,7 @@
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">Tiendas</div>
+        <div class="text-4xl font-extrabold tracking-tight">Precios Brilla</div>
         <!-- Actions -->
         <div class="flex sm:flex-row shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <!-- Search -->
@@ -30,8 +30,8 @@
 
         <!-- Products list -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
-            <ng-container *ngIf="(stores$ | async) as stores">
-                <ng-container *ngIf="stores.length > 0; else noProducts">
+            <ng-container *ngIf="(prices$ | async) as prices">
+                <ng-container *ngIf="prices.length > 0; else noProducts">
                     <div class="grid">
                         <!-- Header -->
                         <div
@@ -40,47 +40,32 @@
                                 Código
                             </div>
                             <div>Nombre</div>
-                            <div class="hidden sm:block">
-                                Dirección
+                            <div >
+                                Incremento
                             </div>
-                            <div class="hidden lg:block">
-                                Telefono
-                            </div>
-                            <div class="hidden lg:block">
-                                Correo
-                            </div>
-                            <div class="hidden sm:block"></div>
+
                         </div>
                         <!-- Rows -->
-                        <ng-container *ngIf="(stores$ | async) as stores">
-                            <ng-container *ngFor="let store of stores; trackBy: trackByFn">
+                        <ng-container *ngIf="(prices$ | async) as prices">
+                            <ng-container *ngFor="let price of prices; trackBy: trackByFn">
                                 <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
 
                                     <!-- store -->
                                     <div class="truncate">
-                                        {{store.code}}
+                                        {{price.code}}
                                     </div>
 
                                     <!-- Name -->
                                     <div class="truncate">
-                                        {{store.name}}
+                                        {{price.name}}
                                     </div>
 
-                                    <!-- Role -->
-                                    <div class="hidden sm:block">
-                                        {{store.address}}
-                                    </div>
+     <!-- % -->
+     <div class="truncate">
+        %  {{price.value}}
+    </div>
 
-                                    <!-- Operation Center -->
-                                    <div class="hidden sm:block">
-                                        {{store.phone_number}}
-                                    </div>
-
-                                      <!-- Operation Center -->
-                                      <div class="hidden sm:block">
-                                        {{store.email}}
-                                    </div>
 
                                     <!-- Details button -->
                                     <!-- <div class="hidden md:block text-right">
