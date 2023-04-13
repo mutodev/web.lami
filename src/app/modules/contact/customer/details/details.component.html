@@ -14,7 +14,7 @@
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
                         <span class="ml-1 text-secondary">{{actionName}} Cliente</span>
-                       
+
                     </div>
                 </div>
                 <div class="flex sm:hidden">
@@ -30,15 +30,29 @@
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     {{actionName}} cliente
                     <button  type="button" (click)="save()"
-                    class="min-w-10 min-h-7 h-7 px-2 top-1 leading-6 md:hidden" mat-button>
+                    class="min-w-10 min-h-7 h-7 px-2 top-1 leading-6
+                hidden" mat-button>
                     <mat-icon class="icon-size-7" [svgIcon]="'mat_outline:add_circle_outline'">
                     </mat-icon>
                 </button>
                 </h2>
             </div>
         </div>
-        <!-- Actions -->
-        <div class="flex hidden sm:block flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+
+    </div>
+
+    <!-- Main -->
+    <div class="flex justify-center p-4 sm:p-10">
+
+        <!-- CONTENT GOES HERE -->
+        <div class="max-w-5xl w-full">
+            <div class="overflow-hidden">
+                <div class="border-b rounded-2xl bg-card p-10">
+                    <app-customer #customerComponent></app-customer>
+
+
+                       <!-- Actions -->
+        <div class="flex  flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/contact/customer/all' ]"
                 mat-stroked-button>
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x'"></mat-icon>
@@ -52,16 +66,6 @@
             </button>
 
         </div>
-    </div>
-
-    <!-- Main -->
-    <div class="flex justify-center p-4 sm:p-10">
-
-        <!-- CONTENT GOES HERE -->
-        <div class="max-w-5xl w-full">
-            <div class="overflow-hidden">
-                <div class="border-b rounded-2xl bg-card p-10">
-                    <app-customer #customerComponent></app-customer>
                 </div>
             </div>
         </div>
