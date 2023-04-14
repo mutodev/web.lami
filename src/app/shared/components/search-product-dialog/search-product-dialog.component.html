@@ -26,6 +26,7 @@
             matSort matSortDisableClear>
             <div class="hidden lg:block">
               Artículo
+
             </div>
             <div class="hidden  lg:block">
               Can
@@ -91,7 +92,35 @@
                   <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: item}"></ng-container>
                 </ng-container>
               </div>
+              <form class="flex flex-col w-full">
 
+                <div class="flex flex-col sm:flex-row px-5 py-2">
+
+                  <!-- Product images and status -->
+                  <div class="flex flex-col">
+                    <div class="flex flex-col">
+                      <div class="flex justify-between ">
+                        <div>Cant.   #</div>
+                        <div>Comp.</div>
+                        <div>Ped.</div>
+                      </div>
+                      <div class="flex justify-between ">
+                        <div class="text-center">{{item.quantityOnStock}}</div>
+                        <div>{{item.quantityOrderedByCustomers}} </div>
+                        <div>{{item.quantityOrderedFromVendors}}</div>
+                      </div>
+                    </div>
+                    <div class="mt-2">
+                      <span class="font-semibold">Precio: </span> {{item.price + ( item.price * brilla_price )  | currency}}
+                    </div>
+                    <div class="mt-2">
+                      <span class="mr-2"> Fecha aprox. de entrega:   </span>
+                      <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
+
+                    </div>
+                  </div>
+                </div>
+              </form>
 
             </ng-container>
           </ng-container>
@@ -104,35 +133,7 @@
       <div class="shadow-lg overflow-hidden">
         <div class="flex border-b">
           <!-- Selected product form -->
-          <form class="flex flex-col w-full">
 
-            <div class="flex flex-col sm:flex-row px-5 py-2">
-
-              <!-- Product images and status -->
-              <div class="flex flex-col">
-                <div class="flex flex-col">
-                  <div class="flex justify-between ">
-                    <div>Cant.</div>
-                    <div>Comp.</div>
-                    <div>Ped.</div>
-                  </div>
-                  <div class="flex justify-between ">
-                    <div class="text-center">{{item.quantityOnStock}}</div>
-                    <div>{{item.quantityOrderedByCustomers}} </div>
-                    <div>{{item.quantityOrderedFromVendors}}</div>
-                  </div>
-                </div>
-                <div class="mt-2">
-                  <span class="font-semibold">Precio: </span> {{item.price | currency}}
-                </div>
-                <div class="mt-2">
-                  <span class="mr-2"> Fecha aprox. de entrega:   </span>
-                  <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
-
-                </div>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </ng-template>
