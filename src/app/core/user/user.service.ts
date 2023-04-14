@@ -36,7 +36,7 @@ export class UserService
         localStorage.setItem('user_sellerTypeId', value.sellerTypeId);
         localStorage.setItem('user_role', value.role);
         localStorage.setItem('user_salesPersonCode', value.id);
-
+        localStorage.setItem('user_salesPerson', value['salesPersonCode']);
     }
 
     get user$(): Observable<User>

@@ -5,6 +5,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseList } from 'app/core/bases/base-list';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { NotifyService } from 'app/core/notify/notify.service';
 import { CustomerInfoSearchComponent } from 'app/shared/components/customer-info-search/customer-info-search.component';
 import { ItemsComponent } from 'app/shared/components/items/items.component';
 import { OrderInformationComponent } from 'app/shared/components/order-information/order-information.component';
@@ -27,9 +28,10 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
   @ViewChild('orderInfoApp', { static: true }) orderInfoComponent: OrderInformationComponent;
   disabledForm: boolean = false;
   estimatedDate;
+  current_sales_person_code: string;
   constructor(private _formBuilder: FormBuilder, public _lamiService: LamiService,
     public _baseListService: BaseListService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute, private _notifyService: NotifyService,
     private _router: Router) {
     super(_baseListService);
 
@@ -51,12 +53,17 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
     this.formGroup = this._formBuilder.group({});
 
     let current_user = localStorage.getItem('user');
-
+  this.current_sales_person_code = localStorage.getItem('user_salesPerson');
     console.log(current_user);
 
   }
 
   save(): void {
+    console.log("Imprimir los datos enviados",this.formGroup);
+    console.log("user_salesPerson",this.current_sales_person_code);
+
+
+
     this.formGroup.addControl('orderDetails', this.itemsComponent.items);
     this.formGroup.addControl('customer', this.customerComponent.customer);
     this.formGroup.addControl('salesPersonCode', this.orderInfoComponent.salesPerson);
@@ -65,8 +72,9 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
     if (this.formGroup.valid) {
       this._lamiService.createOrder(this.buildOrderRequest()).subscribe(result => {
         if (result.status == 'success')
+          console.log(result);
           this._router.navigateByUrl('/sales/purchase/all');
-
+          this._notifyService.successAlert("Guardado con exito");
       });
     } else {
       this.validateAllFormFields(this.formGroup)
@@ -92,6 +100,9 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
         }
       });
 
+
+    //reemplazar sales person code por el almacenado en memoria
+    // salesPersonCode: this.formGroup.get('salesPersonCode').value,
     return {
       customerId: this.formGroup.get('customer').value,
       date: this.orderInfoComponent.date,
