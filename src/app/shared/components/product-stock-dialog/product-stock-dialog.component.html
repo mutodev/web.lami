@@ -21,21 +21,21 @@
             <ng-container *ngIf="dataSource.length > 0; else nodataSource">
                 <div class="custom-m-height-calc grid overflow-y-auto ">
                     <!-- Header -->
-                    <div class="list-grid z-10 hidden md:grid sticky sm:overflow-y-auto top-0 gap-4 py-4 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                    <div class="list-grid z-10 sm:grid md:grid sticky sm:overflow-y-auto top-0 gap-4 py-4 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                         matSort matSortDisableClear>
-                        <div class="hidden lg:block">
+                        <div class=" hidden ">
                             Artículo
                         </div>
-                        <div class="hidden  lg:block">
+                        <div class=" hidden ">
                             Bodega
                         </div>
-                        <div class="hidden  lg:block">
+                        <div class=" hidden ">
                             Can
                         </div>
-                        <div class="hidden sm:block">
+                        <div class=" hidden ">
                             Com
                         </div>
-                        <div class="hidden sm:block">
+                        <div class=" hidden ">
                             Ped
                         </div>
                         <!-- <div class="">
@@ -45,45 +45,47 @@
                     <!-- Rows -->
                     <ng-container *ngIf="(dataSource$ | async) as dataSource">
                         <ng-container *ngFor="let item of dataSource; trackBy: trackByFn">
-                            <div class="flex md:block">
+                            <div class=" ">
                                 <ng-container *ngFor="let row of item.itemsWareHouses;let i = index;">
                                     <div *ngIf="i == 0" class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
                                         <div>
                                             <div class="font-semibold text-orange">{{item.code}}</div>
                                             <p>{{item.name}}</p>
                                         </div>
-                                        <div class="hidden lg:block"></div>
-                                        <div class="hidden lg:block"></div>
-                                        <div class="hidden lg:block"></div>
-                                        <div class="hidden lg:block"></div>
+                                        <div class=""></div>
+                                        <div class=""></div>
+                                        <div class=""></div>
+                                        <div class=""></div>
+
+
                                     </div>
                                     <div *ngIf="i > 0" class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
 
                                         <div>
-                                            <!-- <div class="font-semibold text-orange">{{item.code}}</div>
+                                         <!-- <div class="font-semibold text-orange">{{item.code}}</div>
                                             <p>{{item.name}}</p> -->
                                         </div>
 
-                                        <div class="hidden lg:block">
-                                            {{row.warehouseCode}}
+                                        <div class="">
+                                            Bodega:      {{row.warehouseCode}}
                                         </div>
 
-                                        <div class="hidden lg:block">
-                                            {{row.inStock}}
+                                        <div class="">
+                                            Can:     {{row.inStock}}
                                         </div>
 
-                                        <div class="hidden lg:block">
-                                            {{row.committed}}
+                                        <div class="">
+                                            Com:   {{row.committed}}
                                         </div>
 
-                                        <div class="hidden lg:block">
-                                            {{row.ordered}}
+                                        <div class="">
+                                            Ped:    {{row.ordered}}
                                         </div>
                                     </div>
                                 </ng-container>
 
                                 <!-- Details button -->
-                                <div class="grid align-middle border-b pr-2  items-center sm:hidden">
+                                <div class="grid hidden align-middle border-b pr-2  items-center ">
                                     <button type="button" class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
                                         (click)="toggleDetails(item.id)">
 
