@@ -131,8 +131,21 @@
                 Solo números permitidos
             </mat-error>
         </mat-form-field>
-    </div>
 
+
+
+           <!-- Phone2-->
+           <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
+            <mat-label>Teléfono Contacto</mat-label>
+            <input maxlength="250" formControlName="phone2" matInput>
+
+            <mat-error *ngIf="formGroup.get('phone2').hasError('pattern')  && formGroup.get('phone2').touched">
+                Solo números permitidos
+            </mat-error>
+        </mat-form-field>
+
+
+    </div>
     <!-- ROW 4 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
 
@@ -187,6 +200,11 @@
             <mat-error *ngIf="formGroup.get('address').hasError('required') && formGroup.get('address').touched">
                 Campo requerido</mat-error>
         </mat-form-field>
+            <!-- Address 2 -->
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Dirección Contacto</mat-label>
+                <input maxlength="250" formControlName="address2" matInput>
+            </mat-form-field>
 
     </div>
 

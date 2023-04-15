@@ -13,12 +13,25 @@
             </div>
 
             <div class="flex-auto font-medium mb-10 sm:grid-cols-2">
-                <button class="w-full md:w-auto" [color]="'primary'" mat-stroked-button
-                    [matMenuTriggerFor]="menu">Opción</button>
-                <mat-menu #menu="matMenu">
+
+                <button  class="w-full md:w-auto"
+                [color]="'primary'" mat-stroked-button (click)="stockItemRowBtn()">
+                <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                <span class="ml-2 mr-1"> Existencias</span>
+
+            </button>
+
+
+                <!-- <button mat-menu-item>Item 2</button> -->
+
+                <!--button class="w-full md:w-auto" [color]="'primary'" mat-stroked-button
+                    [matMenuTriggerFor]="menu">Opción</button-->
+
+
+                <!--mat-menu #menu="matMenu">
                     <button mat-menu-item (click)="stockItemRowBtn()">Existencias</button>
-                    <!-- <button mat-menu-item>Item 2</button> -->
-                </mat-menu>
+                    <! <button mat-menu-item>Item 2</button>>
+                </mat-menu-->
             </div>
 
         </div>
@@ -184,6 +197,7 @@
                         <!-- ROW 4 -->
                         <div class="flex justify-between">
                             <div class="flex flex-col">
+
                                 <div class="font-semibold">Price</div>
                                 <div class="font-semibold text-lg">{{ item.get('price').value | currency }}</div>
                             </div>

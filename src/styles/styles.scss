@@ -17,10 +17,14 @@ body .light .mat-form-field-appearance-legacy .mat-form-field-underline:focus {
     //min-width: 350px !important;
 }
 
+.grey-selected {
+    background-color: rgb(249, 255, 166) !important;
+}
+
 
 .custom-m-height-calc {
     max-height:  calc(100vh - 286px) !important;
-} 
+}
 
 
 .mat-dialog-container {
@@ -39,7 +43,7 @@ body .light .mat-form-field-appearance-legacy .mat-form-field-underline:focus {
         max-width: 97vw !important;
     }
 
-   
+
 
     .mat-select-pannoneel-wrap{
         min-width: 320px !important;
