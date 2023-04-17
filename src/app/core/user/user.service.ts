@@ -35,6 +35,7 @@ export class UserService
         localStorage.setItem('user', JSON.stringify(value));
         localStorage.setItem('user_sellerTypeId', value.sellerTypeId);
         localStorage.setItem('user_role', value.role);
+        localStorage.setItem('user_role_id', value['roleId']);
         localStorage.setItem('user_salesPersonCode', value.id);
         localStorage.setItem('user_salesPerson', value['salesPersonCode']);
     }
