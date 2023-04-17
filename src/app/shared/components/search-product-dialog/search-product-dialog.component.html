@@ -19,25 +19,25 @@
   <div class="">
     <ng-container *ngIf="(dataSource$| async) as dataSource">
       <ng-container *ngIf="dataSource.length > 0; else nodataSource">
-        <div class="custom-m-height-calc grid overflow-y-auto ">
+        <div class="custom-m-height-calc grid overflow-y-auto  hiddem md:block ">
           <!-- Header -->
           <div
             class="list-grid z-10 hidden md:grid sticky sm:overflow-y-auto top-0 gap-4 py-4 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5 hidden sm:block "
             matSort matSortDisableClear>
-            <div class="hidden lg:block">
+            <div class="hidden md:block">
               Artículo
 
             </div>
-            <div class="hidden  lg:block">
+            <div class="hidden  md:block">
               Can
             </div>
-            <div class="hidden sm:block">
+            <div class="hidden md:block">
               Com
             </div>
-            <div class="hidden sm:block">
+            <div class="hidden md:block">
               Ped
             </div>
-            <div class="">
+            <div class="hidden md:block">
               Precio
             </div>
           </div>
@@ -53,19 +53,19 @@
                     <p>{{item.name}}</p>
                   </div>
 
-                  <div class="hidden lg:block">
+                  <div class="hidden md:block">
                     {{item.quantityOnStock}}
                   </div>
 
-                  <div class="hidden lg:block">
+                  <div class="hidden md:block">
                     {{item.quantityOrderedByCustomers}}
                   </div>
 
-                  <div class="hidden lg:block">
+                  <div class="hidden md:block">
                     {{item.quantityOrderedFromVendors}}
                   </div>
 
-                  <div class="hidden lg:block">
+                  <div class="hidden md:block">
                     {{item.price + ( item.price * brilla_price ) | currency}}
                   </div>
 
@@ -92,9 +92,9 @@
                   <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: item}"></ng-container>
                 </ng-container>
               </div>
-              <form class="flex flex-col w-full">
+              <form class="flex flex-col w-full  xs:block md:hidden sm:block">
 
-                <div class="flex flex-col sm:flex-row px-5 py-2 light">
+                <div class="flex flex-col sm:flex-row px-5 py-2 light ">
 
                   <!-- Product images and status -->
                   <div class="flex flex-col">
