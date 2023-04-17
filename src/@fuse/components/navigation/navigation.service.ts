@@ -8,6 +8,7 @@ export class FuseNavigationService
 {
     private _componentRegistry: Map<string, any> = new Map<string, any>();
     private _navigationStore: Map<string, FuseNavigationItem[]> = new Map<string, any>();
+    current_role_id: string;
 
     /**
      * Constructor
@@ -128,6 +129,9 @@ export class FuseNavigationService
      */
     getItem(id: string, navigation: FuseNavigationItem[]): FuseNavigationItem | null
     {
+       
+
+
         for ( const item of navigation )
         {
             if ( item.id === id )
@@ -165,6 +169,13 @@ export class FuseNavigationService
     {
         for ( const item of navigation )
         {
+
+
+
+            if ( item.title === "Usuarios" )
+            {
+               console.log("Imprimirndo ususarios");
+            }
             if ( item.id === id )
             {
                 return parent;
