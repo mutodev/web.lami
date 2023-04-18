@@ -41,7 +41,7 @@ export class UserService
         localStorage.setItem('user_salesPersonCode', value.id);
         localStorage.setItem('user_salesPerson', value['salesPersonCode']);
 
-        this._notifyService.successTestAlert("Guardado con exito");
+       /* this._notifyService.successTestAlert("Guardado con exito");*/
     }
 
     get user$(): Observable<User>
