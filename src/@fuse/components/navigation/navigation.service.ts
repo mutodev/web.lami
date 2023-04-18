@@ -129,7 +129,7 @@ export class FuseNavigationService
      */
     getItem(id: string, navigation: FuseNavigationItem[]): FuseNavigationItem | null
     {
-       
+
 
 
         for ( const item of navigation )
@@ -172,10 +172,7 @@ export class FuseNavigationService
 
 
 
-            if ( item.title === "Usuarios" )
-            {
-               console.log("Imprimirndo ususarios");
-            }
+
             if ( item.id === id )
             {
                 return parent;

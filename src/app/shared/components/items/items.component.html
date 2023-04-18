@@ -5,14 +5,14 @@
         <div class="grid sm:grid-cols-2">
 
             <!-- ADD ITEM BUTTON -->
-            <div class="flex-auto font-medium mb-10 sm:grid-cols-1">
+            <div class="flex-auto font-medium  sm:grid-cols-1">
                 <button class="w-full md:w-auto " (click)="addItemRowBtn()" mat-stroked-button [color]="'primary'">
                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                     <span class="ml-2 mr-1">Agregar artículos</span>
                 </button>
             </div>
 
-            <div class="flex-auto font-medium mb-10 sm:grid-cols-2">
+            <div class="flex-auto font-medium  sm:grid-cols-2">
 
                 <button  class="w-full md:w-auto"
                 [color]="'primary'" mat-stroked-button (click)="stockItemRowBtn()">
@@ -256,7 +256,7 @@
                             margin-right: 50px;
                         " >
 
-                                <div class="font-semibold">Price</div>
+                                <div class="font-semibold">Precio</div>
                                 <div class="font-semibold text-lg">{{ item.get('price').value | currency }}</div>
                             </div>
                             <div class="flex flex-col">
