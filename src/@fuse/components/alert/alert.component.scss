@@ -283,7 +283,7 @@ fuse-alert {
 
                     .fuse-alert-title,
                     .fuse-alert-icon {
-                        @apply text-gray-400;
+                        @apply text-green-200
                     }
 
                     .fuse-alert-message {
@@ -291,7 +291,7 @@ fuse-alert {
                     }
 
                     code {
-                        @apply bg-gray-400 text-gray-800;
+                        @apply bg-primary-200 text-accent;
                     }
                 }
             }

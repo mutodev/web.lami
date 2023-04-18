@@ -74,7 +74,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
         if (result.status == 'success')
           console.log(result);
           this._router.navigateByUrl('/sales/purchase/all');
-          this._notifyService.successAlert("Guardado con exito");
+          this._notifyService.successOrdenAlert("Guardado con exito");
       });
     } else {
       this.validateAllFormFields(this.formGroup)

@@ -21,7 +21,7 @@ export class NotifyService {
 
 
     showError(errorResponse: HttpErrorResponse){
-        if([422].includes(errorResponse.status)) 
+        if([422].includes(errorResponse.status))
             this.error400(errorResponse.message);
         else{
             this.error500(errorResponse.status);
@@ -130,6 +130,41 @@ export class NotifyService {
                 }
             })
         }, 500);
-        
+
     }
+
+
+    successOrdenAlert(msg: string, title: string = '¡Ya Está!') {
+        setTimeout(() => {
+            this._snackBar.openFromComponent(AlertyComponent, {
+                duration: this.durationInSeconds * 1000,
+                panelClass: ['bg-white'],
+                data: {
+                    type: 'success',
+                    msg: msg,
+                    title: title
+                }
+            })
+        }, 500);
+
+    }
+
+
+    successTestAlert(msg: string, title: string = '¡Ya Está!') {
+        setTimeout(() => {
+                this._snackBar.openFromComponent(AlertyComponent, {
+                duration: this.durationInSeconds * 100000,
+                panelClass: ['bg-white'],
+                data: {
+                    type: 'basic',
+                    msg: msg,
+                    title: title,
+                    dismissible: true
+                }
+            })
+        }, 500);
+
+    }
+
+
 }

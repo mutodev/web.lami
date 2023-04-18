@@ -109,7 +109,11 @@ export const compactNavigation: FuseNavigationItem[] = [{
         id      : 'seguridad',
         title   : 'Settings',
         type    : 'group',
-        icon    : 'settings',
+        icon: 'settings',
+        hidden: (item: any) => {
+            const user_role: string = localStorage.getItem('user_role_id').toString();
+                 return user_role != "a2fe2d9a-46c0-11ed-88f1-7b765a5d50e1";
+        },
         children: [
             {
                 id   : 'usuarios',
