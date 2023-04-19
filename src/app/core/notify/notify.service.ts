@@ -48,6 +48,8 @@ export class NotifyService {
         })
     }
 
+
+
     error400(error: any) {
         let msg: string = '';
         let keys = Object.keys(error)
@@ -134,19 +136,24 @@ export class NotifyService {
     }
 
 
-    successOrdenAlert(msg: string, title: string = '¡Ya Está!') {
-        setTimeout(() => {
-            this._snackBar.openFromComponent(AlertyComponent, {
-                duration: this.durationInSeconds * 1000,
-                panelClass: ['bg-white'],
-                data: {
-                    type: 'success',
-                    msg: msg,
-                    title: title
+    successOrdenAlert(msg: string, ) {
+       this._fuseConfirmationService.open({
+            title: '¡Ya Está!',
+            message: msg || INTERNAL_ERROR,
+            icon: {
+                show: true,
+                name: 'heroicons_outline:check-circle',
+                color: 'success'
+            },
+            actions: {
+                cancel: {
+                    show: false
+                },
+                confirm: {
+                    label: 'OK'
                 }
-            })
-        }, 500);
-
+            }
+        })
     }
 
 

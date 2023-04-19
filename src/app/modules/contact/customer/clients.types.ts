@@ -11,7 +11,9 @@ export interface Customer {
     companyName: string;
     lastName: string;
     address: string;
+    address2: string;
     phone: string;
+    phone2: string;
     project: string;
 }
 
@@ -24,7 +26,7 @@ export interface ClientPagination {
     startIndex: number;
     endIndex: number;
 }
- 
+
 
 export interface IdentificationType {
     id:        string;

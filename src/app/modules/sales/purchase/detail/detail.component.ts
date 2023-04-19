@@ -55,12 +55,14 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
     let current_user = localStorage.getItem('user');
   this.current_sales_person_code = localStorage.getItem('user_salesPerson');
     console.log(current_user);
+//
 
   }
 
   save(): void {
     console.log("Imprimir los datos enviados",this.formGroup);
     console.log("user_salesPerson",this.current_sales_person_code);
+
 
 
 
@@ -73,8 +75,13 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
       this._lamiService.createOrder(this.buildOrderRequest()).subscribe(result => {
         if (result.status == 'success')
           console.log(result);
-          this._router.navigateByUrl('/sales/purchase/all');
-          this._notifyService.successOrdenAlert("Guardado con exito");
+
+
+
+        this._router.navigateByUrl('/sales/purchase/all');
+
+     /*  this._notifyService.successOrdenAlert("Guardado con exito");*/
+       /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
       });
     } else {
       this.validateAllFormFields(this.formGroup)
