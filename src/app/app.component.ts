@@ -21,7 +21,7 @@ export class AppComponent
                 const order = JSON.parse(event.data);
             console.log("event data", event.data.docNumber);
 
-            this._notifyService.successOrdenAlert("Guardado con exito: Pedido No"+ order.docNumber);
+            this._notifyService.successOrdenAlert("Guardado con exito: Pedido No "+ order.docNumber);
         });
 
 
