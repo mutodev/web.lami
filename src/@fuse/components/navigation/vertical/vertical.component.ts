@@ -57,6 +57,8 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
     private _fuseScrollbarDirectives!: QueryList<FuseScrollbarDirective>;
     private _fuseScrollbarDirectivesSubscription: Subscription;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    current_role_id: string;
+
 
     /**
      * Constructor
@@ -78,6 +80,9 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         this._handleOverlayClick = (): void => {
             this.close();
         };
+        this.current_role_id= localStorage.getItem('user_role_id');
+        console.log(this.current_role_id,"Current role id");
+        console.log("Cargando el menu");
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -292,6 +297,8 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
      */
     ngOnInit(): void
     {
+
+
         // Make sure the name input is not an empty string
         if ( this.name === '' )
         {

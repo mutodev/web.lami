@@ -9,20 +9,7 @@
         </div>
         <!-- Title -->
         <div class="text-4xl font-extrabold tracking-tight">{{actionName}} Usuario</div>
-        <!-- Actions -->
-        <div class="flex sm:flex-row shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <!-- Add product button -->
-            <button [disabled]="disabledForm" mat-flat-button type="button" [color]="'accent'"
-                [routerLink]="[ '/settings/user/all']">
-                <span class="ml-2 mr-1">Cancelar</span>
-            </button>
-            <!-- Add product button -->
-            <button *ngIf="!id"  [disabled]="disabledForm" class="ml-4" type="button" mat-flat-button [color]="'primary'"
-                (click)="save()">
-                <span class="ml-2 mr-1">Guardar</span>
-            </button>
 
-        </div>
     </div>
 
     <!-- Main -->
@@ -55,7 +42,7 @@
 
 
 
-       
+
 
             <ng-template #alternative>
                 <div class="border-b rounded-2xl bg-card p-10">
@@ -84,11 +71,28 @@
                         </div>
 
                     </div>
-                </div>
-            </ng-template>
+
+
+ <!-- Actions -->
+ <div class="flex sm:flex-row shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+    <!-- Add product button -->
+    <button [disabled]="disabledForm" mat-flat-button type="button" [color]="'accent'"
+        [routerLink]="[ '/settings/user/all']">
+        <span class="ml-2 mr-1">Cancelar</span>
+    </button>
+    <!-- Add product button -->
+    <button *ngIf="!id"  [disabled]="disabledForm" class="ml-4" type="button" mat-flat-button [color]="'primary'"
+        (click)="save()">
+        <span class="ml-2 mr-1">Guardar</span>
+    </button>
+
+</div>
 
 
 
+
+</div>
+</ng-template>
 
     </div>
 

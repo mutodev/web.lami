@@ -21,7 +21,7 @@ export class NotifyService {
 
 
     showError(errorResponse: HttpErrorResponse){
-        if([422].includes(errorResponse.status)) 
+        if([422].includes(errorResponse.status))
             this.error400(errorResponse.message);
         else{
             this.error500(errorResponse.status);
@@ -47,6 +47,8 @@ export class NotifyService {
             }
         })
     }
+
+
 
     error400(error: any) {
         let msg: string = '';
@@ -130,6 +132,46 @@ export class NotifyService {
                 }
             })
         }, 500);
-        
+
     }
+
+
+    successOrdenAlert(msg: string, ) {
+       this._fuseConfirmationService.open({
+            title: '¡Ya Está!',
+            message: msg || INTERNAL_ERROR,
+            icon: {
+                show: true,
+                name: 'heroicons_outline:check-circle',
+                color: 'success'
+            },
+            actions: {
+                cancel: {
+                    show: false
+                },
+                confirm: {
+                    label: 'OK'
+                }
+            }
+        })
+    }
+
+
+    successTestAlert(msg: string, title: string = '¡Ya Está!') {
+        setTimeout(() => {
+                this._snackBar.openFromComponent(AlertyComponent, {
+                duration: this.durationInSeconds * 100000,
+                panelClass: ['bg-white'],
+                data: {
+                    type: 'basic',
+                    msg: msg,
+                    title: title,
+                    dismissible: true
+                }
+            })
+        }, 500);
+
+    }
+
+
 }

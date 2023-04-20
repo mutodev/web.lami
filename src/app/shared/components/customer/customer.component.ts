@@ -98,7 +98,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     });
     this._lamiService.getU_HBT('County').subscribe((result) => {this.COUNTIES = result; this.COUNTIESBILLING = [...result];});
-    
+
     this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
       this.identificationTypes = identificationTypes;
 
@@ -124,10 +124,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     });
 
   }
-    
+
 
   getCusotmer() {
-   
+
     this._lamiService.customer$.subscribe((customer) => {
       this.formGroup.patchValue(customer);
       if(customer.source == 'C')
@@ -136,11 +136,11 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   }
 
   validations() {
-    
+
     const user = JSON.parse(localStorage.getItem('user'));
     let selesPersonCode = '';
     if (user.sellerTypeId !== '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
-      selesPersonCode = user.salesPersonCode; 
+      selesPersonCode = user.salesPersonCode;
     }
     this.formGroup = this._formBuilder.group({
       typeId: [EnumCustomerType.PersonaNatural, Validators.nullValidator], //tipoCliente
@@ -152,7 +152,9 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       lastName: ['', [Validators.required, Validators.nullValidator]],
       lastName2: ['', [Validators.required, Validators.nullValidator]],
       address: ['', Validators.required],
+      address2: [''],
       phone: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
+      phone2: ['', [ Validators.pattern("^[0-9]+$")]],
       email: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")]],
       project:  ['', Validators.required],
       // U_HBT_MunMed: ['', Validators.nullValidator],
@@ -182,7 +184,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
       const identificationType = this.identificationTypes.find((item: any) => item.id == id);
       this.isNIT = identificationType.code == "31" || identificationType.code == "50";
-    
+
       if (this.isNIT) {
         this.formGroup.get('identification').setValidators([Validators.required, Validators.pattern("^[0-9]+-[0-9]{1}$|^CL-[0-9]+-[0-9]{1}$")]);
         this.formGroup.get('name').setValidators([Validators.required]);
@@ -273,7 +275,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
           this.formGroup.get('lastName2Billing').enable()
         }
       }
-      
+
     });
 
     this.formGroup.controls.checkSameAddress.valueChanges.subscribe((val) => {
@@ -303,7 +305,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         this.formGroup.get('lastNameBilling').clearValidators();
         this.formGroup.get('lastName2Billing').clearValidators();
       }
-      
+
       this.formGroup.get('CountyBilling').setValidators([Validators.required]);
       this.formGroup.get('CityBilling').setValidators([Validators.required]);
 

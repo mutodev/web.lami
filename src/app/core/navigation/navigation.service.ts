@@ -29,6 +29,7 @@ export class NavigationService
      */
     get navigation$(): Observable<Navigation>
     {
+
         return this._navigation.asObservable();
     }
 

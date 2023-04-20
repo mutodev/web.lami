@@ -10,4 +10,5 @@ export interface User {
     active:    boolean;
     createdAt: string;
     updatedAt: string;
+    sellerTypeId : string;
 }

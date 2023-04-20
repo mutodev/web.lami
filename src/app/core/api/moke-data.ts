@@ -1,12 +1,57 @@
 
-export const STORE_DATA = [{
+export const BRILLA_PRICES = [
+    {
+        _id: 'sdfsdfsdfsdfsfS01',
+        code: '01',
+        name: 'Precio 1',
+        value: '10',
+
+    },
+    {
+        _id: 'sdfsdfsdfsdfsfS02',
+        code: '02',
+        name: 'Precio 2',
+        value: '20',
+
+    },
+    {
+        _id: 'sdfsdfsdfsdfsfS03',
+        code: '03',
+        name: 'Precio 3',
+        value: '30',
+
+    }
+
+]
+
+export const STORE_DATA = [
+    {
     _id: 'sdfsdfsdfsdfsf',
     code: '017',
-    name: 'Lami Calle 30',
-    address: 'Carrera 30',
+    name: 'Lami Barranquilla',
+    address: 'Carrera 34 # 38-40',
     phone_number: '300-343-34-34',
-    email: 'calle30-store@lami.com'
-}]
+        email: 'barranquilla@lami.com',
+    city: 'Barranquilla'
+    },{
+    _id: 'sdfsdfsdfsdfsf2',
+    code: '018',
+    name: 'Lami Cartagena',
+    address: 'Calle 29d # 22-23',
+    phone_number: '300-343-34-34',
+    email: 'cartagena@lami.com',
+    city: 'Cartagena'
+    },
+    {
+        _id: 'sdfsdfsdfsdfsf3',
+        code: '019',
+        name: 'Lami Valledupar',
+        address: 'Carrera 8 # 18-66',
+        phone_number: '300-343-34-34',
+        email: 'valledupar@lami.com',
+        city: 'Valledupar'
+        }
+]
 
 export const USER_DATA = [
     {
@@ -31,4 +76,6 @@ export const USER_DATA = [
         "reset_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjA3MWIzZDU5ZjlmZDI2ZWY5MTUwNGJjIiwic2NvcGVzIjpbInJlc2V0LXBhc3N3b3JkIl0sImlhdCI6MTY0MTQ3NjM2OSwiZXhwIjoxNjQxNDc3MjY5fQ.bs_R7duhlGFH5xDupcXRb0JFnLIMXy5UzhJzNk_Uad8",
         "user_name": "cvisbal"
     }
+
+
 ]

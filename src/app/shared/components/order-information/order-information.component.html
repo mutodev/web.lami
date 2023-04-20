@@ -7,12 +7,38 @@
             </mat-select>
         </mat-form-field>
 
-        <!-- VENDEDOR -->
-        <mat-form-field floatLabel="auto" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
-            <search-mat-select [customStyle]="{width: '100%'}" required [placeholder]="'Seleccione vendedor'"
+
+   <!-- Vendedor1
+
+
+   <div *ngFor="let item of salesPersonCode" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+
+    <p  *ngIf="item.code == current_sales_person_code" > Vendedor: {{item.name}}</p>
+
+   </div>
+
+             <search-mat-select [customStyle]="{width: '100%'}" required [placeholder]="'Seleccione vendedor'"
                 [dataSource]="salesPersonCode" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
                 formControlName="salesPersonCode">
+
+
+
             </search-mat-select>
+-->
+        <!-- VENDEDOR -->
+        <mat-form-field floatLabel="auto" class=" lex-auto gt-xs:pr-3 fuse-mat-dense">
+
+
+
+            <mat-select  [(ngModel)]="current_sales_person_code" formControlName="salesPersonCode"  required>
+
+                <mat-option *ngFor="let item of salesPersonCode" [value]="item.code">
+                    {{item.name}}
+                </mat-option>
+
+            </mat-select>
+
+
         </mat-form-field>
 
         <!-- Identificacion -->
