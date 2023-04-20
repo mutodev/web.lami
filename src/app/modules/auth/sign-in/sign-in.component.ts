@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { ListenerService } from 'app/core/services/listener.service';
 
 @Component({
     selector: 'auth-sign-in',
@@ -29,7 +30,8 @@ export class AuthSignInComponent implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
-        private _router: Router
+        private _router: Router,
+        private listener: ListenerService
     ) {
     }
 
@@ -77,7 +79,7 @@ export class AuthSignInComponent implements OnInit {
                     // to the correct page after a successful sign in. This way, that url can be set via
                     // routing file and we don't have to touch here.
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-
+                    this.listener.dispatchEvent('initGeneralSocket');
                     // Navigate to the redirect url
                     this._router.navigateByUrl(redirectURL);
 
