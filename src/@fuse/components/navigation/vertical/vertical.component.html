@@ -21,7 +21,7 @@
         <ng-container *ngFor="let item of navigation; trackBy: trackByFn">
 
             <!-- Skip the hidden items -->
-            <ng-container *ngIf="(item.hidden && !item.hidden(item)) || !item.hidden">
+            <ng-container *ngIf="(item.hidden && !item.hidden(item)) || !item.hidden  ">
 
                 <!-- Aside -->
                 <ng-container *ngIf="item.type === 'aside'">
@@ -35,7 +35,7 @@
                 </ng-container>
 
                 <!-- Basic -->
-                <ng-container  *ngIf="item.type === 'basic'">
+                <ng-container  *ngIf="item.type === 'basic' ">
                     <fuse-vertical-navigation-basic-item
                         [item]="item"
                         [name]="name"></fuse-vertical-navigation-basic-item>
@@ -58,10 +58,12 @@
 
                 <!-- Group -->
                 <ng-container *ngIf="item.type === 'group'">
+
                     <fuse-vertical-navigation-group-item
                         [item]="item"
                         [name]="name"
                         [autoCollapse]="autoCollapse"></fuse-vertical-navigation-group-item>
+
                 </ng-container>
 
                 <!-- Spacer -->

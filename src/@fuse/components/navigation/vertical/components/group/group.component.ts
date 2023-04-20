@@ -42,6 +42,10 @@ export class FuseVerticalNavigationGroupItemComponent implements OnInit, OnDestr
      */
     ngOnInit(): void
     {
+console.log(localStorage.getItem('user_role'),"Roles");
+
+
+
         // Get the parent navigation component
         this._fuseVerticalNavigationComponent = this._fuseNavigationService.getComponent(this.name);
 

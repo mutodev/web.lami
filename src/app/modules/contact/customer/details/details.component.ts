@@ -36,14 +36,14 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
 
   ngOnInit(): void {
-    
+
   }
 
 
   save() {
-    
+
     let data: Customer = this.customrComponent.formGroup.getRawValue();
-   
+
     if (this.customrComponent.formGroup.valid) {
       this.customrComponent.formGroup.disable();
       this.disabledForm = true;
@@ -54,7 +54,7 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
   }
 
   create(data: any) {
-
+console.log(data,"Información enviada");
     this._lamiService.createCustomer(data).subscribe({
       next: (result) => {
         this._router.navigateByUrl('/contact/customer/all');
@@ -84,7 +84,7 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
         this.customrComponent.formGroup.enable();
       },
       complete: () => {
-        
+
       }
     });
   }

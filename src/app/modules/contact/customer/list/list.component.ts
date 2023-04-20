@@ -89,6 +89,6 @@ export class CustomerListComponent extends BaseList implements OnInit {
       },
     });
   }
-  
+
 
 }

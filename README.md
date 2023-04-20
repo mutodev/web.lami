@@ -2,5 +2,8 @@
 
 ## Run with Mock Data
 
-npm run mock
+# yarn install
+# npm run mock
 
+## yarn run dev para ejecutar en etorno de pruebas
+# test update readme file

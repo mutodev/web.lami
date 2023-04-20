@@ -4,6 +4,7 @@ import { LamiService } from 'app/core/api/lami.service';
 import { Observable } from 'rxjs';
 import { User } from '../../user/user.types';
 import { Store } from '../store.types';
+import { Price } from 'app/shared/interfaces/Price.types';
 
 @Component({
   selector: 'app-list',
@@ -13,15 +14,12 @@ import { Store } from '../store.types';
     `
         .inventory-grid {
             grid-template-columns: 48px auto 40px;
-
             @screen sm {
                 grid-template-columns: 48px auto 112px 72px;
             }
-
             @screen md {
                 grid-template-columns: 96px auto 224px 224px 224px 96px;
             }
-
             @screen lg {
                 grid-template-columns:  96px auto 224px 224px 224px 96px;
             }
@@ -32,14 +30,16 @@ import { Store } from '../store.types';
 export class StoreListComponent implements OnInit {
 
   searchInputControl: FormControl = new FormControl();
-  stores$: Observable<Store[]>;
+    stores$: Observable<Store[]>;
+
   isLoading: boolean = false;
 
   constructor(public _lamiService: LamiService) { }
 
   ngOnInit(): void {
-     this.stores$ = this._lamiService.stores$;
-    
+      this.stores$ = this._lamiService.stores$;
+
+
   }
 
   createStore():void{

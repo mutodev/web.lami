@@ -39,11 +39,11 @@ export class UserDetailComponent extends BaseForm implements OnInit {
   ngOnInit(): void {
 
   }
- 
+
 
   save() {
-   
-    
+
+
     if (this.userSecurityComponent.securityForm.valid && this.userInformationComponent.accountForm.valid) {
 
       this.userSecurityComponent.securityForm.removeControl('passwordConfirm');
@@ -77,9 +77,11 @@ export class UserDetailComponent extends BaseForm implements OnInit {
   }
 
   create(): void {
+
     this._lamiService.createUser({ ...this.userInformationComponent.accountForm.getRawValue(), ...this.userSecurityComponent.securityForm.value })
       .subscribe({
         next: (result) => {
+
          this._router.navigateByUrl('/settings/user/all');
          this._notifyService.successAlert(result.message);
         },

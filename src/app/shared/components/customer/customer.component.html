@@ -131,8 +131,21 @@
                 Solo números permitidos
             </mat-error>
         </mat-form-field>
-    </div>
 
+
+
+           <!-- Phone2-->
+           <mat-form-field [ngClass]="formFieldHelpers" class="gt-xs:pl-3 fuse-mat-dense">
+            <mat-label>Teléfono Contacto</mat-label>
+            <input maxlength="250" formControlName="phone2" matInput>
+
+            <mat-error *ngIf="formGroup.get('phone2').hasError('pattern')  && formGroup.get('phone2').touched">
+                Solo números permitidos
+            </mat-error>
+        </mat-form-field>
+
+
+    </div>
     <!-- ROW 4 -->
     <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
 
@@ -187,6 +200,11 @@
             <mat-error *ngIf="formGroup.get('address').hasError('required') && formGroup.get('address').touched">
                 Campo requerido</mat-error>
         </mat-form-field>
+            <!-- Address 2 -->
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">
+                <mat-label>Dirección Contacto</mat-label>
+                <input maxlength="250" formControlName="address2" matInput>
+            </mat-form-field>
 
     </div>
 
@@ -282,7 +300,7 @@
             </mat-form-field>
 
              <!-- NACIONAL -->
-            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense hidden">
                 <mat-label>Nacionalidad</mat-label>
                 <mat-select formControlName="U_HBT_Nacional">
                     <mat-option *ngFor="let item of U_HBT_Nacional; let i=index" [value]="item.code">
@@ -294,7 +312,7 @@
         </div>
 
          <!-- NACIONAL -->
-        <mat-form-field *ngIf="isNIT" floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+        <mat-form-field *ngIf="isNIT" floatLabel="auto" [ngClass]="formFieldHelpers" class="  hidden flex-auto gt-xs:pr-3 fuse-mat-dense">
             <mat-label>Nacionalidad</mat-label>
             <mat-select formControlName="U_HBT_Nacional">
                 <mat-option *ngFor="let item of U_HBT_Nacional; let i=index" [value]="item.code">
@@ -303,10 +321,10 @@
             </mat-select>
         </mat-form-field>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4 ">
 
             <!-- U_HBT_RegTrib -->
-            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-form-field floatLabel="auto" [ngClass]=" formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense  hidden">
                 <mat-label>Regimen tributario</mat-label>
                 <mat-select formControlName="U_HBT_RegTrib">
                     <mat-option *ngFor="let item of U_HBT_RegTrib; let i=index" [value]="item.code">
@@ -315,7 +333,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense  hidden">
                 <mat-label>Regimen fiscal</mat-label>
                 <mat-select formControlName="U_HBT_RegFis">
                     <mat-option *ngFor="let item of U_HBT_RegFis; let i=index" [value]="item.code">

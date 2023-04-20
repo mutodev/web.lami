@@ -5,4 +5,5 @@ export interface Store {
     address: string;
     phone_number: string;
     email: string;
+    city: string;
 }

@@ -21,7 +21,7 @@ export class UserInformationComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private _lamiService: LamiService,
     private _route: ActivatedRoute,private _notifyService: NotifyService,
     private _router: Router,
-    ) { 
+    ) {
       this.id = this._route.snapshot.params['id'];
     }
 
@@ -39,20 +39,28 @@ export class UserInformationComponent implements OnInit {
       sellerTypeId: [''],
     });
 
+
     this._lamiService.roleTypes$
       .subscribe((roles: Type[]) => {
         this.roles = roles;
       });
 
       if(this.id)
-        this.getUser();
+      this.getUser();
 
-      this.getSalesPersonCode();
+
+    this.getSalesPersonCode();
+
   }
 
   getUser(){
     this._lamiService.user$.subscribe((user) => {
       this.accountForm.patchValue(user)
+      console.log(this.id);
+
+      localStorage.setItem('user_to_edit', this.id);
+
+// llnar una variable del local storage
 
     })
   }
@@ -64,6 +72,8 @@ export class UserInformationComponent implements OnInit {
 
 
   update(): void {
+
+
     this._lamiService.updateUser(this.id,  this.accountForm.value).subscribe({
       next: (result)=>{
         this._notifyService.successAlert("Registro actualizado.")
@@ -76,10 +86,13 @@ export class UserInformationComponent implements OnInit {
   getSalesPersonCode() {
     this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result; });
     this._lamiService.getU_HBT('SELLER_TYPE').subscribe((result: Uhbt[]) => { this.sellerTypes = result; });
+
   }
 
   nameSalesPerson(item) {
+
     return item.extendedData?.cities[0] ? `${item.name} (${item.extendedData?.cities[0]})` : item.name;
+
   }
 
 }

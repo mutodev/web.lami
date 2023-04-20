@@ -19,24 +19,25 @@
   <div class="">
     <ng-container *ngIf="(dataSource$| async) as dataSource">
       <ng-container *ngIf="dataSource.length > 0; else nodataSource">
-        <div class="custom-m-height-calc grid overflow-y-auto ">
+        <div class="custom-m-height-calc grid overflow-y-auto  hiddem md:block ">
           <!-- Header -->
           <div
-            class="list-grid z-10 hidden md:grid sticky sm:overflow-y-auto top-0 gap-4 py-4 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+            class="list-grid z-10 hidden md:grid sticky sm:overflow-y-auto top-0 gap-4 py-4 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5 hidden sm:block "
             matSort matSortDisableClear>
-            <div class="hidden lg:block">
+            <div class="hidden md:block">
               Artículo
+
             </div>
-            <div class="hidden  lg:block">
+            <div class="hidden  md:block">
               Can
             </div>
-            <div class="hidden sm:block">
+            <div class="hidden md:block">
               Com
             </div>
-            <div class="hidden sm:block">
+            <div class="hidden md:block">
               Ped
             </div>
-            <div class="">
+            <div class="hidden md:block">
               Precio
             </div>
           </div>
@@ -45,40 +46,40 @@
             <ng-container *ngFor="let item of dataSource; trackBy: trackByFn">
               <div class="flex md:block">
                 <div (click)="onSelectedItem(item)"
-                  class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
+                  class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-300">
 
                   <div>
                     <div class="font-semibold text-orange">{{item.code}}</div>
                     <p>{{item.name}}</p>
                   </div>
 
-                  <div class="hidden lg:block">
+                  <div class="hidden md:block">
                     {{item.quantityOnStock}}
                   </div>
 
-                  <div class="hidden lg:block">
+                  <div class="hidden md:block">
                     {{item.quantityOrderedByCustomers}}
                   </div>
 
-                  <div class="hidden lg:block">
+                  <div class="hidden md:block">
                     {{item.quantityOrderedFromVendors}}
                   </div>
 
-                  <div class="hidden lg:block">
-                    {{item.price | currency}}
+                  <div class="hidden md:block">
+                    {{item.price + ( item.price * brilla_price ) | currency}}
                   </div>
 
                   <div class="col-span-5 text-right hidden md:block">
                     <span class="mr-2"> Fecha aprox. de entrega:   </span>
                     <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
-                  
+
                   </div>
                 </div>
-               
+
 
                 <!-- Details button -->
                 <div class="grid align-middle border-b pr-2  items-center sm:hidden">
-                  <button type="button" class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
+                  <button type="button" class=" hidden min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
                     (click)="toggleDetails(item.id)">
                     <mat-icon class="icon-size-5"
                       [svgIcon]="selectedProduct === item.id  ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
@@ -91,7 +92,35 @@
                   <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: item}"></ng-container>
                 </ng-container>
               </div>
+              <form class="flex flex-col w-full sm:block md:hidden">
 
+                <div class="flex flex-col sm:flex-row px-5 py-2 light ">
+
+                  <!-- Product images and status -->
+                  <div class="flex flex-col">
+                    <div class="flex flex-col">
+                      <div class="flex justify-between ">
+                        <div>Cant.</div>
+                        <div>Comp.</div>
+                        <div>Ped.</div>
+                      </div>
+                      <div class="flex justify-between ">
+                        <div class="text-center">{{item.quantityOnStock}}</div>
+                        <div>{{item.quantityOrderedByCustomers}} </div>
+                        <div>{{item.quantityOrderedFromVendors}}</div>
+                      </div>
+                    </div>
+                    <div class="mt-2">
+                      <span class="font-semibold">Precio: </span> {{item.price + ( item.price * brilla_price )  | currency}}
+                    </div>
+                    <div class="mt-2">
+                      <span class="mr-2"> Fecha aprox. de entrega:   </span>
+                      <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
+
+                    </div>
+                  </div>
+                </div>
+              </form>
 
             </ng-container>
           </ng-container>
@@ -104,35 +133,7 @@
       <div class="shadow-lg overflow-hidden">
         <div class="flex border-b">
           <!-- Selected product form -->
-          <form class="flex flex-col w-full">
 
-            <div class="flex flex-col sm:flex-row px-5 py-2">
-
-              <!-- Product images and status -->
-              <div class="flex flex-col">
-                <div class="flex flex-col">
-                  <div class="flex justify-between ">
-                    <div>Cant.</div>
-                    <div>Comp.</div>
-                    <div>Ped.</div>
-                  </div>
-                  <div class="flex justify-between ">
-                    <div class="text-center">{{item.quantityOnStock}}</div>
-                    <div>{{item.quantityOrderedByCustomers}} </div>
-                    <div>{{item.quantityOrderedFromVendors}}</div>
-                  </div>
-                </div>
-                <div class="mt-2">
-                  <span class="font-semibold">Precio: </span> {{item.price | currency}}
-                </div>
-                <div class="mt-2">
-                  <span class="mr-2"> Fecha aprox. de entrega:   </span>
-                  <span  class="font-semibold"> {{item.estimatedDate |  date:'dd/MM/yyyy':'GMT'}}</span>
-                
-                </div>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </ng-template>

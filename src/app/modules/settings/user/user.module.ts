@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { userRoutes } from './user.routing';
 import { UserDetailComponent } from './detail/detail.component';
+import { EditComponent } from './edit/edit.component';
 import { UserListComponent } from './list/list.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +26,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
 
 @NgModule({
     declarations: [
-        UserDetailComponent, 
+        UserDetailComponent,EditComponent,
         UserListComponent],
     imports: [
         CommonModule,

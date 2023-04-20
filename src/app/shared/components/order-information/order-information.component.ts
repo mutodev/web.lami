@@ -4,6 +4,8 @@ import { LamiService } from 'app/core/api/lami.service';
 import { Uhbt } from 'app/shared/interfaces/UHBT';
 import * as moment_ from 'moment';
 
+
+
 const moment = moment_;
 
 @Component({
@@ -19,21 +21,28 @@ export class OrderInformationComponent implements OnInit {
   formGroup: FormGroup;
   @Input('estimatedDate') estimatedDate: string;
   Series: Uhbt[] = [];
-  
+  current_sales_person_code: string;
+
   constructor(private _lamiService: LamiService,  private _formBuilder: FormBuilder) { }
 
-   
+
 
   ngOnInit(): void {
-   
+
+    this.current_sales_person_code = localStorage.getItem('user_salesPerson');
+
 
     this.formGroup = this._formBuilder.group({
       salesPersonCode: ['', Validators.required],
       serie:  ['', Validators.required],
     });
+
     this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
+
+    console.log( this.salesPersonCode, "Currens sales person array");
     this._lamiService.getU_HBT('SERIES').subscribe((result: Uhbt[]) => { this.Series = result });
   }
+
 
   get date(){
     return moment(this.dateNow).format('YYYY-MM-DD');
@@ -45,6 +54,7 @@ export class OrderInformationComponent implements OnInit {
 
   get salesPerson() {
     return this.formGroup.get('salesPersonCode');
+
   }
 
   get serie() {

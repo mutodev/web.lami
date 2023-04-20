@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, of, ReplaySubject, tap } from 'rxjs';
 import { User } from 'app/core/user/user.types';
+import { NotifyService } from '../notify/notify.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,8 +14,9 @@ export class UserService
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient)
+    constructor(private _httpClient: HttpClient,private _notifyService: NotifyService)
     {
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -30,9 +32,18 @@ export class UserService
     {
         // Store the value
         this._user.next(value);
-        localStorage.setItem('user', JSON.stringify(value))
+        console.log(value);
+        console.log(value['salesPersonCode']);
+        localStorage.setItem('user', JSON.stringify(value));
+        localStorage.setItem('user_sellerTypeId', value.sellerTypeId);
+        localStorage.setItem('user_role', value.role);
+        localStorage.setItem('user_role_id', value['roleId']);
+        localStorage.setItem('user_salesPersonCode', value.id);
+        localStorage.setItem('user_salesPerson', value['salesPersonCode']);
+
+       /* this._notifyService.successTestAlert("Guardado con exito");*/
     }
-z
+
     get user$(): Observable<User>
     {
         return of(JSON.parse(localStorage.getItem('user')))

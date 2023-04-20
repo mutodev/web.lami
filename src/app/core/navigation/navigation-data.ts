@@ -1,5 +1,8 @@
 import { FuseNavigationItem } from "@fuse/components/navigation";
 
+
+
+
 export const compactNavigation: FuseNavigationItem[] = [{
     id      : 'comercial',
     title   : 'Comercial',
@@ -32,23 +35,26 @@ export const compactNavigation: FuseNavigationItem[] = [{
             {
                 id   : 'pedidos',
                 title: 'Pedidos',
-                type : 'basic',     
+                type : 'basic',
                 link : 'sales/purchase/all',
                 button:{
                     link:'sales/purchase/new'
                 },
             },
-            {
-                id   : 'plan-separe',
+           // {
+           /*     id   : 'plan-separe',
                 title: 'Cotizaciones',
                 type : 'basic',
                 link : '/plan-separe'
-            },
-            {
+                */
+          //  },
+            // {
+           /*
                 id      : 'seguridad',
                 title   : 'Recaudos',
                 type    : 'basic',
-            },
+                  */
+          //  },
             // {
             //     id   : 'contra-entrega',
             //     title: 'Contra entrega',
@@ -56,15 +62,18 @@ export const compactNavigation: FuseNavigationItem[] = [{
             //     icon : 'departure_board',
             //     link : '/contra-entrega'
             // },
-            {
+             // {
+            /*
                 id   : 'list_alt',
                 title: 'Precios',
                 type : 'basic',
                 link : '/lista-de-precios'
-            }
+                */
+                //  },
         ]
     },
-    {
+    /*
+        {
         id      : 'seguridad',
         title   : 'Bitácora',
         type    : 'basic',
@@ -75,9 +84,11 @@ export const compactNavigation: FuseNavigationItem[] = [{
         title   : 'Reportes',
         type    : 'basic',
         icon : 'insert_chart_outlined',
-    }
-]},
-{
+    }*/
+]
+
+},
+/*{
     id      : 'comercial',
     title   : 'Logistica',
     type    : 'group',
@@ -93,12 +104,16 @@ export const compactNavigation: FuseNavigationItem[] = [{
     title   : 'PostVenta',
     type    : 'group',
     children: []
-},
+},*/
     {
         id      : 'seguridad',
         title   : 'Settings',
         type    : 'group',
-        icon : 'settings',
+        icon: 'settings',
+        hidden: (item: any) => {
+            const user_role: string = localStorage.getItem('user_role_id').toString();
+                 return user_role != "a2fe2d9a-46c0-11ed-88f1-7b765a5d50e1";
+        },
         children: [
             {
                 id   : 'usuarios',
@@ -116,6 +131,16 @@ export const compactNavigation: FuseNavigationItem[] = [{
                 type : 'basic',
                 icon:'store',
                 link : 'settings/store/all'
+                // button:{
+                //     link:'settings/store/new'
+                // },
+            },
+            {
+                id   : 'precios_brilla',
+                title: 'Precios Brilla',
+                type : 'basic',
+                icon:'attach_money',
+                link : 'settings/brilla/all'
                 // button:{
                 //     link:'settings/store/new'
                 // },

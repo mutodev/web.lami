@@ -1,0 +1,106 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+    <!-- Header -->
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <!-- Loader -->
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">Precios Brilla</div>
+        <!-- Actions -->
+        <div class="flex sm:flex-row shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Search -->
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input matInput [formControl]="searchInputControl" [autocomplete]="'off'" [placeholder]="'Buscar...'">
+            </mat-form-field>
+            <!-- Add product button -->
+            <!-- <button class="ml-4 sm:rounded-full" mat-flat-button [color]="'primary'"
+                [routerLink]="[ '/settings/usuario/new']" (click)="createStore()">
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <span class="ml-2 mr-1 hidden md:flex">Nuevo</span>
+            </button> -->
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-auto overflow-hidden">
+
+        <!-- Products list -->
+        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+            <ng-container *ngIf="(prices$ | async) as prices">
+                <ng-container *ngIf="prices.length > 0; else noProducts">
+                    <div class="grid">
+                        <!-- Header -->
+                        <div
+                            class="inventory-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5">
+                            <div >
+                                Código
+                            </div>
+                            <div>Nombre</div>
+                            <div >
+                                Incremento
+                            </div>
+
+                        </div>
+                        <!-- Rows -->
+                        <ng-container *ngIf="(prices$ | async) as prices">
+                            <ng-container *ngFor="let price of prices; trackBy: trackByFn">
+                                <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+
+
+                                    <!-- store -->
+                                    <div class="truncate">
+                                        {{price.code}}
+                                    </div>
+
+                                    <!-- Name -->
+                                    <div class="truncate">
+                                        {{price.name}}
+                                    </div>
+
+     <!-- % -->
+     <div class="truncate">
+        %  {{price.value}}
+    </div>
+
+
+                                    <!-- Details button -->
+                                    <!-- <div class="hidden md:block text-right">
+                                        <button [routerLink]="'/settings/store/' + store._id"
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
+                                            </mat-icon>
+                                        </button>
+                                    </div> -->
+                                </div>
+
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                    <!-- <mat-paginator
+                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                        [ngClass]="{'pointer-events-none': isLoading}"
+                        [length]="pagination.length"
+                        [pageIndex]="pagination.page"
+                        [pageSize]="pagination.size"
+                        [pageSizeOptions]="[5, 10, 25, 100]"
+                        [showFirstLastButtons]="true"></mat-paginator> -->
+
+                </ng-container>
+            </ng-container>
+
+
+            <ng-template #noProducts>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">No hay usuarios
+                </div>
+            </ng-template>
+
+        </div>
+
+    </div>
+
+</div>

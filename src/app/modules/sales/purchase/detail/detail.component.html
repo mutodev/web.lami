@@ -15,7 +15,7 @@
                       <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                       </mat-icon>
                       <span class="ml-1 text-secondary">Nuevo pedido</span>
-                     
+
                   </div>
               </div>
               <div class="flex sm:hidden">
@@ -31,28 +31,14 @@
               <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                  Nuevo pedido
                   <button  (click)="save()"
-                  class="min-w-10 min-h-7 h-7 px-2 top-1 leading-6 md:hidden" mat-button>
+                  class="min-w-10 min-h-7 h-7 px-2 top-1 leading-6 hidden" mat-button>
                   <mat-icon class="icon-size-7" [svgIcon]="'mat_outline:add_circle_outline'">
                   </mat-icon>
               </button>
               </h2>
           </div>
       </div>
-      <!-- Actions -->
-      <div class="flex hidden sm:block flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-          <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/sales/purchase/all' ]"
-              mat-stroked-button>
-              <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x'"></mat-icon>
-              Cancelar
-          </button>
-          <button type="button" [disabled]="disabledForm" (click)="save()" [color]="'primary'" mat-flat-button>
-              <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:check'"></mat-icon>
-              <span>
-                  Guardar
-              </span>
-          </button>
 
-      </div>
   </div>
 
     <div class="inset-0 min-w-0 text-center  " cdkScrollable>
@@ -96,10 +82,25 @@
                 <!--ITEM TABLE-->
                 <div class="mt-12">
                     <ci-item-table  (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
+
+
+                    <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/sales/purchase/all' ]"
+                    mat-stroked-button>
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                    Cancelar
+                </button>
+                <button type="button" [disabled]="disabledForm" (click)="save()" [color]="'primary'" mat-flat-button>
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                    <span>
+                        Guardar
+                    </span>
+                </button>
                 </div>
 
             </div>
 
         </div>
+
     </div>
+
 </div>

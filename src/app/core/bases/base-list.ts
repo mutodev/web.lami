@@ -1,12 +1,19 @@
+import { ArrayDataSource } from "@angular/cdk/collections";
 import { HttpClient } from "@angular/common/http";
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { MatPaginator } from "@angular/material/paginator";
+import { user } from "app/mock-api/common/user/data";
 import { Pagination } from "app/shared/interfaces/pagination";
 import { environment } from "environments/environment";
 import { BehaviorSubject, merge, Observable, Subject } from "rxjs";
 import { debounceTime, map, switchMap, takeUntil, tap } from "rxjs/operators";
 import { BaseListService } from "./base-list.service";
+
+
+
+
+
 
 @Component({
     template: ''
@@ -15,6 +22,7 @@ export abstract class BaseList implements AfterViewInit {
 
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     dataSource$: Observable<any[]>;
+    dataSource_array$: any;
     pagination: Pagination;
     isLoading: boolean = false;
     searchInputControl: FormControl = new FormControl();
@@ -31,12 +39,14 @@ export abstract class BaseList implements AfterViewInit {
     }
 
     get source$(): Observable<any[]> {
+
         return this._source.asObservable();
     }
 
     get pagination$(): Observable<Pagination> {
         return this._pagination.asObservable();
     }
+
 
 
     getDataSource() {
@@ -56,6 +66,7 @@ export abstract class BaseList implements AfterViewInit {
         // Get the dataSource data
         this.dataSource$ = this._baseListService.source$;
 
+
         this.searchInputControl.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),
@@ -64,6 +75,7 @@ export abstract class BaseList implements AfterViewInit {
                     //this.closeDetails();
                     this.isLoading = true;
                     return this._baseListService.getDataSource(1, 10, 'name', 'asc', query);
+
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -113,4 +125,6 @@ export abstract class BaseList implements AfterViewInit {
         this._baseListService.editSource(newDate);
         this.dataSource$ = this._baseListService.source$;
     }
+
+
 }
