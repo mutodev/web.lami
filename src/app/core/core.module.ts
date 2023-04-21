@@ -5,6 +5,7 @@ import { AuthModule } from 'app/core/auth/auth.module';
 import { IconsModule } from 'app/core/icons/icons.module';
 import { TranslocoCoreModule } from 'app/core/transloco/transloco.module';
 import { AlertyModule } from 'app/shared/components/alerty/alerty.module';
+import { ListenerService } from './services/listener.service';
 import { RealTimeService } from './services/real-time.service';
 import { SseService } from './services/sse.service';
 
@@ -16,7 +17,7 @@ import { SseService } from './services/sse.service';
         MatSnackBarModule,
         AlertyModule
     ],
-    providers: [SseService, RealTimeService]
+    providers: [SseService, RealTimeService, ListenerService]
 })
 export class CoreModule
 {
