@@ -13,10 +13,11 @@ export class AppComponent {
     /**
      * Constructor
      */
-    constructor(private realTime: RealTimeService, 
+    constructor(private realTime: RealTimeService,
                 private _notifyService: NotifyService,
                 private listener: ListenerService) {
         console.log("Appcomponent");
+       console.log(window.innerWidth);
         this.initGeneralSocket();
         this.listener.addListener('initGeneralSocket', this.initGeneralSocket.bind(this));
     }
