@@ -113,7 +113,7 @@ export const compactNavigation: FuseNavigationItem[] = [{
         hidden: (item: any) => {
             // const user_role: string = localStorage.getItem('user');
             const user = JSON.parse(localStorage.getItem('user'));
-            return user.roleId != "a2fe2d9a-46c0-11ed-88f1-7b765a5d50e1";
+            return user?.roleId != "a2fe2d9a-46c0-11ed-88f1-7b765a5d50e1";
         },
         children: [
             {
