@@ -19,6 +19,8 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
     navigation: Navigation;
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    name_user: string;
+    lastname_user: string;
 
     /**
      * Constructor
@@ -76,8 +78,13 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
             .subscribe((user: User) => {
                 this.user = user;
             });
-           
+
+        this.name_user = this.capitalizarPrimeraLetra(this.user.firstName);
+        this.lastname_user = this.capitalizarPrimeraLetra(this.user.lastName);
     }
+
+
+
 
     /**
      * On destroy
@@ -109,4 +116,12 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
             navigation.toggle();
         }
     }
+
+
+
+    capitalizarPrimeraLetra(str_value) {
+        return str_value.charAt(0).toUpperCase() + str_value.slice(1).toLowerCase();
+      }
+
 }
+
