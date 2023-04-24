@@ -84,16 +84,16 @@ const generatePalette = (config) =>
 
     // Build and return the final palette
     return {
-        50 : scale(0).hex(),
-        100: scale(0).hex(),
-        200: scale(0).hex(),
-        300: scale(0).hex(),
-        400: scale(0).hex(),
-        500: scale(0).hex(),
-        600: scale(0).hex(),
-        700: scale(0).hex(),
-        800: scale(0).hex(),
-        900: scale(0).hex()
+        50 : scale(0.05).hex(),
+        100: scale(0.1).hex(),
+        200: scale(0.2).hex(),
+        300: scale(0.3).hex(),
+        400: scale(0.4).hex(),
+        500: scale(0.5).hex(),
+        600: scale(0.6).hex(),
+        700: scale(0.7).hex(),
+        800: scale(0.8).hex(),
+        900: scale(0.9).hex()
     };
 };
 
