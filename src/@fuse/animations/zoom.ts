@@ -10,14 +10,14 @@ const zoomIn = trigger('zoomIn',
         state('void',
             style({
                 opacity  : 0,
-                transform: 'scale(0.5)'
+                transform: 'none'
             })
         ),
 
         state('*',
             style({
                 opacity  : 1,
-                transform: 'scale(1)'
+                transform: 'none'
             })
         ),
 
