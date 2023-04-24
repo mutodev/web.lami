@@ -91,7 +91,8 @@
                                             {{order.customer?.name}}
                                         </ng-container>
                                       <ng-template #displayName>
-                                        {{order.customer?.firstName}}    {{order.customer?.lastName}}  {{order.customer?.lastName2}}
+                                       <span class="hidden md:block" > {{order.customer?.firstName}}    {{order.customer?.lastName}}  {{order.customer?.lastName2}}
+                                       </span>
                                       </ng-template>
 
 
