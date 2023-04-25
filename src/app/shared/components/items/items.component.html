@@ -227,9 +227,12 @@
                         <div class="flex w-full">
                             <mat-form-field floatLabel="float" appearance="legacy" class="flex grid w-full fuse-mat-dense">
                                 <mat-select formControlName="tax" [placeholder]="'Impuesto'">
+
                                     <mat-option class="text-sm" *ngFor="let tax of taxes" [value]="tax.code">
                                         {{tax.name}}
                                     </mat-option>
+
+
                                 </mat-select>
 
                             </mat-form-field>
@@ -322,10 +325,14 @@
 
             <!-- TAXES -->
             <ng-container *ngFor="let tax of totalTaxes">
-                <div class="self-center font-medium tracking-tight text-secondary text-right uppercase">
+
+                <div *ngIf="tax.value>0" class="self-center font-medium tracking-tight text-secondary text-right uppercase">
                     {{tax.name}}
                 </div>
-                <div class="text-right text-lg text-right"> {{tax.value | currency}}</div>
+                <div *ngIf="tax.value>0"  class="text-right text-lg text-right"> {{tax.value | currency}}
+
+                </div>
+
             </ng-container>
 
 
