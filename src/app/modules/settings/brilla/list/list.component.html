@@ -17,11 +17,11 @@
                 <input matInput [formControl]="searchInputControl" [autocomplete]="'off'" [placeholder]="'Buscar...'">
             </mat-form-field>
             <!-- Add product button -->
-            <!-- <button class="ml-4 sm:rounded-full" mat-flat-button [color]="'primary'"
-                [routerLink]="[ '/settings/usuario/new']" (click)="createStore()">
+            <button class="ml-4 sm:rounded-full" mat-flat-button [color]="'primary'"
+                [routerLink]="[ '/settings/brilla/new']" (click)="createPrices()">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1 hidden md:flex">Nuevo</span>
-            </button> -->
+            </button>
         </div>
     </div>
 
@@ -68,13 +68,13 @@
 
 
                                     <!-- Details button -->
-                                    <!-- <div class="hidden md:block text-right">
-                                        <button [routerLink]="'/settings/store/' + store._id"
+                                  <div class=" flex text-right">
+                                        <button [routerLink]="'/settings/brilla/'+price._id"
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
                                             </mat-icon>
                                         </button>
-                                    </div> -->
+                                    </div>
                                 </div>
 
                             </ng-container>

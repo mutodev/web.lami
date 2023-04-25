@@ -134,6 +134,14 @@ export class ItemsComponent implements OnInit {
 
   addItemRow(item: any = {}): UntypedFormGroup {
 
+    const tax = item.arTaxCode;
+    const total_item = item.total;
+    console.log("tax",tax);
+    const taxPercentage = this.getTaxById(tax) ? this.getTaxById(tax).value : 0;
+    console.log("taxPercentage",taxPercentage );
+
+    console.log("item", item);
+
     const itemsFormGroup = this._formBuilder.group({
       id: [''],
       brilla: [''],
@@ -148,10 +156,10 @@ export class ItemsComponent implements OnInit {
       price: [item?.price + (item?.price * this.brilla_price ), Validators.required],
            tax: item.arTaxCode,
       taxObject: 0,
-      subTotal: [item?.price ],
+      subTotal: [0],
       currencyTax: [''],
       estimatedDate: [item?.estimatedDate],
-      total: [item?.price, Validators.nullValidator],
+      total: [0, Validators.nullValidator],
 
     });
 
@@ -164,6 +172,8 @@ export class ItemsComponent implements OnInit {
         itemsFormGroup.get("quantity").updateValueAndValidity();
         itemsFormGroup.get("price").updateValueAndValidity();
       }
+
+
     });
 
     itemsFormGroup.get('quantity')
@@ -203,13 +213,20 @@ export class ItemsComponent implements OnInit {
         const NewpriceForm = priceForm  +( priceForm * parseFloat("0."+brilla));
 
         const quantityForm = Number(itemsFormGroup.get('quantity').value);
+
         const tax = itemsFormGroup.get('tax').value;
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
+
         const subTotal = NewpriceForm * quantityForm;
         const currencyTax = (+taxPercentage * priceForm) / 100;
 
-        const discountTotal =  (subTotal * Number(itemsFormGroup.get('discount').value)) / 100;
-        let total = (subTotal - discountTotal);
+        const discountTotal = (subTotal * Number(itemsFormGroup.get('discount').value)) / 100;
+
+        //Total = (subTotal + currencyTax) - discountTotal
+
+       // let total = (subTotal - discountTotal);
+
+        let total = (subTotal + currencyTax) - discountTotal;
         itemsFormGroup.get('price').setValue(NewpriceForm);
         itemsFormGroup.get('subTotal').setValue(subTotal);
         itemsFormGroup.get('currencyTax').setValue(currencyTax.toString());
@@ -245,7 +262,7 @@ export class ItemsComponent implements OnInit {
       .valueChanges
       .subscribe((price: any) => {
 
-            const discountForm = Number(itemsFormGroup.get('discount').value);
+        const discountForm = Number(itemsFormGroup.get('discount').value);
         const quantityForm = Number(itemsFormGroup.get('quantity').value);
         const tax = itemsFormGroup.get('tax').value;
         const taxPercentage = this.getTaxById(tax.toString()) ? this.getTaxById(tax.toString()).value : 0;
@@ -282,13 +299,19 @@ export class ItemsComponent implements OnInit {
     const taxPercentage = this.getTaxById(taxId) ? this.getTaxById(taxId).value : 0;
     const subTotal = priceForm * quantityForm;
     const discountTotal = (subTotal * discountForm) / 100;
-    let total = (subTotal - discountTotal);
+
+    //validar brilla price/cantidad/toral/taxes$
+
+    let total = (subTotal - discountTotal); //  sumar el impuesto
     const currencyTax = (+taxPercentage * total) / 100;
+
+
 
     itemsFormGroup.get('subTotal').setValue(subTotal);
     itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
     itemsFormGroup.get('currencyTax').setValue(currencyTax);
-    itemsFormGroup.get('total').setValue(total);
+
+    itemsFormGroup.get('total').setValue(total + currencyTax );
 
   }
 
@@ -299,9 +322,14 @@ export class ItemsComponent implements OnInit {
 
   calculateSummary() {
     this.subTotal = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('subTotal').value).reduce((acc, value) => Number(acc) + Number(value), 0);
+
+
     this.discount = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('discountTotal').value).reduce((acc, value) => Number(acc) + Number(value), 0);
+
     this.tax = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('currencyTax').value).reduce((acc, value) => Number(acc) + Number(value), 0);
+
     this.total = (this.subTotal - this.discount) + this.tax;
+
     this.totalcTaxes();
   }
 
@@ -354,8 +382,8 @@ export class ItemsComponent implements OnInit {
       disableClose: true,
       data: {
         selectItem: (item) => {
-          this.itemsFormGroup.push(this.addItemRow(item));
-          this.calculateSummary();
+         this.itemsFormGroup.push(this.addItemRow(item));
+         this.calculateSummary();
 
 
         }
@@ -420,7 +448,7 @@ export class ItemsComponent implements OnInit {
     // //item.get('tax').setValue(0);
     // // item.get('code').setValue($event.code);
     // item.get('discount').setValue(0); //TODO: update
-    // item.get('total').setValue($event.price);
+    // // item.get('total').setValue($event.total);
     // item.get('quantity').setValue(1);
     // item.get('project').setValue('DIGITAL');
     // item.get('id').setValue($event.code);

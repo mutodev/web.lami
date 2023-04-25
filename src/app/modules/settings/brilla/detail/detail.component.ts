@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailComponent implements OnInit {
 
-  constructor() { }
+  storeForm: FormGroup;
+  id:string;
+  actionName: string;
+  isLoading: boolean = false;
+  constructor( private _formBuilder: FormBuilder,
+    private route: ActivatedRoute,) {
+    this.id = this.route.snapshot.params['id'];
+    this.actionName = this.id ? 'Editar' : 'Nuevo';
 
+
+
+  }
   ngOnInit(): void {
+
   }
 
+  save(){}
 }

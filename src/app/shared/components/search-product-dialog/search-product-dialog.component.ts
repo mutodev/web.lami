@@ -62,6 +62,7 @@ export class SearchProductDialogComponent extends BaseList implements OnInit {
 
   onSelectedItem(item: any) {
 
+    console.log("Selected item", item)
     this.data.selectItem(item);
 
   }

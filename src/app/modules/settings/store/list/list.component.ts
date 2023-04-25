@@ -4,7 +4,7 @@ import { LamiService } from 'app/core/api/lami.service';
 import { Observable } from 'rxjs';
 import { User } from '../../user/user.types';
 import { Store } from '../store.types';
-import { Price } from 'app/shared/interfaces/Price.types';
+
 
 @Component({
   selector: 'app-list',
@@ -34,7 +34,11 @@ export class StoreListComponent implements OnInit {
 
   isLoading: boolean = false;
 
-  constructor(public _lamiService: LamiService) { }
+    constructor(public _lamiService: LamiService) {
+      
+
+        
+   }
 
   ngOnInit(): void {
       this.stores$ = this._lamiService.stores$;
@@ -44,6 +48,8 @@ export class StoreListComponent implements OnInit {
 
   createStore():void{
 
-  }
+    }
+    
+
 
 }

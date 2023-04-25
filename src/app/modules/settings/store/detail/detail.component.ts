@@ -14,15 +14,15 @@ export class StoreDetailComponent implements OnInit {
   actionName: string;
   isLoading: boolean = false;
   constructor( private _formBuilder: FormBuilder,
-    private route: ActivatedRoute,) { 
+    private route: ActivatedRoute,) {
     this.id = this.route.snapshot.params['id'];
     this.actionName = this.id ? 'Editar' : 'Nueva';
-    
-    
-   
+
+
+
   }
   ngOnInit(): void {
-    
+
   }
 
   save(){}

@@ -38,7 +38,9 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
       this.stores$ = this._lamiService.stores$;
       this._lamiService.getPrices();
-     this.prices$ = this._lamiService.prices$;
+      this.prices$ = this._lamiService.prices$;
+
+      console.log("Brilla_prices", this.prices$);
   }
 
   createPrices():void{
