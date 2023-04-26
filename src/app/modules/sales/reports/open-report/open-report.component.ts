@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
   selector: 'app-open-report',
   templateUrl: './open-report.component.html',
   styleUrls: ['./open-report.component.scss'],
-  styles         : [
+  styles: [
     /* language=SCSS */
     `
         .list-grid {
@@ -36,19 +36,17 @@ import { Observable } from 'rxjs';
             }
         }
     `
-],
+  ],
   animations: fuseAnimations
 })
-
-
-
-export class OpenReportComponent extends BaseForm  implements OnInit  {
+export class OpenReportComponent extends BaseForm implements OnInit {
 
   current_sales_personecode: string;
-  dataSource$ = null;
+  sales: any[] = [];
+  refounds: any[] = [];
   isLoading = false;
-  constructor(  private _formBuilder: FormBuilder,
-              private _httpService:  HttpMethodService) {
+  constructor(private _formBuilder: FormBuilder,
+    private _httpService: HttpMethodService) {
     super();
   }
 
@@ -56,37 +54,24 @@ export class OpenReportComponent extends BaseForm  implements OnInit  {
 
     const startDate = "2022-04-01";
     const endDate = "2023-04-26";
-    const state:  string = "Atlantico";
+    const state: string = "Atlantico";
     const city: string = "Barranquilla";
-    this.dataSource$ = (await this.getdevolucionesBydate(startDate, endDate));
-
-
-
-
+    this.getdevolucionesBydate(startDate, endDate);
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
-
-
-    console.log("current_sales_personecode",  this.current_sales_personecode);
-    console.log("array", this.dataSource$ );
-
-
-
+    /* console.log("current_sales_personecode", this.current_sales_personecode);
+    console.log("array", this.dataSource$); */
   }
 
 
   async getdevolucionesBydate(startDate: string, endDate: string) {
-
-    const rest  = await this._httpService.get(`/order/get/sales-and-credit-notes?startDate=${startDate}&endDate=${endDate}`);
-
-    return rest;
-
-
-
+    const rest = await this._httpService.get<any>(`/order/get/sales-and-credit-notes?startDate=${startDate}&endDate=${endDate}`);
+    this.sales = rest.data.sales;
+    this.refounds = rest.data.creditNotes;
   }
 
 
-  FiltrarOrdenes(): void{
+  FiltrarOrdenes(): void {
 
 
-}
+  }
 }

@@ -66,9 +66,9 @@
 
         <!-- dataSource list -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
-            <ng-container *ngIf="(dataSource$| async) as dataSource">
+            <ng-container *ngIf="sales && sales.length > 0">
 
-                <ng-container *ngIf="dataSource.length > 0; else nodataSource">
+                <ng-container *ngIf="sales.length > 0; else nodataSource">
 
                          <div class="grid">
                         <!-- Header -->
@@ -97,15 +97,15 @@
 
                         <ul class="list-group">
                             <li class="list-group-item"
-                                *ngFor="let order of dataSource$?.sales">
+                                *ngFor="let order of sales">
                                 {{order.identification}}
                             </li>
                           </ul>
 
 
                         <!-- Rows -->
-                        <ng-container *ngIf="(dataSource$| async) as dataSource">
-                            <ng-container *ngFor="let order of dataSource">
+                        <ng-container *ngIf="false">
+                            <ng-container *ngFor="let order of sales">
                                 {{order?.identification}}
                                 <ng-container *ngIf="order.userId == current_sales_personecode">
 
@@ -191,11 +191,11 @@
                     </ng-container>
                     </div>
 
-                    <mat-paginator
+                    <!-- <mat-paginator
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [length]="pagination.length" [pageIndex]="pagination.pageIndex" [pageSize]="pagination.size"
                         [pageSizeOptions]="[25, 50, 75, 100]" [showFirstLastButtons]="true"></mat-paginator>
-
+ -->
 
             </ng-container>
         </ng-container>
