@@ -66,5 +66,5 @@ export class OrderResolver implements Resolve<any>
         const id = route.params.id;
         return this._lamiService.getOrderById(id)
     }
-    
+
 }

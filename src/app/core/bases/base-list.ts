@@ -1,5 +1,4 @@
 import { ArrayDataSource } from "@angular/cdk/collections";
-import { HttpClient } from "@angular/common/http";
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { MatPaginator } from "@angular/material/paginator";
@@ -47,7 +46,10 @@ export abstract class BaseList implements AfterViewInit {
         return this._pagination.asObservable();
     }
 
+    getDataSource2() {
+console.log("Obteniendo Listas from filds");
 
+    }
 
     getDataSource() {
 

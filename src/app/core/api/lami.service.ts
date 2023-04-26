@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Customer, IdentificationType } from 'app/modules/contact/customer/clients.types';
 import { Store } from 'app/modules/settings/store/store.types';
@@ -12,22 +12,32 @@ import { Uhbt } from 'app/shared/interfaces/UHBT';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 import { BRILLA_PRICES, STORE_DATA, USER_DATA } from './moke-data';
-
+import { HttpMethodService } from 'app/core/services/http-method.service';
 @Injectable({
     providedIn: 'root'
 })
 export class LamiService {
 
-    constructor(private _httpClient: HttpClient) {
+    constructor(private _httpClient: HttpClient,private _httpService: HttpMethodService ) {
+
+
+
 
     }
 
-
-
+    public _httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' +  localStorage.getItem('accessToken') // replace authToken with your actual authorization token
+        })
+      };
 
       /* #Brilla prices */
 
       public _prices: BehaviorSubject<Price[] | null> = new BehaviorSubject(null);
+
+
+
 
 
 
@@ -55,6 +65,7 @@ export class LamiService {
 
 
     /* #region  USER */
+
 
     private _users: BehaviorSubject<User[] | null> = new BehaviorSubject(null);
     private _user: BehaviorSubject<User | null> = new BehaviorSubject(null);
@@ -251,5 +262,7 @@ export class LamiService {
             }));
     }
     /* #endregion */
+
+
 
 }

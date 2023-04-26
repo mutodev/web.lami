@@ -12,13 +12,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { SearchMatSelectModule } from 'app/shared/controls/custom-mat-select-new/search-mat-select.module';
-import {StoreComponent } from './store-component.component';
+
 
 
 @NgModule({
-  declarations: [
-    StoreComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -34,10 +32,6 @@ import {StoreComponent } from './store-component.component';
     SearchMatSelectModule,
     MatCheckboxModule,
     MatDividerModule
-  ],
-    exports: [
-      StoreComponent,
-
   ]
 }
 

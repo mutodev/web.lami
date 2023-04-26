@@ -82,19 +82,25 @@ export const compactNavigation: FuseNavigationItem[] = [{
         {
             id: 'reportes',
             title: 'Reportes',
-            type: 'basic',
+            type: 'collapsable',
             icon: 'insert_chart_outlined',
             children: [
                 {
-                    id: 'usuarios',
-                    title: 'Usuarios',
+                    id: 'openreport',
+                    title: 'Pedidos Abiertos',
                     type: 'basic',
-                    icon: 'people',
-                    button: {
-                        link: 'settings/user/new'
-                    },
-                    link: 'settings/user/all'
-                },]
+                    icon: 'shop',
+                    link: 'sales/reports/ordenes_abiertas',
+                },
+
+                {
+                    id: 'refoundsreport',
+                    title: 'Facuras/Devoluciones',
+                    type: 'basic',
+                    icon: 'sell',
+                    link: 'sales/reports/facturas/devoluciones',
+                },
+            ]
 
     }
 ]

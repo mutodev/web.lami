@@ -10,6 +10,8 @@ import { items } from 'app/mock-api/apps/file-manager/data';
 import { IdentificationType } from 'app/modules/contact/customer/clients.types';
 import { SearchMatSelectComponent } from 'app/shared/controls/custom-mat-select/search-mat-select.component';
 import { Uhbt } from 'app/shared/interfaces/UHBT';
+import { Neighborhood } from 'app/shared/interfaces/Neighborhood';
+
 import { AsyncCustomValidator } from 'app/shared/validators/async-validator';
 import { result } from 'lodash';
 import { Observable, of } from 'rxjs';
@@ -47,6 +49,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   U_HBT_RegFis: Uhbt[] = [];
   U_HBT_ResFis: Uhbt[] = [];
   COUNTIES: Uhbt[] = [];
+  Neighborhood: Neighborhood [] = [];
   CITIESTEMP: Uhbt[] = [];
   CITIES: Uhbt[] = [];
   COUNTIESBILLING: Uhbt[] = [];
@@ -91,12 +94,17 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('U_HBT_ActEco').subscribe((result: Uhbt[]) => { this.U_HBT_ActEco = result });
     this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result});
     this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
+
     this._lamiService.getU_HBT('CITIES').subscribe((result) => {
       this.CITIESTEMP = result;
       if (this.formGroup.controls.County.value) this.CITIES = this.CITIESTEMP.filter((a) => a.value == this.formGroup.controls.County.value);
       if (this.formGroup.controls.CountyBilling.value) this.CITIESBILLING = this.CITIESTEMP.filter((a) => a.value == this.formGroup.controls.CountyBilling.value);
 
     });
+
+
+
+
     this._lamiService.getU_HBT('County').subscribe((result) => {this.COUNTIES = result; this.COUNTIESBILLING = [...result];});
 
     this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
