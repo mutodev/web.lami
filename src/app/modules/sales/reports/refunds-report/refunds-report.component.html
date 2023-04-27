@@ -97,7 +97,7 @@
 
 
 
-<div> Doc: <span class="font-extrabold">{{order.docNum}}</span> Fec:<span class="font-extrabold"> {{order.docDate}}</span>
+<div class="col-span-2" > Doc: <span class="font-extrabold">{{order.docNum}}</span> Fec:<span class="font-extrabold"> {{order.docDate}}</span>
 <br>
 <span class="font-extrabold" style="
 background: #16194a;
@@ -113,7 +113,7 @@ padding: 1%;
 <div class="hidden sm:block md:hidden" >Subtotal<br>Impuesto<br>  <span class="font-extrabold" style="color: red;
 
     "> TOTAL</span></div>
-<div>{{order.docEntry | currency}}<br>
+<div> {{order.docTotal - order.vatSum  | currency}}<br>
     {{order.vatSum  | currency  }}<br>
     <span class="font-extrabold" style="color: red;
 
