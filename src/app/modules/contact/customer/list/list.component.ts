@@ -54,7 +54,7 @@ export class CustomerListComponent extends BaseList implements OnInit {
   ngOnInit(): void {
 
     this.getDataSource();
-
+    console.log(this.dataSource$);
     this.realTime.getServerSentEvent(`${environment.endPoint}/customer/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
     .subscribe(event => {
       if (this.dataSource$) {
