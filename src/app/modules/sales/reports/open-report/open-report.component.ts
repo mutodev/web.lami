@@ -5,6 +5,7 @@ import { LamiService } from 'app/core/api/lami.service';
 import { BaseForm } from 'app/core/bases/base-form';
 import { BaseList } from 'app/core/bases/base-list';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { NotifyService } from 'app/core/notify/notify.service';
 import { HttpMethodService } from 'app/core/services/http-method.service';
 import { RealTimeService } from 'app/core/services/real-time.service';
 import { report } from 'app/shared/interfaces/report';
@@ -45,33 +46,70 @@ export class OpenReportComponent extends BaseForm implements OnInit {
   sales: any[] = [];
   refounds: any[] = [];
   isLoading = false;
+  total = 0;
+  startDate: any;
+  endDate: any;
+  current_sales_id: string;
+
   constructor(private _formBuilder: FormBuilder,
-    private _httpService: HttpMethodService) {
+    private _httpService: HttpMethodService,private _notifyService: NotifyService) {
     super();
   }
 
   async ngOnInit() {
-
-    const startDate = "2022-04-01";
-    const endDate = "2023-04-26";
-    const state: string = "Atlantico";
-    const city: string = "Barranquilla";
-    this.getdevolucionesBydate(startDate, endDate);
+    this.startDate  = null;
+    this.endDate = null;
+    this.total = 0;
+    this.total = 0;
+    this.current_sales_id = localStorage.getItem('user_salesPerson');
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
-    /* console.log("current_sales_personecode", this.current_sales_personecode);
-    console.log("array", this.dataSource$); */
+
   }
 
 
-  async getdevolucionesBydate(startDate: string, endDate: string) {
-    const rest = await this._httpService.get<any>(`/order/get/sales-and-credit-notes?startDate=${startDate}&endDate=${endDate}`);
-    this.sales = rest.data.sales;
-    this.refounds = rest.data.creditNotes;
+  async getordersBydate(startDate: string, endDate: string) {
+    this.total = 0;
+    const rest = await this._httpService.get<any>(`/order/get/open-orders?startDate=${startDate}&endDate=${endDate}`);
+    this.sales = rest.data;
+    console.log(rest);
+
+
+    for (let i = 0; i <  this.sales.length; i++) {
+this.total = this.total + this.sales[i]['docTotal'];
+}
+
+
+
+
   }
 
 
   FiltrarOrdenes(): void {
+    const startDate = "2022-04-01";
+    const endDate = "2023-04-26";
+    const state: string = "Atlantico";
+    const city: string = "Barranquilla";
+
+    if (this.startDate === null ||  this.endDate === null ) {
+
+this._notifyService.errorDateAlert("Error");
+
+} else {
+
+  this.getordersBydate(startDate, endDate);
+}
 
 
+
+
+  }
+  onInitDateChange(event: any): void {
+    this.startDate = event.value;
+    console.log('Initial date:', this.startDate);
+  }
+  onEndDateChange(event: any): void {
+
+    this.endDate = event.value;
+    console.log('End date:', this.endDate);
   }
 }

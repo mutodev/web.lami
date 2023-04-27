@@ -231,7 +231,21 @@
                 La ciudad es requerida.
             </mat-error>
         </mat-form-field>
-    </div>
+
+
+
+
+    <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+        <mat-label>Barrio</mat-label>
+        <search-mat-select [customStyle]="{width: '100%'}"  [placeholder]="'Escribe el Barrio'"
+            [dataSource]="Barrios" [filterColumns]="['name']" selectedValue="name" [selectedText]="'name'"
+            formControlName="Barrio">
+        </search-mat-select>
+
+    </mat-form-field>
+</div>
+
+
 
     <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
         <!-- PROJECT -->
@@ -386,6 +400,16 @@
                     La ciudad es requerida.
                 </mat-error>
             </mat-form-field>
+
+            <mat-form-field floatLabel="auto" [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+                <mat-label>Barrio</mat-label>
+                <search-mat-select [customStyle]="{width: '100%'}"  [placeholder]="'Escribe el Barrio'"
+                    [dataSource]="Barrios" [filterColumns]="['name']" selectedValue="name" [selectedText]="'name'"
+                    formControlName="Barrio">
+                </search-mat-select>
+
+            </mat-form-field>
+
         </div>
 
 

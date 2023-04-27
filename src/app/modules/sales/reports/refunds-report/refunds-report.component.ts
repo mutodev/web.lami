@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
 import { BaseList } from 'app/core/bases/base-list';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { NotifyService } from 'app/core/notify/notify.service';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 import { RealTimeService } from 'app/core/services/real-time.service';
 import { environment } from 'environments/environment';
 
@@ -31,36 +34,79 @@ import { environment } from 'environments/environment';
 ],
   animations: fuseAnimations
 })
-export class RefundsReportComponent extends BaseList implements OnInit  {
+export class RefundsReportComponent implements OnInit  {
   current_sales_personecode: string;
+  sales: any[] = [];
+  refounds: any[] = [];
+  isLoading = false;
+ total = 0;
+  startDate: any;
+  endDate: any;
 
-  constructor(public _baseListService: BaseListService,
-              private realTime: RealTimeService) {
-    super(_baseListService);
-   }
+  constructor(private _formBuilder: FormBuilder,
+    private _httpService: HttpMethodService,private _notifyService: NotifyService) {
 
-  ngOnInit(): void {
-    this.getDataSource();
+  }
+
+  async ngOnInit() {
+    this.startDate  = null;
+  this.endDate = null;
+    this.total = 0;
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
 
 
-    console.log("current_sales_personecode",  this.current_sales_personecode);
-    console.log("listado de ordenes",this.dataSource$);
-    this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
-    .subscribe(event => {
-      if (this.dataSource$) {
 
-
-        const order = JSON.parse(event.data);
-        let data = (this.dataSource$.source as any)._value;
-        const obj = data.find((a) => a.id === order.id);
-        if (obj) {
-            obj.sendToSap = order.sendToSap;
-            obj.docNumber = order.docNumber;
-        }
-        this.editSource([...data]);
-      }
-    });
   }
 
+
+  async getdevolucionesBydate(startDate: string, endDate: string) {
+    this.total = 0;
+    const rest = await this._httpService.get<any>(`/order/get/sales-and-credit-notes?startDate=${startDate}&endDate=${endDate}`);
+    this.sales = rest.data.sales;
+
+
+
+    for (let i = 0; i <  this.sales.length; i++) {
+this.total = this.total + this.sales[i]['docTotal'];
+}
+
+
+
+    console.log("sales", this.sales);
+    this.refounds = rest.data.creditNotes;
+  }
+
+
+  FiltrarOrdenes(): void {
+    const startDate = "2022-04-01";
+    const endDate = "2023-04-26";
+    const state: string = "Atlantico";
+    const city: string = "Barranquilla";
+
+    if (this.startDate === null ||  this.endDate === null ) {
+
+      this._notifyService.errorDateAlert("Error");
+
+    } else {
+
+      this.getdevolucionesBydate(startDate, endDate);
+    }
+
+
+
+
+
+
+
+
+  }
+  onInitDateChange(event: any): void {
+   this.startDate = event.value;
+    console.log('Initial date:', this.startDate);
+
+  }
+  onEndDateChange(event: any): void {
+    this.endDate = event.value;
+    console.log('End date:', this.endDate);
+  }
 }

@@ -40,24 +40,29 @@
 
       <div class="flex flex-shrink-0 items-center my-2 sm:mt-0 sm:ml-4">
 
-        <mat-form-field appearance="fill">
+        <mat-form-field color="accent" appearance="fill">
             <mat-label>Fecha Inicial</mat-label>
-            <input matInput [matDatepicker]="picker">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <input matInput [matDatepicker]="picker1" (dateChange)="onInitDateChange($event)">
+
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field color="accent" appearance="fill">
             <mat-label>Fecha Final</mat-label>
+            <input matInput [matDatepicker]="picker2" [matDatepicker]="picker2" (dateChange)="onEndDateChange($event)">
 
-            <input matInput [matDatepicker]="picker">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 color="primary"></mat-datepicker>
           </mat-form-field>
-    </div>
 
+
+    </div>
+    <button class="ml-4 " mat-flat-button [color]="'primary'"
+    (click)="FiltrarOrdenes()">
+       <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+       <span class="ml-2 mr-1 ">Filtrar</span>
+   </button>
 
   </div>
 
@@ -74,31 +79,32 @@
                         <!-- Header -->
                         <div class="list-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort matSortDisableClear>
-                            <div >
-                                # Pedido
+                            <div class="col-span-4 " >
+                                Pedidos Abiertos
                             </div>
-                            <div class="hidden md:block">Cliente</div>
-                            <div class="hidden md:block">SAP</div>
-                            <div class="hidden md:block">Total</div>
-                            <div class="hidden md:block">
-                                Fecha
+                            <div class="">
+                                {{total | currency }}
                             </div>
-                            <div class="hidden lg:block">
-                                Vigencia
-                            </div>
-                            <div class="hidden md:block">
-                                Estado
-                            </div>
-                            <div class="hidden md:block">
+                            <div class="">
 
                             </div>
                         </div>
 
+                        <ng-container>
 
+
+                        </ng-container>
                         <ul class="list-group">
                             <li class="list-group-item"
                                 *ngFor="let order of sales">
-                                {{order.identification}}
+                               Identificación del Cliente: {{order.identification}} | Número de la orden: {{order.docNum}}|Valor de la Orden: {{order.docTotal | currency}}
+
+                                <div *ngFor="let details of order.detail" >
+                                    {{details.itemCode}}
+                                    {{details.description}}
+                                    {{details.amount}}
+
+                                </div>
                             </li>
                           </ul>
 

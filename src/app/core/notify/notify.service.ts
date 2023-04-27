@@ -157,6 +157,27 @@ export class NotifyService {
     }
 
 
+    errorDateAlert(msg: string, ) {
+        this._fuseConfirmationService.open({
+             title: '¡Seleccionar Fecha!',
+             message: msg || INTERNAL_ERROR,
+             icon: {
+                 show: true,
+                 name: 'heroicons_outline:check-circle',
+                 color: 'error'
+             },
+             actions: {
+                 cancel: {
+                     show: false
+                 },
+                 confirm: {
+                     label: 'OK'
+                 }
+             }
+         })
+     }
+
+
     successTestAlert(msg: string, title: string = '¡Ya Está!') {
         setTimeout(() => {
                 this._snackBar.openFromComponent(AlertyComponent, {

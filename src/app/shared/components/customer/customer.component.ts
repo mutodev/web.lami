@@ -16,6 +16,7 @@ import { AsyncCustomValidator } from 'app/shared/validators/async-validator';
 import { result } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 
 
 export enum EnumCustomerType {
@@ -52,18 +53,22 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   Neighborhood: Neighborhood [] = [];
   CITIESTEMP: Uhbt[] = [];
   CITIES: Uhbt[] = [];
+  Barrios: Uhbt[] = [];
   COUNTIESBILLING: Uhbt[] = [];
   CITIESBILLING: Uhbt[] = [];
   U_HBT_ActEco: Uhbt[] = [];
   // @ViewChild('U_HBT_MunMedSelect', { static: true }) U_HBT_MunMedSelectComponent: SearchMatSelectComponent;
   @ViewChildren('U_HBT_Group')
   public UHBTGroup: QueryList<SearchMatSelectComponent>
+  state: any;
+  city: any;
 
   // private U_HBT_MunMedSelectComponent: SearchMatSelectComponent;
   // private U_HBT_MedPagSelectComponent: SearchMatSelectComponent
 
 
   constructor(private _lamiService: LamiService,
+    private _httpService: HttpMethodService,
     public _httpClient: HttpClient,
     private _formBuilder: FormBuilder,
     private _eventService: EventService,
@@ -79,6 +84,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   }
 
   ngOnInit(): void {
+
+    this.state = null;
+    this.city = null;
+    this.Barrios = null;
 
     this._eventService.addEvent({ name: 'saveClient', event: this.save.bind(this) });
     this.validations();
@@ -117,22 +126,54 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this.formGroup.controls.County.valueChanges.subscribe((val) => {
       // this.formGroup.controls.City.setValue('');
       this.CITIES = this.CITIESTEMP.filter((a) => a.value == val);
+
+      this.Barrios = null;
+
+
       const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
       if (checkSameAddress) this.formGroup.controls.CountyBilling.setValue(val);
     });
 
     this.formGroup.controls.City.valueChanges.subscribe((val) => {
+
+
+
+     this.state = this.formGroup.controls.County.value;
+     this.city = this.formGroup.controls.City.value;
+this.Barrios = null;
+     console.log("Ciudad seleccionada",this.city);
+     console.log("Departamento seleccionado",this.state   );
+
+      if (this.state != null && this.city) {
+        console.log("Tenemos los datos");
+        this.getbarrios( this.state, this.city );
+      }
+
       const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
+
       if (checkSameAddress) this.formGroup.controls.CityBilling.setValue(val);
     });
 
     this.formGroup.controls.CountyBilling.valueChanges.subscribe((val) => {
       // this.formGroup.controls.CityBilling.setValue('');
+
       this.CITIESBILLING = this.CITIESTEMP.filter((a) => a.value == val);
     });
 
   }
 
+
+  async getbarrios( state: string, city : string ) {
+
+    const rest = await this._httpService.get<any>(`/neighborhood/find-by-city-and-state/${state}/${city}`);
+
+    this.Barrios = rest.data;
+    console.log('barrios', rest);
+    console.log('token', localStorage.getItem('accessToken'));
+
+
+
+  }
 
   getCusotmer() {
 
