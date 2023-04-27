@@ -97,10 +97,15 @@ this.total = this.total + this.sales[i]['docTotal'];
 
 this._notifyService.errorDateAlert("Error");
 
-} else {
+} else if (this.endDate < this.startDate) {
+
+this._notifyService.errorDateAlert("Validar Fechas");
+
+}else{
 
   this.getordersBydate(this.startDate ,this.endDate);
 }
+
 
 
 
