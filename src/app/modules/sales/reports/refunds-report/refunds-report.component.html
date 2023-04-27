@@ -90,7 +90,45 @@
                             </div>
                         </div>
 
-                        <div  class=" border-b">
+
+<!---New list-->
+<div style="font-size:99% !important;" class="list-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b ng-tns-c195-4 ng-star-inserted shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+*ngFor="let order of sales">
+
+
+
+<div> Doc: <span class="font-extrabold">{{order.docNum}}</span> Fec:<span class="font-extrabold"> {{order.docDate}}</span>
+<br>
+<span class="font-extrabold" style="
+background: #16194a;
+border-radius: 25px;
+color: #fff;
+padding: 1%;
+"> {{order.identification}}</span>
+<br>
+<span class="font-extrabold" style="color: #68a9ed;
+
+">{{order.name}}</span>
+</div>
+<div class="hidden sm:block md:hidden" >Subtotal<br>Impuesto<br>  <span class="font-extrabold" style="color: red;
+
+    "> TOTAL</span></div>
+<div>{{order.docEntry | currency}}<br>
+    {{order.vatSum  | currency  }}<br>
+    <span class="font-extrabold" style="color: red;
+
+    ">  {{order.docTotal | currency  }} </span></div>
+<div  *ngFor="let details of order.detail" class="col-span-4 list-grid grid items-center gap-4 py-3">
+
+    <div class="">{{details.itemCode}}</div>
+    <div> {{details.amount}}</div>
+</div>
+</div>
+
+
+<!---New list-->
+
+<div  class="hidden border-b">
                             <div class="list-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b ng-tns-c195-4 ng-star-inserted"
                             *ngFor="let order of sales">
                             <div class="hidden sm:hidden md:block" >  Identificación del Cliente: {{order.identification}} </div>
