@@ -202,7 +202,7 @@ this.Barrios = null;
       lastName2: ['', [Validators.required, Validators.nullValidator]],
       address: ['', Validators.required],
       address2: [''],
-      //neighborhoodId: [''],
+      neighborhoodId: [''],
       phone: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
       phone2: ['', [ Validators.pattern("^[0-9]+$")]],
       email: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")]],

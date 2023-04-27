@@ -10,7 +10,7 @@
           <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
       </div>
       <!-- Title -->
-      <div class="text-4xl font-extrabold tracking-tight">
+      <div class="text-3xl font-extrabold tracking-tight">
           Pedidos Abiertos
          <!--  <button [routerLink]="[ '/sales/purchase/new' ]" class="min-w-10 min-h-7 h-7 top-1 px-2 leading-6 md:hidden"
               mat-button>
@@ -19,7 +19,7 @@
           </button>-->
       </div>
       <!-- Actions -->
-      <div class="flex flex-shrink-0 items-center my-2 sm:mt-0 sm:ml-4">
+      <div class=" ">
           <!-- Search
           <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-80 fuse-mat-rounded">
               <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
@@ -38,7 +38,7 @@
           </button>-->
       </div>
 
-      <div class="flex flex-shrink-0 items-center my-2 sm:mt-0 sm:ml-4">
+
 
         <mat-form-field color="accent" appearance="fill">
             <mat-label>Fecha Inicial</mat-label>
@@ -57,7 +57,6 @@
           </mat-form-field>
 
 
-    </div>
     <button class="ml-4 " mat-flat-button [color]="'primary'"
     (click)="FiltrarOrdenes()">
        <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
@@ -70,7 +69,7 @@
     <div class="flex flex-auto overflow-hidden">
 
         <!-- dataSource list -->
-        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+        <div class="grid flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
             <ng-container *ngIf="sales && sales.length > 0">
 
                 <ng-container *ngIf="sales.length > 0; else nodataSource">
