@@ -90,23 +90,23 @@
                             </div>
                         </div>
 
-                        <ng-container>
+                        <div  class=" border-b">
+                            <div class="list-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b ng-tns-c195-4 ng-star-inserted"
+                            *ngFor="let order of sales">
+                            <div class="hidden sm:hidden md:block" >  Identificación del Cliente: {{order.identification}} </div>
+                            <div>Número de la orden: {{order.docNum}}</div>
+                            <div>Valor de la Orden: {{order.docTotal | currency}}</div>
+
+                            <div class="list hidden sm:hidden md:block" *ngFor="let details of order.detail" >
+                                <div>Code = {{details.itemCode}}</div>
+                                    <div> Detalle = {{details.description}}</div>
+                                        <div> Cantidad {{details.amount}}</div>
+
+                            </div>
 
 
-                        </ng-container>
-                        <ul class="list-group">
-                            <li class="list-group-item"
-                                *ngFor="let order of sales">
-                               Identificación del Cliente: {{order.identification}} | Número de la orden: {{order.docNum}}|Valor de la Orden: {{order.docTotal | currency}}
-
-                                <div *ngFor="let details of order.detail" >
-                                    {{details.itemCode}}
-                                    {{details.description}}
-                                    {{details.amount}}
-
-                                </div>
-                            </li>
-                          </ul>
+                        </div>
+                    </div>
 
 
                         <!-- Rows -->

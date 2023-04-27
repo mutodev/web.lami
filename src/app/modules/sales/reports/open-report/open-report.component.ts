@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
@@ -50,6 +51,7 @@ export class OpenReportComponent extends BaseForm implements OnInit {
   startDate: any;
   endDate: any;
   current_sales_id: string;
+  pipe: DatePipe;
 
   constructor(private _formBuilder: FormBuilder,
     private _httpService: HttpMethodService,private _notifyService: NotifyService) {
@@ -57,6 +59,7 @@ export class OpenReportComponent extends BaseForm implements OnInit {
   }
 
   async ngOnInit() {
+    this.pipe = new DatePipe('en-US');
     this.startDate  = null;
     this.endDate = null;
     this.total = 0;
@@ -96,7 +99,7 @@ this._notifyService.errorDateAlert("Error");
 
 } else {
 
-  this.getordersBydate(startDate, endDate);
+  this.getordersBydate(this.startDate ,this.endDate);
 }
 
 
@@ -104,12 +107,12 @@ this._notifyService.errorDateAlert("Error");
 
   }
   onInitDateChange(event: any): void {
-    this.startDate = event.value;
+    this.startDate = this.pipe.transform(event.value,'YYY-MM-dd');
     console.log('Initial date:', this.startDate);
   }
   onEndDateChange(event: any): void {
 
-    this.endDate = event.value;
+    this.endDate = this.pipe.transform(event.value,'YYY-MM-dd');
     console.log('End date:', this.endDate);
   }
 }

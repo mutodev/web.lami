@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
@@ -35,6 +36,7 @@ import { environment } from 'environments/environment';
   animations: fuseAnimations
 })
 export class RefundsReportComponent implements OnInit  {
+
   current_sales_personecode: string;
   sales: any[] = [];
   refounds: any[] = [];
@@ -42,6 +44,7 @@ export class RefundsReportComponent implements OnInit  {
  total = 0;
   startDate: any;
   endDate: any;
+  pipe: DatePipe;
 
   constructor(private _formBuilder: FormBuilder,
     private _httpService: HttpMethodService,private _notifyService: NotifyService) {
@@ -49,6 +52,7 @@ export class RefundsReportComponent implements OnInit  {
   }
 
   async ngOnInit() {
+    this.pipe = new DatePipe('en-US');
     this.startDate  = null;
   this.endDate = null;
     this.total = 0;
@@ -89,7 +93,7 @@ this.total = this.total + this.sales[i]['docTotal'];
 
     } else {
 
-      this.getdevolucionesBydate(startDate, endDate);
+      this.getdevolucionesBydate(this.startDate , this.endDate );
     }
 
 
@@ -101,12 +105,13 @@ this.total = this.total + this.sales[i]['docTotal'];
 
   }
   onInitDateChange(event: any): void {
-   this.startDate = event.value;
+
+   this.startDate = this.pipe.transform(event.value,'YYY-MM-dd');
     console.log('Initial date:', this.startDate);
 
   }
   onEndDateChange(event: any): void {
-    this.endDate = event.value;
+    this.endDate = this.pipe.transform(event.value,'YYY-MM-dd');
     console.log('End date:', this.endDate);
   }
 }
