@@ -109,7 +109,7 @@ padding: 1%;
 
 ">{{order.name}}</span>
                             </div>
-                            <div class="hidden sm:block md:hidden" >Subtotal<br>Impuesto<br>  <span class="font-extrabold" style="color: red;
+                            <div class=" sm:block hidden md:hidden" >Subtotal<br>Impuesto<br>  <span class="font-extrabold" style="color: red;
 
                                 "> TOTAL</span></div>
                             <div>{{order.docEntry | currency}}<br>
@@ -117,11 +117,16 @@ padding: 1%;
                                 <span class="font-extrabold" style="color: red;
 
                                 ">  {{order.docTotal | currency  }} </span></div>
-                            <div  *ngFor="let details of order.detail" class="col-span-4 list-grid grid items-center gap-4 py-3">
+                            <div  *ngFor="let details of order.detail" class="col-span-4 list-grid grid items-center gap-4 py-3" style="
+                            border-top: 1px red;
+                            border-top: 5px solid #ffffff;
+                            max-width: 90%;
+                        " >
 
                                 <div class="">{{details.itemCode}}</div>
                                 <div> {{details.amount}}</div>
                             </div>
+
                             </div>
 
 
