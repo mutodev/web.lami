@@ -132,6 +132,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
       const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
       if (checkSameAddress) this.formGroup.controls.CountyBilling.setValue(val);
+
     });
 
     this.formGroup.controls.City.valueChanges.subscribe((val) => {
@@ -152,6 +153,7 @@ this.Barrios = null;
       const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
 
       if (checkSameAddress) this.formGroup.controls.CityBilling.setValue(val);
+
     });
 
     this.formGroup.controls.CountyBilling.valueChanges.subscribe((val) => {
@@ -203,6 +205,7 @@ this.Barrios = null;
       address: ['', Validators.required],
       address2: [''],
       neighborhoodName: [''],
+      neighborhoodNameBiling: [''],
       phone: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
       phone2: ['', [ Validators.pattern("^[0-9]+$")]],
       email: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")]],
@@ -333,6 +336,11 @@ this.Barrios = null;
         this.formGroup.controls.CountyBilling.setValue(this.formGroup.controls.County.value);
         this.formGroup.controls.CityBilling.setValue(this.formGroup.controls.City.value);
         this.formGroup.controls.addressBilling.setValue(this.formGroup.controls.address.value);
+
+        this.formGroup.controls.neighborhoodNameBiling.setValue(this.formGroup.controls.neighborhoodName.value);
+
+
+
       } else {
         if (!this.id) {
           this.formGroup.controls.CountyBilling.setValue('');
