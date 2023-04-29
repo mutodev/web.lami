@@ -147,6 +147,11 @@ this.Barrios = null;
 
       if (this.state != null && this.city) {
         console.log("Tenemos los datos");
+
+
+        this.Barrios = null;
+        this.formGroup.controls.neighborhoodName.setValue("");
+
         this.getbarrios( this.state, this.city );
       }
 
