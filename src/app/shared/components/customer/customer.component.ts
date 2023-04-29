@@ -151,7 +151,6 @@ this.Barrios = null;
 
         this.Barrios = null;
         this.formGroup.controls.neighborhoodName.setValue("");
-
         this.getbarrios( this.state, this.city );
       }
 
