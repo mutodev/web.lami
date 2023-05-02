@@ -89,7 +89,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
 
   clientChange(customer: any) {
     this.client = {
-      identification: customer.identification,
+      identification: customer?.identification,
       phone: customer.phone,
       email: customer.email,
       project: customer.project//this.projects.find((a) => a.code == customer.project)?.name
