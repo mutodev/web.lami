@@ -50,7 +50,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   U_HBT_RegFis: Uhbt[] = [];
   U_HBT_ResFis: Uhbt[] = [];
   COUNTIES: Uhbt[] = [];
-  Neighborhood: Neighborhood [] = [];
+  Neighborhood: Neighborhood[] = [];
   CITIESTEMP: Uhbt[] = [];
   CITIES: Uhbt[] = [];
   Barrios: Uhbt[] = [];
@@ -101,7 +101,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     // this._lamiService.getU_HBT('U_HBT_ResFis').subscribe((result: Uhbt[]) => { this.U_HBT_ResFis = result });
     // this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMed = result });
     this._lamiService.getU_HBT('U_HBT_ActEco').subscribe((result: Uhbt[]) => { this.U_HBT_ActEco = result });
-    this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result});
+    this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result });
     this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
     this._lamiService.getU_HBT('IDENTIFICATION_TYPE').subscribe((result) => this.identificationTypes = result);
 
@@ -115,7 +115,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
 
 
-    this._lamiService.getU_HBT('County').subscribe((result) => {this.COUNTIES = result; this.COUNTIESBILLING = [...result];});
+    this._lamiService.getU_HBT('County').subscribe((result) => { this.COUNTIES = result; this.COUNTIESBILLING = [...result]; });
 
     this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
       // this.identificationTypes = identificationTypes;
@@ -140,11 +140,11 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
 
 
-     this.state = this.formGroup.controls.County.value;
-     this.city = this.formGroup.controls.City.value;
-this.Barrios = null;
-     console.log("Ciudad seleccionada",this.city);
-     console.log("Departamento seleccionado",this.state   );
+      this.state = this.formGroup.controls.County.value;
+      this.city = this.formGroup.controls.City.value;
+      this.Barrios = null;
+      console.log("Ciudad seleccionada", this.city);
+      console.log("Departamento seleccionado", this.state);
 
       if (this.state != null && this.city) {
         console.log("Tenemos los datos");
@@ -152,7 +152,7 @@ this.Barrios = null;
 
         this.Barrios = null;
         this.formGroup.controls.neighborhoodName.setValue("");
-        this.getbarrios( this.state, this.city );
+        this.getbarrios(this.state, this.city);
       }
 
       const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
@@ -170,7 +170,7 @@ this.Barrios = null;
   }
 
 
-  async getbarrios( state: string, city : string ) {
+  async getbarrios(state: string, city: string) {
 
     const rest = await this._httpService.get<any>(`/neighborhood/find-by-city-and-state/${state}/${city}`);
 
@@ -186,7 +186,7 @@ this.Barrios = null;
 
     this._lamiService.customer$.subscribe((customer) => {
       this.formGroup.patchValue(customer);
-      if(customer.source == 'C')
+      if (customer.source == 'C')
         this.formGroup.get('source').disable();
     })
   }
@@ -210,11 +210,11 @@ this.Barrios = null;
       address: ['', Validators.required],
       address2: [''],
       neighborhoodName: [''],
-      neighborhoodNameBiling: [''],
+      neighborhoodNameBilling: [''],
       phone: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
-      phone2: ['', [ Validators.pattern("^[0-9]+$")]],
+      phone2: ['', [Validators.pattern("^[0-9]+$")]],
       email: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")]],
-      project:  ['', Validators.required],
+      project: ['', Validators.required],
       // U_HBT_MunMed: ['', Validators.nullValidator],
       U_HBT_MedPag: ['1', Validators.nullValidator],
       U_HBT_RegTrib: ['NR', Validators.nullValidator],
@@ -224,17 +224,17 @@ this.Barrios = null;
       U_HBT_Nacional: ['1', Validators.nullValidator],
       U_HBT_RegFis: ['49', Validators.nullValidator],
       // U_HBT_ResFis: ['', Validators.nullValidator],
-      firstNameBilling:  [''],
-      lastNameBilling:  [''],
-      lastName2Billing:  [''],
+      firstNameBilling: [''],
+      lastNameBilling: [''],
+      lastName2Billing: [''],
       checkSameInfo: [false],
-      County:  ['', [Validators.nullValidator, Validators.required]],
-      City:  ['', [Validators.nullValidator, Validators.required]],
+      County: ['', [Validators.nullValidator, Validators.required]],
+      City: ['', [Validators.nullValidator, Validators.required]],
       CityBilling: [''],
       CountyBilling: [''],
       addressBilling: [''],
       checkSameAddress: [false],
-      U_HBT_ActEco:  ['']
+      U_HBT_ActEco: ['']
     });
 
 
@@ -300,19 +300,19 @@ this.Barrios = null;
     });
 
     this.formGroup.get('firstName').valueChanges.subscribe((value) => {
-     if (this.formGroup.get('checkSameInfo').value)
+      if (this.formGroup.get('checkSameInfo').value)
         this.formGroup.get('firstNameBilling').setValue(value);
     });
 
     this.formGroup.get('lastName').valueChanges.subscribe((value) => {
       if (this.formGroup.get('checkSameInfo').value)
-         this.formGroup.get('lastNameBilling').setValue(value);
-     });
+        this.formGroup.get('lastNameBilling').setValue(value);
+    });
 
-     this.formGroup.get('lastName2').valueChanges.subscribe((value) => {
+    this.formGroup.get('lastName2').valueChanges.subscribe((value) => {
       if (this.formGroup.get('checkSameInfo').value)
-         this.formGroup.get('lastName2Billing').setValue(value);
-     });
+        this.formGroup.get('lastName2Billing').setValue(value);
+    });
 
     this.formGroup.get('checkSameInfo').valueChanges.subscribe((value) => {
 
@@ -342,7 +342,7 @@ this.Barrios = null;
         this.formGroup.controls.CityBilling.setValue(this.formGroup.controls.City.value);
         this.formGroup.controls.addressBilling.setValue(this.formGroup.controls.address.value);
 
-        this.formGroup.controls.neighborhoodNameBiling.setValue(this.formGroup.controls.neighborhoodName.value);
+        this.formGroup.controls.neighborhoodNameBilling.setValue(this.formGroup.controls.neighborhoodName.value);
 
 
 
