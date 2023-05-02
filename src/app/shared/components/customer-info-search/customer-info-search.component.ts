@@ -71,6 +71,21 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
       width: '500px',
       data: {},
     });
+
+    dialogRef.afterClosed().subscribe((customer) => {
+      if (customer) {
+        this.clients.push(
+          {
+            identification: customer.identification,
+            phone: customer.phone,
+            email: customer.email,
+            project: customer.project
+          }
+        );
+        this.formGroup.controls.customerId.setValue(customer.id);
+      }     
+    });
+
   }
 
   clientChange(customer: any) {
