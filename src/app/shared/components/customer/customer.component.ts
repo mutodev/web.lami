@@ -103,6 +103,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('U_HBT_ActEco').subscribe((result: Uhbt[]) => { this.U_HBT_ActEco = result });
     this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result});
     this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
+    this._lamiService.getU_HBT('IDENTIFICATION_TYPE').subscribe((result) => this.identificationTypes = result);
 
     this._lamiService.getU_HBT('CITIES').subscribe((result) => {
       this.CITIESTEMP = result;
@@ -117,7 +118,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('County').subscribe((result) => {this.COUNTIES = result; this.COUNTIESBILLING = [...result];});
 
     this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
-      this.identificationTypes = identificationTypes;
+      // this.identificationTypes = identificationTypes;
 
       if (this.id)
         this.getCusotmer();
