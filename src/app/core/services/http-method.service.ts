@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { APIResponse } from 'app/shared/interfaces/response';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class HttpMethodService {
@@ -21,6 +22,13 @@ export class HttpMethodService {
 
   post<T>(url: string, data: any): Promise<APIResponse<T>>  {
     return this.http.post<APIResponse<T>>(this.baseUrl + url, data, {headers: this.header()}).toPromise();
+    // .toPromise().then((response) => {
+    //   return response;
+    // });
+  }
+
+  postObservable<T>(url: string, data: any): Observable<APIResponse<T>>  {
+    return this.http.post<APIResponse<T>>(this.baseUrl + url, data, {headers: this.header()});
     // .toPromise().then((response) => {
     //   return response;
     // });

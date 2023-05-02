@@ -408,7 +408,7 @@ this.Barrios = null;
   create(): Observable<any> {
     console.log('rawValue', this.formGroup.getRawValue())
     console.log('value', this.formGroup.value)
-    return this._httpClient.post<any>('/api/customer', this.formGroup.getRawValue()).pipe(
+    return this._httpService.postObservable<any>('/customer', this.formGroup.getRawValue()).pipe(
       map((res: any) => {
         if (res.status === 'success') {
           return { success: true, data: res.data }
