@@ -108,6 +108,8 @@ export class SelectMultiColumnsComponent implements OnInit, OnDestroy, ControlVa
     @Output() onFilter: EventEmitter<any> = new EventEmitter();
     @Output() selectedChange: EventEmitter<any> = new EventEmitter();
     @Output() onClickButton: EventEmitter<any> = new EventEmitter();
+    @Input() isDataOnline: boolean = false;
+    @Input() charterCountFilter: number = 3;
     dataFilterSelect: FormControl = new FormControl();
     touched = false;
     onChanged!: Function;
@@ -146,12 +148,17 @@ export class SelectMultiColumnsComponent implements OnInit, OnDestroy, ControlVa
 
         this.dataFilterSelect.valueChanges
             .subscribe((val) => {
-                this.onFilter.emit(val);
-                const filter = (a, s) => this.displayColumns.map((col) => {
-                    return a[col].toLowerCase();
-                }).join(' ').includes(s);
-                this.filterData(filter, this.dataSource, this.dataFilterSelect, this.filteredData);
+                if (this.isDataOnline) {
+                    if (val && val.length > this.charterCountFilter)
+                        this.onFilter.emit(val);
+                } else {
+                    const filter = (a, s) => this.displayColumns.map((col) => {
+                        return a[col].toLowerCase();
+                    }).join(' ').includes(s);
+                    this.filterData(filter, this.dataSource, this.dataFilterSelect, this.filteredData);
+                }
             });
+        
 
     }
 

@@ -22,7 +22,7 @@ export class CustomersResolver implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<APIResponse<Customer[]>> {
-        return this._lamiService.getCustomers({source: 'C'})
+        return this._lamiService.getCustomers({source: 'C', perPage: 20, page: 1})
     }
 }
 

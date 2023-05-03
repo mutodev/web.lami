@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 import { items } from 'app/mock-api/apps/file-manager/data';
 import { Customer } from 'app/modules/contact/customer/clients.types';
 import { Subject } from 'rxjs';
@@ -29,7 +30,10 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   projects: any[];
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _lamiService: LamiService, private _formBuilder: FormBuilder, public dialog: MatDialog) { }
+  constructor(private _lamiService: LamiService, 
+              private _httpMethodService: HttpMethodService, 
+              private _formBuilder: FormBuilder, 
+              public dialog: MatDialog) { }
   
   
   ngAfterViewInit(): void {
@@ -67,35 +71,64 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
       width: '500px',
       data: {},
     });
+
+    dialogRef.afterClosed().subscribe((customer) => {
+      if (customer) {
+        let displayName;
+        if (customer.identificationType.code == '31' || customer.identificationType.code == '50')
+          displayName = customer.name;
+        else {
+          displayName =  `${customer?.firstName} ${customer?.lastName} ${customer?.lastName2}`;
+        }
+        this.clients = [{...customer, displayName}, ...this.clients]
+        this.formGroup.controls.customerId.setValue(customer.id);
+      }     
+    });
+
   }
 
-  clientChange(customer: Customer) {
+  clientChange(customer: any) {
     this.client = {
-      identification: customer.identification,
+      identification: customer?.identification,
       phone: customer.phone,
       email: customer.email,
-      project: this.projects.find((a) => a.code == customer.project)?.name
+      project: customer.project//this.projects.find((a) => a.code == customer.project)?.name
     }
   }
 
-  getClients() {
-    this._lamiService.customers$
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((clients: any[]) => {
-        this.clients = clients.map((item) => {
-          let displayName;
-          if (item.identificationType.code == '31' || item.identificationType.code == '50')
-              displayName = item.name;
-          else 
-            displayName =  `${item?.firstName} ${item?.lastName} ${item?.lastName2}`;
+  async getClients(dato = '') {
+    const result  = await this._httpMethodService.get<any>(`/customer?page=1&perPage=20&search=${dato}`);
+    this.clients = result.data.data.map((item) => {
+            let displayName;
+            if (item.identificationType.code == '31' || item.identificationType.code == '50')
+                displayName = item.name;
+            else 
+              displayName =  `${item?.firstName} ${item?.lastName} ${item?.lastName2}`;
+  
+            return {
+              ...item,
+              displayName:  displayName
+            }
+  
+          });
+    
+    // this._lamiService.customers$
+    //   .pipe(takeUntil(this._unsubscribeAll))
+    //   .subscribe((clients: any[]) => {
+    //     this.clients = clients.map((item) => {
+    //       let displayName;
+    //       if (item.identificationType.code == '31' || item.identificationType.code == '50')
+    //           displayName = item.name;
+    //       else 
+    //         displayName =  `${item?.firstName} ${item?.lastName} ${item?.lastName2}`;
 
-          return {
-            ...item,
-            displayName:  displayName
-          }
+    //       return {
+    //         ...item,
+    //         displayName:  displayName
+    //       }
 
-        });
-      });
+    //     });
+    //   });
   }
 
   get customer() {
