@@ -41,6 +41,14 @@ export const compactNavigation: FuseNavigationItem[] = [{
                         link: 'sales/purchase/new'
                     },
                 },
+                {
+                    id: 'pqrs',
+                    title: 'PQR',
+                    type: 'basic',
+                    link: 'sales/pqr/all',
+                },
+
+
                 // {
                 /*     id   : 'plan-separe',
                      title: 'Cotizaciones',

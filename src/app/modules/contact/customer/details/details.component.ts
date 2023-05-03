@@ -42,7 +42,32 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
   save() {
 
+
+
+
     let data: Customer = this.customrComponent.formGroup.getRawValue();
+    console.log("Salvando", this.formGroup.controls.email.hasError);
+
+/**
+ * Identificación :
+ * Nombre :
+ * Apellido :
+ * Segundo apellido :
+ * Grupo :
+ * Teléfono :
+ * Correo :email
+ * Vendedor :salesPersonCode
+ * Condiciones de pago :
+ * Dirección :
+ * Departamento : County
+ * Seleccionar la ciudad
+ * Ciudad:City
+ *
+ * Barrio :
+ * Por que medio te enteraste de nosotros
+ */
+
+
 
     if (this.customrComponent.formGroup.valid) {
       this.customrComponent.formGroup.disable();

@@ -84,6 +84,7 @@ export const appRoutes: Route[] = [
                 children: [
                     { path: 'purchase', loadChildren: () => import('app/modules/sales/purchase/purchase.module').then(m => m.PurchaseModule) },
                     { path: 'reports', loadChildren: () => import('app/modules/sales/reports/reports.module').then(m => m.ReportsModule) },
+                    { path: 'pqr', loadChildren: () => import('app/modules/sales/pqr/pqr.module').then(m => m.PqrModule) },
                 ]
             },
 

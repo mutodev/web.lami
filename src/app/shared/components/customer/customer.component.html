@@ -29,14 +29,16 @@
                 class="flex-auto gt-xs:pl-3 fuse-mat-dense fuse-mat-emphasized-affix">
                 <mat-label>{{ formGroup.controls?.identificationTypeId?.value == '743bf703-501e-11ed-b8b2-93cfa5187c2a'
                     ? 'Nít' : 'Identificación'}}</mat-label>
-                <input maxlength="250" formControlName="identification" required matInput>
+                <input maxlength="250" formControlName="identification" required [errorStateMatcher]="matcher"  matInput>
                 <span mat-icon-button matSuffix>
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
                 </span>
                 <mat-error
                     *ngIf="formGroup.get('identification').hasError('required')  && formGroup.get('identification').touched">
+
                     Campo
-                    requerido</mat-error>
+                    requerido
+                </mat-error>
                 <mat-error
                     *ngIf="!isNIT && formGroup.get('identification').hasError('pattern')  && formGroup.get('identification').touched">
                     Solo números permitidos

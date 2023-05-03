@@ -12,7 +12,7 @@ import { CIViewerDocumentComponent } from './viewer-document.component';
     ],
     providers: [],
     exports: [
-        CIViewerDocumentComponent
+        CIViewerDocumentComponent,
     ]
 })
 export class CIViewerDocumentModule { }

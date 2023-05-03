@@ -94,14 +94,20 @@
                         <div class="col-span-2 text-base font-medium">
                             <div class="font-semibold">{{item?.itemCode }}</div>
                             <div class="text-secondary">  {{item?.description}}
-                                <div class="md:hidden sm:block text-secondary">
-                                    Desc% = {{item?.discount}}</div>
+                                <div class="hidden ">
+                                    Desc% = {{item?.discount  | currency }}</div>
                                 <div class="md:hidden sm:block text-secondary"> Cant = {{item?.amount}}</div>
                                 <div class="md:hidden sm:block text-secondary">Proy = {{ item?.projectObj?.name }}</div>
-                                <div class="md:hidden sm:block text-secondary">Imp = {{item?.taxObj?.name }}</div>
+                                <div class="md:hidden sm:block text-secondary">Imp = {{item?.vat  | currency
+                                }}</div>
 
-                                <div class="md:hidden sm:block text-secondary">Precio = {{item?.value | currency}}</div>
-                                <div class="md:hidden sm:block text-secondary">Total = {{(item?.value * item.amount) | currency}}</div>
+                                <div class="md:hidden sm:block text-secondary">Precio = {{ item?.value  | currency  }}</div>
+
+                                <div *ngIf="item.discount>0" class="md:hidden sm:block text-secondary">Des = {{item?.discount
+                                    | currency}}</div>
+
+
+                                <div class="md:hidden sm:block text-secondary">Total ={{ (item?.value + item?.vat)  * item?.amount | currency  }}</div>
                             </div>
                         </div>
                         <div class="col-span-1 text-center hidden md:block">{{item?.discount}}</div>

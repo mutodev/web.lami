@@ -1,0 +1,41 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div
+        class="elative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b bg-card">
+        <!-- Loader -->
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">{{actionName}} PQR</div>
+        <!-- Actions -->
+        <div class="flex sm:flex-row shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Add product button -->
+            <button class="" mat-flat-button [color]="'accent'" [routerLink]="[ '/settings/usuario/all']"
+                (click)="save()">
+                <span class="ml-2 mr-1">Cancelar</span>
+            </button>
+            <!-- Add product button -->
+            <button *ngIf="!id" class="ml-4" type="button" mat-flat-button [color]="'primary'" (click)="save()">
+                <span class="ml-2 mr-1">Guardar</span>
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10  max-w-3xl overflow-hidden">
+
+        <!-- Form -->
+
+
+
+        <form [formGroup]="storeForm">
+
+        </form>
+
+
+    </div>
+
+</div>
