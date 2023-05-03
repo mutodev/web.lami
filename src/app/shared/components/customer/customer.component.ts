@@ -55,6 +55,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   CITIESTEMP: Uhbt[] = [];
   CITIES: Uhbt[] = [];
   Barrios: Uhbt[] = [];
+  neighborhoodName = '';
   COUNTIESBILLING: Uhbt[] = [];
   CITIESBILLING: Uhbt[] = [];
   U_HBT_ActEco: Uhbt[] = [];
@@ -107,7 +108,11 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('U_HBT_ActEco').subscribe((result: Uhbt[]) => { this.U_HBT_ActEco = result });
     this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result });
     this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
-    this._lamiService.getU_HBT('IDENTIFICATION_TYPE').subscribe((result) => this.identificationTypes = result);
+    this._lamiService.getU_HBT('IDENTIFICATION_TYPE').subscribe((result) => {
+      this.identificationTypes = result;
+      if (this.id)
+        this.getCusotmer();
+    });
 
     this._lamiService.getU_HBT('CITIES').subscribe((result) => {
       this.CITIESTEMP = result;
@@ -121,18 +126,18 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     this._lamiService.getU_HBT('County').subscribe((result) => { this.COUNTIES = result; this.COUNTIESBILLING = [...result]; });
 
-    this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
-      // this.identificationTypes = identificationTypes;
+    // this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
+    //   // this.identificationTypes = identificationTypes;
 
-      if (this.id)
-        this.getCusotmer();
-    });
+    //   // if (this.id)
+    //   //   this.getCusotmer();
+    // });
 
     this.formGroup.controls.County.valueChanges.subscribe((val) => {
       // this.formGroup.controls.City.setValue('');
       this.CITIES = this.CITIESTEMP.filter((a) => a.value == val);
 
-      this.Barrios = null;
+      // this.Barrios = null;
 
 
       const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
@@ -142,22 +147,21 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     this.formGroup.controls.City.valueChanges.subscribe((val) => {
 
-
-
       this.state = this.formGroup.controls.County.value;
       this.city = this.formGroup.controls.City.value;
-      this.Barrios = null;
+      // this.Barrios = null;
       console.log("Ciudad seleccionada", this.city);
       console.log("Departamento seleccionado", this.state);
 
-      if (this.state != null && this.city) {
-        console.log("Tenemos los datos");
-
-
-        this.Barrios = null;
-        this.formGroup.controls.neighborhoodName.setValue("");
-        this.getbarrios(this.state, this.city);
+      if (val) {
+        this.getbarrios(val);
       }
+
+      // if (this.state && this.city) {
+      //   // this.Barrios = null;
+      //   this.formGroup.controls.neighborhoodName.setValue("");
+      //   this.getbarrios(this.state, this.city);
+      // }
 
       const checkSameAddress = this.formGroup.controls.checkSameAddress.value;
 
@@ -174,22 +178,27 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   }
 
 
-  async getbarrios(state: string, city: string) {
+  async getbarrios(city: string) {
 
-    const rest = await this._httpService.get<any>(`/neighborhood/find-by-city-and-state/${state}/${city}`);
+    if (this.formGroup.controls.County.value) {
+        const rest = await this._httpService.get<any>(`/neighborhood/find-by-city-and-state/${this.formGroup.controls.County.value}/${city}`);
 
-    this.Barrios = rest.data;
-    console.log('barrios', rest);
-    console.log('token', localStorage.getItem('accessToken'));
+        this.Barrios = rest.data;
+        this.formGroup.controls.neighborhoodName.setValue(this.neighborhoodName);
+        // this.neighborhoodName = '';
+        console.log('barrios', rest);
+        console.log('token', localStorage.getItem('accessToken'));
 
-
+    }
 
   }
 
   getCusotmer() {
 
     this._lamiService.customer$.subscribe((customer) => {
+      this.neighborhoodName = customer.neighborhoodName || ''
       this.formGroup.patchValue(customer);
+      
       if (customer.source == 'C')
         this.formGroup.get('source').disable();
     })
@@ -200,7 +209,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     const user = JSON.parse(localStorage.getItem('user'));
     let selesPersonCode = '';
-    if (user.sellerTypeId !== '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
+    if (!this.id && user.sellerTypeId !== '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
       selesPersonCode = user.salesPersonCode;
     }
     this.formGroup = this._formBuilder.group({
@@ -245,7 +254,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     this.formGroup.get('identificationTypeId').valueChanges.subscribe((id) => {
 
-      const identificationType = this.identificationTypes.find((item: any) => item.id == id);
+      const identificationType = this.identificationTypes?.find((item: any) => item.id == id);
       this.isNIT = identificationType.code == "31" || identificationType.code == "50";
 
       if (this.isNIT) {
@@ -396,9 +405,9 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
   getList(): void {
 
-    this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
-      this.identificationTypes = identificationTypes;
-    })
+    // this._lamiService.identificationTypes$.subscribe((identificationTypes: IdentificationType[]) => {
+    //   this.identificationTypes = identificationTypes;
+    // })
 
   }
 

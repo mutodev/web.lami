@@ -128,7 +128,7 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
         }
         this.formControlSelect.valueChanges.subscribe((val) => {
             if (val) {
-                this.selectedItem = this.dataSource.find((a) =>  this.selectedValue ? a[this.selectedValue] === val : a === val || val.includes(this.selectedValue ? a[this.selectedValue] : a));
+                this.selectedItem = this.dataSource?.find((a) =>  this.selectedValue ? a[this.selectedValue] === val : a === val || val.includes(this.selectedValue ? a[this.selectedValue] : a));
                 let selected;
                 if (this.selectedItem) {
                     if (!this.selectedText) {
@@ -273,6 +273,8 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
             }
             if (this.onChanged)
                 this.onChanged(this.formControlSelect.value);
+        } else {
+            this.filteredData.next([].slice());
         }
     }
 
