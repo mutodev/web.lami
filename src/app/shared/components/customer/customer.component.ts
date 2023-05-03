@@ -17,6 +17,7 @@ import { result } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpMethodService } from 'app/core/services/http-method.service';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 
 export enum EnumCustomerType {
@@ -63,6 +64,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   state: any;
   city: any;
 
+  matcher = new ErrorStateMatcher();
   // private U_HBT_MunMedSelectComponent: SearchMatSelectComponent;
   // private U_HBT_MedPagSelectComponent: SearchMatSelectComponent
 
@@ -83,7 +85,9 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
   }
 
+
   ngOnInit(): void {
+
 
     this.state = null;
     this.city = null;
@@ -192,6 +196,7 @@ this.Barrios = null;
 
   validations() {
 
+
     const user = JSON.parse(localStorage.getItem('user'));
     let selesPersonCode = '';
     if (user.sellerTypeId !== '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
@@ -245,6 +250,7 @@ this.Barrios = null;
       if (this.isNIT) {
         this.formGroup.get('identification').setValidators([Validators.required, Validators.pattern("^[0-9]+-[0-9]{1}$|^CL-[0-9]+-[0-9]{1}$")]);
         this.formGroup.get('name').setValidators([Validators.required]);
+
         this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaJuridica);
         this.formGroup.get('checkSameInfo').reset();
         this.formGroup.get('firstName').clearValidators();
@@ -396,6 +402,8 @@ this.Barrios = null;
   }
 
   save(): Observable<any> {
+
+
     if (this.formGroup.valid) {
       return this.create();
     } else {
@@ -406,6 +414,8 @@ this.Barrios = null;
   }
 
   create(): Observable<any> {
+
+
     console.log('rawValue', this.formGroup.getRawValue())
     console.log('value', this.formGroup.value)
     return this._httpClient.post<any>('/api/customer', this.formGroup.getRawValue()).pipe(
