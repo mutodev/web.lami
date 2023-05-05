@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SearchProductDialogComponent } from '../search-product-dialog/search-product-dialog.component';
 import * as _moment from 'moment';
 import { ProductStockDialogComponent } from '../product-stock-dialog/product-stock-dialog.component';
-
+import { HttpMethodService } from 'app/core/services/http-method.service';
 const TAXES: any[] = [
   {
     'id': '2',
@@ -79,7 +79,7 @@ export class ItemsComponent implements OnInit {
 
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService: LamiService,
+  constructor(private _httpService: HttpMethodService,private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService: LamiService,
     private route: ActivatedRoute, public dialog: MatDialog,
     private _event: EventService) {
 
@@ -125,13 +125,24 @@ export class ItemsComponent implements OnInit {
 
       if (this.typer_of_seller == '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
         this._lamiService.getPrices();
-        this.brilla_price = parseFloat( "0."+this._lamiService._prices.value[2].value);
-        this.brilla_prices = this._lamiService._prices.value;
+        this.brilla_price = parseFloat("0." + this._lamiService._prices.value[2].value);
+
+        this.getbrilla_prices();
+        //this.brilla_prices = this._lamiService._prices.value;
 
         console.log('Vendedor Brilla Precio Especial', this.brilla_price );
       }
   }
+  async getbrilla_prices() {
 
+    const prices = await this._httpService.get<any>(`/prices`);
+    this.brilla_prices = prices.data;
+        console.log("Precios",  this.brilla_prices);
+
+
+    this.brilla_prices
+
+  }
   addItemRow(item: any = {}): UntypedFormGroup {
 
     const tax = item.arTaxCode;

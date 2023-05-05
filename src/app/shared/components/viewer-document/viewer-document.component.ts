@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LamiService } from 'app/core/api/lami.service';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 import { Store } from 'app/modules/settings/store/store.types';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -12,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CIViewerDocumentComponent implements OnInit {
   [x: string]: any;
-  stores$: Observable<Store[]>;
+  stores$ : any;
   brilla_price = 0;
   quotation: any;
   store: any;
@@ -25,29 +26,35 @@ export class CIViewerDocumentComponent implements OnInit {
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
 
-  constructor(public _lamiService: LamiService) { }
+  constructor(private _httpService: HttpMethodService,
+    public _lamiService: LamiService) { }
 
   ngOnInit(): void {
 
     this.getDataSource();
 
-    this.getStore(this.sales_person);
+    this.getstores(this.sales_person);
     this.brilla_price = 0.40;
 
 
   }
 
   getStore(city_name) {
-    console.log(city_name,"Ciudad recibida");
+    console.log(city_name, "Ciudad recibida");
+
+
+    const result = this.stores$.find(x => x.city  === city_name);
+
+    console.log( result,"Tienda Comparada");
+
+    this.setSummary();
+
+/*
     this._lamiService.getStores();
 
     this._lamiService.stores$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((data: any) => {
-
-
-
-
 
         const result = data.find(({ city }) => city === city_name);
         this.store= result;
@@ -57,9 +64,7 @@ export class CIViewerDocumentComponent implements OnInit {
         this.setSummary();
       });
 
-
-
-
+    */
 
 
   }
@@ -124,7 +129,14 @@ export class CIViewerDocumentComponent implements OnInit {
     this.groupTaxes = result;
   }
 
+  async  getstores(city_name) {
+    const stores = await this._httpService.get<any>(`/store`);
 
+    this.stores$ = stores.data;
+    this.store = this.stores$.find(x => x.city === city_name);
+        console.log("Tiendas", this.stores$);
+        console.log("Selected", this.store);
+  }
 
 
 }
