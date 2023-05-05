@@ -1,20 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
+import { BaseForm } from 'app/core/bases/base-form';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent extends BaseForm implements OnInit {
 
-  storeForm: FormGroup;
+
+
+ formGroup  = new FormGroup({
+    code: new FormControl(''),
+    name: new FormControl(''),
+    value: new FormControl('')
+  });
+
   id:string;
   actionName: string;
   isLoading: boolean = false;
-  constructor( private _formBuilder: FormBuilder,
+    disabledForm: boolean = false;
+  constructor(private _formBuilder: FormBuilder,
+    private _httpService: HttpMethodService,
     private route: ActivatedRoute,) {
+    super();
     this.id = this.route.snapshot.params['id'];
     this.actionName = this.id ? 'Editar' : 'Nuevo';
 
@@ -23,7 +34,58 @@ export class DetailComponent implements OnInit {
   }
   ngOnInit(): void {
 
+
+
+    if (this.id) {
+      this.getPrice();
+    }
+
+
+
   }
 
-  save(){}
+  validations() {
+
+
+
+  }
+
+
+
+  save() {
+
+    console.log("object", this.formGroup);
+    this.create();
+
+  }
+
+
+  async create() {
+
+    if (this.id) {
+      const rest = await this._httpService.patch<any>('/prices/'+this.id, this.formGroup.getRawValue());
+      console.log("Respuesta", rest);
+
+    } else {
+      const rest = await this._httpService.post<any>('/prices', this.formGroup.getRawValue());
+      console.log("Respuesta", rest);
+
+    }
+
+
+  }
+
+  async getPrice() {
+
+
+    const rest = await this._httpService.get<any>('/prices/'+this.id);
+     console.log("Respuesta", rest);
+
+     this.formGroup.controls.code.setValue(rest.data['code']);
+     this.formGroup.controls.name.setValue(rest.data['name']);
+     this.formGroup.controls.value.setValue(rest.data['value']);
+
+   }
+
+
 }

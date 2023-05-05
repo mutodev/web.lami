@@ -1,41 +1,172 @@
-<div class="flex flex-col flex-auto min-w-0">
+<div [@fadeInRight] class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
 
     <!-- Header -->
     <div
-        class="elative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b bg-card">
-        <!-- Loader -->
-        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
-            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-3 pb-5 pt-3 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div class="flex-1 min-w-0">
+        <!-- Breadcrumbs -->
+        <div>
+            <div class="hidden sm:flex flex-wrap items-center font-medium">
+                <div>
+                    <a  [routerLink]="'/sales/pqr/all'" class="whitespace-nowrap text-primary-500">PQR'S</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">Nuevo PQR</span>
+
+                </div>
+            </div>
+            <div class="flex sm:hidden">
+                <a class="inline-flex items-center -ml-1.5 text-secondary font-medium"  [routerLink]="'/sales/pqr/all'">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'">
+                    </mat-icon>
+                    <span class="ml-1">Back</span>
+                </a>
+            </div>
         </div>
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">{{actionName}} PQR</div>
-        <!-- Actions -->
-        <div class="flex sm:flex-row shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <!-- Add product button -->
-            <button class="" mat-flat-button [color]="'accent'" [routerLink]="[ '/settings/usuario/all']"
-                (click)="save()">
-                <span class="ml-2 mr-1">Cancelar</span>
+        <div class="mt-2">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+               Nueva PQR
+                <button  (click)="save()"
+                class="min-w-10 min-h-7 h-7 px-2 top-1 leading-6 hidden" mat-button>
+                <mat-icon class="icon-size-7" [svgIcon]="'mat_outline:add_circle_outline'">
+                </mat-icon>
             </button>
-            <!-- Add product button -->
-            <button *ngIf="!id" class="ml-4" type="button" mat-flat-button [color]="'primary'" (click)="save()">
-                <span class="ml-2 mr-1">Guardar</span>
-            </button>
-
+            </h2>
         </div>
     </div>
 
-    <!-- Main -->
-    <div class="flex-auto p-6 sm:p-10  max-w-3xl overflow-hidden">
+</div>
 
-        <!-- Form -->
+  <div class="inset-0 min-w-0 text-center  " cdkScrollable>
+      <!-- Main -->
+      <div class="flex inline-block p-6   md:p-10 text-left print:p-0">
+
+          <!-- Invoice -->
+
+          <div [formGroup]="formGroup" class="w-full md:pt-3 pb-10  md:px-10 rounded-2xl md:shadow md:bg-card ">
+
+
+              <div class="flex flex-wrap md:flex-nowrap   gap-x-8 flex-row justify-between ">
+
+                  <!-- PQR-->
+                  <div class="md:basis-3/6 w-full flex-start">
+                      <div class="flex items-center justify-center my-5">
+                            <div class="flex-auto border-b"></div>
+                            <div class="flex-0 text-lg font-medium leading-5 text-secondary">
+                              Información de la PQR
+                             </div>
+
+                          <div class="flex-auto border-b">
+                            ..
+                        </div>
 
 
 
-        <form [formGroup]="storeForm">
 
-        </form>
+                          </div>
 
 
+
+
+
+ <!-- type-->
+ <div class="sm:col-span-5">
+    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+        <mat-label>Tipo</mat-label>
+        <input [formControlName]="'type'" matInput>
+    </mat-form-field>
+</div>
+  <!-- identificationTypeId-->
+  <div class="sm:col-span-5">
+    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+        <mat-label>Tipo de Identificación</mat-label>
+        <input [formControlName]="'identificationTypeId'" matInput>
+    </mat-form-field>
+</div>
+
+    <!--customerId-->
+    <div class="sm:col-span-5">
+        <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+            <mat-label>Identificación</mat-label>
+            <input [formControlName]="'customerId'" matInput>
+        </mat-form-field>
     </div>
+
+
+ <!-- title-->
+ <div class="sm:col-span-5">
+    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+        <mat-label>Titulo</mat-label>
+        <input [formControlName]="'customerId'" matInput>
+    </mat-form-field>
+</div>
+
+<!-- title-->
+ <div class="sm:col-span-5">
+    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+        <mat-label>Nombre</mat-label>
+        <input [formControlName]="'name'" matInput>
+    </mat-form-field>
+</div>
+<!--descripction-->
+<div class="sm:col-span-5">
+    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+        <mat-label>Descripción</mat-label>
+        <input [formControlName]="'descripction'" matInput>
+    </mat-form-field>
+</div>
+   <!--celular-->
+   <div class="sm:col-span-5">
+    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+        <mat-label>Celular</mat-label>
+        <input [formControlName]="'celular'" matInput>
+    </mat-form-field>
+</div>
+  <!--email-->
+  <div class="sm:col-span-5">
+    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+        <mat-label>email</mat-label>
+        <input [formControlName]="'email'" matInput>
+    </mat-form-field>
+</div>
+
+
+     <!--OrderDetailPqrs-->
+     <div class="sm:col-span-5">
+        <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
+            <mat-label>Articulo</mat-label>
+            <input [formControlName]="'OrderDetailPqrs'" matInput>
+        </mat-form-field>
+    </div>
+
+</div>
+              </div>
+
+              <!--ITEM TABLE-->
+              <div class="mt-12 ">
+
+
+                  <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/sales/purchase/all' ]"
+                  mat-stroked-button>
+                  <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                  Cancelar
+              </button>
+              <button type="button" [disabled]="disabledForm" (click)="save()" [color]="'primary'" mat-flat-button>
+                  <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                  <span>
+                      Guardar
+                  </span>
+              </button>
+              </div>
+
+          </div>
+
+      </div>
+
+  </div>
 
 </div>

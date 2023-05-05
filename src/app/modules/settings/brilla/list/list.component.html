@@ -30,8 +30,8 @@
 
         <!-- Products list -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
-            <ng-container *ngIf="(prices$ | async) as prices">
-                <ng-container *ngIf="prices.length > 0; else noProducts">
+            <ng-container *ngIf="0 == 0">
+                <ng-container *ngIf="prices$.length > 0; else noProducts">
                     <div class="grid">
                         <!-- Header -->
                         <div
@@ -46,8 +46,8 @@
 
                         </div>
                         <!-- Rows -->
-                        <ng-container *ngIf="(prices$ | async) as prices">
-                            <ng-container *ngFor="let price of prices; trackBy: trackByFn">
+
+                            <ng-container *ngFor="let price of prices$">
                                 <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
 
@@ -69,7 +69,7 @@
 
                                     <!-- Details button -->
                                   <div class=" flex text-right">
-                                        <button [routerLink]="'/settings/brilla/'+price._id"
+                                        <button [routerLink]="'/settings/brilla/'+price.id"
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
                                             </mat-icon>
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
 
-                            </ng-container>
+
                         </ng-container>
                     </div>
 

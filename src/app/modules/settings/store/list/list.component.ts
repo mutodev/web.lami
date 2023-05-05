@@ -4,7 +4,7 @@ import { LamiService } from 'app/core/api/lami.service';
 import { Observable } from 'rxjs';
 import { User } from '../../user/user.types';
 import { Store } from '../store.types';
-
+import { HttpMethodService } from 'app/core/services/http-method.service';
 
 @Component({
   selector: 'app-list',
@@ -30,26 +30,33 @@ import { Store } from '../store.types';
 export class StoreListComponent implements OnInit {
 
   searchInputControl: FormControl = new FormControl();
-    stores$: Observable<Store[]>;
+  stores$: any;
 
   isLoading: boolean = false;
 
-    constructor(public _lamiService: LamiService) {
-      
+    constructor( private _httpService: HttpMethodService,public _lamiService: LamiService) {
 
-        
+
+
    }
 
   ngOnInit(): void {
-      this.stores$ = this._lamiService.stores$;
-
+     // this.stores$ = this._lamiService.stores$;
+    this.getstores();
 
   }
 
   createStore():void{
 
-    }
-    
+  }
+
+  async  getstores() {
+    const stores = await this._httpService.get<any>(`/store`);
+        this.stores$ = stores.data;
+        console.log("Precios", this.stores$);
+
+  }
+
 
 
 }

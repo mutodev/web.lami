@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../user/user.types';
 import { BPrice } from '../brilla.types';
 import { Price } from 'app/shared/interfaces/Price.types';
-
+import { HttpMethodService } from 'app/core/services/http-method.service';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -30,21 +30,27 @@ import { Price } from 'app/shared/interfaces/Price.types';
 export class ListComponent implements OnInit {
   searchInputControl: FormControl = new FormControl();
   stores$: Observable<BPrice[]>;
-  prices$: Observable<Price[]>;
+  prices$ : any;
   isLoading: boolean = false;
 
-  constructor(public _lamiService: LamiService) { }
+  constructor(  private _httpService: HttpMethodService, public _lamiService: LamiService, ) { }
 
   ngOnInit(): void {
-      this.stores$ = this._lamiService.stores$;
-      this._lamiService.getPrices();
-      this.prices$ = this._lamiService.prices$;
 
-      console.log("Brilla_prices", this.prices$);
+      this.getprices();
+
   }
 
   createPrices():void{
 
   }
+
+    async getprices() {
+
+        const prices = await this._httpService.get<any>(`/prices`);
+        this.prices$ = prices.data;
+        console.log("Precios", this.prices$);
+
+    }
 
 }

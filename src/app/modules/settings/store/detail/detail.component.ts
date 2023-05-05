@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
+import { HttpMethodService } from 'app/core/services/http-method.service';
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -9,11 +9,20 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class StoreDetailComponent implements OnInit {
 
-  storeForm: FormGroup;
+  formGroup  = new FormGroup({
+    code: new FormControl(''),
+    name: new FormControl(''),
+    address: new FormControl(''),
+    phoneNumber: new FormControl(''),
+    email: new FormControl(''),
+    city: new FormControl(''),
+  });
+
   id:string;
   actionName: string;
   isLoading: boolean = false;
-  constructor( private _formBuilder: FormBuilder,
+  disabledForm: boolean = false;
+  constructor(  private _httpService: HttpMethodService, private _formBuilder: FormBuilder,
     private route: ActivatedRoute,) {
     this.id = this.route.snapshot.params['id'];
     this.actionName = this.id ? 'Editar' : 'Nueva';
@@ -23,8 +32,50 @@ export class StoreDetailComponent implements OnInit {
   }
   ngOnInit(): void {
 
+    if (this.id) {
+      this.getStore();
+    }
+
   }
 
-  save(){}
+  save() {
+
+    console.log("object", this.formGroup);
+    this.create();
+
+  }
+
+
+  async create() {
+
+    if (this.id) {
+      console.log("Sent",this.formGroup.getRawValue());
+      const rest = await this._httpService.patch<any>('/store/'+this.id, this.formGroup.getRawValue());
+      console.log("Respuesta", rest);
+
+    } else {
+      const rest = await this._httpService.post<any>('/store', this.formGroup.getRawValue());
+      console.log("Respuesta", rest);
+
+    }
+
+
+   }
+
+   async getStore() {
+
+
+    const rest = await this._httpService.get<any>('/store/'+this.id);
+     console.log("Respuesta", rest);
+
+     this.formGroup.controls.code.setValue(rest.data['code']);
+     this.formGroup.controls.name.setValue(rest.data['name']);
+     this.formGroup.controls.phoneNumber.setValue(rest.data['phoneNumber']);
+     this.formGroup.controls.email.setValue(rest.data['email']);
+     this.formGroup.controls.city.setValue(rest.data['city']);
+     this.formGroup.controls.address.setValue(rest.data['address']);
+
+   }
+
 
 }
