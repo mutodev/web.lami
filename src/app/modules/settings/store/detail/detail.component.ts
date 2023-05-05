@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NotifyService } from 'app/core/notify/notify.service';
 import { HttpMethodService } from 'app/core/services/http-method.service';
 @Component({
   selector: 'app-detail',
@@ -22,7 +23,8 @@ export class StoreDetailComponent implements OnInit {
   actionName: string;
   isLoading: boolean = false;
   disabledForm: boolean = false;
-  constructor(  private _httpService: HttpMethodService, private _formBuilder: FormBuilder,
+  constructor(private _notifyService: NotifyService,
+    private _httpService: HttpMethodService, private _formBuilder: FormBuilder,
     private route: ActivatedRoute,) {
     this.id = this.route.snapshot.params['id'];
     this.actionName = this.id ? 'Editar' : 'Nueva';
@@ -52,11 +54,11 @@ export class StoreDetailComponent implements OnInit {
       console.log("Sent",this.formGroup.getRawValue());
       const rest = await this._httpService.patch<any>('/store/'+this.id, this.formGroup.getRawValue());
       console.log("Respuesta", rest);
-
+      this._notifyService.successOrdenAlert(rest.message);
     } else {
       const rest = await this._httpService.post<any>('/store', this.formGroup.getRawValue());
       console.log("Respuesta", rest);
-
+      this._notifyService.successOrdenAlert(rest.message);
     }
 
 
