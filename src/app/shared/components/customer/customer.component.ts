@@ -198,7 +198,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.customer$.subscribe((customer) => {
       this.neighborhoodName = customer.neighborhoodName || ''
       this.formGroup.patchValue(customer);
-      
+
       if (customer.source == 'C')
         this.formGroup.get('source').disable();
     })
