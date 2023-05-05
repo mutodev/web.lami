@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BaseForm } from 'app/core/bases/base-form';
+import { NotifyService } from 'app/core/notify/notify.service';
 import { HttpMethodService } from 'app/core/services/http-method.service';
+import { rest } from 'lodash';
+
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -22,7 +25,8 @@ export class DetailComponent extends BaseForm implements OnInit {
   actionName: string;
   isLoading: boolean = false;
     disabledForm: boolean = false;
-  constructor(private _formBuilder: FormBuilder,
+  constructor(private _notifyService: NotifyService,
+    private _formBuilder: FormBuilder,
     private _httpService: HttpMethodService,
     private route: ActivatedRoute,) {
     super();
@@ -66,11 +70,17 @@ export class DetailComponent extends BaseForm implements OnInit {
       const rest = await this._httpService.patch<any>('/prices/'+this.id, this.formGroup.getRawValue());
       console.log("Respuesta", rest);
 
+
+      this._notifyService.successOrdenAlert(rest.message);
+
     } else {
       const rest = await this._httpService.post<any>('/prices', this.formGroup.getRawValue());
       console.log("Respuesta", rest);
+      this._notifyService.successOrdenAlert(rest.message);
+
 
     }
+
 
 
   }
