@@ -147,6 +147,7 @@ export class LamiService {
     private _orderDetail: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
 
     get customer$(): Observable<Customer> {
+        console.log("customer",this._customer);
         return this._customer.asObservable();
     }
 

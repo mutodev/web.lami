@@ -49,6 +49,26 @@ export class NotifyService {
     }
 
 
+    FieldErrorMsg(msg: string = ""){
+        this._fuseConfirmationService.open({
+            title: 'Validar Campos',
+            message: msg || INTERNAL_ERROR,
+            icon: {
+                show: true,
+                name: 'heroicons_outline:x-circle',
+                color: 'warn'
+            },
+            actions: {
+                cancel: {
+                    show: false
+                },
+                confirm: {
+                    label: 'OK'
+                }
+            }
+        })
+    }
+
 
     error400(error: any) {
         let msg: string = '';

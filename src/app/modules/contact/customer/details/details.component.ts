@@ -12,6 +12,7 @@ import { AsyncCustomValidator } from 'app/shared/validators/async-validator';
 import { relativeTimeThreshold } from 'moment';
 import { fromEvent, Observable } from 'rxjs';
 import { Customer } from '../clients.types';
+import forEach from 'lodash-es/forEach';
 
 @Component({
   selector: 'app-details',
@@ -22,6 +23,8 @@ import { Customer } from '../clients.types';
 export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
   @ViewChild('customerComponent') customrComponent: CustomerComponent;
+  filds: any = [];
+   id: string;
 
 
   constructor(private route: ActivatedRoute,
@@ -37,36 +40,38 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
   ngOnInit(): void {
 
+
+
   }
 
 
   save() {
 
+    this.filds = this.customrComponent.formGroup.controls;
+    let error_fields = [];
+    console.log("controsl", this.filds);
+//Recorrer los errores mostrar las alertas y dalr foco al primero despues de cerrar
+forEach(this.filds, function(value, key) {
+  /* do something for all key: value pairs */
 
+  if (value['status'] === "INVALID") {
+    console.log(value['status'] + "|" + key); // 👉️ atributo, estatus
+    error_fields.push(key);
+  }
+
+
+});
+
+
+
+
+    //this._notifyService.FieldErrorMsg("Variables Con Errores");
+
+
+    console.log("focus", error_fields[0]);
 
 
     let data: Customer = this.customrComponent.formGroup.getRawValue();
-    console.log("Salvando", this.formGroup.controls.email.hasError);
-
-/**
- * Identificación :
- * Nombre :
- * Apellido :
- * Segundo apellido :
- * Grupo :
- * Teléfono :
- * Correo :email
- * Vendedor :salesPersonCode
- * Condiciones de pago :
- * Dirección :
- * Departamento : County
- * Seleccionar la ciudad
- * Ciudad:City
- *
- * Barrio :
- * Por que medio te enteraste de nosotros
- */
-
 
 
     if (this.customrComponent.formGroup.valid) {
@@ -74,8 +79,12 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
       this.disabledForm = true;
       this.id ? this.update(data) : this.create(data);
     } else {
+      document.getElementById( error_fields[0]).focus();
       this.validateAllFormFields(this.customrComponent.formGroup);
+      document.getElementById( error_fields[0]).focus();
     }
+
+
   }
 
   create(data: any) {

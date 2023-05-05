@@ -200,9 +200,11 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     const user = JSON.parse(localStorage.getItem('user'));
     let selesPersonCode = '';
+    selesPersonCode = user.salesPersonCode;
+    /*
     if (user.sellerTypeId !== '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
       selesPersonCode = user.salesPersonCode;
-    }
+    }*/
     this.formGroup = this._formBuilder.group({
       typeId: [EnumCustomerType.PersonaNatural, Validators.nullValidator], //tipoCliente
       identificationTypeId: ['7974094a-46c0-11ed-88f1-7b765a5d50e1', Validators.required],
@@ -342,6 +344,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     });
 
+
     this.formGroup.controls.checkSameAddress.valueChanges.subscribe((val) => {
       if (val) {
         this.formGroup.controls.CountyBilling.setValue(this.formGroup.controls.County.value);
@@ -356,6 +359,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         if (!this.id) {
           this.formGroup.controls.CountyBilling.setValue('');
           this.formGroup.controls.CityBilling.setValue('');
+          this.formGroup.controls.neighborhoodNameBilling.setValue('');
         }
       }
     });
@@ -405,9 +409,11 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   save(): Observable<any> {
 
 
+
     if (this.formGroup.valid) {
       return this.create();
     } else {
+
       this.validateAllFormFields(this.formGroup);
       this.formGroup.enable();
       return of({ success: false });
