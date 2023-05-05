@@ -15,6 +15,7 @@ export interface Customer {
     phone: string;
     phone2: string;
     project: string;
+    neighborhoodName?: string;
 }
 
 
