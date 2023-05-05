@@ -209,13 +209,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     const user = JSON.parse(localStorage.getItem('user'));
     let selesPersonCode = '';
-<<<<<<< HEAD
     selesPersonCode = user.salesPersonCode;
     /*
     if (user.sellerTypeId !== '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
-=======
     if (!this.id && user.sellerTypeId !== '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
->>>>>>> 2d5ab3722c442918af7c5edb514dca8328f9fa88
       selesPersonCode = user.salesPersonCode;
     }*/
     this.formGroup = this._formBuilder.group({
