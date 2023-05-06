@@ -13,6 +13,9 @@ import { SearchProductDialogComponent } from '../search-product-dialog/search-pr
 import * as _moment from 'moment';
 import { ProductStockDialogComponent } from '../product-stock-dialog/product-stock-dialog.component';
 import { HttpMethodService } from 'app/core/services/http-method.service';
+import { User } from 'app/core/user/user.types';
+import { UserService } from 'app/core/user/user.service';
+
 const TAXES: any[] = [
   {
     'id': '2',
@@ -75,11 +78,11 @@ export class ItemsComponent implements OnInit {
   @Output() onEstimatedDate = new EventEmitter<any>();
   typer_of_seller: string;
   brilla_prices:  any[] = [];
-;
+  user: User;
 
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _httpService: HttpMethodService,private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService: LamiService,
+  constructor(private _httpService: HttpMethodService,private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService: LamiService,    private _userService: UserService,
     private route: ActivatedRoute, public dialog: MatDialog,
     private _event: EventService) {
 
@@ -88,6 +91,15 @@ export class ItemsComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    this._userService.user$
+            .pipe((takeUntil(this._unsubscribeAll)))
+            .subscribe((user: User) => {
+                this.user = user;
+            });
+
+    console.log("sellerTypeId", this.user.sellerTypeId);
+
     this.getType_seller();
 
     /* this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result); */
