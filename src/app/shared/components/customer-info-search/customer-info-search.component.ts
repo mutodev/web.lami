@@ -97,7 +97,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   }
 
   async getClients(dato = '') {
-    const result  = await this._httpMethodService.get<any>(`/customer?page=1&perPage=20&search=${dato}`);
+    const result  = await this._httpMethodService.get<any>(`/customer?source=C&page=1&perPage=20&search=${dato}`);
     this.clients = result.data.data.map((item) => {
             let displayName;
             if (item.identificationType.code == '31' || item.identificationType.code == '50')
