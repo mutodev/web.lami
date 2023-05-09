@@ -199,7 +199,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       this.neighborhoodName = customer.neighborhoodName || ''
       this.formGroup.patchValue(customer);
 
-      if (customer.source == 'C')
+      if (customer.source == 'L')
         this.formGroup.get('source').disable();
     })
   }
