@@ -103,7 +103,7 @@ export const compactNavigation: FuseNavigationItem[] = [{
 
                 {
                     id: 'refoundsreport',
-                    title: 'Facuras/Devoluciones',
+                    title: 'Facturas/Devoluciones',
                     type: 'basic',
                     icon: 'sell',
                     link: 'sales/reports/facturas/devoluciones',
