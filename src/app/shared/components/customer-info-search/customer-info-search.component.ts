@@ -30,12 +30,12 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   projects: any[];
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _lamiService: LamiService, 
-              private _httpMethodService: HttpMethodService, 
-              private _formBuilder: FormBuilder, 
+  constructor(private _lamiService: LamiService,
+              private _httpMethodService: HttpMethodService,
+              private _formBuilder: FormBuilder,
               public dialog: MatDialog) { }
-  
-  
+
+
   ngAfterViewInit(): void {
    this._unsubscribeAll.unsubscribe();
   }
@@ -43,10 +43,10 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.getClients();
-  
+
     this._lamiService.order$.subscribe((order) => {
       this.client = order?.customer || {};
-      
+
     });
 
     this._lamiService.getU_HBT('Project').subscribe((data)  => this.projects = data);
@@ -82,7 +82,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
         }
         this.clients = [{...customer, displayName}, ...this.clients]
         this.formGroup.controls.customerId.setValue(customer.id);
-      }     
+      }
     });
 
   }
@@ -99,19 +99,26 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   async getClients(dato = '') {
     const result  = await this._httpMethodService.get<any>(`/customer?source=C&page=1&perPage=20&search=${dato}`);
     this.clients = result.data.data.map((item) => {
-            let displayName;
+      let displayName;
+
+      //console.log( item.sort((a, b) => a.name - b.name));
+
+
             if (item.identificationType.code == '31' || item.identificationType.code == '50')
                 displayName = item.name;
-            else 
+            else
               displayName =  `${item?.firstName} ${item?.lastName} ${item?.lastName2}`;
-  
+
+
+
+
             return {
               ...item,
               displayName:  displayName
             }
-  
+
           });
-    
+
     // this._lamiService.customers$
     //   .pipe(takeUntil(this._unsubscribeAll))
     //   .subscribe((clients: any[]) => {
@@ -119,7 +126,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
     //       let displayName;
     //       if (item.identificationType.code == '31' || item.identificationType.code == '50')
     //           displayName = item.name;
-    //       else 
+    //       else
     //         displayName =  `${item?.firstName} ${item?.lastName} ${item?.lastName2}`;
 
     //       return {
@@ -129,6 +136,10 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
 
     //     });
     //   });
+
+    console.log(this.clients, "noT");
+    this.clients.sort((a, b) => a.name.localeCompare(b.name));
+
   }
 
   get customer() {

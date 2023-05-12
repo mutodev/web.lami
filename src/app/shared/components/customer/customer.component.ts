@@ -107,7 +107,17 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     // this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMed = result });
     this._lamiService.getU_HBT('U_HBT_ActEco').subscribe((result: Uhbt[]) => { this.U_HBT_ActEco = result });
     this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPag = result });
-    this._lamiService.getU_HBT('Project').subscribe((result) => this.projects = result);
+    this._lamiService.getU_HBT('Project').subscribe(
+      (result) => this.projects =
+
+      result.sort(function (x, y) {
+        let a = x.name.toUpperCase(),
+            b = y.name.toUpperCase();
+        return a == b ? 0 : a > b ? 1 : -1;
+    })
+
+
+    );
     this._lamiService.getU_HBT('IDENTIFICATION_TYPE').subscribe((result) => {
       this.identificationTypes = result;
       if (this.id)
@@ -175,6 +185,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       this.CITIESBILLING = this.CITIESTEMP.filter((a) => a.value == val);
     });
 
+
+
+
+    console.log(this.projects);
   }
 
 
@@ -280,12 +294,14 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
       }
       else {
+
         this.formGroup.get('identification').setValidators([Validators.required, Validators.pattern("^[0-9]+$|^CL-[0-9]+$")]);
         this.formGroup.get('firstName').setValidators([Validators.required, Validators.nullValidator]);
         this.formGroup.get('lastName').setValidators([Validators.required, Validators.nullValidator]);
         this.formGroup.get('lastName2').setValidators([Validators.required, Validators.nullValidator]);
         this.formGroup.get('name').clearAsyncValidators();
         this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaNatural);
+
 
         if (this.formGroup.get('source').value === 'C') {
           this.formGroup.get('firstNameBilling').setValidators([Validators.required]);
