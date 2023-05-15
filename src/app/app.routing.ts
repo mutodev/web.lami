@@ -70,7 +70,8 @@ export const appRoutes: Route[] = [
                     {path: 'account', loadChildren: () => import('app/modules/settings/account/account.module').then(m => m.AccountModule)},
                     {path: 'user', loadChildren: () => import('app/modules/settings/user/user.module').then(m => m.UserModule)},
                     { path: 'store', loadChildren: () => import('app/modules/settings/store/store.module').then(m => m.StoreModule) },
-                    {path: 'brilla', loadChildren: () => import('app/modules/settings/brilla/brilla.module').then(m => m.BrillaModule)},
+                    { path: 'brilla', loadChildren: () => import('app/modules/settings/brilla/brilla.module').then(m => m.BrillaModule) },
+                    {path: 'csvimport', loadChildren: () => import('app/shared/components/csvimport/csvimport.module').then(m => m.CsvimportModule)},
                 ]
             },
             {

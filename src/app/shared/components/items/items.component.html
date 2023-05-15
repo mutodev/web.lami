@@ -89,6 +89,7 @@
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
                             <input type="number" min="0" formControlName="discount" [placeholder]="'Desc%'" matInput>
                         </mat-form-field>
+
                     </div>
 
                     <!-- Cantidad-->
@@ -114,7 +115,7 @@
                     <div class="self-center text-left  ">
                         <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
                             <mat-select formControlName="tax" [placeholder]="'Impuesto'">
-                                <mat-option class="text-sm" *ngFor="let tax of taxes" [value]="tax.code">{{tax.name}}
+                                <mat-option class="text-sm" *ngFor="let tax of taxes" [value]="tax.code">{{tax.code}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -193,14 +194,31 @@
                           background: #ffff;
                           padding: 1px;
                           margin: 1px 3px 7px 1px;
+                          text-align: center;
                       ">
+                      <div class="text-secondary">
+                        <span style="color:#68a9ed;">
+                        {{ item.get('name').value }}
+                    </span>
+                    </div>
+                            <div class="font-semibold">
+                                {{ item.get('code').value }}</div>
 
-                            <div class="font-semibold">{{ item.get('code').value }}</div>
-                            <div class="text-secondary">{{ item.get('name').value }}</div>
+                            <div>   {{ item.get('price').value | currency }}</div>
+                            <div>
+                                <span style="color: red;">
+                                {{ item.get('total').value | currency }}
+                            </span>
+                            </div>
 
+
+                            <button (click)="removeItemRowBtn(i)" mat-button>
+                                <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:trash'">
+                                </mat-icon>
+                            </button>
                         </div>
                         <!-- ROW 1 -->
-                        <div class=" ">
+                        <div class=" flex ">
                             <div>
                                 <mat-form-field floatLabel="float" appearance="legacy" class=" w-full fuse-mat-dense">
                                     <input type="number" min="0" formControlName="discount"
@@ -213,23 +231,62 @@
                                         matInput>
                                 </mat-form-field>
                             </div>
+
+
+
+
+
                         </div>
-                        <!-- ROW 2
-                        <div class="flex w-full">
+                        <!-- ROW 2-->
+                        <div class="flex ">
+                            <!--
                             <mat-form-field floatLabel="float" appearance="legacy" class="w-full fuse-mat-dense">
                                 <mat-select formControlName="project" [placeholder]="'Proyecto'">
                                     <mat-option *ngFor="let project of projects" [value]="project.code">{{project.name}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>-->
-                        <!-- ROW 3 -->
+2-->
+
+<div>
+    <mat-form-field floatLabel="float" appearance="legacy" class="flex grid w-full fuse-mat-dense">
+        <mat-select formControlName="tax" [placeholder]="'Impuesto'">
+
+            <mat-option class="text-sm" *ngFor="let tax of taxes" [value]="tax.code">
+                {{tax.code}}
+            </mat-option>
+
+
+        </mat-select>
+
+    </mat-form-field>
+</div>
+<div>
+    <!-- Brilla-->
+<ng-container *ngIf="typer_of_seller == '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a'">
+
+<div class="self-center text-left ">
+<mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
+<mat-select formControlName="brilla" [placeholder]="'Brilla'">
+<mat-option class="text-sm" *ngFor="let price of brilla_prices" [value]="price.value">{{price.name}}
+</mat-option>
+</mat-select>
+</mat-form-field>
+</div>
+
+</ng-container>
+</div>
+
+
+
+                        </div>
+                        <!-- ROW 3
                         <div class="flex w-full">
                             <mat-form-field floatLabel="float" appearance="legacy" class="flex grid w-full fuse-mat-dense">
                                 <mat-select formControlName="tax" [placeholder]="'Impuesto'">
 
                                     <mat-option class="text-sm" *ngFor="let tax of taxes" [value]="tax.code">
-                                        {{tax.name}}
+                                        {{tax.code}}
                                     </mat-option>
 
 
@@ -237,23 +294,11 @@
 
                             </mat-form-field>
                         </div>
-
+                    -->
                         <!-- Brilla-->
 
-                         <!-- Brilla-->
-  <ng-container *ngIf="typer_of_seller == '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a'">
 
-    <div class="self-center text-left ">
-      <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
-          <mat-select formControlName="brilla" [placeholder]="'Brilla'">
-              <mat-option class="text-sm" *ngFor="let price of brilla_prices" [value]="price.value">{{price.name}}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-  </div>
-
-    </ng-container>
-                        <!-- ROW 4 -->
+                        <!-- ROW 4
                         <div class="flex grid ">
                             <div class="flex flex-col" style="
                             margin-right: 50px;
@@ -268,13 +313,16 @@
                             </div>
 
                         </div>
-                        <!-- ROW 4 -->
+                        -->
+                        <!-- ROW 4
                         <div class="flex left">
                             <button (click)="removeItemRowBtn(i)" mat-button>
                                 <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:trash'">
                                 </mat-icon>
                             </button>
                         </div>
+
+                    -->
                     </div>
 
                 </ng-container>

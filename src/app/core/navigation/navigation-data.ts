@@ -173,6 +173,16 @@ export const compactNavigation: FuseNavigationItem[] = [{
                 //     link:'settings/store/new'
                 // },
             },
+            {
+                id   : 'csvimport',
+                title: 'Cargar Barrios',
+                type : 'basic',
+                icon:'attach_file',
+                link : 'settings/csvimport/Upload'
+                // button:{
+                //     link:'settings/store/new'
+                // },
+            },
             // {
             //     id   : 'setting',
             //     title: 'Account',
