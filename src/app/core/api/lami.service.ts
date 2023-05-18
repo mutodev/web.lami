@@ -244,6 +244,13 @@ export class LamiService {
                 this._order.next(result.data);
             }));
     }
+
+    getquteById(id: string): Observable<APIResponse<Order>> {
+        return this._httpClient.get<APIResponse<Order>>(`${environment.endPoint}/quote/${id}`).pipe(
+            tap((result) => {
+                this._order.next(result.data);
+            }));
+    }
     /* #endregion */
 
 

@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { BaseList } from 'app/core/bases/base-list';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 import { RealTimeService } from 'app/core/services/real-time.service';
 import { environment } from 'environments/environment';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -31,18 +35,25 @@ import { environment } from 'environments/environment';
 ],
   animations: fuseAnimations
 })
-export class PurchaseListComponent extends BaseList implements OnInit {
+export class ListComponent extends BaseList implements OnInit {
   current_sales_personecode: string;
   token: string;
-  constructor(public _baseListService: BaseListService,
+  url = environment.endPoint;
+  user: User;
+  constructor(public _baseListService: BaseListService,    private _userService: UserService,
+    private _httpService: HttpMethodService,
               private realTime: RealTimeService) {
     super(_baseListService);
    }
 
   ngOnInit(): void {
-    this.getDataSource();
-    this.token = localStorage.getItem('accessToken');
+
+    this.getquotations();
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
+
+    this.token = localStorage.getItem('accessToken');
+   /* this.getDataSource();
+
 
 
     console.log("current_sales_personecode",  this.current_sales_personecode);
@@ -61,10 +72,20 @@ export class PurchaseListComponent extends BaseList implements OnInit {
         }
         this.editSource([...data]);
       }
-    });
+    });*/
+
+
   }
-  open(orderId){
-     let pdf = environment.endPoint + '/order/generate/pdf/'+ orderId +'?token='+this.token;
+
+  async getquotations() {
+
+const quotations = await this._httpService.get<any>(`/quote`);
+this.dataSource$ = quotations.data;
+    console.log(this.dataSource$);
+  }
+
+ open(orderId){
+     let pdf = environment.endPoint + '/quote/generate/pdf/'+ orderId +'?token='+this.token;
     console.log("new window "+pdf);
     window.open(pdf,"_blank");
   }

@@ -37,9 +37,8 @@ import { PurchaseViewComponent } from './view/view.component';
 
 @NgModule({
     declarations: [
-        PurchaseDetailComponent, 
+        PurchaseDetailComponent,
         PurchaseListComponent,
-        PurchaseViewComponent,
         OrderStatusPipe
         ],
     imports: [

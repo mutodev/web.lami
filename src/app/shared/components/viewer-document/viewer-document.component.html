@@ -71,10 +71,10 @@
 
                 <div class="grid p-3 grid-cols-12 items-center gap-x-4 text-white  bg-zinc-500 ">
 
-                    <div class="col-span-2 font-medium text-md">Descripción</div>
+                    <div class="col-span-3 font-medium text-md">Descripción</div>
                     <div class="col-span-1 font-medium text-md text-center hidden md:block ">Desc%</div>
                     <div class="col-span-1 font-medium text-md text-center hidden md:block">Cant.</div>
-                    <div class="col-span-1 font-medium text-md text-center hidden md:block">Proyecto</div>
+                    <div class="col-span-2 font-medium text-md text-center hidden md:block">Proyecto</div>
                     <div class="col-span-1 font-medium text-md text-center hidden md:block">Imp.</div>
                     <div class="col-span-2 font-medium text-md text-right hidden md:block">Precio</div>
                     <div class="col-span-2 font-medium text-md text-right
@@ -113,7 +113,7 @@
                         <div class="col-span-1 text-center hidden md:block">{{item?.discount}}</div>
                         <div class="col-span-1 text-center hidden md:block">{{item?.amount}}</div>
                         <div class="col-span-1 text-center hidden md:block">{{ item?.projectObj?.name }}</div>
-                        <div class="col-span-1 text-center hidden md:block">{{item?.taxObj?.name }}</div>
+                        <div class="col-span-1 text-center hidden md:block">{{item?.taxObj?.code }}</div>
 
                         <div class="col-span-2 text-right  hidden md:block">{{item?.value | currency}}</div>
                         <div class="col-span-2 text-right  hidden md:block ">{{(item?.value * item.amount) | currency}}</div>
@@ -131,7 +131,51 @@
                         <div class="col-span-12 my-1 border-b"></div>
                     </ng-container>
 
+ <!-- Items Array -->
+ <ng-container *ngFor="let item of quotation?.quoteDetails; let i=index">
 
+    <!-- Items movile-->
+
+  <!-- Items -->
+  <div class="col-span-2 text-base font-medium">
+      <div class="font-semibold">{{item?.itemCode }}</div>
+      <div class="text-secondary">  {{item?.description}}
+          <div class="hidden ">
+              Desc% = {{item?.discount  | currency }}</div>
+          <div class="md:hidden sm:block text-secondary"> Cant = {{item?.amount}}</div>
+          <div class="md:hidden sm:block text-secondary">Proy = {{ item?.projectObj?.name }}</div>
+          <div class="md:hidden sm:block text-secondary">Imp = {{item?.vat  | currency
+          }}</div>
+
+          <div class="md:hidden sm:block text-secondary">Precio = {{ item?.value  | currency  }}</div>
+
+          <div *ngIf="item.discount>0" class="md:hidden sm:block text-secondary">Des = {{item?.discount
+              | currency}}</div>
+
+
+          <div class="md:hidden sm:block text-secondary">Total ={{ (item?.value + item?.vat)  * item?.amount | currency  }}</div>
+      </div>
+  </div>
+  <div class="col-span-1 text-md text-center hidden md:block">{{item?.discount}}</div>
+  <div class="col-span-1 text-md text-center  hidden md:block">{{item?.amount}}</div>
+  <div class="col-span-3 text-md text-center hidden md:block">{{ item?.projectObj?.name }}</div>
+  <div class="col-span-1 text-md text-center  hidden md:block">{{item?.taxObj?.code }}</div>
+
+  <div class="col-span-2 text-right  hidden md:block">{{item?.value | currency}}</div>
+  <div class="col-span-2 text-right  hidden md:block ">{{(item?.value * item.amount) | currency}}</div>
+
+
+  <!-- <div *ngIf="item?.tax?.name; else elseTemplate" class="col-span-2 text-center">
+      {{item?.tax?.name}} ({{item?.tax?.percentage}}%)
+  </div>
+  <ng-template #elseTemplate>
+      <div class="col-span-2 text-center">0%</div>
+  </ng-template> -->
+
+
+  <!-- Divider -->
+  <div class="col-span-12 my-1 border-b"></div>
+</ng-container>
                 </div>
             </div>
 

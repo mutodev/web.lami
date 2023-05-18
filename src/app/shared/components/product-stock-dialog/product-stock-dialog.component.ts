@@ -22,6 +22,8 @@ export class ProductStockDialogComponent extends BaseList implements OnInit {
 
   ngOnInit(): void {
     this.getDataSource();
+
+    console.log(this.dataSource$);
   }
 
   onSelectedItem(item: any) {
@@ -31,13 +33,12 @@ export class ProductStockDialogComponent extends BaseList implements OnInit {
   toggleDetails(productID): void {
     // If the product is already selected...
     if(this.selectedProduct && this.selectedProduct == productID){
-       this.selectedProduct = null; 
+       this.selectedProduct = null;
        return;
-    }; 
+    };
 
     this.selectedProduct = productID;
   }
 
 }
 
- 

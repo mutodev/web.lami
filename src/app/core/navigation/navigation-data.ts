@@ -32,7 +32,7 @@ export const compactNavigation: FuseNavigationItem[] = [{
             type: 'collapsable',
             icon: 'shopping_cart',
             children: [
-                {
+                   {
                     id: 'pedidos',
                     title: 'Pedidos',
                     type: 'basic',
@@ -40,7 +40,20 @@ export const compactNavigation: FuseNavigationItem[] = [{
                     button: {
                         link: 'sales/purchase/new'
                     },
+
+
                 },
+
+                {
+                    id   : 'quotation',
+                        title: 'Cotizaciones',
+                        type : 'basic',
+                        link: 'sales/quotation/all',
+                        button: {
+                            link: 'sales/quotation/new'
+                        }
+
+                 },
               /*  {
                     id: 'pqrs',
                     title: 'PQR',
@@ -49,13 +62,7 @@ export const compactNavigation: FuseNavigationItem[] = [{
                 },
 */
 
-                // {
-                /*     id   : 'plan-separe',
-                     title: 'Cotizaciones',
-                     type : 'basic',
-                     link : '/plan-separe'
-                     */
-                //  },
+
                 // {
                 /*
                      id      : 'seguridad',

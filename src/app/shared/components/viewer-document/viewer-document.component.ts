@@ -35,7 +35,7 @@ export class CIViewerDocumentComponent implements OnInit {
 
     this.getstores(this.sales_person);
     this.brilla_price = 0.40;
-
+console.log(this.taxes);
 
   }
 

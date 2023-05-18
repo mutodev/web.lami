@@ -1,0 +1,63 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
+    <!-- Header -->
+    <div
+        class="no-print flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent print:hidden">
+        <!-- Breadcrumbs -->
+        <div class="flex-1 min-w-0">
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a [routerLink]="'/sales/purchase/all'"
+                            class="whitespace-nowrap text-primary-500">Pedidos</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span class="ml-1 text-secondary"> Pedido Detalle</span>
+                    </div>
+                </div>
+                <div class="flex sm:hidden">
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'/sales/purchase/all'">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'">
+                        </mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <div>
+                <div class="text-4xl font-extrabold tracking-tight">Detalle Pedido</div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Actions -->
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Add product button
+            <button class="ml-4" mat-stroked-button>
+                <mat-icon [svgIcon]="'heroicons_outline:x-circle'"></mat-icon>
+                <span class="ml-2 mr-1">Anular</span>
+            </button>
+ -->
+
+            <!-- Add product button -->
+            <!-- <button [routerLink]="'/sales/quotations/edit/'+ id" class="ml-4" mat-stroked-button>
+                <mat-icon [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
+                <span class=" ml-2 mr-1">Editar</span>
+            </button> -->
+            <!-- Add product button
+            <button class="ml-4" mat-flat-button [color]="'primary'">
+                <mat-icon [svgIcon]="'heroicons_outline:cash'"></mat-icon>
+                <span class="ml-2 mr-1">Agregar pago</span>
+            </button>
+-->
+        </div>
+    </div>
+
+    <!-- Body -->
+    <ci-viewer-document></ci-viewer-document>
+</div>

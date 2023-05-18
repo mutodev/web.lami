@@ -9,17 +9,17 @@
         <div>
             <div class="hidden sm:flex flex-wrap items-center font-medium">
                 <div>
-                    <a  [routerLink]="'/settings/store/all'" class="whitespace-nowrap text-primary-500">Tiendas</a>
+                    <a  [routerLink]="'/sales/quotation/all'" class="whitespace-nowrap text-primary-500">Cotizaciones</a>
                 </div>
                 <div class="flex items-center ml-1 whitespace-nowrap">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
-                    <span class="ml-1 text-secondary">Nueva Tienda</span>
+                    <span class="ml-1 text-secondary">Nueva Cotización</span>
 
                 </div>
             </div>
             <div class="flex sm:hidden">
-                <a class="inline-flex items-center -ml-1.5 text-secondary font-medium"  [routerLink]="'/settings/store/all'">
+                <a class="inline-flex items-center -ml-1.5 text-secondary font-medium"  [routerLink]="'/sales/quotation/all'">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'">
                     </mat-icon>
                     <span class="ml-1">Back</span>
@@ -29,7 +29,7 @@
         <!-- Title -->
         <div class="mt-2">
             <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-               Nueva Tienda
+               Nueva Cotización
                 <button  (click)="save()"
                 class="min-w-10 min-h-7 h-7 px-2 top-1 leading-6 hidden" mat-button>
                 <mat-icon class="icon-size-7" [svgIcon]="'mat_outline:add_circle_outline'">
@@ -57,80 +57,34 @@
                       <div class="flex items-center justify-center my-5">
                           <div class="flex-auto border-b"></div>
                           <div class="flex-0 text-lg font-medium leading-5 text-secondary">
-                              Información de la Tienda
+                              Información del cliente
                           </div>
                           <div class="flex-auto border-b"></div>
                       </div>
-  <!-- Code -->
-  <div class="sm:col-span-5">
-    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
-        <mat-label>Referencia</mat-label>
-        <input [formControlName]="'code'" matInput>
-    </mat-form-field>
-</div>
-<!-- estate-->
-<div class="sm:col-span-5">
-    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
-        <mat-label>Departamento</mat-label>
-        <input [formControlName]="'state'" matInput>
-    </mat-form-field>
-    </div>
-<!-- city-->
-<div class="sm:col-span-5">
-    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
-        <mat-label>Ciudad</mat-label>
-        <input [formControlName]="'city'" matInput>
-    </mat-form-field>
-    </div>
-<!-- name -->
-<div class="sm:col-span-5">
-<mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
-    <mat-label>Nombre</mat-label>
-    <input [formControlName]="'name'" matInput>
-</mat-form-field>
-</div>
-<!-- address-->
-<div class="sm:col-span-5">
-<mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
-    <mat-label>Dirección</mat-label>
-    <input [formControlName]="'address'"  matInput>
-</mat-form-field>
-</div>
-<!-- phoneNumber -->
-<div class="sm:col-span-5">
-    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
-        <mat-label>Teléfono</mat-label>
-        <input [formControlName]="'phoneNumber'"  matInput>
-    </mat-form-field>
-    </div>
-
-    <!-- Email -->
-<div class="sm:col-span-5">
-    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
-        <mat-label>Correo Electrónico</mat-label>
-        <input [formControlName]="'email'"  matInput>
-    </mat-form-field>
-    </div>
-
-    <!-- city -->
-    <div class="sm:col-span-5">
-        <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
-            <mat-label>Ciudad</mat-label>
-            <input [formControlName]="'city'"  matInput>
-        </mat-form-field>
-        </div>
-
+                      <ci-customer-search #customerApp></ci-customer-search>
                   </div>
 
+                  <!-- PURCHASE Infomration-->
+                  <div class="md:basis-3/6 w-full flex-start">
+                      <div class="flex items-center justify-center my-5">
+                          <div class="flex-auto border-b"></div>
+                          <div class="flex-0 text-lg font-medium leading-5 text-secondary">
+                              Información del Pedido
+                          </div>
+                          <div class="flex-auto border-b"></div>
+                      </div>
+                      <ci-order-information [estimatedDate]="estimatedDate" #orderInfoApp ></ci-order-information>
+                  </div>
 
 
               </div>
 
               <!--ITEM TABLE-->
               <div class="mt-12 ">
+                  <ci-item-table  (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
 
 
-                  <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/sales/purchase/all' ]"
+                  <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/sales/quotation/all' ]"
                   mat-stroked-button>
                   <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x'"></mat-icon>
                   Cancelar
