@@ -13,7 +13,7 @@ export class CsvimportComponent implements OnInit {
 
   STATES: Uhbt[] = [];
   CITIES: Uhbt[] = [];
-
+  tem_CITIES : Uhbt[] = [];
   formGroup  = new FormGroup({
     city: new FormControl(),
     state: new FormControl(),
@@ -24,9 +24,14 @@ export class CsvimportComponent implements OnInit {
 
  public barrios: any[] = [];
  array_to_insert : any[] = [];
+  file: File;
   constructor( private _notifyService: NotifyService,   private _httpService: HttpMethodService) { }
 
   ngOnInit(): void {
+    this.formGroup.controls.state.valueChanges.subscribe((val) => {
+      this.CITIES = this.tem_CITIES.filter(value => value.value == val );
+    });
+
     this.getbarrios();
     this.cities();
     this.states();
@@ -34,8 +39,11 @@ export class CsvimportComponent implements OnInit {
   public changeListener(files: FileList) {
 
     console.log(files);
+
+
     if(files && files.length > 0) {
-       let file : File = files.item(0);
+      let file: File = files.item(0);
+      this.file = file;
          console.log(file.name);
          console.log(file.size);
          console.log(file.type);
@@ -47,8 +55,7 @@ export class CsvimportComponent implements OnInit {
            let csv: string = reader.result as string;
 
           // let arr =  JSON.parse(csv);
-           console.log(csv);
-           this.array_to_insert = this.csvToArray(csv);
+
            console.log(csv);
 
 
@@ -62,101 +69,36 @@ export class CsvimportComponent implements OnInit {
       }
   }
 
-  csvToArray(strData, delimiter = ",") {
-    // Check to see if the delimiter is defined. If not,
-    // then default to comma.
-    let strDelimiter =  delimiter ;
-    // Create a regular expression to parse the CSV values.
-    var objPattern = new RegExp((
-        // Delimiters.
-    "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
-        // Quoted fields.
-    "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
-        // Standard fields.
-    "([^\"\\" + strDelimiter + "\\r\\n]*))"), "gi");
-    // Create an array to hold our data. Give the array
-    // a default empty first row.
-    var arrData = [[]];
-    // Create an array to hold our individual pattern
-    // matching groups.
-    var arrMatches = null;
-    // Keep looping over the regular expression matches
-    // until we can no longer find a match.
-    while (arrMatches = objPattern.exec(strData)) {
-        // Get the delimiter that was found.
-        var strMatchedDelimiter = arrMatches[1];
-        // Check to see if the given delimiter has a length
-        // (is not the start of string) and if it matches
-        // field delimiter. If id does not, then we know
-        // that this delimiter is a row delimiter.
-        if (strMatchedDelimiter.length && (strMatchedDelimiter != strDelimiter)) {
-            // Since we have reached a new row of data,
-            // add an empty row to our data array.
-            arrData.push([]);
-        }
-        // Now that we have our delimiter out of the way,
-        // let's check to see which kind of value we
-        // captured (quoted or unquoted).
-        if (arrMatches[2]) {
-            // We found a quoted value. When we capture
-            // this value, unescape any double quotes.
-            var strMatchedValue = arrMatches[2].replace(
-                    new RegExp("\"\"", "g"), "\"");
-        } else {
-            // We found a non-quoted value.
-            var strMatchedValue = arrMatches[3];
-        }
-        // Now that we have our value string, let's add
-        // it to the data array.
-        arrData[arrData.length - 1].push(strMatchedValue);
-    }
-    // Return the parsed data.
-    //organizar los datos para el insert
 
 
+  async saveDatafromCSV() {
 
+let testData:FormData = new FormData();
+    testData.append('file', this.file, this.file.name);
+    const rest = await this._httpService.postyFormData<any>('/neighborhood/import',testData);
 
-    return (arrData);
-  }
-
-
-
-  saveDatafromCSV() {
-    console.log(this.array_to_insert);
-
-
-    this.array_to_insert.forEach(function (value,index) {
-
-      if (index > 0) {
-
-        let value_insert = {
-          name: value[0], state: value[1] ,city:value[2]
-        };
-        this.save_array_csv(value_insert);
-      }
-
-    });
-
+    console.log("Respuesta", rest);
+    this._notifyService.successOrdenAlert(rest.message);
+//file
     console.log("Salvando Barrios");
+    if (rest.status == "success") {
+      window.location.reload();
+     }
 
   }
+//test
+
   async save() {
     const rest = await this._httpService.post<any>('/neighborhood', this.formGroup.getRawValue());
     console.log("Respuesta", rest);
     this._notifyService.successOrdenAlert(rest.message);
     console.log("object", this.formGroup);
-
-
-  }
-
-  async save_array_csv(barrios) {
-    const rest = await this._httpService.post<any>('/neighborhood',barrios);
-    console.log("Respuesta", rest);
-    this._notifyService.successOrdenAlert(rest.message);
-    console.log("object", this.formGroup);
-
+    if (rest.status == "success") {
+      window.location.reload();
+     }
 
   }
+
 
 
  async removeItemRowBtn(id) {
@@ -165,6 +107,10 @@ export class CsvimportComponent implements OnInit {
       this._notifyService.successOrdenAlert(rest.message);
     console.log("Borrando Barrios",id);
 
+
+   if (rest.status == "success") {
+    window.location.reload();
+   }
   }
   async getbarrios() {
 
@@ -177,7 +123,8 @@ export class CsvimportComponent implements OnInit {
     async cities() {
 
       const rest = await this._httpService.get<any>(`/setting/CITIES`);
-      this.CITIES= rest['settingDetail'];
+      this.CITIES = rest['settingDetail'];
+      this.tem_CITIES = rest['settingDetail'];
           console.log('cities',this.CITIES);
       }
       async states() {
