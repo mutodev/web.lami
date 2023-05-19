@@ -89,7 +89,6 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
   ngOnInit(): void {
 
-
     this.state = null;
     this.city = null;
     this.Barrios = null;
@@ -392,6 +391,14 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   }
 
   validateUhtbFields(source: string) {
+    if (source == "L") {
+      this.formGroup.get('payTermsGrpCode').disable();
+      this.formGroup.get('payTermsGrpCode').clearValidators();
+
+    } else {
+      this.formGroup.get('payTermsGrpCode').enable();
+    }
+
     if (source == "C") {
       this.getHbtsValues();
 
