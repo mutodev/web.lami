@@ -4,7 +4,6 @@ import { HttpMethodService } from 'app/core/services/http-method.service';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { Uhbt } from 'app/shared/interfaces/UHBT';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-csvimport',
@@ -13,7 +12,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 })
 export class CsvimportComponent implements OnInit {
 
- //private _refresh = new Subject<void>
+
 
   SearchformGroup  = new FormGroup({
     search: new FormControl(''),
@@ -84,20 +83,8 @@ export class CsvimportComponent implements OnInit {
 
     this.filter = this.SearchformGroup.controls.search.value;
 
-    if (  this.filter) {
-      var found: any[] = [];
-     found = this.barrios.find(e => e.name === this.filter);
-      console.log("encontrado",found);
-    }
 
 
-    if (found) {
-
-      this.barrios = found;
-      console.log("asignando",this.barrios);
-    } else {
-      this.getbarrios();
-    }
   }
 
   async saveDatafromCSV() {
