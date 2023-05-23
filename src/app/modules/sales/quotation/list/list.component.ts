@@ -8,6 +8,7 @@ import { environment } from 'environments/environment';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import { takeUntil } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -36,11 +37,20 @@ import { takeUntil } from 'rxjs';
   animations: fuseAnimations
 })
 export class ListComponent extends BaseList implements OnInit {
+
+  formGroup  = new FormGroup({
+   search: new FormControl(''),
+
+  });
+
+
   current_sales_personecode: string;
   token: string;
   url = environment.endPoint;
   user: User;
-  prefix:  string;
+  prefix: string;
+  isLoading: boolean = false;
+  filter: string;
   constructor(public _baseListService: BaseListService,    private _userService: UserService,
     private _httpService: HttpMethodService,
               private realTime: RealTimeService) {
@@ -48,11 +58,15 @@ export class ListComponent extends BaseList implements OnInit {
    }
 
   ngOnInit(): void {
+
     this.prefix = '000000';
     this.getquotations();
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
 
     this.token = localStorage.getItem('accessToken');
+
+
+
    /* this.getDataSource();
 
 
@@ -90,5 +104,19 @@ this.dataSource$ = quotations.data;
     console.log("new window "+pdf);
     window.open(pdf,"_blank");
   }
+
+
+  search() {
+
+    console.log("Buscando",this.formGroup.controls.search.value );
+
+    console.log(this.dataSource$);
+    this.filter = this.formGroup.controls.search.value;
+
+
+}
+
+
+
 
 }

@@ -11,6 +11,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CsvimportComponent implements OnInit {
 
+  SearchformGroup  = new FormGroup({
+    search: new FormControl(''),
+
+  });
 
   STATES: Uhbt[] = [];
   CITIES: Uhbt[] = [];
@@ -70,7 +74,13 @@ export class CsvimportComponent implements OnInit {
       }
   }
 
+  search() {
 
+    console.log("Buscando", this.SearchformGroup.controls.search.value);
+
+
+
+  }
 
   async saveDatafromCSV() {
 

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Directive, Inject, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgModel, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from 'app/core/api/event/event.service';
@@ -31,6 +31,7 @@ export enum EnumCustomerType {
   styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit {
+
 
   formGroup: FormGroup;
   customerType: any[] = [];
@@ -452,6 +453,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       return of({ success: false });
     }
   }
+
 
   create(): Observable<any> {
 
