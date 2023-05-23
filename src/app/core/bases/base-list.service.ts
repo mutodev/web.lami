@@ -65,7 +65,7 @@ export class BaseListService {
         return this._httpClient.get<{ pagination: Pagination; clients: any[] }>(`${this.baseUrl}${this.apiUrl}`, {
             params: {
                 page,
-                perPage, 
+                perPage,
                 search
             }
         }).pipe(
@@ -92,6 +92,7 @@ export class BaseListService {
     getCustomers(url: string): Observable<any[]> {
         return this._httpClient.get<any[]>(url).pipe(
             tap((dataList: any) => {
+                console.log("Clientes");
                 this._customers.next(dataList.data);
             })
         );

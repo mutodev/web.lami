@@ -50,6 +50,8 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
   validityDate = new Date().setDate(this.dateNow.getDate() + 10);
 
   ngOnInit(): void {
+
+
     this.formGroup = this._formBuilder.group({});
 
     let current_user = localStorage.getItem('user');

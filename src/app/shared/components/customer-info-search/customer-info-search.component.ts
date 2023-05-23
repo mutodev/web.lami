@@ -1,5 +1,5 @@
 
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit,Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LamiService } from 'app/core/api/lami.service';
@@ -28,6 +28,8 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   clients: any[];
   formGroup: FormGroup;
   projects: any[];
+  @Input()
+  quotation: boolean = false;
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private _lamiService: LamiService,
@@ -97,7 +99,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
   }
 
   async getClients(dato = '') {
-    const result  = await this._httpMethodService.get<any>(`/customer?source=C&page=1&perPage=20&search=${dato}`);
+    const result  = await this._httpMethodService.get<any>(`/customer?${!this.quotation?"source=C&":""}page=1&perPage=20&search=${dato}`);
     this.clients = result.data.data.map((item) => {
       let displayName;
 
@@ -108,8 +110,6 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit {
                 displayName = item.name;
             else
               displayName =  `${item?.firstName} ${item?.lastName} ${item?.lastName2}`;
-
-
 
 
             return {

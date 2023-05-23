@@ -392,13 +392,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   }
 
   validateUhtbFields(source: string) {
-    if (source == "L") {
-      this.formGroup.get('payTermsGrpCode').disable();
-      this.formGroup.get('payTermsGrpCode').clearValidators();
 
-    } else {
-      this.formGroup.get('payTermsGrpCode').enable();
-    }
 
     if (source == "C") {
       this.getHbtsValues();
@@ -430,6 +424,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this.formGroup.get('firstNameBilling').updateValueAndValidity();
     this.formGroup.get('lastName2Billing').updateValueAndValidity();
     this.formGroup.get('lastName2').updateValueAndValidity();
+
+
+
+
   }
 
   getList(): void {
