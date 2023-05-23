@@ -40,6 +40,7 @@ export class ListComponent extends BaseList implements OnInit {
   token: string;
   url = environment.endPoint;
   user: User;
+  prefix:  string;
   constructor(public _baseListService: BaseListService,    private _userService: UserService,
     private _httpService: HttpMethodService,
               private realTime: RealTimeService) {
@@ -47,7 +48,7 @@ export class ListComponent extends BaseList implements OnInit {
    }
 
   ngOnInit(): void {
-
+    this.prefix = '000000';
     this.getquotations();
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
 

@@ -3,6 +3,7 @@ import { NotifyService } from 'app/core/notify/notify.service';
 import { HttpMethodService } from 'app/core/services/http-method.service';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { Uhbt } from 'app/shared/interfaces/UHBT';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-csvimport',
   templateUrl: './csvimport.component.html',
@@ -25,7 +26,7 @@ export class CsvimportComponent implements OnInit {
  public barrios: any[] = [];
  array_to_insert : any[] = [];
   file: File;
-  constructor( private _notifyService: NotifyService,   private _httpService: HttpMethodService) { }
+  constructor( private _notifyService: NotifyService,   private _httpService: HttpMethodService, private _router: Router) { }
 
   ngOnInit(): void {
     this.formGroup.controls.state.valueChanges.subscribe((val) => {
@@ -82,7 +83,7 @@ let testData:FormData = new FormData();
 //file
     console.log("Salvando Barrios");
     if (rest.status == "success") {
-      window.location.reload();
+      this._router.navigateByUrl('/settings/csvimport/Upload');
      }
 
   }
@@ -94,7 +95,7 @@ let testData:FormData = new FormData();
     this._notifyService.successOrdenAlert(rest.message);
     console.log("object", this.formGroup);
     if (rest.status == "success") {
-      window.location.reload();
+      this._router.navigateByUrl('/settings/csvimport/Upload');
      }
 
   }

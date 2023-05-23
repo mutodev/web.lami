@@ -117,6 +117,9 @@ this.formGroup.addControl('vatTotal', this.orderInfoComponent.salesPerson);
 
       this._notifyService.successOrdenAlert(rest.message);
 
+      if (rest.status == 'success') {
+        this._router.navigateByUrl('/sales/quotation/all');
+      }
 
     } else {
 

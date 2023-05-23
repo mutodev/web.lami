@@ -24,7 +24,7 @@
           <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-80 fuse-mat-rounded">
               <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
               <input matInput [formControl]="searchInputControl" [autocomplete]="'off'"
-                  [placeholder]="'Buscar pedido'">
+                  [placeholder]="'Buscar Cotización'">
           </mat-form-field>
           <!-- Add product button -->
           <button class="ml-4 hidden md:block" mat-flat-button [color]="'primary'"
@@ -67,7 +67,7 @@
 
                         <!-- Rows -->
 
-                            <ng-container *ngFor="let order of dataSource$">
+                            <ng-container *ngFor="let order of dataSource$; trackBy: trackByFn">
 
 
 
@@ -75,9 +75,22 @@
                                 <div
                                     class="list-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
                                     <!-- # Order -->
-                                    <div class="">
-                                        {{order?.docNumber}}
+
+
+                                    <div *ngIf="order.docNumber < 10">
+                                        000000{{order?.docNumber}}
                                     </div>
+                                    <div *ngIf="order.docNumber > 9 && order.docNumber < 100 ">
+                                        00000{{order?.docNumber}}
+                                    </div>
+
+                                    <div *ngIf="order.docNumber > 99 && order.docNumber < 999 ">
+                                        0000{{order?.docNumber}}
+                                    </div>
+                                    <div *ngIf="order.docNumber > 999 && order.docNumber < 9999 ">
+                                        0000{{order?.docNumber}}
+                                    </div>
+
                                     <!-- # Cliente -->
                                     <!-- <div >
                                         <div class="md:hidden text-sm text-secondary"># {{order.docNumber}}</div>
