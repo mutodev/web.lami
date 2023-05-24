@@ -23,21 +23,15 @@
                     <!-- Header -->
                     <div class="list-grid z-10 sm:grid md:grid sticky sm:overflow-y-auto top-0 gap-4 py-4 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                         matSort matSortDisableClear>
-                        <div class=" hidden ">
-                            Artículo
-                        </div>
-                        <div class=" hidden  ">
-                            Bodega
-                        </div>
-                        <div class=" hidden  ">
-                            Can
-                        </div>
-                        <div class=" hidden  ">
-                            Com
-                        </div>
-                        <div class=" hidden ">
-                            Ped
-                        </div>
+                        <table>
+                            <tr>
+                        <td> Bodega</td>
+                        <td>  Can </td>
+                        <td>  Com</td>
+                        <td> Ped </td>
+                            </tr>
+
+                        </table>
                         <!-- <div class="">
                 Precio
               </div> -->
@@ -53,20 +47,11 @@
                                             <p>{{item.name}}</p>
                                         </div>
 
-
-
-
-
                                     </div>
                                     <div  class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
 
 <table>
-    <tr>
-<td> Bodega</td>
-<td>  Can </td>
-<td>  Com</td>
-<td> Ped </td>
-    </tr>
+
     <tr>
         <td> {{row.warehouseCode}}</td>
         <td>  {{row.inStock}} </td>
