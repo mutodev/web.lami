@@ -12,13 +12,13 @@
         <!-- Actions -->
         <div class="flex sm:flex-row shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
      <!-- Search -->
-     <div  [formGroup]="SearchformGroup">
-        <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-80 fuse-mat-rounded">
-            <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-            <input matInput formControlName="search" (click)="search()" [autocomplete]="'off'"
-                [placeholder]="'Buscar Barrio'">
-        </mat-form-field>
-      </div>
+          <div  [formGroup]="formGroup">
+          <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-80 fuse-mat-rounded">
+              <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+              <input matInput formControlName="search" (click)="search()" [autocomplete]="'off'"
+                  [placeholder]="'Buscar Barrio'">
+          </mat-form-field>
+        </div>
 
         </div>
     </div>
@@ -144,8 +144,6 @@
                      </div>
 
                 </div>
-
-
 
 
                     <ng-container *ngFor="let barrio of barrios">

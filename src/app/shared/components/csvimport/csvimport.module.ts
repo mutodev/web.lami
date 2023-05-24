@@ -20,9 +20,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SearchMatSelectModule } from 'app/shared/controls/custom-mat-select-new/search-mat-select.module';
 
+
 @NgModule({
   declarations: [
     CsvimportComponent
+
   ],
   imports: [
     CommonModule,

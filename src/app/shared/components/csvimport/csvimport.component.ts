@@ -29,6 +29,8 @@ export class CsvimportComponent implements OnInit {
   });
 
   disabledForm: boolean = false;
+  filterPost = '';
+  posts : any[] = [];
   filter: string;
  public barrios: any[] = [];
  array_to_insert : any[] = [];
@@ -83,7 +85,20 @@ export class CsvimportComponent implements OnInit {
 
     this.filter = this.SearchformGroup.controls.search.value;
 
+    if (  this.filter) {
+      var found: any[] = [];
+     found = this.barrios.find(e => e.name === this.filter);
+      console.log("encontrado",found);
+    }
 
+
+    if (found) {
+
+      this.barrios = found;
+      console.log("asignando",this.barrios);
+    } else {
+      this.getbarrios();
+    }
 
   }
 
@@ -133,6 +148,7 @@ let testData:FormData = new FormData();
     const rest = await this._httpService.get<any>(`/neighborhood`);
 
     this.barrios = rest.data;
+    this.posts = rest.data;
         console.log('barrios', rest);
     }
 
