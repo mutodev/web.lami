@@ -115,14 +115,15 @@ this.formGroup.addControl('vatTotal', this.orderInfoComponent.salesPerson);
       console.log("Respuesta", rest);
 
 
-      this._notifyService.successOrdenAlert(rest.message);
+
 
       if (rest.status == 'success') {
+        this._notifyService.successOrdenAlert(rest.message + "  Cotización # " + rest.data['docNumber'] );
         this._router.navigateByUrl('/sales/quotation/all');
       }
 
     } else {
-
+      this._notifyService.errorQuoteAlert("Error" );
       this.validateAllFormFields(this.formGroup)
     }
 
