@@ -86,6 +86,8 @@ console.log("Obteniendo Listas from filds");
             .subscribe();
     }
 
+
+
     ngAfterViewInit(): void {
 
         // Get products if sort or page changes

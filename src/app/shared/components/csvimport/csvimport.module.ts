@@ -19,11 +19,13 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SearchMatSelectModule } from 'app/shared/controls/custom-mat-select-new/search-mat-select.module';
+import { FilterPipe } from 'app/pipes/filter.pipe';
 
 
 @NgModule({
   declarations: [
-    CsvimportComponent
+    CsvimportComponent,
+    FilterPipe
 
   ],
   imports: [

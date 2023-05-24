@@ -22,7 +22,28 @@
             <div class="flex items-start justify-between">
                 <div class="grid grid-cols-2 gap-x-4 gap-y-1">
                     <div class="text-4xl tracking-tight text-secondary">No.</div>
-                    <div class="text-4xl">{{quotation?.docNumber}}</div>
+                    <div class="text-4xl">
+
+
+                        <div *ngIf="quotation.docNumber < 10">
+                            000000{{quotation?.docNumber}}
+                        </div>
+                        <div *ngIf="quotation.docNumber > 9 && quotation.docNumber < 100 ">
+                            00000{{quotation?.docNumber}}
+                        </div>
+
+                        <div *ngIf="quotation.docNumber > 99 && quotation.docNumber < 999 ">
+                            0000{{quotation?.docNumber}}
+                        </div>
+                        <div *ngIf="quotation.docNumber > 999 && quotation.docNumber < 9999 ">
+                            0000{{quotation?.docNumber}}
+                        </div>
+
+
+
+
+
+                    </div>
                     <div class="font-medium tracking-tight text-secondary">Fecha creación</div>
                     <div class="font-medium">{{quotation?.date |  date:'dd/MM/yyyy':'GMT'}}</div>
                     <div class="font-medium tracking-tight text-secondary">Fecha vigencia</div>

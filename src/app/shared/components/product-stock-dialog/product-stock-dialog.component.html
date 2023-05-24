@@ -26,13 +26,13 @@
                         <div class=" hidden ">
                             Artículo
                         </div>
-                        <div class=" hidden ">
+                        <div class=" hidden  ">
                             Bodega
                         </div>
-                        <div class=" hidden ">
+                        <div class=" hidden  ">
                             Can
                         </div>
-                        <div class=" hidden ">
+                        <div class=" hidden  ">
                             Com
                         </div>
                         <div class=" hidden ">
@@ -52,38 +52,38 @@
                                             <div class="font-semibold text-orange">{{item.code}}</div>
                                             <p>{{item.name}}</p>
                                         </div>
-                                        <div class=""></div>
-                                        <div class=""></div>
-                                        <div class=""></div>
-                                        <div class=""></div>
+
+
+
 
 
                                     </div>
                                     <div  class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
 
-                                        <div>
-                                         <!-- <div class="font-semibold text-orange">{{item.code}}</div>
-                                            <p>{{item.name}}</p> -->
+<table>
+    <tr>
+<td> Bodega</td>
+<td>  Can </td>
+<td>  Com</td>
+<td> Ped </td>
+    </tr>
+    <tr>
+        <td> {{row.warehouseCode}}</td>
+        <td>  {{row.inStock}} </td>
+        <td>   {{row.committed}}</td>
+        <td>  {{row.ordered}} </td>
+            </tr>
+</table>
 
 
-                                        </div>
 
-                                        <div class="">
-                                            Bodega:      {{row.warehouseCode}}
-                                        </div>
 
-                                        <div class="">
-                                            Can:     {{row.inStock}}
-                                        </div>
 
-                                        <div class="">
-                                            Com:   {{row.committed}}
-                                        </div>
 
-                                        <div class="">
-                                            Ped:    {{row.ordered}}
-                                        </div>
+
                                     </div>
+
+
                                 </ng-container>
 
                                 <!-- Details button -->

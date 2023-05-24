@@ -4,15 +4,15 @@ import { HttpMethodService } from 'app/core/services/http-method.service';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { Uhbt } from 'app/shared/interfaces/UHBT';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { Subject, Subscription, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-csvimport',
   templateUrl: './csvimport.component.html',
   styleUrls: ['./csvimport.component.scss']
 })
 export class CsvimportComponent implements OnInit {
-
-
+  subscription: Subscription;
+  private _refresh$ = new Subject<void>();
 
   SearchformGroup  = new FormGroup({
     search: new FormControl(''),
@@ -43,6 +43,10 @@ export class CsvimportComponent implements OnInit {
     });
 
     this.getbarrios();
+
+    this.subscription = this._refresh$.subscribe(() => {
+      console.log("Clg");
+    });
     this.cities();
     this.states();
   }
@@ -80,24 +84,19 @@ export class CsvimportComponent implements OnInit {
   }
 
   async search() {
-
+    var found: any[] = [];
     console.log("Buscando", this.SearchformGroup.controls.search.value);
 
     this.filter = this.SearchformGroup.controls.search.value;
-
-    if (  this.filter) {
-      var found: any[] = [];
-     found = this.barrios.find(e => e.name === this.filter);
-      console.log("encontrado",found);
-    }
+    found = this.barrios.find(e => e.name === this.filter);
 
 
-    if (found) {
-
-      this.barrios = found;
-      console.log("asignando",this.barrios);
+    if (found == null) {
+      console.log("nada que asignar");
     } else {
-      this.getbarrios();
+      this.barrios = found;
+      //this._refresh$.next();
+      console.log("asignando",this.barrios);
     }
 
   }
