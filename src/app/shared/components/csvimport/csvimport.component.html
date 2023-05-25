@@ -58,14 +58,14 @@
         <div
         class="">
 
-        <div [formGroup]="formGroup"   class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-3 pb-5 pt-3 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div [formGroup]="formGroup"   class="sm:flex-row flex-0 sm:items-center sm:justify-between px-3 pb-5 pt-3 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
 
 <!---Campos-->
 
 <div class="">
     <!-- estate-->
     <div class="sm:col-span-5">
-        <mat-form-field floatLabel="auto"class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+        <mat-form-field floatLabel="auto"class="flex-auto w-full fuse-mat-dense">
             <mat-label >Departamento</mat-label>
             <search-mat-select  id="estate"  required [placeholder]="'Seleccionar el departamento'"
                 [dataSource]="STATES" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
@@ -79,7 +79,7 @@
         </div>
     <!-- city-->
     <div class="sm:col-span-5">
-        <mat-form-field floatLabel="auto"class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+        <mat-form-field floatLabel="auto"class="flex-auto w-full fuse-mat-dense">
             <mat-label >Ciudad</mat-label>
             <search-mat-select  id="city"  required [placeholder]="'Seleccionar ciudad'"
                 [dataSource]="CITIES" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"

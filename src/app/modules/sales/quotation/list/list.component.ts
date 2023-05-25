@@ -38,10 +38,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ListComponent extends BaseList implements OnInit {
 
-  formGroup  = new FormGroup({
-   search: new FormControl(''),
 
-  });
 
 
   current_sales_personecode: string;
@@ -60,12 +57,13 @@ export class ListComponent extends BaseList implements OnInit {
   ngOnInit(): void {
 
     this.prefix = '000000';
-    this.getquotations();
+    //this.getquotations();
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
 
     this.token = localStorage.getItem('accessToken');
 
-
+    this.getDataSource();
+   // console.log(this.dataSource$,"datasource")
 
    /* this.getDataSource();
 
@@ -108,11 +106,11 @@ this.dataSource$ = quotations.data;
 
   search() {
 
-    console.log("Buscando",this.formGroup.controls.search.value );
+    /*console.log("Buscando",this.formGroup.controls.search.value );
 
     console.log(this.dataSource$);
     this.filter = this.formGroup.controls.search.value;
-
+*/
 
 }
 
