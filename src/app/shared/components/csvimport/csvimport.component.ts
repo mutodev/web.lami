@@ -42,6 +42,16 @@ export class CsvimportComponent implements OnInit {
       this.CITIES = this.tem_CITIES.filter(value => value.value == val );
     });
 
+
+    this.SearchformGroup.controls.search.valueChanges.subscribe((val) => {
+
+      if (val?.length > 3) {
+        this.getbarrios(val);
+  }
+
+    });
+
+
     this.getbarrios();
 
     this.subscription = this._refresh$.subscribe(() => {
@@ -84,20 +94,15 @@ export class CsvimportComponent implements OnInit {
   }
 
   async search() {
-    var found: any[] = [];
+
     console.log("Buscando", this.SearchformGroup.controls.search.value);
 
     this.filter = this.SearchformGroup.controls.search.value;
-    found = this.barrios.find(e => e.name === this.filter);
 
+    if (this.filter.length > 3) {
+      this.getbarrios( this.filter )
+}
 
-    if (found == null) {
-      console.log("nada que asignar");
-    } else {
-      this.barrios = found;
-      //this._refresh$.next();
-      console.log("asignando",this.barrios);
-    }
 
   }
 
@@ -142,13 +147,15 @@ let testData:FormData = new FormData();
     window.location.reload();
    }
   }
-  async getbarrios() {
+  async getbarrios(search : string = "") {
 
-    const rest = await this._httpService.get<any>(`/neighborhood`);
+    const rest = await this._httpService.get<any>(`/neighborhood?search=${search}`);
 
     this.barrios = rest.data;
     this.posts = rest.data;
         console.log('barrios', rest);
+
+
     }
 
     async cities() {

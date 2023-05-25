@@ -5,7 +5,8 @@ import { CsvimportComponent } from './csvimport.component';
 
 export const csvRoutes: Routes = [
     {
-        path: 'Upload', component:CsvimportComponent,
+        path: 'Upload', component: CsvimportComponent,
+
     },
 
 
