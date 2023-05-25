@@ -76,14 +76,19 @@ console.log("Obteniendo Listas from filds");
                 switchMap((query) => {
                     //this.closeDetails();
                     this.isLoading = true;
+
+                    console.log(query);
+                    
                     return this._baseListService.getDataSource(1, 10, 'name', 'asc', query);
 
                 }),
                 map(() => {
                     this.isLoading = false;
+
                 })
             )
             .subscribe();
+
     }
 
 
