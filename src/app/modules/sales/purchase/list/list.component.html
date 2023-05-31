@@ -147,11 +147,34 @@
                                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:document-download'">
                                         </mat-icon>
                                     </button>
-                                        <!-- <button [routerLink]="'/sales/purchase/edit/' + order.id"
+                                       <button [routerLink]="'/sales/purchase/edit/' + order.id"
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
                                             </mat-icon>
-                                        </button> -->
+                                        </button>
+
+
+    <!-- Active -->
+    <div class="hidden sm:block md:hidden ">
+
+        <ng-container *ngIf="order.sendToSap">
+            <mat-icon matTooltip="Enviado" class="text-green-400 icon-size-5"
+                [svgIcon]="'heroicons_solid:check'"></mat-icon>
+
+        </ng-container>
+        <ng-container *ngIf="order.sendToSap == false">
+            <mat-icon matTooltip="Fallido" class="text-red-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
+            </mat-icon>
+        </ng-container>
+
+        <ng-container *ngIf="order.sendToSap == null">
+            <mat-icon matTooltip="Por enviar" class="text-yellow-400 icon-size-5">warning</mat-icon>
+        </ng-container>
+
+    </div>
+
+
+
                                     </div>
                                 </div>
 
