@@ -23,7 +23,7 @@ export class ProductStockDialogComponent extends BaseList implements OnInit {
   ngOnInit(): void {
     this.getDataSource();
 
-    console.log(this.dataSource$);
+   // console.log(this.dataSource$);
   }
 
   onSelectedItem(item: any) {

@@ -42,6 +42,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
       this._lamiService.order$.subscribe(order=>{ this.order = order;});
 
 
+
     }
 
   }
@@ -56,8 +57,8 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
 
     let current_user = localStorage.getItem('user');
   this.current_sales_person_code = localStorage.getItem('user_salesPerson');
-    console.log(current_user);
-//
+
+console.log("editando orden:", this.id);
 
   }
 

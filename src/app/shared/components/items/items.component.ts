@@ -108,13 +108,20 @@ export class ItemsComponent implements OnInit {
     //this.getTaxes();
 
     if (this.id) {
+
+
       this._lamiService.order$.subscribe((order) => {
+
         order.orderDetails.forEach((item) => {
+
           this.itemsFormGroup.push(this.addItemRow(item));
 
+
         });
+
       });
 
+ console.log("agregando", this.itemsFormGroup);
 
     } else {
       //Array.from(Array(1)).forEach(() => this.itemsFormGroup.push(this.addItemRow()));
@@ -166,23 +173,29 @@ export class ItemsComponent implements OnInit {
     console.log("item", item);
 
     const itemsFormGroup = this._formBuilder.group({
-      id: [''],
+      id: [item?.id || ''],
       brilla: [''],
-      Oprice: [item?.price],
-      name: [item?.name, Validators.required],
-      description: [item?.description] || '',
-      code: [item?.code],
+      Oprice:[ item?.price || item?.value],
+      name: [item?.name || item?.description, [Validators.required]],
+      code: [item?.code || item?.itemCode],
       discount: ['0'],
       discountTotal: [''],
       /* project: [item?.project, Validators.required], */
-      quantity: ['1', [Validators.required, Validators.min(1)]],
-      price: [item?.price + (item?.price * this.brilla_price ), Validators.required],
-           tax: item.arTaxCode,
+      quantity: [item?.amount || '1', [Validators.required, Validators.min(1)]],
+      price: [item?.price + (item?.price * this.brilla_price )  || Number( [item?.value]) ,  [ Validators.required ] ] ,
+      tax: item.arTaxCode,
       taxObject: 0,
       subTotal: [0],
       currencyTax: [''],
       estimatedDate: [item?.estimatedDate],
       total: [0, Validators.nullValidator],
+      aditionalInfo: [''],
+      amount:[item?.amount],
+      value: [item?.value],
+      arTaxCode:[item?.arTaxCode],
+      vat: [item?.vat],
+      itemCode:[item?.itemCode],
+      project:[item?.project],
 
     });
 

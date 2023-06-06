@@ -61,7 +61,7 @@
                             </div>
                             <div class="flex-auto border-b"></div>
                         </div>
-                       
+
                         <ci-customer-search  [quotation]="false" #customerApp></ci-customer-search>
                     </div>
 
@@ -82,7 +82,7 @@
 
                 <!--ITEM TABLE-->
                 <div class="mt-12 ">
-                    <ci-item-table  (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
+                    <ci-item-table   (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
 
 
                     <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/sales/purchase/all' ]"
