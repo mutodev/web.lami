@@ -110,11 +110,11 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._lamiService.getU_HBT('Project').subscribe(
       (result) => this.projects =
 
-      result.sort(function (x, y) {
-        let a = x.name.toUpperCase(),
+        result.sort(function (x, y) {
+          let a = x.name.toUpperCase(),
             b = y.name.toUpperCase();
-        return a == b ? 0 : a > b ? 1 : -1;
-    })
+          return a == b ? 0 : a > b ? 1 : -1;
+        })
 
 
     );
@@ -195,27 +195,35 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
   async getbarrios(city: string) {
 
     if (this.formGroup.controls.County.value) {
-        const rest = await this._httpService.get<any>(`/neighborhood/find-by-city-and-state/${this.formGroup.controls.County.value}/${city}`);
+      const rest = await this._httpService.get<any>(`/neighborhood/find-by-city-and-state/${this.formGroup.controls.County.value}/${city}`);
 
-        this.Barrios = rest.data;
-        this.formGroup.controls.neighborhoodName.setValue(this.neighborhoodName);
-        // this.neighborhoodName = '';
-        console.log('barrios', rest);
-        console.log('token', localStorage.getItem('accessToken'));
+      this.Barrios = rest.data;
+      this.formGroup.controls.neighborhoodName.setValue(this.neighborhoodName);
+      // this.neighborhoodName = '';
+      console.log('barrios', rest);
+      console.log('token', localStorage.getItem('accessToken'));
 
     }
 
   }
 
-  getCusotmer() {
+  async getCusotmer() {
 
-    this._lamiService.customer$.subscribe((customer) => {
-      this.neighborhoodName = customer.neighborhoodName || ''
-      this.formGroup.patchValue(customer);
+    // this._lamiService.customer$.subscribe((customer) => {
+    //   this.neighborhoodName = customer.neighborhoodName || ''
+    //   this.formGroup.patchValue(customer);
 
-      if (customer.source == 'C')
-        this.formGroup.get('source').disable();
-    })
+    //   if (customer.source == 'C')
+    //     this.formGroup.get('source').disable();
+    // })
+
+    const result = await this._httpService.get<any>(`/customer/${this.id}`);
+    const customer =  result.data;
+    this.neighborhoodName = customer.neighborhoodName || ''
+    this.formGroup.patchValue(customer);
+
+    if (customer.source == 'C')
+      this.formGroup.get('source').disable();
   }
 
   validations() {

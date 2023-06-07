@@ -1,11 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
-import { BaseList } from 'app/core/bases/base-list';
+import { BaseListAbs } from 'app/core/bases-abstract/base-list-abs';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 import { RealTimeService } from 'app/core/services/real-time.service';
 import { environment } from 'environments/environment';
 import { OrderSummaryDialogComponent } from '../order-summary-dialog/order-summary-dialog.component';
@@ -38,38 +39,48 @@ import { OrderSummaryDialogComponent } from '../order-summary-dialog/order-summa
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class CustomerListComponent extends BaseList implements OnInit {
+export class CustomerListComponent extends BaseListAbs implements OnInit, AfterContentChecked, OnChanges {
 
-  dataSource = [];
   constructor(public _baseListService: BaseListService,
     public _changeDetectorRef: ChangeDetectorRef,
+    public _httpMethodService: HttpMethodService,
     private _activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
     private realTime: RealTimeService,
+    private cdRef : ChangeDetectorRef,
     private _router: Router) {
-    super(_baseListService);
-    this.apiUrl = '/api/customer';
+    super(_httpMethodService);
+    this.urlApi = '/customer';
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
 
-    this.getDataSource();
-    console.log(this.dataSource$);
+    this.getData();
     this.realTime.getServerSentEvent(`${environment.endPoint}/customer/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
     .subscribe(event => {
-      if (this.dataSource$) {
+      if (this.dataSource) {
         const customer = JSON.parse(event.data);
-        let data = (this.dataSource$.source as any)._value;
+        let data = this.dataSource;
         const obj = data.find((a) => a.id === customer.id);
         if (obj) {
             obj.sendToSap = customer.sendToSap;
         }
-        this.editSource([...data]);
+        this.dataSource = [...data];
       }
     });
 
-  }
+    this.searchInputControl.valueChanges.subscribe((text) => {
+      console.log({text})
+      if (text.length > 3) {
+        this.search = text;
+        this.getData();
+      } else if (text == '') {
+        this.search = '';
+        this.getData();
+      }    
+    });
 
+  }
 
   createClient() {
     this._router.navigate(['./new'], { relativeTo: this._activatedRoute });
@@ -88,6 +99,16 @@ export class CustomerListComponent extends BaseList implements OnInit {
         displayName: customer.name
       },
     });
+  }
+
+  ngAfterContentChecked() : void {
+    this.cdRef.detectChanges();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.dataSource && changes.dataSource.currentValue) {
+      this.dataSource = changes.dataSource.currentValue;
+    }
   }
 
 

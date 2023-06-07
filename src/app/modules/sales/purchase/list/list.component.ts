@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { BaseList } from 'app/core/bases/base-list';
+import { BaseListAbs } from 'app/core/bases-abstract/base-list-abs';
 import { BaseListService } from 'app/core/bases/base-list.service';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 import { RealTimeService } from 'app/core/services/real-time.service';
 import { environment } from 'environments/environment';
 
@@ -31,42 +32,70 @@ import { environment } from 'environments/environment';
 ],
   animations: fuseAnimations
 })
-export class PurchaseListComponent extends BaseList implements OnInit {
+export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterContentChecked, OnChanges {
+
   current_sales_personecode: string;
   token: string;
+  
   constructor(public _baseListService: BaseListService,
+              public _httpMethodService: HttpMethodService,
+              private cdRef : ChangeDetectorRef,
               private realTime: RealTimeService) {
-    super(_baseListService);
+    super(_httpMethodService);
+    this.urlApi = '/order';
    }
 
   ngOnInit(): void {
-    this.getDataSource();
+    /* this.getDataSource(); */
+    this.getData();
     this.token = localStorage.getItem('accessToken');
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
 
 
-    console.log("current_sales_personecode",  this.current_sales_personecode);
-    console.log("listado de ordenes",this.dataSource$);
+    /* console.log("current_sales_personecode",  this.current_sales_personecode);
+    console.log("listado de ordenes",this.dataSource$); */
     this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
     .subscribe(event => {
-      if (this.dataSource$) {
+      if (this.dataSource) {
 
 
         const order = JSON.parse(event.data);
-        let data = (this.dataSource$.source as any)._value;
+        let data = this.dataSource;
         const obj = data.find((a) => a.id === order.id);
         if (obj) {
             obj.sendToSap = order.sendToSap;
             obj.docNumber = order.docNumber;
         }
-        this.editSource([...data]);
+        this.dataSource= [...data];
       }
     });
+
+    this.searchInputControl.valueChanges.subscribe((text) => {
+      console.log({text})
+      if (text.length > 3) {
+        this.search = text;
+        this.getData();
+      } else if (text == '') {
+        this.search = '';
+        this.getData();
+      }    
+    });
   }
+
   open(orderId){
      let pdf = environment.endPoint + '/order/generate/pdf/'+ orderId +'?token='+this.token;
     console.log("new window "+pdf);
     window.open(pdf,"_blank");
+  }
+
+  ngAfterContentChecked() : void {
+    this.cdRef.detectChanges();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.dataSource && changes.dataSource.currentValue) {
+      this.dataSource = changes.dataSource.currentValue;
+    }
   }
 
 }

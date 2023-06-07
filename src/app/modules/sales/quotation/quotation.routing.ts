@@ -13,26 +13,26 @@ export const quotationRoutes: Routes = [
     // { path: '**', component: UserListComponent },
     {
         path: 'all', component: ListComponent,
-        resolve: {
-            orders: PaginationQuoteResolver
-        }
+        // resolve: {
+        //     orders: PaginationQuoteResolver
+        // }
     },
     {
         path: 'new', component: DetailComponent,
-        resolve: {
-            paginateCustomers: PaginationClientsResolver,
-            customers:CustomersResolver,
-            products: PaginationProductResolver
+        // resolve: {
+        //     paginateCustomers: PaginationClientsResolver,
+        //     customers:CustomersResolver,
+        //     products: PaginationProductResolver
 
-        }
+        // }
     },
     {
         path: 'edit/:id', component: DetailComponent,
-        resolve: {
-            order: QuoteResolver,
-            customers:CustomersResolver,
-            products: ProductsResolver
-        }
+        // resolve: {
+        //     order: QuoteResolver,
+        //     customers:CustomersResolver,
+        //     products: ProductsResolver
+        // }
     },
     {
         path: 'view/:id',
