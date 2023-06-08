@@ -22,6 +22,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
 
   order: Order;
   id
+  actionName
   formGroup: FormGroup;
   @ViewChild('itemsApp', { static: false }) itemsComponent: ItemsComponent;
   @ViewChild('customerApp', { static: true }) customerComponent: CustomerInfoSearchComponent;
@@ -37,6 +38,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
 
 
     this.id = this.route.snapshot.params['id'];
+    this.actionName = this.id ? 'Editar' : 'Nuevo';
 
     if(this.id){
       this._lamiService.order$.subscribe(order=>{ this.order = order;});
