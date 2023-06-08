@@ -24,6 +24,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
   order: any;
   id;
   formGroup: FormGroup;
+  actionName;
   @ViewChild('itemsApp', { static: false }) itemsComponent: ItemsComponent;
   @ViewChild('customerApp', { static: true }) customerComponent: CustomerInfoSearchComponent;
   @ViewChild('orderInfoApp', { static: true }) orderInfoComponent: OrderInformationComponent;
