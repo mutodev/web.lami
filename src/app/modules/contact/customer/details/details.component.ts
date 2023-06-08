@@ -1,5 +1,3 @@
-import { CloseScrollStrategy } from '@angular/cdk/overlay';
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,9 +6,6 @@ import { LamiService } from 'app/core/api/lami.service';
 import { BaseForm } from 'app/core/bases/base-form';
 import { NotifyService } from 'app/core/notify/notify.service';
 import { CustomerComponent } from 'app/shared/components/customer/customer.component';
-import { AsyncCustomValidator } from 'app/shared/validators/async-validator';
-import { relativeTimeThreshold } from 'moment';
-import { fromEvent, Observable } from 'rxjs';
 import { Customer } from '../clients.types';
 import forEach from 'lodash-es/forEach';
 
@@ -24,7 +19,7 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
 
   @ViewChild('customerComponent') customrComponent: CustomerComponent;
   filds: any = [];
-   id: string;
+  id: string;
 
 
   constructor(private route: ActivatedRoute,
@@ -50,45 +45,35 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
     this.filds = this.customrComponent.formGroup.controls;
     let error_fields = [];
     console.log("controsl", this.filds);
-//Recorrer los errores mostrar las alertas y dalr foco al primero despues de cerrar
-forEach(this.filds, function(value, key) {
-  /* do something for all key: value pairs */
+    //Recorrer los errores mostrar las alertas y dalr foco al primero despues de cerrar
+    forEach(this.filds, function (value, key) {
+      /* do something for all key: value pairs */
+      if (value['status'] === "INVALID") {
+        console.log(value['status'] + "|" + key); // 👉️ atributo, estatus
+        error_fields.push(key);
+      }
 
-  if (value['status'] === "INVALID") {
-    console.log(value['status'] + "|" + key); // 👉️ atributo, estatus
-    error_fields.push(key);
-  }
-
-
-});
-
-
-
-
-    //this._notifyService.FieldErrorMsg("Variables Con Errores");
-
+    });
 
     console.log("focus", error_fields[0]);
 
-
     let data: Customer = this.customrComponent.formGroup.getRawValue();
-
 
     if (this.customrComponent.formGroup.valid) {
       this.customrComponent.formGroup.disable();
       this.disabledForm = true;
       this.id ? this.update(data) : this.create(data);
     } else {
-      document.getElementById( error_fields[0]).focus();
+      document.getElementById(error_fields[0]).focus();
       this.validateAllFormFields(this.customrComponent.formGroup);
-      document.getElementById( error_fields[0]).focus();
+      document.getElementById(error_fields[0]).focus();
     }
 
 
   }
 
   create(data: any) {
-console.log(data,"Información enviada");
+    console.log(data, "Información enviada");
     this._lamiService.createCustomer(data).subscribe({
       next: (result) => {
         this._router.navigateByUrl('/contact/customer/all');
@@ -112,7 +97,7 @@ console.log(data,"Información enviada");
         this._router.navigateByUrl('/contact/customer/all');
         this._notifyService.successAlert("Registro actualiazado sastifactoriamente.");
       },
-      error: ({ error } ) => {
+      error: ({ error }) => {
         this._notifyService.dispalyErrorMsg(error.message);
         this.disabledForm = false
         this.customrComponent.formGroup.enable();

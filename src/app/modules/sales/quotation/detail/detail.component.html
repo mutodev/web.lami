@@ -61,7 +61,7 @@
                           </div>
                           <div class="flex-auto border-b"></div>
                       </div>
-                      <ci-customer-search [quotation]="true" #customerApp></ci-customer-search>
+                      <ci-customer-search [client]="order?.customer || {}" [recordId]="id" [quotation]="true" #customerApp></ci-customer-search>
                   </div>
 
                   <!-- PURCHASE Infomration-->
@@ -73,7 +73,7 @@
                           </div>
                           <div class="flex-auto border-b"></div>
                       </div>
-                      <ci-order-information [estimatedDate]="estimatedDate" #orderInfoApp ></ci-order-information>
+                      <ci-order-information [order]="order" [estimatedDate]="estimatedDate" #orderInfoApp ></ci-order-information>
                   </div>
 
 
@@ -81,7 +81,7 @@
 
               <!--ITEM TABLE-->
               <div class="mt-12 ">
-                  <ci-item-table  (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
+                  <ci-item-table [details]="order?.quoteDetails" (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
 
 
                   <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/sales/quotation/all' ]"

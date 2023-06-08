@@ -17,7 +17,7 @@
 
   <!-- dataSource list -->
   <div class="">
-    <ng-container *ngIf="(dataSource$| async) as dataSource">
+    <ng-container *ngIf="dataSource">
       <ng-container *ngIf="dataSource.length > 0; else nodataSource">
         <div class="custom-m-height-calc grid overflow-y-auto  hiddem md:block ">
           <!-- Header -->
@@ -42,7 +42,7 @@
             </div>
           </div>
           <!-- Rows -->
-          <ng-container *ngIf="(dataSource$ | async) as dataSource">
+          <ng-container *ngIf="dataSource">
             <ng-container *ngFor="let item of dataSource; trackBy: trackByFn">
               <div class="flex md:block">
                 <div (click)="onSelectedItem(item)"

@@ -1,5 +1,5 @@
 import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -58,7 +58,7 @@ const TAXES: any[] = [
     `
   ],
 })
-export class ItemsComponent implements OnInit {
+export class ItemsComponent implements OnInit, AfterContentChecked, OnChanges {
 
   @Input() formGroup: FormGroup;
   products: any[] = [];
@@ -77,13 +77,16 @@ export class ItemsComponent implements OnInit {
   estimatedDate = _moment().format('YYYY-MM-DD');
   @Output() onEstimatedDate = new EventEmitter<any>();
   typer_of_seller: string;
-  brilla_prices:  any[] = [];
+  brilla_prices: any[] = [];
   user: User;
-
+  @Input()
+  details: any[] = [];
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _httpService: HttpMethodService,private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService: LamiService,    private _userService: UserService,
-    private route: ActivatedRoute, public dialog: MatDialog,
+  constructor(private _httpService: HttpMethodService, private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService: LamiService, private _userService: UserService,
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private cdRef: ChangeDetectorRef,
     private _event: EventService) {
 
     this.id = this.route.snapshot.params['id'];
@@ -93,10 +96,10 @@ export class ItemsComponent implements OnInit {
   ngOnInit(): void {
 
     this._userService.user$
-            .pipe((takeUntil(this._unsubscribeAll)))
-            .subscribe((user: User) => {
-                this.user = user;
-            });
+      .pipe((takeUntil(this._unsubscribeAll)))
+      .subscribe((user: User) => {
+        this.user = user;
+      });
 
     console.log("sellerTypeId", this.user.sellerTypeId);
 
@@ -106,27 +109,6 @@ export class ItemsComponent implements OnInit {
     this._lamiService.getU_HBT('TAX').subscribe((result) => this.taxes = result);
     this.getProducts();
     //this.getTaxes();
-
-    if (this.id) {
-
-
-      this._lamiService.order$.subscribe((order) => {
-
-        order.orderDetails.forEach((item) => {
-
-          this.itemsFormGroup.push(this.addItemRow(item));
-
-
-        });
-
-      });
-
- console.log("agregando", this.itemsFormGroup);
-
-    } else {
-      //Array.from(Array(1)).forEach(() => this.itemsFormGroup.push(this.addItemRow()));
-
-    }
 
     this.validations();
 
@@ -139,24 +121,24 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-    getType_seller() {
-  this.typer_of_seller = localStorage.getItem('user_sellerTypeId');
+  getType_seller() {
+    this.typer_of_seller = localStorage.getItem('user_sellerTypeId');
 
-      if (this.typer_of_seller == '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
-        this._lamiService.getPrices();
-        this.brilla_price = parseFloat("0." + this._lamiService._prices.value[2].value);
+    if (this.typer_of_seller == '1aa1acf5-7b5b-11ed-b8b2-93cfa5187c2a') {
+      this._lamiService.getPrices();
+      this.brilla_price = parseFloat("0." + this._lamiService._prices.value[2].value);
 
-        this.getbrilla_prices();
-        //this.brilla_prices = this._lamiService._prices.value;
+      this.getbrilla_prices();
+      //this.brilla_prices = this._lamiService._prices.value;
 
-        console.log('Vendedor Brilla Precio Especial', this.brilla_price );
-      }
+      console.log('Vendedor Brilla Precio Especial', this.brilla_price);
+    }
   }
   async getbrilla_prices() {
 
     const prices = await this._httpService.get<any>(`/prices`);
     this.brilla_prices = prices.data;
-        console.log("Precios",  this.brilla_prices);
+    console.log("Precios", this.brilla_prices);
 
 
     this.brilla_prices
@@ -166,23 +148,23 @@ export class ItemsComponent implements OnInit {
 
     const tax = item.arTaxCode;
     const total_item = item.total;
-    console.log("tax",tax);
+    console.log("tax", tax);
     const taxPercentage = this.getTaxById(tax) ? this.getTaxById(tax).value : 0;
-    console.log("taxPercentage",taxPercentage );
+    console.log("taxPercentage", taxPercentage);
 
     console.log("item", item);
 
     const itemsFormGroup = this._formBuilder.group({
       id: [item?.id || ''],
       brilla: [''],
-      Oprice:[ item?.price || item?.value],
+      Oprice: [item?.price || item?.value],
       name: [item?.name || item?.description, [Validators.required]],
       code: [item?.code || item?.itemCode],
       discount: ['0'],
       discountTotal: [''],
       /* project: [item?.project, Validators.required], */
       quantity: [item?.amount || '1', [Validators.required, Validators.min(1)]],
-      price: [item?.price + (item?.price * this.brilla_price )  || Number( [item?.value]) ,  [ Validators.required ] ] ,
+      price: [item?.price + (item?.price * this.brilla_price) || Number([item?.value]), [Validators.required]],
       tax: item.arTaxCode,
       taxObject: 0,
       subTotal: [0],
@@ -190,12 +172,12 @@ export class ItemsComponent implements OnInit {
       estimatedDate: [item?.estimatedDate],
       total: [0, Validators.nullValidator],
       aditionalInfo: [''],
-      amount:[item?.amount],
+      amount: [item?.amount],
       value: [item?.value],
-      arTaxCode:[item?.arTaxCode],
+      arTaxCode: [item?.arTaxCode],
       vat: [item?.vat],
-      itemCode:[item?.itemCode],
-      project:[item?.project],
+      itemCode: [item?.itemCode],
+      project: [item?.project],
 
     });
 
@@ -238,15 +220,15 @@ export class ItemsComponent implements OnInit {
 
 
 
-      itemsFormGroup.get('brilla')
+    itemsFormGroup.get('brilla')
       .valueChanges
       .subscribe((brilla) => {
-       brilla = brilla || '0';
+        brilla = brilla || '0';
         console.log('brilla', brilla)
 
-        const priceForm = Number(itemsFormGroup.get('Oprice').value) ;
+        const priceForm = Number(itemsFormGroup.get('Oprice').value);
 
-        const NewpriceForm = priceForm  +( priceForm * parseFloat("0."+brilla));
+        const NewpriceForm = priceForm + (priceForm * parseFloat("0." + brilla));
 
         const quantityForm = Number(itemsFormGroup.get('quantity').value);
 
@@ -260,7 +242,7 @@ export class ItemsComponent implements OnInit {
 
         //Total = (subTotal + currencyTax) - discountTotal
 
-       // let total = (subTotal - discountTotal);
+        // let total = (subTotal - discountTotal);
 
         let total = (subTotal + currencyTax) - discountTotal;
         itemsFormGroup.get('price').setValue(NewpriceForm);
@@ -347,7 +329,7 @@ export class ItemsComponent implements OnInit {
     itemsFormGroup.get('discountTotal').setValue(discountTotal.toString());
     itemsFormGroup.get('currencyTax').setValue(currencyTax);
 
-    itemsFormGroup.get('total').setValue(total + currencyTax );
+    itemsFormGroup.get('total').setValue(total + currencyTax);
 
   }
 
@@ -363,7 +345,7 @@ export class ItemsComponent implements OnInit {
     this.discount = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('discountTotal').value).reduce((acc, value) => Number(acc) + Number(value), 0);
 
     this.tax = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('currencyTax').value).reduce((acc, value) => Number(acc) + Number(value), 0);
-console.log("print taxes", this.tax )
+    console.log("print taxes", this.tax)
     this.total = (this.subTotal - this.discount) + this.tax;
 
     this.totalcTaxes();
@@ -418,8 +400,8 @@ console.log("print taxes", this.tax )
       disableClose: true,
       data: {
         selectItem: (item) => {
-         this.itemsFormGroup.push(this.addItemRow(item));
-         this.calculateSummary();
+          this.itemsFormGroup.push(this.addItemRow(item));
+          this.calculateSummary();
 
 
         }
@@ -531,6 +513,22 @@ console.log("print taxes", this.tax )
       },
     });
 
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdRef.detectChanges();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.details && changes.details.currentValue) {
+      this.details = changes.details.currentValue;
+
+      if (this.id) {
+        this.details?.map((item) => {
+          this.itemsFormGroup.push(this.addItemRow(item));
+        });
+      }
+    }
   }
 
 

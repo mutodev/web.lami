@@ -21,7 +21,7 @@ import { Order, OrderDetail } from 'app/shared/interfaces/order';
 export class DetailComponent extends BaseList implements OnInit {
 
 
-  order: Order;
+  order: any;
   id
   formGroup: FormGroup;
   @ViewChild('itemsApp', { static: false }) itemsComponent: ItemsComponent;
@@ -40,9 +40,9 @@ export class DetailComponent extends BaseList implements OnInit {
 
     this.id = this.route.snapshot.params['id'];
 
-    if(this.id){
-      this._lamiService.order$.subscribe(order=>{ this.order = order;});
-
+    if (this.id) {
+      // this._lamiService.order$.subscribe(order => { this.order = order; });
+      this.getOrder();
 
     }
 
@@ -58,28 +58,22 @@ export class DetailComponent extends BaseList implements OnInit {
       'date': new FormControl(),
       'vatTotal': new FormControl(),
       'subTotal': new FormControl(),
-      'total':new FormControl(),
+      'total': new FormControl(),
       'discount': new FormControl(),
-      'comments':new FormControl(),
+      'comments': new FormControl(),
       'serie': new FormControl(),
       'salesPersonCode': new FormControl()
     });
 
     let current_user = localStorage.getItem('user');
-  this.current_sales_person_code = localStorage.getItem('user_salesPerson');
-    console.log(current_user);
-//
+    this.current_sales_person_code = localStorage.getItem('user_salesPerson');
+    // console.log(current_user);
+    //
 
   }
 
-  async  save(){
-console.log("Save cotizacion");
-
-    console.log("Order Info",this.orderInfoComponent);
-    console.log("itwm Info",this.itemsComponent);
-    console.log("customer Info",this.customerComponent);
-    console.log("user_salesPerson", this.current_sales_person_code);
-
+  async save() {
+    
     this.formGroup.patchValue({
       date: this.orderInfoComponent.date,
       estimatedDate: this.orderInfoComponent.estimatedDate,
@@ -97,39 +91,39 @@ console.log("Save cotizacion");
 
     this.formGroup.addControl('quoteDetails', this.itemsComponent.items);
 
-/*
-    this.formGroup.setValue('date', this.orderInfoComponent.date);
-    this.formGroup.addControl('dueDate', this.orderInfoComponent.dueDate);
-this.formGroup.addControl('vatTotal', this.orderInfoComponent.salesPerson);
-    this.formGroup.addControl('subTotal', this.orderInfoComponent.salesPerson);
-    this.formGroup.addControl('total', this.orderInfoComponent.salesPerson);
-    this.formGroup.addControl('discount', this.orderInfoComponent.salesPerson);
-    //this.formGroup.addControl('serie', this.orderInfoComponent.salesPerson);
-    this.formGroup.addControl('comments', this.orderInfoComponent.salesPerson);
-    this.formGroup.addControl('estimatedDate', this.orderInfoComponent.estimatedDate
-    );*/
+    /*
+        this.formGroup.setValue('date', this.orderInfoComponent.date);
+        this.formGroup.addControl('dueDate', this.orderInfoComponent.dueDate);
+    this.formGroup.addControl('vatTotal', this.orderInfoComponent.salesPerson);
+        this.formGroup.addControl('subTotal', this.orderInfoComponent.salesPerson);
+        this.formGroup.addControl('total', this.orderInfoComponent.salesPerson);
+        this.formGroup.addControl('discount', this.orderInfoComponent.salesPerson);
+        //this.formGroup.addControl('serie', this.orderInfoComponent.salesPerson);
+        this.formGroup.addControl('comments', this.orderInfoComponent.salesPerson);
+        this.formGroup.addControl('estimatedDate', this.orderInfoComponent.estimatedDate
+        );*/
     console.log("Imprimir los datos enviados", this.formGroup.getRawValue());
 
     if (this.formGroup.valid) {
-      const rest = await this._httpService.post<any>('/quote/',this.buildOrderRequest());
+      const rest = await this._httpService.post<any>('/quote/', this.buildOrderRequest());
       console.log("Respuesta", rest);
 
 
 
 
       if (rest.status == 'success') {
-        this._notifyService.successOrdenAlert(rest.message + "  Cotización # " + rest.data['docNumber'] );
+        this._notifyService.successOrdenAlert(rest.message + "  Cotización # " + rest.data['docNumber']);
         this._router.navigateByUrl('/sales/quotation/all');
       }
 
     } else {
-      this._notifyService.errorQuoteAlert("Error" );
+      this._notifyService.errorQuoteAlert("Error");
       this.validateAllFormFields(this.formGroup)
     }
 
 
-     /*  this._notifyService.successOrdenAlert("Guardado con exito");*/
-       /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
+    /*  this._notifyService.successOrdenAlert("Guardado con exito");*/
+    /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
   }
 
   buildOrderRequest() {
@@ -147,7 +141,7 @@ this.formGroup.addControl('vatTotal', this.orderInfoComponent.salesPerson);
           arTaxCode: item.tax,
           project: item.project,
           wareHouseCode: "",
-          itemCode:item.code
+          itemCode: item.code
         }
       });
 
@@ -160,17 +154,23 @@ this.formGroup.addControl('vatTotal', this.orderInfoComponent.salesPerson);
       dueDate: this.orderInfoComponent.dueDate,
       vatTotal: this.itemsComponent.tax,
       salesPersonCode: this.current_sales_person_code,
-      serie:  this.orderInfoComponent.formGroup.controls.serie.value,
+      serie: this.orderInfoComponent.formGroup.controls.serie.value,
       subTotal: this.itemsComponent.subTotal,
       total: this.itemsComponent.total,
       discount: Number(this.itemsComponent.discount),
-      estimatedDate : this.itemsComponent.estimatedDate,
-      quoteDetails  ,
+      estimatedDate: this.itemsComponent.estimatedDate,
+      quoteDetails,
       comments: this.itemsComponent.comments
     }
   }
 
-  changeEstimatedDate(date){
+  changeEstimatedDate(date) {
     this.estimatedDate = date;
   }
+
+  async getOrder() {
+    const result = await this._httpService.get(`/quote/${this.id}}`);
+    this.order = result.data;
+  }
+
 }

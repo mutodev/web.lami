@@ -13,33 +13,33 @@ export const purchaseRoutes: Routes = [
     // { path: '**', component: UserListComponent },
     {
         path: 'all', component: PurchaseListComponent,
-        resolve: {
-            orders: PaginationOrderResolver
-        }
+        // resolve: {
+        //     orders: PaginationOrderResolver
+        // }
     },
     {
         path: 'new', component: PurchaseDetailComponent,
-        resolve: {
-            paginateCustomers: PaginationClientsResolver,
-            customers:CustomersResolver,
-            products: PaginationProductResolver
+        // resolve: {
+        //     paginateCustomers: PaginationClientsResolver,
+        //     customers:CustomersResolver,
+        //     products: PaginationProductResolver
 
-        }
+        // }
     },
     { 
         path: 'edit/:id', component: PurchaseDetailComponent,
-        resolve: {
-            order: OrderResolver,
-            customers:CustomersResolver,
-            products: ProductsResolver
-        }
+        // resolve: {
+        //     order: OrderResolver,
+        //     customers:CustomersResolver,
+        //     products: ProductsResolver
+        // }
     },
     { 
         path: 'view/:id',
         component : PurchaseViewComponent,
-        resolve: {
-            order: OrderResolver
-        }
+        // resolve: {
+        //     order: OrderResolver
+        // }
     },
 
 ];

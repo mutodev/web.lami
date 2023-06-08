@@ -11,29 +11,29 @@ export const routes: Route[] = [
         {
             path: 'all',
             component: CustomerListComponent,
-            resolve: {
-                customers: PaginationClientsResolver,
-                identficationtypes: IdentificationTypesResolver,
+            // resolve: {
+            //     customers: PaginationClientsResolver,
+            //     identficationtypes: IdentificationTypesResolver,
 
-            }
+            // }
         },
         {
             path: 'edit/:id',
             component: CustomerDetailsComponent,
-            resolve: {
-                identficationtypes: IdentificationTypesResolver,
-                customers: ClientResolver,
+            // resolve: {
+            //     identficationtypes: IdentificationTypesResolver,
+            //     customers: ClientResolver,
 
-            }
+            // }
         },
         {
             path: 'new',
             component: CustomerDetailsComponent,
-            resolve: {
-                identficationtypes: IdentificationTypesResolver,
-                customers: ClientResolver,
+            // resolve: {
+            //     identficationtypes: IdentificationTypesResolver,
+            //     customers: ClientResolver,
 
-            }
+            // }
         }
 ]
 

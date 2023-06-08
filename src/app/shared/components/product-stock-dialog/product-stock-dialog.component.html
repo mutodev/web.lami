@@ -17,7 +17,7 @@
 
     <!-- dataSource list -->
     <div class="">
-        <ng-container *ngIf="(dataSource$| async) as dataSource">
+        <ng-container *ngIf="dataSource">
             <ng-container *ngIf="dataSource.length > 0; else nodataSource">
                 <div class="custom-m-height-calc grid overflow-y-auto ">
                     <!-- Header -->
@@ -25,10 +25,10 @@
                         matSort matSortDisableClear>
                         <table>
                             <tr>
-                        <td> Bodega</td>
-                        <td>  Can </td>
-                        <td>  Com</td>
-                        <td> Ped </td>
+                                <td> Bodega</td>
+                                <td> Can </td>
+                                <td> Com</td>
+                                <td> Ped </td>
                             </tr>
 
                         </table>
@@ -37,28 +37,30 @@
               </div> -->
                     </div>
                     <!-- Rows -->
-                    <ng-container *ngIf="(dataSource$ | async) as dataSource">
+                    <ng-container *ngIf="dataSource">
                         <ng-container *ngFor="let item of dataSource; trackBy: trackByFn">
                             <div class=" ">
                                 <ng-container *ngFor="let row of item.itemsWareHouses;let i = index;">
-                                    <div *ngIf="i == 0" class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
+                                    <div *ngIf="i == 0"
+                                        class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
                                         <div>
                                             <div class="font-semibold text-orange">{{item.code}}</div>
                                             <p>{{item.name}}</p>
                                         </div>
 
                                     </div>
-                                    <div  class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
+                                    <div
+                                        class="list-grid grid items-center gap-4 py-3 md:px-8 border-b cursor-pointer hover:bg-gray-100">
 
-<table>
+                                        <table>
 
-    <tr>
-        <td> {{row.warehouseCode}}</td>
-        <td>  {{row.inStock}} </td>
-        <td>   {{row.committed}}</td>
-        <td>  {{row.ordered}} </td>
-            </tr>
-</table>
+                                            <tr>
+                                                <td> {{row.warehouseCode}}</td>
+                                                <td> {{row.inStock}} </td>
+                                                <td> {{row.committed}}</td>
+                                                <td> {{row.ordered}} </td>
+                                            </tr>
+                                        </table>
 
 
 
@@ -76,8 +78,7 @@
                                     <button type="button" class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
                                         (click)="toggleDetails(item.id)">
 
-                                        <mat-icon class="icon-size-5"
-                                            [svgIcon]="selectedProduct === item.id  ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'
+                                        <mat-icon class="icon-size-5" [svgIcon]="selectedProduct === item.id  ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'
                                             ">
                                         </mat-icon>
                                     </button>
