@@ -521,12 +521,15 @@ export class ItemsComponent implements OnInit, AfterContentChecked, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.details && changes.details.currentValue) {
+
       this.details = changes.details.currentValue;
 
       if (this.id) {
+
         this.details?.map((item) => {
           this.itemsFormGroup.push(this.addItemRow(item));
         });
+        this.calculateSummary();
       }
     }
   }
