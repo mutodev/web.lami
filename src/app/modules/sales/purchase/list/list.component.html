@@ -107,7 +107,7 @@
 
                                             </ng-container>
                                             <ng-container *ngIf="order.sendToSap == false">
-                                                <mat-icon matTooltip="Fallido" class="text-red-400 icon-size-5"
+                                                <mat-icon matTooltip="Fallido: {{order?.messageError}}" class="text-red-400 icon-size-5"
                                                     [svgIcon]="'heroicons_solid:x'">
                                                 </mat-icon>
                                             </ng-container>
