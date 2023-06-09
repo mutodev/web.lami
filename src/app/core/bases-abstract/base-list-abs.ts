@@ -16,7 +16,7 @@ export abstract class BaseListAbs {
     public defaultPagination: number;    
     public pageSizeOptions: number[];    
     public parametros = {};
-    public  pagination: Pagination = { page: 1, size: 20, length: 0};
+    public  pagination: Pagination = { page: 1, size: 25, length: 0};
    
     constructor(public methodService: HttpMethodService){ }
 
