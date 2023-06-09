@@ -30,13 +30,18 @@
 
 
 
-            <mat-select [(ngModel)]="current_sales_person_code" formControlName="salesPersonCode" required>
+            <!-- <mat-select [(ngModel)]="current_sales_person_code" formControlName="salesPersonCode" required>
 
                 <mat-option *ngFor="let item of salesPersonCode" [value]="item.code">
                     {{item.name}}
                 </mat-option>
 
-            </mat-select>
+            </mat-select> -->
+
+            <search-mat-select [customStyle]="{width: '100%'}" [placeholder]="'Seleccione el Vendedor'"
+                [dataSource]="salesPersonCode" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                formControlName="salesPersonCode">
+            </search-mat-select>
 
 
         </mat-form-field>
