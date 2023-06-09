@@ -71,7 +71,7 @@
                         <!-- Rows -->
                         <ng-container *ngIf="dataSource">
                             <ng-container *ngFor="let order of dataSource; trackBy: trackByFn">
-                                <ng-container *ngIf="order.userId == current_sales_personecode">
+                                <ng-container>
 
 
 
@@ -107,7 +107,7 @@
 
                                             </ng-container>
                                             <ng-container *ngIf="order.sendToSap == false">
-                                                <mat-icon matTooltip="Fallido" class="text-red-400 icon-size-5"
+                                                <mat-icon matTooltip="Fallido: {{order?.messageError}}" class="text-red-400 icon-size-5"
                                                     [svgIcon]="'heroicons_solid:x'">
                                                 </mat-icon>
                                             </ng-container>
@@ -140,22 +140,22 @@
 
                                         <!-- Details button -->
                                         <div class="text-right flex">
-                                            <button [routerLink]="'/sales/purchase/view/' + order.id"
+                                            <button matTooltip="Ver detalle" [routerLink]="'/sales/purchase/view/' + order.id"
                                                 class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:eye'">
                                                 </mat-icon>
                                             </button>
-                                            <button (click)="open(order.id)" class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                            <button matTooltip="Descargar pdf" (click)="open(order.id)" class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                                 mat-button>
                                                 <mat-icon class="icon-size-5"
                                                     [svgIcon]="'heroicons_outline:document-download'">
                                                 </mat-icon>
                                             </button>
-                                            <!--button [routerLink]="'/sales/purchase/edit/' + order.id"
+                                            <button matTooltip="Editar pedido" [routerLink]="'/sales/purchase/edit/' + order.id"
                                                 class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-button>
                                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:pencil'">
                                                 </mat-icon>
-                                            </button-->
+                                            </button>
 
 
                                             <!-- Active -->
