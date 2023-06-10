@@ -97,7 +97,11 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._eventService.addEvent({ name: 'saveClient', event: this.save.bind(this) });
     this.validations();
 
-    this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
+    this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { 
+      this.salesPersonCode = result.map((item: any) => {
+        return {...item, city: item.extendedData?.cities[0]};
+      }); 
+    });
     this._lamiService.getU_HBT('PayTermsGrpCode').subscribe((result: Uhbt[]) => { this.payTermsGrpCode = result });
     // this._lamiService.getU_HBT('U_HBT_RegTrib').subscribe((result: Uhbt[]) => { this.U_HBT_RegTrib = result });
     this._lamiService.getU_HBT('CUSTOMER_GROUP').subscribe((result: Uhbt[]) => { this.CUSTOMER_GROUP = result });
@@ -500,6 +504,12 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     // this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMedSelectComponent.loadData(result); });
     // this._lamiService.getU_HBT('U_HBT_MedPag').subscribe((result: Uhbt[]) => { this.U_HBT_MedPagSelectComponent.loadData(result); });
+
+  }
+
+  nameSalesPerson(item) {
+
+    return item.extendedData?.cities[0] ? `${item.name} (${item.extendedData?.cities[0]})` : item.name;
 
   }
 
