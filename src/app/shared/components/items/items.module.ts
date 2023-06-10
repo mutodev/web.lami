@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SearchMatSelectModule } from 'app/shared/controls/custom-mat-select/search-mat-select.module';
 import { SelectMultiColumnsModule } from 'app/shared/controls/select-multi-columns/select-multi-columns.module';
@@ -10,6 +11,7 @@ import { ItemsComponent } from './items.component';
 @NgModule({
     declarations: [ItemsComponent],
     imports: [
+        CommonModule,
         MaterialModule,
         SelectMultiColumnsModule,
         SearchMatSelectModule,

@@ -80,7 +80,7 @@ export class ItemsComponent implements OnInit, AfterContentChecked, OnChanges {
   brilla_prices: any[] = [];
   user: User;
   @Input()
-  details: any[] = [];
+  order: any = {};
   public _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private _httpService: HttpMethodService, private _formBuilder: FormBuilder, public _baseListService: BaseListService, public _lamiService: LamiService, private _userService: UserService,
@@ -90,6 +90,7 @@ export class ItemsComponent implements OnInit, AfterContentChecked, OnChanges {
     private _event: EventService) {
 
     this.id = this.route.snapshot.params['id'];
+    
   }
 
 
@@ -520,16 +521,23 @@ export class ItemsComponent implements OnInit, AfterContentChecked, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.details && changes.details.currentValue) {
+    if (changes.order && changes.order.currentValue) {
 
-      this.details = changes.details.currentValue;
+      this.order = changes.order.currentValue;
 
       if (this.id) {
-
-        this.details?.map((item) => {
-          this.itemsFormGroup.push(this.addItemRow(item));
+        (this.order.orderDetails || this.order.quoteDetails)?.map((item) => {
+          if (item.estimatedDate) {
+            this.itemsFormGroup.push(this.addItemRow({...item}));
+          } else {
+            this.itemsFormGroup.push(this.addItemRow({...item, estimatedDate: this.order.estimatedDate}));
+          }
+         
         });
         this.calculateSummary();
+        this.comments = this.order.comments;
+        this.estimatedDate = _moment(this.order.estimatedDate).format('YYYY-MM-DD');
+        this.calculateOrderEstimatedDate()
       }
     }
   }

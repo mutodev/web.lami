@@ -83,7 +83,7 @@
 
                 <!--ITEM TABLE-->
                 <div class="mt-12 ">
-                    <ci-item-table  [details]="order?.orderDetails" (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
+                    <ci-item-table  [order]="order" (onEstimatedDate)="changeEstimatedDate($event)" #itemsApp [formGroup]="formGroup"></ci-item-table>
 
 
                     <button type="button" class="mr-3" [disabled]="disabledForm" [routerLink]="[ '/sales/purchase/all' ]"
