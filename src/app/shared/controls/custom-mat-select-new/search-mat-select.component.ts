@@ -173,7 +173,7 @@ export class SearchMatSelectComponent implements OnInit, ControlValueAccessor, O
             .subscribe((val) => {
                 this.onFilter.emit(val);
                 const filter = (a, s) => this.filterColumns && this.filterColumns.length > 0 ? this.filterColumns.map((col) => {
-                    return this.replaceAllTilde(a[col].toString().toLowerCase());
+                    return this.replaceAllTilde(a[col]?.toString()?.toLowerCase() || '');
                 }).join(' ').includes(s) : a.toLowerCase().includes(s);
                 this.filterData(filter, this.dataSource, this.dataFilterSelect, this.filteredData);
             });
