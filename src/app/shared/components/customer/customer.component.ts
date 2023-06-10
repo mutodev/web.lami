@@ -99,10 +99,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
     this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result });
     this._lamiService.getU_HBT('PayTermsGrpCode').subscribe((result: Uhbt[]) => { this.payTermsGrpCode = result });
-    this._lamiService.getU_HBT('U_HBT_RegTrib').subscribe((result: Uhbt[]) => { this.U_HBT_RegTrib = result });
+    // this._lamiService.getU_HBT('U_HBT_RegTrib').subscribe((result: Uhbt[]) => { this.U_HBT_RegTrib = result });
     this._lamiService.getU_HBT('CUSTOMER_GROUP').subscribe((result: Uhbt[]) => { this.CUSTOMER_GROUP = result });
     this._lamiService.getU_HBT('U_HBT_Nacional').subscribe((result: Uhbt[]) => { this.U_HBT_Nacional = result });
-    this._lamiService.getU_HBT('U_HBT_RegFis').subscribe((result: Uhbt[]) => { this.U_HBT_RegFis = result });
+    // this._lamiService.getU_HBT('U_HBT_RegFis').subscribe((result: Uhbt[]) => { this.U_HBT_RegFis = result });
     // this._lamiService.getU_HBT('U_HBT_ResFis').subscribe((result: Uhbt[]) => { this.U_HBT_ResFis = result });
     // this._lamiService.getU_HBT('U_HBT_MunMed').subscribe((result: Uhbt[]) => { this.U_HBT_MunMed = result });
     this._lamiService.getU_HBT('U_HBT_ActEco').subscribe((result: Uhbt[]) => { this.U_HBT_ActEco = result });
@@ -292,7 +292,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         this.formGroup.get('lastName').clearValidators();
         this.formGroup.get('lastName2').clearValidators();
         this.formGroup.get('U_HBT_ActEco').setValidators([Validators.nullValidator]);
-        this.formGroup.controls.U_HBT_RegTrib.setValue('NR'); // por defecto no responsable de iva
+        this.formGroup.controls.U_HBT_RegTrib.setValue('RS'); // por defecto regimen simplificado
+        this.formGroup.controls.U_HBT_RegFis.setValue('49');
 
         if (this.formGroup.get('source').value === 'C') {
           this.formGroup.get('firstNameBilling').clearValidators();
@@ -309,7 +310,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         this.formGroup.get('lastName2').setValidators([Validators.required, Validators.nullValidator]);
         this.formGroup.get('name').clearAsyncValidators();
         this.formGroup.get('typeId').setValue(EnumCustomerType.PersonaNatural);
-
+        this.formGroup.controls.U_HBT_RegTrib.setValue('RC');
+        this.formGroup.controls.U_HBT_RegFis.setValue('48');
 
         if (this.formGroup.get('source').value === 'C') {
           this.formGroup.get('firstNameBilling').setValidators([Validators.required]);
