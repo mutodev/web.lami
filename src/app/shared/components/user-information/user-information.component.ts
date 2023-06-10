@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LamiService } from 'app/core/api/lami.service';
 import { NotifyService } from 'app/core/notify/notify.service';
+import { items } from 'app/mock-api/apps/file-manager/data';
 import { ROLE, User } from 'app/modules/settings/user/user.types';
 import { Type } from 'app/shared/interfaces/setting.types';
 import { Uhbt } from 'app/shared/interfaces/UHBT';
@@ -16,7 +17,7 @@ export class UserInformationComponent implements OnInit {
   accountForm: FormGroup;
   roles: Type[];
   id: string;
-  salesPersonCode: Uhbt[];
+  salesPersonCode: any[];
   sellerTypes: Uhbt[];
   constructor(private _formBuilder: FormBuilder, private _lamiService: LamiService,
     private _route: ActivatedRoute,private _notifyService: NotifyService,
@@ -84,7 +85,11 @@ export class UserInformationComponent implements OnInit {
   }
 
   getSalesPersonCode() {
-    this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { this.salesPersonCode = result; });
+    this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { 
+      this.salesPersonCode = result.map((item: any) => {
+        return {...item, city: item.extendedData?.cities[0]};
+      }); 
+    });
     this._lamiService.getU_HBT('SELLER_TYPE').subscribe((result: Uhbt[]) => { this.sellerTypes = result; });
 
   }

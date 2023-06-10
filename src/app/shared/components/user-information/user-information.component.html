@@ -41,7 +41,7 @@
                 <mat-label>Asociar el vendedor</mat-label>
                 <search-mat-select [customStyle]="{width: '100%'}"
                     [placeholder]="'Seleccionar el vendedor'" [dataSource]="salesPersonCode"
-                    [filterColumns]="['name']" selectedValue="code" [selectedText]="nameSalesPerson"
+                    [filterColumns]="['name', 'city']" selectedValue="code" [selectedText]="nameSalesPerson"
                     formControlName="salesPersonCode">
                 </search-mat-select>
             </mat-form-field>
