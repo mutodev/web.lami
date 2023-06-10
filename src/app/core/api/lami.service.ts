@@ -264,9 +264,9 @@ export class LamiService {
     }
 
     getU_HBT(id: string): Observable<Uhbt[]> {
-        return this._httpClient.get<Uhbt[]>(`${environment.endPoint}/setting/${id}`).pipe(
+        return this._httpClient.get<any>(`${environment.endPoint}/setting/all/details/${id}`).pipe(
             map((result: any) => {
-                return result.settingDetail;
+                return result.data;
             }));
     }
     /* #endregion */

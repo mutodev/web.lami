@@ -122,7 +122,6 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit, After
 
     });
 
-    console.log(this.clients, "noT");
     this.clients.sort((a, b) => a.name.localeCompare(b.name));
 
   }

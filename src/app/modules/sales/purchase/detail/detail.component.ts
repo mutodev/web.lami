@@ -22,7 +22,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
 
 
   order: any;
-  id;
+  id: string;
   formGroup: FormGroup;
   actionName;
   @ViewChild('itemsApp', { static: false }) itemsComponent: ItemsComponent;

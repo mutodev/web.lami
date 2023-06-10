@@ -39,7 +39,7 @@
             </mat-select> -->
 
             <search-mat-select [customStyle]="{width: '100%'}" [placeholder]="'Seleccione el Vendedor'"
-                [dataSource]="salesPersonCode" [filterColumns]="['name']" selectedValue="code" [selectedText]="'name'"
+                [dataSource]="salesPersonCode" [filterColumns]="['name', 'city']" selectedValue="code" [selectedText]="nameSalesPerson"
                 formControlName="salesPersonCode">
             </search-mat-select>
 
