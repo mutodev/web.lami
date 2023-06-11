@@ -76,17 +76,30 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
     this.formGroup.addControl('serie', this.orderInfoComponent.serie);
 
     if (this.formGroup.valid) {
-      this._lamiService.createOrder(this.buildOrderRequest()).subscribe(result => {
-        if (result.status == 'success')
-          console.log(result);
-
-
-
-        this._router.navigateByUrl('/sales/purchase/all');
-
-        /*  this._notifyService.successOrdenAlert("Guardado con exito");*/
-        /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
-      });
+      if (this.id) {
+        this._lamiService.updateOrder(this.id, this.buildOrderRequest()).subscribe(result => {
+          if (result.status == 'success') {
+            this._router.navigateByUrl('/sales/purchase/all');
+          } else {
+            this._notifyService.dispalyErrorMsg(result.message);
+          }
+  
+          /*  this._notifyService.successOrdenAlert("Guardado con exito");*/
+          /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
+        });        
+      } else {
+        this._lamiService.createOrder(this.buildOrderRequest()).subscribe(result => {
+          if (result.status == 'success') {
+            this._router.navigateByUrl('/sales/purchase/all');
+            console.log(result);
+          } else {
+            this._notifyService.dispalyErrorMsg(result.message);
+          }
+          /*  this._notifyService.successOrdenAlert("Guardado con exito");*/
+          /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
+        });
+      }
+     
     } else {
       this.validateAllFormFields(this.formGroup)
     }

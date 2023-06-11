@@ -18,7 +18,7 @@ import { HttpMethodService } from 'app/core/services/http-method.service';
 })
 export class LamiService {
 
-    constructor(private _httpClient: HttpClient,private _httpService: HttpMethodService ) {
+    constructor(private _httpClient: HttpClient, private _httpService: HttpMethodService) {
 
 
 
@@ -27,14 +27,14 @@ export class LamiService {
 
     public _httpOptions = {
         headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' +  localStorage.getItem('accessToken') // replace authToken with your actual authorization token
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('accessToken') // replace authToken with your actual authorization token
         })
-      };
+    };
 
-      /* #Brilla prices */
+    /* #Brilla prices */
 
-      public _prices: BehaviorSubject<Price[] | null> = new BehaviorSubject(null);
+    public _prices: BehaviorSubject<Price[] | null> = new BehaviorSubject(null);
 
 
 
@@ -58,7 +58,7 @@ export class LamiService {
 
     getStores(): Observable<Store[]> {
         this._stores.next(STORE_DATA);
-          return of([])
+        return of([])
     }
 
     /* #endregion */
@@ -147,7 +147,7 @@ export class LamiService {
     private _orderDetail: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
 
     get customer$(): Observable<Customer> {
-        console.log("customer",this._customer);
+        console.log("customer", this._customer);
         return this._customer.asObservable();
     }
 
@@ -170,7 +170,7 @@ export class LamiService {
 
 
     getCustomers(params?: any): Observable<APIResponse<Customer[]>> {
-        return this._httpClient.get<Customer[]>(`${environment.endPoint}/customer`, {params}).pipe(
+        return this._httpClient.get<Customer[]>(`${environment.endPoint}/customer`, { params }).pipe(
             map((result: any) => {
                 let newData = result.data?.data.map((item: any) => {
                     return {
@@ -232,6 +232,10 @@ export class LamiService {
 
     createOrder(order: Order): Observable<APIResponse<Order>> {
         return this._httpClient.post<APIResponse<Order>>(`${environment.endPoint}/order`, order);
+    }
+
+    updateOrder(id: string, order: Order): Observable<APIResponse<Order>> {
+        return this._httpClient.patch<APIResponse<Order>>(`${environment.endPoint}/order/${id}`, order);
     }
 
     get order$(): Observable<Order> {
