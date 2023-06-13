@@ -25,6 +25,11 @@
                     <div class="text-4xl">
 
 
+
+                        <div *ngIf="quotation?.orderDetails?.length > 1">
+                          {{quotation?.docNumber}}
+                        </div>
+
                         <div *ngIf="quotation.docNumber < 10">
                             000000{{quotation?.docNumber}}
                         </div>
