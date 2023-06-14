@@ -43,7 +43,9 @@ export class UserInformationComponent implements OnInit {
 
     this._lamiService.roleTypes$
       .subscribe((roles: Type[]) => {
+
         this.roles = roles;
+        console.log("roles",this.roles);
       });
 
       if(this.id)
@@ -85,10 +87,10 @@ export class UserInformationComponent implements OnInit {
   }
 
   getSalesPersonCode() {
-    this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => { 
+    this._lamiService.getU_HBT('sales/personcode').subscribe((result: Uhbt[]) => {
       this.salesPersonCode = result.map((item: any) => {
         return {...item, city: item.extendedData?.cities[0]};
-      }); 
+      });
     });
     this._lamiService.getU_HBT('SELLER_TYPE').subscribe((result: Uhbt[]) => { this.sellerTypes = result; });
 

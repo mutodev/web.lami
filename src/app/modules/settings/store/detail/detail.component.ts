@@ -51,11 +51,13 @@ export class StoreDetailComponent implements OnInit {
   async create() {
 
     if (this.id) {
-      console.log("Sent",this.formGroup.getRawValue());
+      console.log("Sent to update", this.formGroup.getRawValue());
+
       const rest = await this._httpService.patch<any>('/store/'+this.id, this.formGroup.getRawValue());
       console.log("Respuesta", rest);
       this._notifyService.successOrdenAlert(rest.message);
     } else {
+      console.log("Sent to create", this.formGroup.getRawValue());
       const rest = await this._httpService.post<any>('/store', this.formGroup.getRawValue());
       console.log("Respuesta", rest);
       this._notifyService.successOrdenAlert(rest.message);

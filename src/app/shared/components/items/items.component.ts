@@ -90,12 +90,12 @@ export class ItemsComponent implements OnInit, AfterContentChecked, OnChanges {
     private _event: EventService) {
 
     this.id = this.route.snapshot.params['id'];
-    
+
   }
 
 
   ngOnInit(): void {
-
+    console.log("id", this.id);
     this._userService.user$
       .pipe((takeUntil(this._unsubscribeAll)))
       .subscribe((user: User) => {
@@ -532,7 +532,7 @@ export class ItemsComponent implements OnInit, AfterContentChecked, OnChanges {
           } else {
             this.itemsFormGroup.push(this.addItemRow({...item, estimatedDate: this.order.estimatedDate}));
           }
-         
+
         });
         this.calculateSummary();
         this.comments = this.order.comments;
