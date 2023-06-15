@@ -161,14 +161,14 @@ let testData:FormData = new FormData();
     async cities() {
 
       const rest = await this._httpService.get<any>(`/setting/CITIES`);
-      this.CITIES = rest['settingDetail'];
-      this.tem_CITIES = rest['settingDetail'];
+      this.CITIES = rest['data'];
+      this.tem_CITIES = rest['data'];
           console.log('cities',this.CITIES);
       }
       async states() {
 
         const rest = await this._httpService.get<any>(`/setting/County`);
-        this.STATES = rest['settingDetail'];
+        this.STATES = rest['data'];
         console.log('states', this.STATES );
         }
 
