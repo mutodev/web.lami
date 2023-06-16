@@ -114,7 +114,7 @@ export class LamiService {
     getIdentificationTypes(): Observable<IdentificationType[]> {
         return this._httpClient.get<IdentificationType[]>(`${environment.endPoint}/setting/IDENTIFICATION_TYPE`).pipe(
             tap((result: any) => {
-                this._ientificationTypes.next(result.settingDetail);
+                this._ientificationTypes.next(result.data);
             })
         );
     }
@@ -132,7 +132,7 @@ export class LamiService {
     getRoleTypes(): Observable<IdentificationType[]> {
         return this._httpClient.get<IdentificationType[]>(`${environment.endPoint}/setting/ROLES`).pipe(
             tap((result: any) => {
-                this._roleTypes.next(result.settingDetail);
+                this._roleTypes.next(result.data);
             })
         );
     }
