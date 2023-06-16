@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotifyService } from 'app/core/notify/notify.service';
 import { HttpMethodService } from 'app/core/services/http-method.service';
+import { Uhbt } from 'app/shared/interfaces/UHBT';
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']
 })
 export class StoreDetailComponent implements OnInit {
+
+  STATES: Uhbt[] = [];
+  CITIES: Uhbt[] = [];
+  tem_CITIES: Uhbt[] = [];
 
   formGroup  = new FormGroup({
     code: new FormControl(''),
@@ -17,6 +22,7 @@ export class StoreDetailComponent implements OnInit {
     phoneNumber: new FormControl(''),
     email: new FormControl(''),
     city: new FormControl(''),
+
   });
 
   id:string;
@@ -25,7 +31,8 @@ export class StoreDetailComponent implements OnInit {
   disabledForm: boolean = false;
   constructor(private _notifyService: NotifyService,
     private _httpService: HttpMethodService, private _formBuilder: FormBuilder,
-    private route: ActivatedRoute,) {
+    private route: ActivatedRoute,
+    private _router: Router) {
     this.id = this.route.snapshot.params['id'];
     this.actionName = this.id ? 'Editar' : 'Nueva';
 
@@ -37,6 +44,7 @@ export class StoreDetailComponent implements OnInit {
     if (this.id) {
       this.getStore();
     }
+
 
   }
 
@@ -54,17 +62,47 @@ export class StoreDetailComponent implements OnInit {
       console.log("Sent to update", this.formGroup.getRawValue());
 
       const rest = await this._httpService.patch<any>('/store/'+this.id, this.formGroup.getRawValue());
-      console.log("Respuesta", rest);
-      this._notifyService.successOrdenAlert(rest.message);
+     // console.log("Respuesta", rest);
+
+
+      if (rest.status == "success")  {
+        this._router.navigateByUrl('/settings/store/all');
+        //console.log("Respuesta", rest);
+        this._notifyService.successOrdenAlert("Guardado Con Exito");
+      } else {
+
+        this._notifyService.errorStoreAlert("Error Al crear");
+
+        this._router.navigateByUrl('/settings/store/all');
+      }
+
     } else {
+
       console.log("Sent to create", this.formGroup.getRawValue());
       const rest = await this._httpService.post<any>('/store', this.formGroup.getRawValue());
-      console.log("Respuesta", rest);
-      this._notifyService.successOrdenAlert(rest.message);
+
+      if (rest.status == "success")  {
+        this._router.navigateByUrl('/settings/store/all');
+        //console.log("Respuesta", rest);
+        this._notifyService.successOrdenAlert("Creado Con Exito");
+      } else {
+
+        this._notifyService.errorStoreAlert("Error Al crear");
+
+        this._router.navigateByUrl('/settings/store/all');
+      }
+
+
+
+
     }
 
 
    }
+
+
+
+
 
    async getStore() {
 
@@ -79,7 +117,23 @@ export class StoreDetailComponent implements OnInit {
      this.formGroup.controls.city.setValue(rest.data['city']);
      this.formGroup.controls.address.setValue(rest.data['address']);
 
-   }
+  }
+
+  async cities() {
+
+    const rest = await this._httpService.get<any>(`/setting/CITIES`);
+    this.CITIES = rest['settingDetail'];
+    this.tem_CITIES = rest['settingDetail'];
+        console.log('cities',this.CITIES);
+    }
+    async states() {
+
+      const rest = await this._httpService.get<any>(`/setting/County`);
+      this.STATES = rest['settingDetail'];
+      console.log('states', this.STATES );
+      }
+
+
 
 
 }

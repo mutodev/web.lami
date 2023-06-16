@@ -65,42 +65,36 @@
   <div class="sm:col-span-5">
     <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
         <mat-label>Referencia</mat-label>
-        <input [formControlName]="'code'" matInput>
+        <input [formControlName]="'code'" required matInput>
     </mat-form-field>
 </div>
-<!-- estate-->
-<div class="sm:col-span-5">
-    <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
-        <mat-label>Departamento</mat-label>
-        <input [formControlName]="'state'" matInput>
-    </mat-form-field>
-    </div>
+
 <!-- city-->
 <div class="sm:col-span-5">
     <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
         <mat-label>Ciudad</mat-label>
-        <input [formControlName]="'city'" matInput>
+        <input [formControlName]="'city'" required matInput>
     </mat-form-field>
     </div>
 <!-- name -->
 <div class="sm:col-span-5">
 <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
     <mat-label>Nombre</mat-label>
-    <input [formControlName]="'name'" matInput>
+    <input [formControlName]="'name'"required matInput>
 </mat-form-field>
 </div>
 <!-- address-->
 <div class="sm:col-span-5">
 <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
     <mat-label>Dirección</mat-label>
-    <input [formControlName]="'address'"  matInput>
+    <input [formControlName]="'address'" required matInput>
 </mat-form-field>
 </div>
 <!-- phoneNumber -->
 <div class="sm:col-span-5">
     <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
         <mat-label>Teléfono</mat-label>
-        <input [formControlName]="'phoneNumber'"  matInput>
+        <input [formControlName]="'phoneNumber'" required matInput>
     </mat-form-field>
     </div>
 
@@ -108,7 +102,7 @@
 <div class="sm:col-span-5">
     <mat-form-field class="fuse-mat-dense  fuse-mat-emphasized-affix w-full">
         <mat-label>Correo Electrónico</mat-label>
-        <input [formControlName]="'email'"  matInput>
+        <input [formControlName]="'email'" required  matInput>
     </mat-form-field>
     </div>
 

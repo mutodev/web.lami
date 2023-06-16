@@ -39,7 +39,15 @@ export class CsvimportComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup.controls.state.valueChanges.subscribe((val) => {
-      this.CITIES = this.tem_CITIES.filter(value => value.value == val );
+
+      if (val?.length > 3) {
+        console.log(val);
+  }
+      /*
+      console.log(val);
+      this.CITIES = this.tem_CITIES.filter(value => value.value == val);
+
+*/
     });
 
 
@@ -100,6 +108,7 @@ export class CsvimportComponent implements OnInit {
     this.filter = this.SearchformGroup.controls.search.value;
 
     if (this.filter.length > 3) {
+
       this.getbarrios( this.filter )
 }
 

@@ -232,5 +232,26 @@ export class NotifyService {
 
     }
 
+    errorStoreAlert(msg: string, ) {
+        this._fuseConfirmationService.open({
+             title: '¡Error al Crear La Tienda!',
+             message: msg || INTERNAL_ERROR,
+             icon: {
+                 show: true,
+                 name: 'heroicons_outline:check-circle',
+                 color: 'error'
+             },
+             actions: {
+                 cancel: {
+                     show: false
+                 },
+                 confirm: {
+                     label: 'OK'
+                 }
+             }
+         })
+     }
+
+
 
 }
