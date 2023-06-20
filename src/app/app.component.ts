@@ -35,6 +35,15 @@ export class AppComponent {
 
                     this._notifyService.successOrdenAlert("Guardado con exito: Pedido No " + " " + order.docNumber);
                 });
+
+            this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/order-updated?token=${localStorage.getItem('accessToken')}`)
+                .subscribe(event => {
+
+                    const order = JSON.parse(event.data);
+                    console.log("event data", event.data.docNumber);
+
+                    this._notifyService.successOrdenAlert("Actualizada con exito: Pedido No " + " " + order.docNumber);
+                });
         }
     }
 
