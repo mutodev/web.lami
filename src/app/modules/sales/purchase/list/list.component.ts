@@ -56,9 +56,8 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
     console.log("listado de ordenes",this.dataSource$); */
     this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
     .subscribe(event => {
-      if (this.dataSource) {
-
-
+      console.log({event2: event})
+      if (this.dataSource) {        
         const order = JSON.parse(event.data);
         let data = this.dataSource;
         const obj = data.find((a) => a.id === order.id);
@@ -66,7 +65,7 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
             obj.sendToSap = order.sendToSap;
             obj.docNumber = order.docNumber;
         }
-        this.dataSource= [...data];
+        this.dataSource = [...data];
       }
     });
 
