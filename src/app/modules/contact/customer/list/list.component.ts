@@ -57,7 +57,7 @@ export class CustomerListComponent extends BaseListAbs implements OnInit, AfterC
 
     this.getData();
     this.realTime.getServerSentEvent(`${environment.endPoint}/customer/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
-    .subscribe(event => {
+    .subscribe(event => {      
       if (this.dataSource) {
         const customer = JSON.parse(event.data);
         let data = this.dataSource;

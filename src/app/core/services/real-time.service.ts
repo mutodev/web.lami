@@ -19,8 +19,9 @@ export class RealTimeService {
         return new Observable((observer: Observer<MessageEvent<any>>) => {
             const eventSource = this.sseService.getEventSource(url);
 
-            eventSource.onmessage = event => {
+            eventSource.onmessage = (event: any) => {
                 this._zone.run(() => {
+                    console.log({event})
                     observer.next(event);
                 })
             }
@@ -31,7 +32,7 @@ export class RealTimeService {
                 })
             }
             
-        })
+        });
     }
 
 }
