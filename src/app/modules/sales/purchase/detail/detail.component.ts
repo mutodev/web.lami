@@ -83,10 +83,10 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
           } else {
             this._notifyService.dispalyErrorMsg(result.message);
           }
-  
+
           /*  this._notifyService.successOrdenAlert("Guardado con exito");*/
           /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
-        });        
+        });
       } else {
         this._lamiService.createOrder(this.buildOrderRequest()).subscribe(result => {
           if (result.status == 'success') {
@@ -99,7 +99,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
           /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
         });
       }
-     
+
     } else {
       this.validateAllFormFields(this.formGroup)
     }
@@ -150,6 +150,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
   async getOrder() {
     const result = await this._httpMethodService.get(`/order/${this.id}`);
     this.order = result.data;
+    console.log(this.order.orderDetails);
   }
 
 }
