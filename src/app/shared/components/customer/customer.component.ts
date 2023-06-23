@@ -89,7 +89,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
 
   ngOnInit(): void {
-
+   
     this.state = null;
     this.city = null;
     this.Barrios = null;

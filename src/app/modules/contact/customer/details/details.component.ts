@@ -8,6 +8,7 @@ import { NotifyService } from 'app/core/notify/notify.service';
 import { CustomerComponent } from 'app/shared/components/customer/customer.component';
 import { Customer } from '../clients.types';
 import forEach from 'lodash-es/forEach';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 
 @Component({
   selector: 'app-details',
@@ -25,6 +26,7 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
   constructor(private route: ActivatedRoute,
     private _lamiService: LamiService,
     private _router: Router,
+    private _httpService: HttpMethodService,
     private _notifyService: NotifyService) {
     super();
     this.id = this.route.snapshot.params['id'];
@@ -69,6 +71,17 @@ export class CustomerDetailsComponent extends BaseForm implements OnInit {
       document.getElementById(error_fields[0]).focus();
     }
 
+
+  }
+
+  async  sync_data() {
+    const rest2 = await this._httpService.post<any>('/setting/migrate-sales-person',null);
+    console.log("Sincronizando",rest2);
+  }
+
+  async  sync_data_customer() {
+  const rest = await this._httpService.post<any>('/customer/migrate-customer',null);
+    console.log("Sincronizando",rest);
 
   }
 

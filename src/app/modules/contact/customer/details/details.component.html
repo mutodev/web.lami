@@ -1,5 +1,22 @@
 <div [@fadeInRight] class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+        <div class="col">
+        <button (click)="sync_data()"  mat-button>
+            <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:sun'">
 
+            </mat-icon>
+            <span class="ml-1">Sincronizar Vendendores</span>
+        </button>
+        </div>
+        <div class="col">
+        <button (click)="sync_data_customer()"  mat-button>
+            <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:sun'">
+
+            </mat-icon>
+            <span class="ml-1">Sincronizar Clientes</span>
+        </button>
+    </div>
+    </div>
     <!-- Header -->
     <div
         class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-3 pb-5 pt-3 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
@@ -7,6 +24,9 @@
             <!-- Breadcrumbs -->
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
+
+
+
                     <div>
                         <a [routerLink]="'/contact/customer/all'" class="whitespace-nowrap text-primary-500">Clientes</a>
                     </div>
