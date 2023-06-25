@@ -5,6 +5,8 @@ import { BaseListService } from 'app/core/bases/base-list.service';
 import { HttpMethodService } from 'app/core/services/http-method.service';
 import { RealTimeService } from 'app/core/services/real-time.service';
 import { environment } from 'environments/environment';
+import { Socket } from 'ngx-socket-io';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -40,7 +42,9 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
   constructor(public _baseListService: BaseListService,
               public _httpMethodService: HttpMethodService,
               private cdRef : ChangeDetectorRef,
-              private realTime: RealTimeService) {
+              private realTime: RealTimeService,
+              private socket: Socket
+              ) {
     super(_httpMethodService);
     this.urlApi = '/order';
    }
@@ -50,11 +54,15 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
     this.getData();
     this.token = localStorage.getItem('accessToken');
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
+    
+    /* this.socket.emit('message', 'hola'); */
 
-
+    this.socket.fromEvent('events').pipe(map((data) => {
+      console.log({data});
+    }));
     /* console.log("current_sales_personecode",  this.current_sales_personecode);
     console.log("listado de ordenes",this.dataSource$); */
-    this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
+    /* this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
     .subscribe(event => {
       console.log({event2: event})
       if (this.dataSource) {        
@@ -67,7 +75,7 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
         }
         this.dataSource = [...data];
       }
-    });
+    }); */
 
     this.searchInputControl.valueChanges.subscribe((text) => {
       console.log({text})

@@ -1,0 +1,8 @@
+{
+    "/api": {
+      "target": "http://52.33.82.104",
+      "secure": false,
+      "changeOrigin": true
+    }
+  }
+  

@@ -1,7 +1,7 @@
 
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { HttpMethodService } from '../services/http-method.service';
 import { FormControl } from '@angular/forms';
 import { Pagination } from 'app/shared/interfaces/pagination';

@@ -37,8 +37,11 @@ export class AuthInterceptor implements HttpInterceptor
         {
             newReq = req.clone({
                 headers: req.headers.set('Authorization', 'Bearer ' + this._authService.accessToken)
-                .set("ngrok-skip-browser-warning", 'true')
+                // .set("ngrok-skip-browser-warning", 'true')
                 .set('Access-Control-Allow-Origin', '*')
+                .set('Cache-Control', 'no-cache')
+                .set('Pragma', 'no-cache')
+                .set('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT')
             });
         }
 

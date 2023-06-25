@@ -1,7 +1,7 @@
 import { Subscription, ReplaySubject, Subject } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup, FormBuilder, NG_VALIDATORS, Validator, AbstractControl, ValidationErrors, FormControl, NgControl } from '@angular/forms';
 import { Component, Input, forwardRef, EventEmitter, Output, OnChanges, ChangeDetectorRef, SimpleChanges, Self, HostBinding, OnInit, Renderer2, Inject, OnDestroy } from '@angular/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
+import {MatFormFieldControl } from '@angular/material/form-field';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { DOCUMENT } from '@angular/common';
 import { Event } from '@angular/router';

@@ -88,6 +88,9 @@ export class HttpMethodService {
     const tokenObj = localStorage.getItem('accessToken');
     if (tokenObj) {
         let headers = new HttpHeaders();
+        headers = headers.append('Cache-Control',  'no-cache, no-store, must-revalidate, post-check=0, pre-check=0')
+        headers = headers.append('Pragma', 'no-cache');
+        headers = headers.append('Expires', '0');
         headers = headers.append('Authorization', 'Bearer ' + tokenObj);
         headers = headers.append('Content-Type', 'application/json');
         return headers;
@@ -98,6 +101,9 @@ export class HttpMethodService {
     const tokenObj = localStorage.getItem('accessToken');
     if (tokenObj) {
         let headers = new HttpHeaders();
+        headers = headers.append('Cache-Control',  'no-cache, no-store, must-revalidate, post-check=0, pre-check=0')
+        headers = headers.append('Pragma', 'no-cache');
+        headers = headers.append('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
         headers = headers.append('Authorization', 'Bearer ' + tokenObj);
         return headers;
     }

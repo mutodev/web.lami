@@ -4,6 +4,7 @@ import { ListComponent } from './list/list.component';
 import { DetailComponent } from './detail/detail.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';

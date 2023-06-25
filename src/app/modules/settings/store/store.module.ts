@@ -7,6 +7,7 @@ import { StoreListComponent } from './list/list.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
