@@ -10,7 +10,7 @@ import { HttpMethodService } from 'app/core/services/http-method.service';
 import { RealTimeService } from 'app/core/services/real-time.service';
 import { environment } from 'environments/environment';
 import { OrderSummaryDialogComponent } from '../order-summary-dialog/order-summary-dialog.component';
-
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-list',
@@ -46,7 +46,7 @@ export class CustomerListComponent extends BaseListAbs implements OnInit, AfterC
     public _httpMethodService: HttpMethodService,
     private _activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
-    private realTime: RealTimeService,
+    private socket: Socket,
     private cdRef : ChangeDetectorRef,
     private _router: Router) {
     super(_httpMethodService);
@@ -56,7 +56,20 @@ export class CustomerListComponent extends BaseListAbs implements OnInit, AfterC
   ngOnInit() {
 
     this.getData();
-    this.realTime.getServerSentEvent(`${environment.endPoint}/customer/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
+    let user = JSON.parse(localStorage.getItem('user'));
+    this.socket.fromEvent(`changeStatusCustomer${user.id}`).subscribe((event: any) => {
+      if (this.dataSource) {        
+        const order = event.data;
+        let data = this.dataSource;
+        const obj = data.find((a) => a.id === order.id);
+        if (obj) {
+            obj.sendToSap = order.sendToSap;
+        }
+        this.dataSource = [...data];
+      }
+    });
+
+    /* this.realTime.getServerSentEvent(`${environment.endPoint}/customer/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
     .subscribe(event => {      
       if (this.dataSource) {
         const customer = JSON.parse(event.data);
@@ -67,7 +80,7 @@ export class CustomerListComponent extends BaseListAbs implements OnInit, AfterC
         }
         this.dataSource = [...data];
       }
-    });
+    }); */
 
     this.searchInputControl.valueChanges.subscribe((text) => {
       console.log({text})
