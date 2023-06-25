@@ -17,8 +17,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { registerLocaleData } from '@angular/common';
 import localeDeAt from '@angular/common/locales/es-CO';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from './../environments/environment';
 
-const config: SocketIoConfig = { url: 'http://localhost:1200', options: {transports: ['websocket', 'polling']} };
+const config: SocketIoConfig = { url: environment.endPoint, options: {transports: ['websocket', 'polling']} };
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy: PreloadAllModules,
