@@ -6,12 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import { MatRippleModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
@@ -23,6 +21,9 @@ import { CustomerListComponent } from './list/list.component';
 import { OrderSummaryDialogComponent } from './order-summary-dialog/order-summary-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
     declarations: [
         CustomerDetailsComponent,
