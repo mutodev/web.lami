@@ -27,14 +27,14 @@ export class AppComponent {
         console.log("entro a initGeneralSocket");
         if (localStorage.getItem('accessToken')) {
             let user = JSON.parse(localStorage.getItem('user'));
-            this.socket.fromEvent(`createOrder${user.id}`).subscribe((event: any) => {
+            this.socket.on(`createOrder${user.id}`, (event: any) => {
                     const order = event;
                     console.log("event data", event.docNumber);
 
                     this._notifyService.successOrdenAlert("Guardado con exito: Pedido No " + " " + order.docNumber);
             });
 
-            this.socket.fromEvent(`updateOrder${user.id}`).subscribe((event: any) => {
+            this.socket.on(`updateOrder${user.id}`, (event: any) => {
                 const order = event;
                 console.log("event data", event.docNumber);
                 this._notifyService.successOrdenAlert("Actualizada con exito: Pedido No " + " " + order.docNumber);

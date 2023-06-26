@@ -54,9 +54,9 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
     let user = JSON.parse(localStorage.getItem('user'));
     /* console.log({user}) */
-    this.socket.fromEvent(`changeStatusOrder${user.id}`).subscribe((event: any) => {
-      console.log({event})
-      console.log({eventrr: this.dataSource})
+ 
+    this.socket.on(`changeStatusOrder${user.id}`, (event: any) => {
+      console.log({event});
       if (this.dataSource) {        
         const order = event;
         let data = this.dataSource;
@@ -69,29 +69,6 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
       }
     });
     
-    /* .pipe(map((data) => {
-      alert('test')
-      console.log({data})
-    })); */
-    
-    /* console.log("current_sales_personecode",  this.current_sales_personecode);
-    console.log("listado de ordenes",this.dataSource$); */
-
-    /* this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
-    .subscribe(event => {
-      console.log({event2: event})
-      if (this.dataSource) {        
-        const order = JSON.parse(event.data);
-        let data = this.dataSource;
-        const obj = data.find((a) => a.id === order.id);
-        if (obj) {
-            obj.sendToSap = order.sendToSap;
-            obj.docNumber = order.docNumber;
-        }
-        this.dataSource = [...data];
-      }
-    }); */
-
     this.searchInputControl.valueChanges.subscribe((text) => {
       console.log({text})
       if (text.length > 3) {
