@@ -18,7 +18,7 @@ export class AppComponent {
                 private socket: Socket) {
         console.log("Appcomponent");
        console.log(window.innerWidth);
-        // this.initGeneralSocket();
+        this.initGeneralSocket();
         // this.listener.addListener('initGeneralSocket', this.initGeneralSocket.bind(this));
     }
 
@@ -28,15 +28,15 @@ export class AppComponent {
         if (localStorage.getItem('accessToken')) {
             let user = JSON.parse(localStorage.getItem('user'));
             this.socket.fromEvent(`createOrder${user.id}`).subscribe((event: any) => {
-                    const order = event.data;
-                    console.log("event data", event.data.docNumber);
+                    const order = event;
+                    console.log("event data", event.docNumber);
 
                     this._notifyService.successOrdenAlert("Guardado con exito: Pedido No " + " " + order.docNumber);
             });
 
             this.socket.fromEvent(`updateOrder${user.id}`).subscribe((event: any) => {
-                const order = event.data;
-                console.log("event data", event.data.docNumber);
+                const order = event;
+                console.log("event data", event.docNumber);
                 this._notifyService.successOrdenAlert("Actualizada con exito: Pedido No " + " " + order.docNumber);
             });
 

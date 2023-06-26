@@ -56,8 +56,9 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
     /* console.log({user}) */
     this.socket.fromEvent(`changeStatusOrder${user.id}`).subscribe((event: any) => {
       console.log({event})
+      console.log({eventrr: this.dataSource})
       if (this.dataSource) {        
-        const order = event.data;
+        const order = event;
         let data = this.dataSource;
         const obj = data.find((a) => a.id === order.id);
         if (obj) {

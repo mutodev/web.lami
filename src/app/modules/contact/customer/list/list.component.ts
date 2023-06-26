@@ -58,8 +58,9 @@ export class CustomerListComponent extends BaseListAbs implements OnInit, AfterC
     this.getData();
     let user = JSON.parse(localStorage.getItem('user'));
     this.socket.fromEvent(`changeStatusCustomer${user.id}`).subscribe((event: any) => {
+      console.log({event})
       if (this.dataSource) {        
-        const order = event.data;
+        const order = event;
         let data = this.dataSource;
         const obj = data.find((a) => a.id === order.id);
         if (obj) {
