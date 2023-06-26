@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RealTimeService } from './core/services/real-time.service';
 import { environment } from 'environments/environment';
 import { NotifyService } from './core/notify/notify.service';
-import { ListenerService } from './core/services/listener.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
     selector: 'app-root',
@@ -15,35 +15,49 @@ export class AppComponent {
      */
     constructor(private realTime: RealTimeService,
                 private _notifyService: NotifyService,
-                private listener: ListenerService) {
+                private socket: Socket) {
         console.log("Appcomponent");
        console.log(window.innerWidth);
         this.initGeneralSocket();
-        this.listener.addListener('initGeneralSocket', this.initGeneralSocket.bind(this));
+        // this.listener.addListener('initGeneralSocket', this.initGeneralSocket.bind(this));
     }
 
 
     initGeneralSocket() {
         console.log("entro a initGeneralSocket");
         if (localStorage.getItem('accessToken')) {
-            console.log("inicializo initGeneralSocket");
-            this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/order-created?token=${localStorage.getItem('accessToken')}`)
-                .subscribe(event => {
-
-                    const order = JSON.parse(event.data);
-                    console.log("event data", event.data.docNumber);
+            let user = JSON.parse(localStorage.getItem('user'));
+            this.socket.on(`createOrder${user.id}`, (event: any) => {
+                    const order = event;
+                    console.log("event data", event.docNumber);
 
                     this._notifyService.successOrdenAlert("Guardado con exito: Pedido No " + " " + order.docNumber);
-                });
+            });
 
-            this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/order-updated?token=${localStorage.getItem('accessToken')}`)
-                .subscribe(event => {
+            this.socket.on(`updateOrder${user.id}`, (event: any) => {
+                const order = event;
+                console.log("event data", event.docNumber);
+                this._notifyService.successOrdenAlert("Actualizada con exito: Pedido No " + " " + order.docNumber);
+            });
 
-                    const order = JSON.parse(event.data);
-                    console.log("event data", event.data.docNumber);
+            // console.log("inicializo initGeneralSocket");
+            // this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/order-created?token=${localStorage.getItem('accessToken')}`)
+            //     .subscribe(event => {
 
-                    this._notifyService.successOrdenAlert("Actualizada con exito: Pedido No " + " " + order.docNumber);
-                });
+            //         const order = JSON.parse(event.data);
+            //         console.log("event data", event.data.docNumber);
+
+            //         this._notifyService.successOrdenAlert("Guardado con exito: Pedido No " + " " + order.docNumber);
+            //     });
+
+            // this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/order-updated?token=${localStorage.getItem('accessToken')}`)
+            //     .subscribe(event => {
+
+            //         const order = JSON.parse(event.data);
+            //         console.log("event data", event.data.docNumber);
+
+            //         this._notifyService.successOrdenAlert("Actualizada con exito: Pedido No " + " " + order.docNumber);
+            //     });
         }
     }
 

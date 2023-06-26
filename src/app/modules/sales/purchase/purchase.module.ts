@@ -32,8 +32,6 @@ import { MaintenanceModule } from 'app/modules/maintenance/maintenance.module';
 import { OrderStatusPipe } from 'app/core/pipes/order-status.pipe';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CIViewerDocumentModule } from 'app/shared/components/viewer-document/viewer-document.module';
-import { PurchaseViewComponent } from './view/view.component';
-
 
 @NgModule({
     declarations: [

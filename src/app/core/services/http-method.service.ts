@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { APIResponse } from 'app/shared/interfaces/response';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable()
 export class HttpMethodService {
@@ -14,7 +14,8 @@ export class HttpMethodService {
   }
 
   get<T>(url: string, data: any = {}): Promise<APIResponse<T>> {
-    return this.http.get<APIResponse<T>>(this.baseUrl + url, {headers: this.header(), params: data}).toPromise();
+    const result = this.http.get<APIResponse<T>>(this.baseUrl + url, {headers: this.header(), params: data});
+    return firstValueFrom(result);
     // .toPromise().then((response) => {
     //   return response;
     // });

@@ -16,8 +16,10 @@ import { mockApiServices } from 'app/mock-api';
 import { ToastrModule } from 'ngx-toastr';
 import { registerLocaleData } from '@angular/common';
 import localeDeAt from '@angular/common/locales/es-CO';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from './../environments/environment';
 
-
+const config: SocketIoConfig = { url: environment.endPoint.replace(':1200/api', ':1202'), options: {transports: ['websocket', 'polling']} };
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy: PreloadAllModules,
@@ -50,7 +52,8 @@ registerLocaleData(localeDeAt);
         LayoutModule,
 
         // 3rd party modules that require global configuration via forRoot
-        MarkdownModule.forRoot({})
+        MarkdownModule.forRoot({}),
+        SocketIoModule.forRoot(config)
     ],
     bootstrap: [
         AppComponent
