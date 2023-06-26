@@ -1,5 +1,24 @@
 <div class="flex flex-col flex-auto min-w-0">
 
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+        <div class="col">
+        <button (click)="sync_data()"  mat-button>
+            <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:sun'">
+
+            </mat-icon>
+            <span class="ml-1">Sincronizar Vendendores</span>
+        </button>
+        </div>
+        <div class="col">
+        <button (click)="sync_data_customer()"  mat-button>
+            <mat-icon class="text-gray-400 icon-size-5" [svgIcon]="'heroicons_solid:sun'">
+
+            </mat-icon>
+            <span class="ml-1">Sincronizar Clientes</span>
+        </button>
+    </div>
+    </div>
+
     <!-- Header -->
     <div
         class="elative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b bg-card">

@@ -10,6 +10,7 @@ import { UserSecurityComponent } from 'app/shared/components/user-security/user-
 import { Type } from 'app/shared/interfaces/setting.types';
 import { update } from 'lodash';
 import { ROLE } from '../user.types';
+import { HttpMethodService } from 'app/core/services/http-method.service';
 
 @Component({
   selector: 'app-detail',
@@ -30,6 +31,7 @@ export class UserDetailComponent extends BaseForm implements OnInit {
   constructor(private _formBuilder: UntypedFormBuilder, private _lamiService: LamiService,
     private _notifyService: NotifyService,
     private _router: Router,
+    private _httpService: HttpMethodService,
     private route: ActivatedRoute,) {
     super();
     this.id = this.route.snapshot.params['id'];
@@ -94,5 +96,17 @@ export class UserDetailComponent extends BaseForm implements OnInit {
         complete: () => {}
       })
   }
+  async  sync_data() {
+    const rest2 = await this._httpService.post<any>('/setting/migrate-sales-person',null);
+    console.log("Sincronizando",rest2);
+  }
+
+  async  sync_data_customer() {
+  const rest = await this._httpService.post<any>('/customer/migrate-customer',null);
+    console.log("Sincronizando",rest);
+
+  }
+
+
 
 }
