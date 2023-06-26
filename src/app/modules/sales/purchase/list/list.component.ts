@@ -53,6 +53,7 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
     this.token = localStorage.getItem('accessToken');
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
     let user = JSON.parse(localStorage.getItem('user'));
+    /* console.log({user}) */
     this.socket.fromEvent(`changeStatusOrder${user.id}`).subscribe((event: any) => {
       console.log({event})
       if (this.dataSource) {        
