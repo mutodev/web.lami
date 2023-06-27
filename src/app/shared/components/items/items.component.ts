@@ -161,7 +161,7 @@ export class ItemsComponent implements OnInit, AfterContentChecked, OnChanges {
       Oprice: [item?.price || item?.value],
       name: [item?.name || item?.description, [Validators.required]],
       code: [item?.code || item?.itemCode],
-      discount: ['0'],
+      discount: [item?.discount || '0'],
       discountTotal: [''],
       /* project: [item?.project, Validators.required], */
       quantity: [item?.amount || '1', [Validators.required, Validators.min(1)]],
