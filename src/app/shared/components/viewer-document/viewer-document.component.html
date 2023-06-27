@@ -121,19 +121,19 @@
                             <div class="font-semibold">{{item?.itemCode }}</div>
                             <div class="text-secondary">  {{item?.description}}
                                 <div class="hidden ">
-                                    Desc% = {{item?.discount  | currency }}</div>
+                                    Desc% = {{item?.discount }}</div>
                                 <div class="md:hidden sm:block text-secondary"> Cant = {{item?.amount}}</div>
                                 <div class="md:hidden sm:block text-secondary">Proy = {{ item?.projectObj?.name }}</div>
-                                <div class="md:hidden sm:block text-secondary">Imp = {{item?.vat  | currency
+                                <div class="md:hidden sm:block text-secondary">Imp = {{item?.arTaxCode
                                 }}</div>
 
                                 <div class="md:hidden sm:block text-secondary">Precio = {{ item?.value  | currency  }}</div>
 
-                                <div *ngIf="item.discount>0" class="md:hidden sm:block text-secondary">Des = {{item?.discount
-                                    | currency}}</div>
+                                <div *ngIf="item.discount>0" class="md:hidden sm:block text-secondary">Des% = {{item?.discount
+                                   }}</div>
 
 
-                                <div class="md:hidden sm:block text-secondary">Total ={{ (item?.value + item?.vat)  * item?.amount | currency  }}</div>
+                                <div class="md:hidden sm:block text-secondary">Total = {{ (( (item?.value + item?.vat )  * item?.amount ) )| currency  }}</div>
                             </div>
                         </div>
                         <div class="col-span-1 text-center hidden md:block">{{item?.discount}}</div>
@@ -142,7 +142,7 @@
                         <div class="col-span-1 text-center hidden md:block">{{item?.taxObj?.code }}</div>
 
                         <div class="col-span-2 text-right  hidden md:block">{{item?.value | currency}}</div>
-                        <div class="col-span-2 text-right  hidden md:block ">{{(item?.value * item.amount) | currency}}</div>
+                        <div class="col-span-2 text-right  hidden md:block ">{{((item?.value + item?.vat ) * item?.amount) | currency}}</div>
 
 
                         <!-- <div *ngIf="item?.tax?.name; else elseTemplate" class="col-span-2 text-center">
@@ -167,19 +167,18 @@
       <div class="font-semibold">{{item?.itemCode }}</div>
       <div class="text-secondary">  {{item?.description}}
           <div class="hidden ">
-              Desc% = {{item?.discount  | currency }}</div>
+              Desc% = {{item?.discount   }}</div>
           <div class="md:hidden sm:block text-secondary"> Cant = {{item?.amount}}</div>
           <div class="md:hidden sm:block text-secondary">Proy = {{ item?.projectObj?.name }}</div>
-          <div class="md:hidden sm:block text-secondary">Imp = {{item?.vat  | currency
+          <div class="md:hidden sm:block text-secondary">Imp = {{item?.arTaxCode
           }}</div>
 
           <div class="md:hidden sm:block text-secondary">Precio = {{ item?.value  | currency  }}</div>
 
-          <div *ngIf="item.discount>0" class="md:hidden sm:block text-secondary">Des = {{item?.discount
-              | currency}}</div>
+          <div *ngIf="item.discount>0" class="md:hidden sm:block text-secondary">Des = {{item?.discount}}</div>
 
 
-          <div class="md:hidden sm:block text-secondary">Total ={{ (item?.value + item?.vat)  * item?.amount | currency  }}</div>
+          <div class="md:hidden sm:block text-secondary">Total ={{ (item?.value + item?.vat )* item?.amount | currency  }}</div>
       </div>
   </div>
   <div class="col-span-1 text-md text-center hidden md:block">{{item?.discount}}</div>
@@ -188,7 +187,7 @@
   <div class="col-span-1 text-md text-center  hidden md:block">{{item?.taxObj?.code }}</div>
 
   <div class="col-span-2 text-right  hidden md:block">{{item?.value | currency}}</div>
-  <div class="col-span-2 text-right  hidden md:block ">{{(item?.value * item.amount) | currency}}</div>
+  <div class="col-span-2 text-right  hidden md:block ">{{((item?.value + item?.vat ) * item?.amount) | currency}}</div>
 
 
   <!-- <div *ngIf="item?.tax?.name; else elseTemplate" class="col-span-2 text-center">
