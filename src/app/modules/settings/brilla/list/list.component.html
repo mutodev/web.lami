@@ -31,7 +31,7 @@
         <!-- Products list -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
             <ng-container *ngIf="0 == 0">
-                <ng-container *ngIf="prices$.length > 0; else noProducts">
+                <ng-container *ngIf="dataSource.length > 0; else noProducts">
                     <div class="grid">
                         <!-- Header -->
                         <div
@@ -47,7 +47,7 @@
                         </div>
                         <!-- Rows -->
 
-                            <ng-container *ngFor="let price of prices$">
+                            <ng-container *ngFor="let price of dataSource">
                                 <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
 
@@ -89,6 +89,11 @@
                         [pageSize]="pagination.size"
                         [pageSizeOptions]="[5, 10, 25, 100]"
                         [showFirstLastButtons]="true"></mat-paginator> -->
+
+                        <mat-paginator
+                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                        [length]="pagination.length" [pageSize]="pagination.size" (page)="nextForward($event)"
+                        [pageSizeOptions]="[25, 50, 75, 100]" [showFirstLastButtons]="true"></mat-paginator>
 
                 </ng-container>
             </ng-container>

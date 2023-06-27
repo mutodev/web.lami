@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { LamiService } from 'app/core/api/lami.service';
 import { Observable } from 'rxjs';
@@ -6,12 +6,13 @@ import { User } from '../../user/user.types';
 import { BPrice } from '../brilla.types';
 import { Price } from 'app/shared/interfaces/Price.types';
 import { HttpMethodService } from 'app/core/services/http-method.service';
+import { BaseListAbs } from 'app/core/bases-abstract/base-list-abs';
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styles         : [
-    /* language=SCSS */
-    `
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styles: [
+        /* language=SCSS */
+        `
         .inventory-grid {
             grid-template-columns: 48px auto 40px;
             @screen sm {
@@ -25,25 +26,43 @@ import { HttpMethodService } from 'app/core/services/http-method.service';
             }
         }
     `
-],
+    ],
 })
-export class ListComponent implements OnInit {
-  searchInputControl: FormControl = new FormControl();
-  stores$: Observable<BPrice[]>;
-  prices$ : any;
-  isLoading: boolean = false;
+export class ListComponent extends BaseListAbs implements OnInit, AfterContentChecked, OnChanges {
+    /* searchInputControl: FormControl = new FormControl(); */
+    stores$: Observable<BPrice[]>;
+    prices$: any;
+    isLoading: boolean = false;
 
-  constructor(  private _httpService: HttpMethodService, public _lamiService: LamiService, ) { }
+    constructor(
+        private _httpService: HttpMethodService,
+        public _lamiService: LamiService,
+        private cdRef: ChangeDetectorRef) {
+        super(_httpService);
+        this.urlApi = '/prices';
+    }
 
-  ngOnInit(): void {
+    ngOnInit(): void {
 
-      this.getprices();
+        /* this.getprices(); */
+        this.getData();
 
-  }
+        this.searchInputControl.valueChanges.subscribe((text) => {
+            console.log({ text })
+            if (text.length > 3) {
+                this.search = text;
+                this.getData();
+            } else if (text == '') {
+                this.search = '';
+                this.getData();
+            }
+        });
 
-  createPrices():void{
+    }
 
-  }
+    createPrices(): void {
+
+    }
 
     async getprices() {
 
@@ -51,6 +70,16 @@ export class ListComponent implements OnInit {
         this.prices$ = prices.data;
         console.log("Precios", this.prices$);
 
+    }
+
+    ngAfterContentChecked(): void {
+        this.cdRef.detectChanges();
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.dataSource && changes.dataSource.currentValue) {
+            this.dataSource = changes.dataSource.currentValue;
+        }
     }
 
 }
