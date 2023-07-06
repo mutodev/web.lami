@@ -8,10 +8,7 @@ import { PaginationOrderResolver } from 'app/core/resolvers/order.resolver';
 
 export const ReportsRoutes: Routes = [
     {
-        path: 'ordenes_abiertas', component: OpenReportComponent,
-        resolve:{
-            orders: PaginationOrderResolver
-        }
+        path: 'ordenes_abiertas', component: OpenReportComponent
     },
     { path: 'facturas/devoluciones', component: RefundsReportComponent  },
 
