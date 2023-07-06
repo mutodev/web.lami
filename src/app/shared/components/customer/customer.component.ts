@@ -89,7 +89,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
 
   ngOnInit(): void {
-   
+
     this.state = null;
     this.city = null;
     this.Barrios = null;
@@ -97,10 +97,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
     this._eventService.addEvent({ name: 'saveClient', event: this.save.bind(this) });
     this.validations();
 
-    this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => { 
+    this._lamiService.getU_HBT('SalesPersonCode').subscribe((result: Uhbt[]) => {
       this.salesPersonCode = result.map((item: any) => {
         return {...item, city: item.extendedData?.cities[0]};
-      }); 
+      });
     });
     this._lamiService.getU_HBT('PayTermsGrpCode').subscribe((result: Uhbt[]) => { this.payTermsGrpCode = result });
     // this._lamiService.getU_HBT('U_HBT_RegTrib').subscribe((result: Uhbt[]) => { this.U_HBT_RegTrib = result });
@@ -409,6 +409,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
 
     if (source == "C") {
+
+      console.log("C");
       this.getHbtsValues();
 
       if (this.formGroup.get('typeId').value === EnumCustomerType.PersonaNatural) {
@@ -423,21 +425,31 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
       this.formGroup.get('CountyBilling').setValidators([Validators.required]);
       this.formGroup.get('CityBilling').setValidators([Validators.required]);
+      this.formGroup.get('CountyBilling').updateValueAndValidity();
+      this.formGroup.get('CityBilling').updateValueAndValidity();
+      this.formGroup.get('firstNameBilling').updateValueAndValidity();
+      this.formGroup.get('lastName2Billing').updateValueAndValidity();
+      this.formGroup.get('lastName2').updateValueAndValidity();
 
     } else {
-
+      console.log('NO c');
+      this.formGroup.get('payTermsGrpCode').clearValidators();
       this.formGroup.get('firstNameBilling').clearValidators();
       this.formGroup.get('lastNameBilling').clearValidators();
       this.formGroup.get('lastName2Billing').clearValidators();
       this.formGroup.get('CountyBilling').clearValidators();
       this.formGroup.get('CityBilling').clearValidators();
 
+
+      this.formGroup.get('payTermsGrpCode').updateValueAndValidity();
+      this.formGroup.get('firstNameBilling').updateValueAndValidity();
+      this.formGroup.get('lastNameBilling').updateValueAndValidity();
+      this.formGroup.get('CityBilling').updateValueAndValidity();
+      this.formGroup.get('CountyBilling').updateValueAndValidity();
+
     }
-    this.formGroup.get('CountyBilling').updateValueAndValidity();
-    this.formGroup.get('CityBilling').updateValueAndValidity();
-    this.formGroup.get('firstNameBilling').updateValueAndValidity();
-    this.formGroup.get('lastName2Billing').updateValueAndValidity();
-    this.formGroup.get('lastName2').updateValueAndValidity();
+
+
 
 
 
