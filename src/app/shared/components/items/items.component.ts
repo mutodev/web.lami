@@ -345,8 +345,13 @@ export class ItemsComponent implements OnInit, AfterContentChecked, OnChanges {
 
     this.discount = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('discountTotal').value).reduce((acc, value) => Number(acc) + Number(value), 0);
 
-    this.tax = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('currencyTax').value).reduce((acc, value) => Number(acc) + Number(value), 0);
+   this.tax = this.itemsFormGroup.controls.map((control: FormGroup) => control.get('currencyTax').value).reduce((acc, value) => Number(acc) + Number(value), 0);
+
+
+
     console.log("print taxes", this.tax)
+
+
     this.total = (this.subTotal - this.discount) + this.tax;
 
     this.totalcTaxes();

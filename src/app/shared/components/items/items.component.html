@@ -119,10 +119,16 @@
                             <!-- ivav-->
                             <div class="self-center text-left  ">
                                 <mat-form-field floatLabel="never" appearance="legacy" class="w-full fuse-mat-dense">
-                                    <mat-select formControlName="tax" [placeholder]="'Impuesto'">
-                                        <mat-option class="text-sm" *ngFor="let tax of taxes" [value]="tax.code">
+                                    <mat-select formControlName="tax" [placeholder]="'IVAV19'">
+
+                                        <mat-option  class="text-sm" *ngFor="let tax of taxes" [value]="tax.code">
                                             {{tax.code}}
                                         </mat-option>
+
+
+
+
+
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -262,7 +268,7 @@
                                 <div>
                                     <mat-form-field floatLabel="float" appearance="legacy"
                                         class="flex grid w-full fuse-mat-dense">
-                                        <mat-select formControlName="tax" [placeholder]="'Impuesto'">
+                                        <mat-select formControlName="tax" [placeholder]="'IVAV19'">
 
                                             <mat-option class="text-sm" *ngFor="let tax of taxes" [value]="tax.code">
                                                 {{tax.code}}

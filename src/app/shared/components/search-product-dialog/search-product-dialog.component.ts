@@ -56,8 +56,8 @@ export class SearchProductDialogComponent implements OnInit {
         this.getItems(text);
       } else if (text == '') {
         this.getItems();
-      } 
-        
+      }
+
     });
   }
 
@@ -77,10 +77,12 @@ export class SearchProductDialogComponent implements OnInit {
   onSelectedItem(item: any) {
 
     console.log("Selected item", item.code);
+
     const elem = document.getElementById(item.code);
     elem.style.color = '#fff';
     elem.style.background = '#1c1f5d';
     elem.style.padding = '2%';
+    item.arTaxCode = "IVAV19";
     this.data.selectItem(item);
 
   }
