@@ -245,7 +245,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       typeId: [EnumCustomerType.PersonaNatural, Validators.nullValidator], //tipoCliente
       identificationTypeId: ['7974094a-46c0-11ed-88f1-7b765a5d50e1', Validators.required],
       identification: [''],
-      source: ['C', Validators.required],
+      source: ['L', Validators.required],
       name: [''],
       firstName: ['', [Validators.required, Validators.nullValidator]],
       lastName: ['', [Validators.required, Validators.nullValidator]],
