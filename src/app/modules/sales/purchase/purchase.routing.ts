@@ -13,9 +13,9 @@ export const purchaseRoutes: Routes = [
     // { path: '**', component: UserListComponent },
     {
         path: 'all', component: PurchaseListComponent,
-        // resolve: {
-        //     orders: PaginationOrderResolver
-        // }
+         resolve: {
+         orders: PaginationOrderResolver
+        }
     },
     {
         path: 'new', component: PurchaseDetailComponent,
