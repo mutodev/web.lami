@@ -63,11 +63,12 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
     /* this.getDataSource(); */
     this.getData();
     this.token = localStorage.getItem('accessToken');
-    this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
+    /*this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
     let user = JSON.parse(localStorage.getItem('user'));
+    */
     /* console.log({user}) */
 
-    this.socket.on(`changeStatusOrder${user.id}`, (event: any) => {
+    this.socket.on(`changeStatusOrder${this.user.id}`, (event: any) => {
       console.log({event});
       if (this.dataSource) {
         const order = event;
