@@ -7,7 +7,7 @@ import { RealTimeService } from 'app/core/services/real-time.service';
 import { environment } from 'environments/environment';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
-import { takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BaseListAbs } from 'app/core/bases-abstract/base-list-abs';
 
@@ -46,18 +46,26 @@ export class ListComponent extends BaseListAbs implements OnInit {
   token: string;
   url = environment.endPoint;
   user: User;
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
   prefix: string;
   /* isLoading: boolean = false; */
   /* filter: string; */
-  constructor(public _baseListService: BaseListService, private _userService: UserService,
+  constructor(public _baseListService: BaseListService,
+    private _userService: UserService,
     private _httpService: HttpMethodService,
     private realTime: RealTimeService) {
+
     super(_httpService);
     this.urlApi = '/quote'
   }
 
   ngOnInit(): void {
-
+    this._userService.user$
+            .pipe((takeUntil(this._unsubscribeAll)))
+            .subscribe((user: User) => {
+              this.user = user;
+              console.log(this.user);
+            });
     this.getData();
     this.prefix = '000000';
     //this.getquotations();
