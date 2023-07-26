@@ -34,6 +34,7 @@ export abstract class BaseListAbs {
         }
         const data = Object.assign(queryParam, this.parametros);
         const url = `${this.urlApi}`;
+        console.log(data);
         const response = await this.methodService.get<any>(url, data);
         if (response.status === 'success') {
             this.dataSource = response.data.data;
