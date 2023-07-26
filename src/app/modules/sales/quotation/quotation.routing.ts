@@ -13,9 +13,9 @@ export const quotationRoutes: Routes = [
     // { path: '**', component: UserListComponent },
     {
         path: 'all', component: ListComponent,
-        // resolve: {
-        //     orders: PaginationQuoteResolver
-        // }
+         resolve: {
+            orders: PaginationQuoteResolver
+         }
     },
     {
         path: 'new', component: DetailComponent,
