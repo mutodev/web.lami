@@ -66,19 +66,19 @@ export class ListComponent extends BaseListAbs implements OnInit {
     this.token = localStorage.getItem('accessToken');
 
     /* this.getDataSource(); */
-    // console.log(this.dataSource$,"datasource")
+    console.log(this.dataSource$,"datasource")
 
     /* this.getDataSource();
- 
- 
- 
+
+
+
      console.log("current_sales_personecode",  this.current_sales_personecode);
      console.log("listado de ordenes",this.dataSource$);
      this.realTime.getServerSentEvent(`${environment.endPoint}/order/sse/change-status-sap?token=${localStorage.getItem('accessToken')}`)
      .subscribe(event => {
        if (this.dataSource$) {
- 
- 
+
+
          const order = JSON.parse(event.data);
          let data = (this.dataSource$.source as any)._value;
          const obj = data.find((a) => a.id === order.id);
