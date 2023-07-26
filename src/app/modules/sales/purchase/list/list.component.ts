@@ -6,6 +6,9 @@ import { HttpMethodService } from 'app/core/services/http-method.service';
 import { RealTimeService } from 'app/core/services/real-time.service';
 import { environment } from 'environments/environment';
 import { Socket } from 'ngx-socket-io';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -35,11 +38,14 @@ import { Socket } from 'ngx-socket-io';
 })
 export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterContentChecked, OnChanges {
 
+  user: User;
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
   current_sales_personecode: string;
   token: string;
-  
+
   constructor(public _baseListService: BaseListService,
-              public _httpMethodService: HttpMethodService,
+    public _httpMethodService: HttpMethodService,
+    private _userService: UserService,
               private cdRef : ChangeDetectorRef,
               private socket: Socket,
               private realTime: RealTimeService) {
@@ -48,16 +54,22 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
    }
 
   ngOnInit(): void {
+    this._userService.user$
+            .pipe((takeUntil(this._unsubscribeAll)))
+            .subscribe((user: User) => {
+              this.user = user;
+              console.log(this.user);
+            });
     /* this.getDataSource(); */
     this.getData();
     this.token = localStorage.getItem('accessToken');
     this.current_sales_personecode = localStorage.getItem('user_salesPersonCode');
     let user = JSON.parse(localStorage.getItem('user'));
     /* console.log({user}) */
- 
+
     this.socket.on(`changeStatusOrder${user.id}`, (event: any) => {
       console.log({event});
-      if (this.dataSource) {        
+      if (this.dataSource) {
         const order = event;
         let data = this.dataSource;
         const obj = data.find((a) => a.id === order.id);
@@ -68,7 +80,7 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
         this.dataSource = [...data];
       }
     });
-    
+
     this.searchInputControl.valueChanges.subscribe((text) => {
       console.log({text})
       if (text.length > 3) {
@@ -77,7 +89,7 @@ export class PurchaseListComponent extends BaseListAbs implements OnInit, AfterC
       } else if (text == '') {
         this.search = '';
         this.getData();
-      }    
+      }
     });
   }
 
