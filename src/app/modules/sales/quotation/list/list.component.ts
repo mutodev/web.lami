@@ -66,7 +66,7 @@ export class ListComponent extends BaseListAbs implements OnInit {
     this.token = localStorage.getItem('accessToken');
 
     /* this.getDataSource(); */
-    console.log(this.dataSource$,"datasource")
+    console.log(this.dataSource,"datasource")
 
     /* this.getDataSource();
 
