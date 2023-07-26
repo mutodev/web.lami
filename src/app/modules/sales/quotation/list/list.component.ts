@@ -39,7 +39,7 @@ import { BaseListAbs } from 'app/core/bases-abstract/base-list-abs';
 })
 export class ListComponent extends BaseListAbs implements OnInit {
 
-
+  
 
 
   current_sales_personecode: string;
@@ -60,6 +60,7 @@ export class ListComponent extends BaseListAbs implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getDataSource();
     this._userService.user$
             .pipe((takeUntil(this._unsubscribeAll)))
             .subscribe((user: User) => {
