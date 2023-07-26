@@ -31,6 +31,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
   disabledForm: boolean = false;
   estimatedDate;
   current_sales_person_code: string;
+  disabledButton: boolean = false;
   constructor(private _formBuilder: FormBuilder,
     public _lamiService: LamiService,
     public _baseListService: BaseListService,
@@ -77,17 +78,19 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
 
     if (this.formGroup.valid) {
       if (this.id) {
+        this.disabledButton = true;
         this._lamiService.updateOrder(this.id, this.buildOrderRequest()).subscribe(result => {
-          if (result.status == 'success') {
+          if (result.status == 'success') {            
             this._router.navigateByUrl('/sales/purchase/all');
           } else {
             this._notifyService.dispalyErrorMsg(result.message);
           }
-
+          this.disabledButton = false;
           /*  this._notifyService.successOrdenAlert("Guardado con exito");*/
           /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
         });
       } else {
+        this.disabledButton = true;
         this._lamiService.createOrder(this.buildOrderRequest()).subscribe(result => {
           if (result.status == 'success') {
             this._router.navigateByUrl('/sales/purchase/all');
@@ -95,6 +98,7 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
           } else {
             this._notifyService.dispalyErrorMsg(result.message);
           }
+          this.disabledButton = false;
           /*  this._notifyService.successOrdenAlert("Guardado con exito");*/
           /* this._notifyService.dispalyErrorMsg("Guardado con exito");*/
         });
