@@ -7,17 +7,17 @@ import { FormControl } from '@angular/forms';
 import { Pagination } from 'app/shared/interfaces/pagination';
 
 export abstract class BaseListAbs {
- 
+
     isLoading: boolean = false;
     searchInputControl: FormControl = new FormControl();
     public dataSource: any[] = [];
     public search = '';
     public urlApi = '';
-    public defaultPagination: number;    
-    public pageSizeOptions: number[];    
+    public defaultPagination: number;
+    public pageSizeOptions: number[];
     public parametros = {};
     public  pagination: Pagination = { page: 1, size: 25, length: 0};
-   
+
     constructor(public methodService: HttpMethodService){ }
 
     public fillPagination(data: any) {
@@ -38,7 +38,7 @@ export abstract class BaseListAbs {
         if (response.status === 'success') {
             this.dataSource = response.data.data;
             this.fillPagination(response.data);
-            // console.log({dataSource: this.dataSource})
+             console.log({dataSource: this.dataSource})
         } else {
             // this.controlService.msgInfo(response.message);
         }
@@ -55,6 +55,6 @@ export abstract class BaseListAbs {
             this.getData();
         }
     }
-   
+
 }
 
