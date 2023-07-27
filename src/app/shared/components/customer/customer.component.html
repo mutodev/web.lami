@@ -190,14 +190,18 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
 
         <!-- CUSTOMER_GROUP -->
-        <mat-form-field floatLabel="auto" *ngIf="this.formGroup.get('source').value == 'C'" id="payTermsGrpCode"
+        <!--mat-form-field floatLabel="auto" *ngIf="this.formGroup.get('source').value == 'L'" id="payTermsGrpCode"
             [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pr-3 fuse-mat-dense">
+
             <mat-label>Condiciones de pago</mat-label>
             <mat-select formControlName="payTermsGrpCode">
                 <mat-option *ngFor="let item of payTermsGrpCode; let i=index" [value]="item.code">
                     {{item.name}}</mat-option>
+
             </mat-select>
-        </mat-form-field>
+
+
+        </mat-form-field-->
 
         <!-- Address -->
         <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-xs:pl-3 fuse-mat-dense">

@@ -102,7 +102,10 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
         return {...item, city: item.extendedData?.cities[0]};
       });
     });
-    this._lamiService.getU_HBT('PayTermsGrpCode').subscribe((result: Uhbt[]) => { this.payTermsGrpCode = result });
+    this._lamiService.getU_HBT('PayTermsGrpCode').subscribe((result: Uhbt[]) => {
+
+      this.payTermsGrpCode = result
+    });
     // this._lamiService.getU_HBT('U_HBT_RegTrib').subscribe((result: Uhbt[]) => { this.U_HBT_RegTrib = result });
     this._lamiService.getU_HBT('CUSTOMER_GROUP').subscribe((result: Uhbt[]) => { this.CUSTOMER_GROUP = result });
     this._lamiService.getU_HBT('U_HBT_Nacional').subscribe((result: Uhbt[]) => { this.U_HBT_Nacional = result });
@@ -193,6 +196,9 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
 
     console.log(this.projects);
+    console.log(this.payTermsGrpCode.indexOf, "Metodos");
+
+
   }
 
 
@@ -262,7 +268,7 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
       U_HBT_MedPag: ['1', Validators.nullValidator],
       U_HBT_RegTrib: ['NR', Validators.nullValidator],
       groupCode: ['', [Validators.nullValidator, Validators.required]],
-      payTermsGrpCode: ['', [Validators.nullValidator, Validators.required]],
+      payTermsGrpCode: ['-1', [Validators.nullValidator, Validators.required]],
       salesPersonCode: [selesPersonCode, [Validators.nullValidator, Validators.required]],
       U_HBT_Nacional: ['1', Validators.nullValidator],
       U_HBT_RegFis: ['49', Validators.nullValidator],
@@ -469,6 +475,8 @@ export class CustomerComponent extends BaseForm implements OnInit, AfterViewInit
 
 
     if (this.formGroup.valid) {
+
+      console.log(this.formGroup);
       return this.create();
     } else {
 
