@@ -105,7 +105,7 @@ export class CustomerInfoSearchComponent implements OnInit, AfterViewInit, After
   }
 
   async getClients(dato = '') {
-    const result = await this._httpMethodService.get<any>(`/customer?${!this.quotation ? "source=C&" : ""}page=1&perPage=20&search=${dato}`);
+    const result = await this._httpMethodService.get<any>(`/customer?sendToSap=true&page=1&perPage=20&search=${dato}`);
     this.clients = result.data.data.map((item) => {
       let displayName;
 
