@@ -76,11 +76,12 @@ export class PurchaseDetailComponent extends BaseList implements OnInit {
     this.formGroup.addControl('salesPersonCode', this.orderInfoComponent.salesPerson);
     this.formGroup.addControl('serie', this.orderInfoComponent.serie);
 
+    console.log("enviado", this.formGroup.controls);
     if (this.formGroup.valid) {
       if (this.id) {
         this.disabledButton = true;
         this._lamiService.updateOrder(this.id, this.buildOrderRequest()).subscribe(result => {
-          if (result.status == 'success') {            
+          if (result.status == 'success') {
             this._router.navigateByUrl('/sales/purchase/all');
           } else {
             this._notifyService.dispalyErrorMsg(result.message);
